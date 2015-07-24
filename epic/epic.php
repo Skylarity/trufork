@@ -10,32 +10,39 @@
 		<!-- Epic documentation -->
 		<h1>Epic</h1>
 
-		<!-- Personas -->
+		<!-- System Goals -->
+		<h2>System Goals</h2>
+
+		<p>
+			Text here.
+		</p>
+
+		<!-- Personas - K -->
 		<h2>Personas</h2>
 
 		<p>Text here.</p>
 
-		<!-- Use Cases -->
+		<!-- Use Cases - K -->
 		<h2>Use Cases</h2>
 
 		<p>Text here.</p>
 
-		<!-- Conceptual Schema -->
+		<!-- Conceptual Schema - S -->
 		<h2>Conceptual Schema</h2>
 
 		<p>Text here.</p>
 
-		<!-- ERDs -->
+		<!-- ERDs - S -->
 		<h2>ERDs</h2>
 
 		<p>Text here.</p>
 
-		<!-- System Summary -->
+		<!-- System Summary - T -->
 		<h2>System Summary</h2>
 
 		<p>Text here.</p>
 
-		<!-- Development Roadmap -->
+		<!-- Development Roadmap - T -->
 		<h2>Development Roadmap</h2>
 
 		<p>Text here.</p>
