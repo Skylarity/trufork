@@ -15,7 +15,7 @@ h2 {
 	width: 25%;
 	min-width: 100px;
 
-	border-bottom: 4px solid #70986F;
+	border-bottom: 4px solid #D17B49;
 
 	text-align: center;
 
@@ -31,13 +31,13 @@ li {
 }
 
 em {
-	color: #70986F;
+	color: #D17B49;
 	font-family: 'Roboto Condensed', sans-serif;
 	font-style: normal;
 }
 
 a {
-	color: #D17B49;
+	color: #70986F;
 	font-style: normal;
 	text-decoration: none;
 }
@@ -46,7 +46,7 @@ a:hover {
 }
 
 i {
-	color: #70986F;
+	color: #D17B49;
 }
 
 .global {
@@ -59,7 +59,7 @@ i {
 	font-weight: 400;
 	font-size: 1.05em;
 
-	background: #372B21;
+	background: #70986F;
 }
 
 .container {
@@ -103,6 +103,6 @@ i {
 .full-width {
 	padding-bottom: 50px;
 
-	color: #372B21;
+	color: #70986F;
 	background: #FFFFF9;
 }
