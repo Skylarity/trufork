@@ -98,7 +98,7 @@
             </p>
 
             <p>
-               TruFork will also offer a slim, nominal social media user interface. TruFork's users will be able to generate user accounts, share comments, select favorite establishments, and be alerted when new restaurant inspection reports are made regarding specific restaurants.
+               TruFork will also offer a slim, nominal social media user interface. TruFork's users will be able to generate user accounts, generate and read comments, select favorite establishments, and be alerted when new restaurant inspection reports are made regarding specific restaurants.
             </p>
 
             <div class="hr"></div>
