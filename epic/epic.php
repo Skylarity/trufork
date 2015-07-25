@@ -29,7 +29,7 @@
             <h2 class="thin"><i class="fa fa-check-square-o"></i> System Goals:</h2>
 
             <p>
-               Text here.
+               The goal of this project is to provide a way for people to find a delicious, <em>clean</em> place to eat.
             </p>
 
             <div class="hr"></div>
@@ -109,11 +109,11 @@
 
             <ul>
                <li>
-                  I am a user, and I want to find a <em>clean</em> restaurant to eat at.
+                  I am a user, and I want to <em>not</em> get food poisoning again.
                </li>
 
                <li>
-                  Text here.
+                  I am a restaurant owner, and I want the fact that I have a clean restaurant to get out to people.
                </li>
             </ul>
          </div>
