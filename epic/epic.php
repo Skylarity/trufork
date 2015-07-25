@@ -67,7 +67,7 @@
          <div class="container">
             <h2 class="thin"><i class="fa fa-cog"></i> Conceptual Schema:</h2>
 
-            <p>Text here.</p>
+            <p>I'm still not really sure what this is. It looks like the ERD, but that seems redundant. -Skyler</p>
 
             <div class="hr"></div>
          </div>
