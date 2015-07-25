@@ -72,7 +72,7 @@
       <!-- ERDs - S -->
       <div class="full-width">
          <div class="container">
-            <h2 class="thin"><i class="fa fa-cogs"></i> ERDs:</h2>
+            <h2 class="thin"><i class="fa fa-cogs"></i> ERD:</h2>
 
             <p>Text here.</p>
 
