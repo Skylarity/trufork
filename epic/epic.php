@@ -29,7 +29,11 @@
             <h2 class="thin"><i class="fa fa-check-square-o"></i> System Goals:</h2>
 
             <p>
-               The goal of this project is to provide a way for people to find a delicious, <em>clean</em> place to eat.
+               A major goal of this project is to provide a way for people to easily find a delicious, <em>clean</em> place to eat.
+            </p>
+
+            <p>
+               A secondary goal is for restaurant owners to be able to turn their establishment's cleanliness into a marketable trait.
             </p>
 
             <div class="hr"></div>
