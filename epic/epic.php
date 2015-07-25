@@ -2,8 +2,19 @@
 <html lang="en">
    <head>
       <meta charset="UTF-8">
+
+      <!-- CSS -->
       <link rel="stylesheet" type="text/css" href="../css/epic.css">
-      <title>Epic</title>
+
+      <!-- Font Awesome -->
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+      <!-- Google Fonts -->
+      <link
+         href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic,100,100italic|Roboto+Condensed:300italic,400italic,700italic,400,300,700"
+         rel="stylesheet" type="text/css">
+
+      <title>Epic: Documentation</title>
    </head>
    <body class="global">
 
@@ -15,7 +26,7 @@
       <!-- System Goals -->
       <div class="full-width padding-top-50">
          <div class="container">
-            <h2 class="thin">System Goals:</h2>
+            <h2 class="thin"><i class="fa fa-check-square-o"></i> System Goals:</h2>
 
             <p>
                Text here.
@@ -28,7 +39,7 @@
       <!-- Personas - K -->
       <div class="full-width">
          <div class="container">
-            <h2 class="thin">Personas:</h2>
+            <h2 class="thin"><i class="fa fa-male"></i> Personas:</h2>
 
             <p>Text here.</p>
 
@@ -39,9 +50,9 @@
       <!-- Use Cases - K -->
       <div class="full-width">
          <div class="container">
-            <h2 class="thin">Use Cases:</h2>
+            <h2 class="thin"><i class="fa fa-suitcase"></i> Use Cases:</h2>
 
-            <p class="container">Text here.</p>
+            <p>Text here.</p>
 
             <div class="hr"></div>
          </div>
@@ -50,7 +61,7 @@
       <!-- Conceptual Schema - S -->
       <div class="full-width">
          <div class="container">
-            <h2 class="thin">Conceptual Schema:</h2>
+            <h2 class="thin"><i class="fa fa-cog"></i> Conceptual Schema:</h2>
 
             <p>Text here.</p>
 
@@ -61,7 +72,7 @@
       <!-- ERDs - S -->
       <div class="full-width">
          <div class="container">
-            <h2 class="thin">ERDs:</h2>
+            <h2 class="thin"><i class="fa fa-cogs"></i> ERDs:</h2>
 
             <p>Text here.</p>
 
@@ -72,7 +83,7 @@
       <!-- System Summary - T -->
       <div class="full-width">
          <div class="container">
-            <h2 class="thin">System Summary:</h2>
+            <h2 class="thin"><i class="fa fa-terminal"></i> System Summary:</h2>
 
             <p>Text here.</p>
 
@@ -83,7 +94,7 @@
       <!-- Development Roadmap - T -->
       <div class="full-width">
          <div class="container">
-            <h2 class="thin">Development Roadmap:</h2>
+            <h2 class="thin"><i class="fa fa-road"></i> Development Roadmap:</h2>
 
             <p>Text here.</p>
 
@@ -94,15 +105,17 @@
       <!-- User Stories -->
       <div class="full-width">
          <div class="container">
-            <h2 class="thin">User Stories:</h2>
+            <h2 class="thin"><i class="fa fa-users"></i> User Stories:</h2>
 
-            <p>
-               I am a user, and I want to find a <em>clean</em> restaurant to eat at.
-            </p>
+            <ul>
+               <li>
+                  I am a user, and I want to find a <em>clean</em> restaurant to eat at.
+               </li>
 
-            <p>
-               Text here.
-            </p>
+               <li>
+                  Text here.
+               </li>
+            </ul>
          </div>
       </div>
 
