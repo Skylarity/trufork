@@ -36,6 +36,12 @@ em {
 	font-style: normal;
 }
 
+header em {
+	color: #95D6E5;
+	font-family: 'Roboto Condensed', sans-serif;
+	font-style: normal;
+}
+
 a {
 	color: #70986F;
 	font-style: normal;
