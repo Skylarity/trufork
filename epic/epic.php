@@ -15,6 +15,10 @@
          rel="stylesheet" type="text/css">
 
       <title>Epic: Documentation</title>
+
+      <link type="image/ico"
+            href="../images/fork.png"
+            rel="shortcut icon" /> <!-- lame favicon generated using GIMP -->
    </head>
    <body class="global">
 
