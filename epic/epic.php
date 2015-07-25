@@ -20,7 +20,7 @@
 
       <!-- Epic documentation -->
       <header class="title">
-         <h1 class="container">Epic: <span class="thin-title">Documentation</span></h1>
+         <h1 class="container">Documentation: <span class="thin-title">Epic</span></h1>
       </header>
 
       <!-- System Goals -->
