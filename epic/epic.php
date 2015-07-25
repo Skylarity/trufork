@@ -20,7 +20,7 @@
 
       <!-- Epic documentation -->
       <header class="title">
-         <h1 class="container"><em>TruFork</em> Documentation: <span class="thin-title">Epic</span></h1>
+         <h1 class="container"><em class="color-blue">TruFork</em> Documentation: <span class="thin-title">Epic</span></h1>
       </header>
 
       <!-- System Goals -->

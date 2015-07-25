@@ -40,7 +40,7 @@ em {
 	font-style: normal;
 }
 
-header em {
+.color-blue {
 	color: #95D6E5;
 	font-family: 'Roboto Condensed', sans-serif;
 	font-style: normal;
@@ -49,6 +49,7 @@ header em {
 a {
 	color: #D17B49;
 	font-style: normal;
+	font-weight: bold;
 	text-decoration: none;
 }
 a:hover {
