@@ -1,62 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<link rel="stylesheet" type="text/css" href="../css/epic.css">
-		<title>Epic</title>
-	</head>
-	<body>
+   <head>
+      <meta charset="UTF-8">
+      <link rel="stylesheet" type="text/css" href="../css/epic.css">
+      <title>Epic</title>
+   </head>
+   <body class="global">
 
-		<!-- Epic documentation -->
-		<h1>Epic</h1>
+      <!-- Epic documentation -->
+      <header class="title">
+         <h1 class="container">Epic: <span class="thin-title">Documentation</span></h1>
+      </header>
 
-		<!-- System Goals -->
-		<h2>System Goals</h2>
+      <!-- System Goals -->
+      <div class="full-width padding-top-50">
+         <div class="container">
+            <h2 class="thin">System Goals:</h2>
 
-		<p>
-			Text here.
-		</p>
+            <p>
+               Text here.
+            </p>
 
-		<!-- Personas - K -->
-		<h2>Personas</h2>
+            <div class="hr"></div>
+         </div>
+      </div>
 
-		<p>Text here.</p>
+      <!-- Personas - K -->
+      <div class="full-width">
+         <div class="container">
+            <h2 class="thin">Personas:</h2>
 
-		<!-- Use Cases - K -->
-		<h2>Use Cases</h2>
+            <p>Text here.</p>
 
-		<p>Text here.</p>
+            <div class="hr"></div>
+         </div>
+      </div>
 
-		<!-- Conceptual Schema - S -->
-		<h2>Conceptual Schema</h2>
+      <!-- Use Cases - K -->
+      <div class="full-width">
+         <div class="container">
+            <h2 class="thin">Use Cases:</h2>
 
-		<p>Text here.</p>
+            <p class="container">Text here.</p>
 
-		<!-- ERDs - S -->
-		<h2>ERDs</h2>
+            <div class="hr"></div>
+         </div>
+      </div>
 
-		<p>Text here.</p>
+      <!-- Conceptual Schema - S -->
+      <div class="full-width">
+         <div class="container">
+            <h2 class="thin">Conceptual Schema:</h2>
 
-		<!-- System Summary - T -->
-		<h2>System Summary</h2>
+            <p>Text here.</p>
 
-		<p>Text here.</p>
+            <div class="hr"></div>
+         </div>
+      </div>
 
-		<!-- Development Roadmap - T -->
-		<h2>Development Roadmap</h2>
+      <!-- ERDs - S -->
+      <div class="full-width">
+         <div class="container">
+            <h2 class="thin">ERDs:</h2>
 
-		<p>Text here.</p>
+            <p>Text here.</p>
 
-		<!-- User Stories -->
-		<h2>User Stories</h2>
+            <div class="hr"></div>
+         </div>
+      </div>
 
-		<p>
-			I am a user, and I want to find a <em>clean</em> restaurant to eat at.
-		</p>
+      <!-- System Summary - T -->
+      <div class="full-width">
+         <div class="container">
+            <h2 class="thin">System Summary:</h2>
 
-		<p>
-			Text here.
-		</p>
+            <p>Text here.</p>
 
-	</body>
+            <div class="hr"></div>
+         </div>
+      </div>
+
+      <!-- Development Roadmap - T -->
+      <div class="full-width">
+         <div class="container">
+            <h2 class="thin">Development Roadmap:</h2>
+
+            <p>Text here.</p>
+
+            <div class="hr"></div>
+         </div>
+      </div>
+
+      <!-- User Stories -->
+      <div class="full-width">
+         <div class="container">
+            <h2 class="thin">User Stories:</h2>
+
+            <p>
+               I am a user, and I want to find a <em>clean</em> restaurant to eat at.
+            </p>
+
+            <p>
+               Text here.
+            </p>
+         </div>
+      </div>
+
+   </body>
 </html>
