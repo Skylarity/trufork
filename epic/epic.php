@@ -76,9 +76,9 @@
       <!-- ERDs - S -->
       <div class="full-width">
          <div class="container">
-            <h2 class="thin"><i class="fa fa-cogs"></i> ERD:</h2>
+            <h2 class="thin"><i class="fa fa-sitemap"></i> Entity Relationship Diagram:</h2>
 
-            <p>Text here.</p>
+            <img src="../images/trufork_erd.svg" alt="TruFork ERD"/>
 
             <div class="hr"></div>
          </div>

@@ -59,6 +59,12 @@ i {
 	color: #D17B49;
 }
 
+img {
+	margin: auto;
+	width: 70%;
+	display: block;
+}
+
 .global {
 	margin: auto;
 	width: 100%;
