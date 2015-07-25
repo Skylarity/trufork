@@ -89,7 +89,17 @@
          <div class="container">
             <h2 class="thin"><i class="fa fa-terminal"></i> System Summary:</h2>
 
-            <p>Text here.</p>
+            <p>
+               TruFork is a website that bridges two different databases containing related information. In essence, TruFork serves as a mechanism to mesh data from Google Places and the City of Albuquerque's ABQ Data portal. The end result is to combine Google's restaurant reviews with ABQ Data's restaurant inspection reports.
+            </p>
+
+            <p>
+               To create this nexus of data, TruFork will exist initially as a website, utilizing HTML, CSS, JavaScript, and PHP. TruFork will employ scheduled data-gathering and caching algorithms to acquire current Albuquerque restaurant inspection reports. Using the Google Places application programming interface (API), TruFork will index restaurant address information against the database generated from ABQ Data's restaurant inspection reports. In so doing, TruFork will permit its users to read restaurant reviews <i>and</i> restaurant inspection reports in one location.
+            </p>
+
+            <p>
+               TruFork will also offer a slim, nominal social media user interface. TruFork's users will be able to generate user accounts, share comments, select favorite establishments, and be alerted when new restaurant inspection reports are made regarding specific restaurants.
+            </p>
 
             <div class="hr"></div>
          </div>
