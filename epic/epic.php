@@ -113,7 +113,7 @@
 
             <ul>
                <li>
-                  I am a user, and I want to <em>not</em> get food poisoning again.
+                  I am a user, and I want <em>not</em> to get food poisoning again.
                </li>
 
                <li>
