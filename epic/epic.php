@@ -115,6 +115,18 @@
                <li>
                   I am a restaurant owner, and I want the fact that I have a clean restaurant to get out to people.
                </li>
+
+               <li>
+                  I am a restaurant inspector working for a local government, and I want people in the community to take some ownership of their dining choices.
+               </li>
+
+               <li>
+                  I am a food columnist/reviewer for a local newspaper, and I want my readers to be able to follow up on my reviews with their own research.
+               </li>
+
+               <li>
+                  I am a traveling businesswoman, and I want to be able to make quick, but educated decisions about where to eat when I am on the road.
+               </li>
             </ul>
          </div>
       </div>
