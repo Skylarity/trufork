@@ -109,7 +109,7 @@
 
             <hr/> <!-- Yep, PHPStorm, it's empty. Thanks.-->
 
-            <sup id="fn1">1. Future plans for TruFork include mobile apps across all extant platforms with significant userbase.<a href="#ref1" title="Jump back to footnote 1 in the text.">↩</a></sup>
+            <sup id="fn1">1. Future plans for TruFork include mobile apps across all extant platforms with significant userbase.<a href="#ref1" title="Jump back to footnote 1 in the text."> <i class="fa fa-arrow-circle-o-up"></i></a></sup>
 
             <div class="hr"></div>
          </div>
