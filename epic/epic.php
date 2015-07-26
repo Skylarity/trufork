@@ -122,6 +122,8 @@
 
             <p>Seems like it would be easier to draw this up retrospectively, but I guess I can make it more of a sort of an <em>estimated</em> roadmap.</p>
 
+            <p>I found a nice development roadmap for a vidyagame here: <a href="http://www.thedeadlinger.com/roadmap/">The Dead Linger Development Roadmap</a></p>
+
             <div class="hr"></div>
          </div>
       </div>
