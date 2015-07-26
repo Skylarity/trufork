@@ -1,5 +1,16 @@
 p + p {
 	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+ul + ul {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+ol + ol {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 * {

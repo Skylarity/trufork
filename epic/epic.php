@@ -139,11 +139,25 @@
          <div class="container">
             <h2 class="thin"><i class="fa fa-road"></i> Development Roadmap:</h2>
 
-            <p>Seems like it would be easier to draw this up retrospectively, but I guess I can make it more of a sort
-               of an <em>estimated</em> roadmap.</p>
+            <p>
+               CAUTION: Development is not linear. As such, this roadmap will likely be deviated from, built upon, circumvented, folded, spindled, and mutilated.
+            </p>
 
-            <p>I found a nice development roadmap for a vidyagame here: <a href="http://www.thedeadlinger.com/roadmap/">The
-                  Dead Linger Development Roadmap</a></p>
+            <br/> <!-- Breakin' 2: Electric Boogaloo-->
+
+               <em>User Interface Features</em>
+                    <ul>
+                     <li>first item</li>
+                     <li>and the next</li>
+                     <li>etc...</li>
+                    </ul>
+
+               <em>Backend Features</em>
+                  <ul>
+                  <li>
+
+                  </li>
+                  </ul>
 
             <div class="hr"></div>
          </div>
