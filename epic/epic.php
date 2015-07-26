@@ -147,16 +147,36 @@
 
                <em>User Interface Features</em>
                     <ul>
-                     <li>first item</li>
-                     <li>and the next</li>
-                     <li>etc...</li>
+                     <li>Basic, minimalist portal with aesthetically-pleasing graphics</li>
+                     <li>Update field including new inspection data</li>
+                     <li>Update field for friend activity</li>
+                     <li>User log-in field</li>
+                     <li>Search field</li>
                     </ul>
+
+            <br/> <!-- I breaka you face! -->
 
                <em>Backend Features</em>
                   <ul>
-                  <li>
+                   <li>Database culled from weekly download from ABQ Data</li>
+                   <li>Google Places API</li>
+                  </ul>
 
-                  </li>
+            <br/> <!-- Give us a break with all the breaks, eh?-->
+
+               <em>Social Media Features</em>
+                  <ul>
+                   <li>Friend Functionality</li>
+                   <li>Like Functionality (for liking comments, restaurants, etc...)</li>
+                   <li>Invite Friends Functionality (for bringing in friends from other sites)</li>
+                   <li>Symbolic Rewards Functionality</li>
+                  </ul>
+
+            <br/> <!-- Breaker 1-9 -->
+
+               <em>Future Features</em>
+                  <ul>
+                   <li>Mobile Apps for Android and iOS devices</li>
                   </ul>
 
             <div class="hr"></div>
