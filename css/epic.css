@@ -100,8 +100,11 @@ hr {
 	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #70986F, rgba(0, 0, 0, 0));
 }
 
-.margin-0 {
-	margin: 0;
+.logo {
+	width: 42px;
+	height: auto;
+
+	display: inline;
 }
 
 .indent {

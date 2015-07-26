@@ -14,17 +14,19 @@
          href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic,100,100italic|Roboto+Condensed:300italic,400italic,700italic,400,300,700"
          rel="stylesheet" type="text/css">
 
-      <title>Epic: Documentation</title>
+      <link type="image/ico" href="../images/fork.ico" rel="shortcut icon"/>
+      <!-- lame favicon generated using GIMP -->
 
-      <link type="image/ico"
-            href="../images/fork.png"
-            rel="shortcut icon" /> <!-- lame favicon generated using GIMP -->
+      <title>Epic: Documentation</title>
    </head>
    <body class="global">
 
       <!-- Epic documentation -->
       <header class="title">
-         <h1 class="container"><em class="color-blue">TruFork</em> Documentation: <span class="thin-title">Epic</span></h1>
+         <h1 class="container">
+            <img class="logo" src="../images/fork-blue.svg" alt="TruFork Logo"> <em class="color-blue">TruFork</em>
+            Documentation: <span class="thin-title">Epic</span>
+         </h1>
       </header>
 
       <!-- System Goals -->
@@ -33,11 +35,13 @@
             <h2 class="thin"><i class="fa fa-check-square-o"></i> System Goals:</h2>
 
             <p>
-               A major goal of this project is to provide a way for people to easily find a delicious, <em>clean</em> place to eat.
+               A major goal of this project is to provide a way for people to easily find a delicious, <em>clean</em>
+               place to eat.
             </p>
 
             <p>
-               A secondary goal is for restaurant owners to be able to turn their establishment's cleanliness into a marketable trait.
+               A secondary goal is for restaurant owners to be able to turn their establishment's cleanliness into a
+               marketable trait.
             </p>
 
             <div class="hr"></div>
@@ -71,7 +75,8 @@
          <div class="container">
             <h2 class="thin"><i class="fa fa-cog"></i> Conceptual Schema:</h2>
 
-            <p>I'm still not really sure what this is. It looks kind of like the ERD, but that seems redundant. -Skyler</p>
+            <p>I'm still not really sure what this is. It looks kind of like the ERD, but that seems redundant.
+               -Skyler</p>
 
             <div class="hr"></div>
          </div>
@@ -94,22 +99,36 @@
             <h2 class="thin"><i class="fa fa-terminal"></i> System Summary:</h2>
 
             <p>
-               TruFork is a website that bridges two different databases containing related information. In essence, TruFork serves as a mechanism to mesh data from Google Places and the City of Albuquerque's ABQ Data portal. The end result is to combine Google's restaurant reviews with ABQ Data's restaurant inspection reports.
+               TruFork is a website that bridges two different databases containing related information. In essence,
+               TruFork serves as a mechanism to mesh data from Google Places and the City of Albuquerque's ABQ Data
+               portal. The end result is to combine Google's restaurant reviews with ABQ Data's restaurant inspection
+               reports.
             </p>
 
             <p>
-               To create this nexus of data, TruFork will exist initially as a website<sup><a href="#fn1" id="ref1">1</a></sup>, utilizing HTML, CSS, JavaScript, and PHP. TruFork will employ scheduled data-gathering and caching algorithms to acquire current Albuquerque restaurant inspection reports. Using the Google Places application programming interface (API), TruFork will index restaurant address information against the database generated from ABQ Data's restaurant inspection reports. In so doing, TruFork will permit its users to read restaurant reviews <em>and</em> restaurant inspection reports in one location, <em>seamlessly</em>.
+               To create this nexus of data, TruFork will exist initially as a website<sup><a href="#fn1"
+                                                                                              id="ref1">1</a></sup>,
+               utilizing HTML, CSS, JavaScript, and PHP. TruFork will employ scheduled data-gathering and caching
+               algorithms to acquire current Albuquerque restaurant inspection reports. Using the Google Places
+               application programming interface (API), TruFork will index restaurant address information against the
+               database generated from ABQ Data's restaurant inspection reports. In so doing, TruFork will permit its
+               users to read restaurant reviews <em>and</em> restaurant inspection reports in one location, <em>seamlessly</em>.
             </p>
 
             <p>
-               TruFork will also offer a slim, nominal social media user interface. TruFork's users will be able to generate user accounts, generate and read comments, select favorite establishments, and be alerted when new restaurant inspection reports are made regarding specific restaurants.
+               TruFork will also offer a slim, nominal social media user interface. TruFork's users will be able to
+               generate user accounts, generate and read comments, select favorite establishments, and be alerted when
+               new restaurant inspection reports are made regarding specific restaurants.
             </p>
 
             <br/> <!-- BrBa -->
 
-            <hr/> <!-- Yep, PHPStorm, it's empty. Thanks.-->
+            <hr/>
+            <!-- Yep, PHPStorm, it's empty. Thanks.-->
 
-            <sup id="fn1">1. Future plans for TruFork include mobile apps across all extant platforms with significant userbase.<a href="#ref1" title="Jump back to footnote 1 in the text."> <i class="fa fa-arrow-circle-o-up"></i></a></sup>
+            <sup id="fn1">1. Future plans for TruFork include mobile apps across all extant platforms with significant
+               userbase.<a href="#ref1" title="Jump back to footnote 1 in the text."> <i
+                     class="fa fa-arrow-circle-o-up"></i></a></sup>
 
             <div class="hr"></div>
          </div>
@@ -120,9 +139,11 @@
          <div class="container">
             <h2 class="thin"><i class="fa fa-road"></i> Development Roadmap:</h2>
 
-            <p>Seems like it would be easier to draw this up retrospectively, but I guess I can make it more of a sort of an <em>estimated</em> roadmap.</p>
+            <p>Seems like it would be easier to draw this up retrospectively, but I guess I can make it more of a sort
+               of an <em>estimated</em> roadmap.</p>
 
-            <p>I found a nice development roadmap for a vidyagame here: <a href="http://www.thedeadlinger.com/roadmap/">The Dead Linger Development Roadmap</a></p>
+            <p>I found a nice development roadmap for a vidyagame here: <a href="http://www.thedeadlinger.com/roadmap/">The
+                  Dead Linger Development Roadmap</a></p>
 
             <div class="hr"></div>
          </div>
@@ -143,15 +164,18 @@
                </li>
 
                <li>
-                  I am a restaurant inspector working for a local government, and I want people in the community to take some ownership of their dining choices.
+                  I am a restaurant inspector working for a local government, and I want people in the community to take
+                  some ownership of their dining choices.
                </li>
 
                <li>
-                  I am a food columnist/reviewer for a local newspaper, and I want my readers to be able to follow up on my reviews with their own research.
+                  I am a food columnist/reviewer for a local newspaper, and I want my readers to be able to follow up on
+                  my reviews with their own research.
                </li>
 
                <li>
-                  I am a traveling businesswoman, and I want to be able to make quick, but educated decisions about where to eat when I am on the road.
+                  I am a traveling businesswoman, and I want to be able to make quick, but educated decisions about
+                  where to eat when I am on the road.
                </li>
             </ul>
          </div>
