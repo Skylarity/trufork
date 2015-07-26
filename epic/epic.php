@@ -98,12 +98,18 @@
             </p>
 
             <p>
-               To create this nexus of data, TruFork will exist initially as a website, utilizing HTML, CSS, JavaScript, and PHP. TruFork will employ scheduled data-gathering and caching algorithms to acquire current Albuquerque restaurant inspection reports. Using the Google Places application programming interface (API), TruFork will index restaurant address information against the database generated from ABQ Data's restaurant inspection reports. In so doing, TruFork will permit its users to read restaurant reviews <em>and</em> restaurant inspection reports in one location, <em>seamlessly</em>.
+               To create this nexus of data, TruFork will exist initially as a website<sup><a href="#fn1" id="ref1">1</a></sup>, utilizing HTML, CSS, JavaScript, and PHP. TruFork will employ scheduled data-gathering and caching algorithms to acquire current Albuquerque restaurant inspection reports. Using the Google Places application programming interface (API), TruFork will index restaurant address information against the database generated from ABQ Data's restaurant inspection reports. In so doing, TruFork will permit its users to read restaurant reviews <em>and</em> restaurant inspection reports in one location, <em>seamlessly</em>.
             </p>
 
             <p>
                TruFork will also offer a slim, nominal social media user interface. TruFork's users will be able to generate user accounts, generate and read comments, select favorite establishments, and be alerted when new restaurant inspection reports are made regarding specific restaurants.
             </p>
+
+            <br/> <!-- BrBa -->
+
+            <hr></hr> <!-- Yep, PHPStorm, it's empty. Thanks.-->
+
+            <sup id="fn1">1. Future plans for TruFork include mobile apps across all extant platforms with significant userbase.<a href="#ref1" title="Jump back to footnote 1 in the text.">↩</a></sup>
 
             <div class="hr"></div>
          </div>
