@@ -107,7 +107,7 @@
 
             <br/> <!-- BrBa -->
 
-            <hr></hr> <!-- Yep, PHPStorm, it's empty. Thanks.-->
+            <hr/> <!-- Yep, PHPStorm, it's empty. Thanks.-->
 
             <sup id="fn1">1. Future plans for TruFork include mobile apps across all extant platforms with significant userbase.<a href="#ref1" title="Jump back to footnote 1 in the text.">↩</a></sup>
 
@@ -120,7 +120,7 @@
          <div class="container">
             <h2 class="thin"><i class="fa fa-road"></i> Development Roadmap:</h2>
 
-            <p>Text here.</p>
+            <p>Seems like it would be easier to draw this up retrospectively, but I guess I can make it more of a sort of an <em>estimated</em> roadmap.</p>
 
             <div class="hr"></div>
          </div>
