@@ -140,44 +140,45 @@
             <h2 class="thin"><i class="fa fa-road"></i> Development Roadmap:</h2>
 
             <p>
-               CAUTION: Development is not linear. As such, this roadmap will likely be deviated from, built upon, circumvented, folded, spindled, and mutilated.
+               CAUTION: Development is not linear. As such, this roadmap will likely be deviated from, built upon,
+               circumvented, folded, spindled, and mutilated.
             </p>
 
             <br/> <!-- Breakin' 2: Electric Boogaloo-->
 
-               <em>User Interface Features</em>
-                    <ul>
-                     <li>Basic, minimalist portal with aesthetically-pleasing graphics</li>
-                     <li>Update field including new inspection data</li>
-                     <li>Update field for friend activity</li>
-                     <li>User log-in field</li>
-                     <li>Search field</li>
-                    </ul>
+            <em>User Interface Features</em>
+            <ul>
+               <li>Basic, minimalist portal with aesthetically-pleasing graphics</li>
+               <li>Update field including new inspection data</li>
+               <li>Update field for friend activity</li>
+               <li>User log-in field</li>
+               <li>Search field</li>
+            </ul>
 
             <br/> <!-- I breaka you face! -->
 
-               <em>Backend Features</em>
-                  <ul>
-                   <li>Database culled from weekly download from ABQ Data</li>
-                   <li>Google Places API</li>
-                  </ul>
+            <em>Backend Features</em>
+            <ul>
+               <li>Database culled from weekly download from ABQ Data</li>
+               <li>Google Places API</li>
+            </ul>
 
             <br/> <!-- Give us a break with all the breaks, eh?-->
 
-               <em>Social Media Features</em>
-                  <ul>
-                   <li>Friend Functionality</li>
-                   <li>Like Functionality (for liking comments, restaurants, etc...)</li>
-                   <li>Invite Friends Functionality (for bringing in friends from other sites)</li>
-                   <li>Symbolic Rewards Functionality</li>
-                  </ul>
+            <em>Social Media Features</em>
+            <ul>
+               <li>Friend Functionality</li>
+               <li>Like Functionality (for liking comments, restaurants, etc...)</li>
+               <li>Invite Friends Functionality (for bringing in friends from other sites)</li>
+               <li>Symbolic Rewards Functionality</li>
+            </ul>
 
             <br/> <!-- Breaker 1-9 -->
 
-               <em>Future Features</em>
-                  <ul>
-                   <li>Mobile Apps for Android and iOS devices</li>
-                  </ul>
+            <em>Future Features</em>
+            <ul>
+               <li>Mobile Apps for Android and iOS devices</li>
+            </ul>
 
             <div class="hr"></div>
          </div>
