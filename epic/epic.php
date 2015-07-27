@@ -209,7 +209,7 @@
 
             <em>Future Features</em>
             <ul>
-               <li>Mobile Apps for Android and iOS devices</li>
+               <li>Mobile browser versions for Android and iOS devices</li>
             </ul>
 
             <div class="hr"></div>
