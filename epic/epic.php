@@ -75,8 +75,7 @@
          <div class="container">
             <h2 class="thin"><i class="fa fa-cog"></i> Conceptual Schema:</h2>
 
-            <p>I'm still not really sure what this is. It looks kind of like the ERD, but that seems redundant.
-               -Skyler</p>
+            <p>// TODO (I know what they are now!)</p>
 
             <div class="hr"></div>
          </div>
