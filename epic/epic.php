@@ -55,7 +55,8 @@
 			<div class="container">
 				<h2 class="thin"><i class="fa fa-male"></i> Personas:</h2>
 
-				<p>TBecky
+				<p>
+					Becky
 					Becky is a 32 year old female with a family. Her family includes her husband and two children ages 7
 					and 10.
 					The family is middle class working family. Becky is looking for an easy way to find a restaurant to
@@ -68,7 +69,7 @@
 					She access TRUfork through the web and makes a decision based on the core data provided from
 					TRUfork.
 					This ensures that she's getting the best quality, price and atmosphere for her dollar.
-					.</p>
+				</p>
 
 				<div class="hr"></div>
 			</div>
@@ -132,8 +133,10 @@
 					A restaurant has an ID, Google's restaurant ID, Google's rating, ABQ's restaurant ID, ABQ's
 					inspection data, our TruFork rating, and an address.
 				</p>
+
 				<p>
-					A comment has a comment ID, a profile ID, a restaurant ID, a date posted, and the actual comment content.
+					A comment has a comment ID, a profile ID, a restaurant ID, a date posted, and the actual comment
+					content.
 				</p>
 
 				<div class="hr"></div>
