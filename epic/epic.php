@@ -109,7 +109,7 @@
          <div class="container">
             <h2 class="thin"><i class="fa fa-cog"></i> Conceptual Schema:</h2>
 
-            <p>A user has an ID and a password hash. One user has one profile. Many profiles can vote and comment on many restaurants, and friend many other profiles.</p>
+            <p>A user has an ID and a password hash. One user has one profile. Many profiles can vote, like, and comment on many restaurants, and friend many other profiles.</p>
 
             <div class="hr"></div>
          </div>
