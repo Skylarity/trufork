@@ -72,32 +72,82 @@
          <div class="container">
             <h2 class="thin"><i class="fa fa-suitcase"></i> Use Cases:</h2>
 
-            <p>I.	User access TRUfork.com using a web browser
-               a.	has an option to sign in and/or create a user name
-               i.	First,  Last Name
-               ii.	Email
-               iii.	Password
-               II.	User taps or clicks on search field.
-               III.	The user queries:
-               a.	Name
-               b.	Address
-               c.	Zip
-               d.	food type
-               e.	phone
-               f.	city data approved or disapproved
-               IV.	User submits query. The search cross references Googles Places API and City of Albuquerque Data.
-               V.	The user sees returned results in the form of TRUfork ratings. 1-5 and a TRUfork approval.
-               a.	TRUfork approval includes city data and averages GOOGLE data.
-               VI.	The user has a choice to save the results if signed in or has the option to sign up the same as step I.
-               VII.	The user man click to find out more information
-               a.	Map
-               b.	Address
-               c.	Phone
-               d.	Other User Ratings
-               e.	They may TRUfork it (like)
-               f.	Comment
-               g.	Compare field
-            </p>
+            <ol>
+					<li>
+						I.	User access TRUfork.com using a web browser
+					</li>
+               <li>
+						a.	has an option to sign in and/or create a user name
+					<li>
+               	i.	First,  Last Name
+					</li>
+					<li>
+               	ii.	Email
+					</li>
+               <li>
+						iii.	Password
+					</li>
+               <li>
+						II.	User taps or clicks on search field.
+						</li>
+					<li>
+             	  III.	The user queries:
+					</li>
+					<li>
+               	a.	Name
+					</li>
+					<li>
+               	b.	Address
+					</li>
+					<li>
+               	c.	Zip
+					</li>
+					<li>
+               	d.	food type
+					</li>
+					<li>
+               	e.	phone
+					</li>
+					<li>
+               	f.	city data approved or disapproved
+					</li>
+					<li>
+               	IV.	User submits query. The search cross references Googles Places API and City of Albuquerque Data.
+					</li>
+					<li>
+              		 V.	The user sees returned results in the form of TRUfork ratings. 1-5 and a TRUfork approval.
+					</li>
+					<li>
+               	a.	TRUfork approval includes city data and averages GOOGLE data.
+					</li>
+					<li>
+						VI.	The user has a choice to save the results if signed in or has the option to sign up the same as step I.
+					</li>
+					<li>
+						VII.	The user man click to find out more information
+					</li>
+					<li>
+               	a.	Map
+					</li>
+					<li>
+               	b.	Address
+					</li>
+					<li>
+               	c.	Phone
+					</li>
+					<li>
+               	d.	Other User Ratings
+					</li>
+					<li>
+               	e.	They may TRUfork it (like)
+					</li>
+					<li>
+               	f.	Comment
+					</li>
+					<li>
+               	g.	Compare field
+					</li>
+            </ol>
 
             <div class="hr"></div>
          </div>
