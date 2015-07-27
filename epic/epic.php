@@ -53,7 +53,15 @@
          <div class="container">
             <h2 class="thin"><i class="fa fa-male"></i> Personas:</h2>
 
-            <p>Text here.</p>
+            <p>TBecky
+               Becky is a 32 year old female with a family. Her family includes her husband and two children ages 7 and 10.
+               The family is middle class working family. Becky is looking for an easy way to find a restaurant to feed her family.
+               She is concerned about quality, location, price, popularity and cleanliness. She accesses social networking sites
+               daily and values the opinion of others.  Becky and her family eat out biweekly on the weekends.
+               She once got food poisoning from a restaurant that had been downgraded and expects a approval from city expectations.
+               She access TRUfork through the web and makes a decision based on the core data provided from TRUfork.
+               This ensures that she's getting the best quality, price and atmosphere for her dollar.
+               .</p>
 
             <div class="hr"></div>
          </div>
@@ -64,7 +72,32 @@
          <div class="container">
             <h2 class="thin"><i class="fa fa-suitcase"></i> Use Cases:</h2>
 
-            <p>Text here.</p>
+            <p>I.	User access TRUfork.com using a web browser
+               a.	has an option to sign in and/or create a user name
+               i.	First,  Last Name
+               ii.	Email
+               iii.	Password
+               II.	User taps or clicks on search field.
+               III.	The user queries:
+               a.	Name
+               b.	Address
+               c.	Zip
+               d.	food type
+               e.	phone
+               f.	city data approved or disapproved
+               IV.	User submits query. The search cross references Googles Places API and City of Albuquerque Data.
+               V.	The user sees returned results in the form of TRUfork ratings. 1-5 and a TRUfork approval.
+               a.	TRUfork approval includes city data and averages GOOGLE data.
+               VI.	The user has a choice to save the results if signed in or has the option to sign up the same as step I.
+               VII.	The user man click to find out more information
+               a.	Map
+               b.	Address
+               c.	Phone
+               d.	Other User Ratings
+               e.	They may TRUfork it (like)
+               f.	Comment
+               g.	Compare field
+            </p>
 
             <div class="hr"></div>
          </div>
