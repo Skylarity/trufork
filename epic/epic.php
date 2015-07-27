@@ -56,7 +56,6 @@
 				<h2 class="thin"><i class="fa fa-male"></i> Personas:</h2>
 
 				<p>
-					Becky
 					Becky is a 32 year old female with a family. Her family includes her husband and two children ages 7
 					and 10.
 					The family is middle class working family. Becky is looking for an easy way to find a restaurant to
