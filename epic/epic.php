@@ -74,7 +74,7 @@
 
             <ul>
 					<li>User access TRUfork.com using a web browser</li>
-               <li>has an option to sign in and/or create a user name<li>
+               <li>has an option to sign in and/or create a user name</li>
 					<li>First,  Last Name</li>
 					<li>Email</li>
 					<li>Password</li>
@@ -89,7 +89,7 @@
 					<li>User submits query. The search cross references Googles Places API and City of Albuquerque Data</li>
 					<li>The user sees returned results in the form of TRUfork ratings. 1-5 and a TRUfork approval</li>
 					<li>TRUfork approval includes city data and averages GOOGLE data.</li>
-					<li>VI.	The user has a choice to save the results if signed in or has the option to sign up the same as step I</li>
+					<li>The user has a choice to save the results if signed in or has the option to sign up the same as step I</li>
 					<li>The user man click to find out more information</li>
 					<li>Map</li>
 					<li>Address</li>
