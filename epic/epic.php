@@ -135,35 +135,51 @@
 			<div class="container">
 				<h2 class="thin"><i class="fa fa-suitcase"></i> Use Cases:</h2>
 
-				<ul>
-					<li>User access TRUfork.com using a web browser</li>
-					<li>has an option to sign in and/or create a user name</li>
-					<li>First, Last Name</li>
-					<li>Email</li>
-					<li>Password</li>
-					<li>User taps or clicks on search field</li>
-					<li>The user queries:</li>
-					<li>Name</li>
-					<li>Address</li>
-					<li>Zip</li>
-					<li>food type</li>
-					<li>phone</li>
-					<li>city data approved or disapproved</li>
-					<li>User submits query. The search cross references Googles Places API and City of Albuquerque Data</li>
-					<li>The user sees returned results in the form of TRUfork ratings. 1-5 and a TRUfork approval</li>
-					<li>TRUfork approval includes city data and averages GOOGLE data.</li>
-					<li>The user has a choice to save the results if signed in or has the option to sign up the same as
-						step I
-					</li>
-					<li>The user man click to find out more information</li>
-					<li>Map</li>
-					<li>Address</li>
-					<li>Phone</li>
-					<li>Other User Ratings</li>
-					<li>They may TRUfork it (like)</li>
-					<li> Comment</li>
-					<li>Compare field</li>
-				</ul>
+					<em>User access TRUfork.com using a web browser</em>
+					</br>
+
+					<em>User has an option to sign in and/or create a user name</em>
+					<ul>
+						<li>First, Last Name</li>
+						<li>Email</li>
+						<li>Password</li>
+						</ul>
+
+					<em>User taps or clicks on search field</br>
+						The user queries:</em>
+					<ul>
+						<li>Name</li>
+						<li>Address</li>
+						<li>Zip</li>
+						<li>food type</li>
+						<li>phone</li>
+						<li>city data approved or disapproved</li>
+						</ul>
+
+					<em>User submits query. The search cross references Googles Places API
+						and City of Albuquerque Data</em></br>
+						</br>
+					<em>The user sees returned results in the form of TRUfork ratings. 1-5 and a TRUfork approval</em></br>
+
+					<em>TRUfork approval includes city data and averages GOOGLE data.</em></br>
+						</br>
+					<em>The user has a choice to save the results if signed in or has the option to sign up the same as
+						step 1</em></br>
+						</br>
+
+					<em>The user may click to find out more information</em>
+					<ul>
+						<li>Map</li>
+						<li>Address</li>
+						<li>Phone</li>
+						<li>Other User Ratings</li>
+						</ul></br>
+
+						<em>They may TRUfork it (like)</em></br>
+						</br>
+						<em> Comment</em></br>
+						</br>
+						<em>Compare field</em>
 
 				<div class="hr"></div>
 			</div>
