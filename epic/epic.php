@@ -145,7 +145,7 @@
 		<!-- Use Cases - K -->
 		<div class="full-width">
 			<div class="container">
-				<h2 class="thin"><i class="fa fa-suitcase"></i> Use Cases:</h2>
+				<h2> class="thin"><i class="fa fa-suitcase"></i> Use Cases:</h2>
 
 				<em>User access TRUfork.com using a web browser</em>
 				<br/>
