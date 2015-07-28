@@ -99,7 +99,7 @@
 					<em>Goals:</em> Micheal is foodie and enjoys eating well received restaurants around Downtown Albuquerque.
 					He regularly eats eat organic and shops at Whole Foods.  He is looking to impress his date with
 					inspected approval from the city! He can say tell his date that not only did this restaurant receive
-					a â€œfive star rating and its has passed the Albuquerque City Inspection.â€? Micheal wants to find a five star
+					a five star rating and its has passed the Albuquerque City Inspection. Micheal wants to find a five star
 					restaurant, that has been approved by City.</br>
 					</br>
 
