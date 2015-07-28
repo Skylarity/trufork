@@ -58,7 +58,7 @@
 				<p>
 					<em>Becky, Soccermom</em>
 					</br>
-					<em>Age: 32</em></br>
+					<em>Age:</em> 32</br>
 
 					<em>Occupation:</em>
 					Becky works as account for a large accounting agency. Her clients include small businesses
@@ -82,10 +82,10 @@
 					TRUfork. This ensures that she's getting the best quality, price and atmosphere for her dollar.</br>
 					</br>
 
-					<em>Micheal Jaxson
+					<em>Micheal Jaxson</em>
 					</br>
-					age: 32</br>
-					Profession:</em> A lawyer who is a well known defense lawyer in Bernalillo county and is a senior partner that MJTJ law firm.</br>
+					<em></em>age:</em> 32</br>
+					<em>Profession:</em> A lawyer who is a well known defense lawyer in Bernalillo county and is a senior partner that MJTJ law firm.</br>
 					</br>
 
 					<em>Tech:</em> Micheal access the web through his iPhone 6 plus and is tech savvy with every iThingy
