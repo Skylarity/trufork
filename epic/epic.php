@@ -75,7 +75,7 @@
 					feed her family. She is concerned about quality, location, price, popularity and cleanliness. She accesses social
 					networking sites daily and values the opinion of others. Becky and her family eat out biweekly on the weekends.
 					She once got food poisoning from a restaurant that had been downgraded and expects a approval from
-					city expectations.</br>
+					city inspections.</br>
 					</br>
 
 					<em>Goal:</em> She access TRUfork through the web and makes a decision based on the core data provided from
@@ -93,13 +93,13 @@
 					</br>
 
 					<em>Needs and Frustrations.</em>Micheal works 50 plus hours a week and socially accepted throughout
-					the community. He has over 5,000 Facebook friends on and SNAP chats every moment of his life.<br>
+					the community. He has over 5,000 Facebook friends and SNAP chats every moment of his life.<br>
 					</br>
 
 					<em>Goals:</em> Micheal is foodie and enjoys eating well received restaurants around Downtown Albuquerque.
 					He regularly eats eat organic and shops at Whole Foods.  He is looking to impress his date with
-					newly inspected approval from the city! He can say tell his date that not only did this restaurant receive
-					a â€œfive star rating and itâ€™s has passed the Albuquerque City Inspection.â€? Micheal wants to find a five star
+					inspected approval from the city! He can say tell his date that not only did this restaurant receive
+					a â€œfive star rating and its has passed the Albuquerque City Inspection.â€? Micheal wants to find a five star
 					restaurant, that has been approved by City.</br>
 					</br>
 
