@@ -120,8 +120,8 @@
 
 					<em>Frustration and needs:</em>
 					Lynda needs to find somewhere inexpensive to eat and have a couple of beers with her friends.
-					The venue must have a clean bill of health and pass all inspections.</b>
-					<b\>
+					The venue must have a clean bill of health and pass all inspections.
+					<br/>
 
 					<em>Goals:</em> Her goal is to find a great, clean place to eat.
 				</p>
