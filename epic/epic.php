@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 	<head>
 		<meta charset="UTF-8">
 
@@ -55,20 +55,76 @@
 			<div class="container">
 				<h2 class="thin"><i class="fa fa-male"></i> Personas:</h2>
 
-				<p>TBecky
-					Becky is a 32 year old female with a family. Her family includes her husband and two children ages 7
-					and 10.
-					The family is middle class working family. Becky is looking for an easy way to find a restaurant to
-					feed her family.
-					She is concerned about quality, location, price, popularity and cleanliness. She accesses social
-					networking sites
-					daily and values the opinion of others. Becky and her family eat out biweekly on the weekends.
+				<p>
+					<em><Becky Soccormom</br>
+					Age: 32</br>
+
+					Occupation:</em>
+					Becky works as account for a large accounting agency. Here clients include small businesses
+					and individuals with a trust fund larger than the total budget for Albuquerque's Public School lunch
+					program.</br>
+					</br>
+
+					<em>Tech:</em> Becky has an Android and a laptop. Most of communication is with her family is through Facebook.
+					She accesses the web through her phone.<br/>
+					</br>
+
+					<em>Needs and Frustrations:</em>
+					Her family is middle class working family. Becky is looking for an easy way to find a restaurant to
+					feed her family. She is concerned about quality, location, price, popularity and cleanliness. She accesses social
+					networking sites daily and values the opinion of others. Becky and her family eat out biweekly on the weekends.
 					She once got food poisoning from a restaurant that had been downgraded and expects a approval from
-					city expectations.
-					She access TRUfork through the web and makes a decision based on the core data provided from
-					TRUfork.
-					This ensures that she's getting the best quality, price and atmosphere for her dollar.
-					.</p>
+					city expectations.</br>
+					</br>
+
+					<em>Goal:</em> She access TRUfork through the web and makes a decision based on the core data provided from
+					TRUfork. This ensures that she's getting the best quality, price and atmosphere for her dollar.</br>
+					</br>
+
+					<em>Micheal Jaxson
+					</br>
+					age: 32</br>
+					Profession:</em> A lawyer who is a well known defense lawyer in Bernalillo county and is a senior partner that MJTJ law firm.</br>
+					</br>
+
+					<em>Tech:</em> Micheal access the web through his iPhone 6 plus and is tech savvy with every iThingy
+					that mac dreams of. He wears an iWatch on both his arms.</br>
+					</br>
+
+					<em>Needs and Frustrations.</em>Micheal works 50 plus hours a week and socially accepted throughout
+					the community. He has over 5,000 Facebook friends on and SNAP chats every moment of his life.<br>
+					</br>
+
+					<em>Goals:</em> Micheal is foodie and enjoys eating well received restaurants around Downtown Albuquerque.
+					He regularly eats eat organic and shops at Whole Foods.  He is looking to impress his date with
+					newly inspected approval from the city! He can say tell his date that not only did this restaurant receive
+					a “five star rating and it’s has passed the Albuquerque City Inspection.” Micheal wants to find a five star
+					restaurant, that has been approved by City.</br>
+					</br>
+
+					<em>Lynda Teach</br>
+					age: 24<br>
+					Profession:</em> Lynda is a recent graduated from University of New Mexico, with a bachelor of Computer Science.
+					Lynda is currently seeking employment while working on a website where you can take on-line course in the creative field,
+					accounting and black belt babysitting.</br>
+					</br>
+
+					<em>Technology:</em> Lynda is very tech savvy.  She is proficient in C++, Java, HTML, MEAN stack,
+					and created her own operating system called LYNDAX. She serves on the advisory board for the hack group anonymous.</br>
+					</br>
+
+					<em>Attitudes and Behaviors:</em>Ms. Teach loves anything tech. She attends weekly coding networking events.
+					She has a huge twitter fan base and loves cats without hair.</br>
+					</br>
+
+					<em>Frustration and needs:</em>
+					Lynda needs to find somewhere inexpensive to eat and have a couple of beers with her friends.
+					The venue must have a clean bill of health and pass all inspections.</b>
+					<b\>
+
+					<em>Goals:</em> Her goal is to find a great, clean place to eat.
+				</p>
+
 
 				<div class="hr"></div>
 			</div>
@@ -93,9 +149,7 @@
 					<li>food type</li>
 					<li>phone</li>
 					<li>city data approved or disapproved</li>
-					<li>User submits query. The search cross references Googles Places API and City of Albuquerque
-						Data
-					</li>
+					<li>User submits query. The search cross references Googles Places API and City of Albuquerque Data</li>
 					<li>The user sees returned results in the form of TRUfork ratings. 1-5 and a TRUfork approval</li>
 					<li>TRUfork approval includes city data and averages GOOGLE data.</li>
 					<li>The user has a choice to save the results if signed in or has the option to sign up the same as
