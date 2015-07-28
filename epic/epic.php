@@ -56,7 +56,7 @@
 				<h2 class="thin"><i class="fa fa-male"></i> Personas:</h2>
 
 				<p>
-					<em><Becky Soccermom
+					<em>Becky, Soccermom</em>
 					</br>
 					Age: 32</br>
 
