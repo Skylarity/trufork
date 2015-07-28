@@ -97,7 +97,7 @@
 					that mac dreams of. He wears an iWatch on both his arms.<br/>
 					<br/>
 
-					<em>Needs and Frustrations.</em>Micheal works 50 plus hours a week and socially accepted throughout
+					<em>Needs and Frustrations:</em> Micheal works 50 plus hours a week and socially accepted throughout
 					the community. He has over 5,000 Facebook friends and SNAP chats every moment of his life.<br/>
 					<br/>
 
@@ -124,7 +124,7 @@
 					group anonymous.<br/>
 					<br/>
 
-					<em>Attitudes and Behaviors:</em>Ms. Teach loves anything tech. She attends weekly coding networking
+					<em>Attitudes and Behaviors:</em> Ms. Teach loves anything tech. She attends weekly coding networking
 					events.
 					She has a huge twitter fan base and loves cats without hair.<br/>
 					<br/>
