@@ -56,16 +56,17 @@
 				<h2 class="thin"><i class="fa fa-male"></i> Personas:</h2>
 
 				<p>
-					<em><Becky Soccormom</br>
+					<em><Becky Soccermom
+					</br>
 					Age: 32</br>
 
 					Occupation:</em>
-					Becky works as account for a large accounting agency. Here clients include small businesses
+					Becky works as account for a large accounting agency. Her clients include small businesses
 					and individuals with a trust fund larger than the total budget for Albuquerque's Public School lunch
 					program.</br>
 					</br>
 
-					<em>Tech:</em> Becky has an Android and a laptop. Most of communication is with her family is through Facebook.
+					<em>Tech:</em> Becky has an Android and a laptop. Most of the communication with her family is through Facebook.
 					She accesses the web through her phone.<br/>
 					</br>
 
@@ -98,7 +99,7 @@
 					<em>Goals:</em> Micheal is foodie and enjoys eating well received restaurants around Downtown Albuquerque.
 					He regularly eats eat organic and shops at Whole Foods.  He is looking to impress his date with
 					newly inspected approval from the city! He can say tell his date that not only did this restaurant receive
-					a “five star rating and it’s has passed the Albuquerque City Inspection.” Micheal wants to find a five star
+					a “five star rating and it’s has passed the Albuquerque City Inspection.�? Micheal wants to find a five star
 					restaurant, that has been approved by City.</br>
 					</br>
 
