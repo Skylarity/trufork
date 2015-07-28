@@ -58,9 +58,9 @@
 				<p>
 					<em>Becky, Soccermom</em>
 					</br>
-					Age: 32</br>
+					<em>Age: 32</em></br>
 
-					Occupation:</em>
+					<em>Occupation:</em>
 					Becky works as account for a large accounting agency. Her clients include small businesses
 					and individuals with a trust fund larger than the total budget for Albuquerque's Public School lunch
 					program.</br>
