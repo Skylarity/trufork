@@ -3,6 +3,9 @@
 	<head>
 		<meta charset="UTF-8">
 
+		<!-- Change header color on Android -->
+		<meta name="theme-color" content="#D17B49">
+
 		<!-- CSS -->
 		<link rel="stylesheet" type="text/css" href="../css/epic.css">
 
