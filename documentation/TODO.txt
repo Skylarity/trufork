@@ -1,0 +1,6 @@
+Friends weak entity - many to many
+
+Make sure to set time zone to UTC, otherwise days will be off-by-one
+
+Have a heuristic bar of the ratio between charges and inspection memos per restaurant
+
