@@ -146,7 +146,7 @@
 		<div class="full-width">
 			<div class="container">
 				<h2> <class="thin"><i class="fa fa-suitcase"></i> Use Cases:</h2>
-
+				<br/>
 				<em>User access TRUfork.com using a web browser</em>
 				<br/>
 
