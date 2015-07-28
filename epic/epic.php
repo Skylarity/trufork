@@ -88,7 +88,7 @@
 
 					<em>Micheal Jaxson</em>
 					<br/>
-					<em>age:</em> 32<br/>
+					<em>Age:</em> 32<br/>
 					<em>Profession:</em> A lawyer who is a well known defense lawyer in Bernalillo county and is a
 					senior partner that MJTJ law firm.<br/>
 					<br/>
@@ -111,7 +111,7 @@
 					<br/>
 
 					<em>Lynda Teach</em><br/>
-					<em>age:</em> 24<br/>
+					<em>Age:</em> 24<br/>
 					<em>Profession:</em> Lynda is a recent graduated from University of New Mexico, with a bachelor of
 					Computer Science.
 					Lynda is currently seeking employment while working on a website where you can take on-line course
