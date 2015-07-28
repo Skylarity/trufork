@@ -57,66 +57,77 @@
 
 				<p>
 					<em>Becky, Soccermom</em>
-					</br>
-					<em>Age:</em> 32</br>
+					<br/>
+					<em>Age:</em> 32<br/>
 
 					<em>Occupation:</em>
 					Becky works as account for a large accounting agency. Her clients include small businesses
 					and individuals with a trust fund larger than the total budget for Albuquerque's Public School lunch
-					program.</br>
-					</br>
+					program.<br/>
+					<br/>
 
-					<em>Tech:</em> Becky has an Android and a laptop. Most of the communication with her family is through Facebook.
+					<em>Tech:</em> Becky has an Android and a laptop. Most of the communication with her family is
+					through Facebook.
 					She accesses the web through her phone.<br/>
-					</br>
+					<br/>
 
 					<em>Needs and Frustrations:</em>
 					Her family is middle class working family. Becky is looking for an easy way to find a restaurant to
-					feed her family. She is concerned about quality, location, price, popularity and cleanliness. She accesses social
-					networking sites daily and values the opinion of others. Becky and her family eat out biweekly on the weekends.
+					feed her family. She is concerned about quality, location, price, popularity and cleanliness. She
+					accesses social
+					networking sites daily and values the opinion of others. Becky and her family eat out biweekly on
+					the weekends.
 					She once got food poisoning from a restaurant that had been downgraded and expects a approval from
-					city inspections.</br>
-					</br>
+					city inspections.<br/>
+					<br/>
 
-					<em>Goal:</em> She access TRUfork through the web and makes a decision based on the core data provided from
-					TRUfork. This ensures that she's getting the best quality, price and atmosphere for her dollar.</br>
-					</br>
+					<em>Goal:</em> She access TRUfork through the web and makes a decision based on the core data
+					provided from
+					TRUfork. This ensures that she's getting the best quality, price and atmosphere for her dollar.<br/>
+					<br/>
 
 					<em>Micheal Jaxson</em>
-					</br>
-					<em>age:</em> 32</br>
-					<em>Profession:</em> A lawyer who is a well known defense lawyer in Bernalillo county and is a senior partner that MJTJ law firm.</br>
-					</br>
+					<br/>
+					<em>age:</em> 32<br/>
+					<em>Profession:</em> A lawyer who is a well known defense lawyer in Bernalillo county and is a
+					senior partner that MJTJ law firm.<br/>
+					<br/>
 
 					<em>Tech:</em> Micheal access the web through his iPhone 6 plus and is tech savvy with every iThingy
-					that mac dreams of. He wears an iWatch on both his arms.</br>
-					</br>
+					that mac dreams of. He wears an iWatch on both his arms.<br/>
+					<br/>
 
 					<em>Needs and Frustrations.</em>Micheal works 50 plus hours a week and socially accepted throughout
-					the community. He has over 5,000 Facebook friends and SNAP chats every moment of his life.<br>
-					</br>
+					the community. He has over 5,000 Facebook friends and SNAP chats every moment of his life.<br/>
+					<br/>
 
-					<em>Goals:</em> Micheal is foodie and enjoys eating well received restaurants around Downtown Albuquerque.
-					He regularly eats eat organic and shops at Whole Foods.  He is looking to impress his date with
+					<em>Goals:</em> Micheal is foodie and enjoys eating well received restaurants around Downtown
+					Albuquerque.
+					He regularly eats eat organic and shops at Whole Foods. He is looking to impress his date with
 					inspected approval from the city! He can say tell his date that not only did this restaurant receive
-					a five star rating and its has passed the Albuquerque City Inspection. Micheal wants to find a five star
-					restaurant, that has been approved by City.</br>
-					</br>
+					a five star rating and its has passed the Albuquerque City Inspection. Micheal wants to find a five
+					star
+					restaurant, that has been approved by City.<br/>
+					<br/>
 
-					<em>Lynda Teach</em></br>
-					<em>age:</em> 24<br>
-					<em></em>Profession:</em> Lynda is a recent graduated from University of New Mexico, with a bachelor of Computer Science.
-					Lynda is currently seeking employment while working on a website where you can take on-line course in the creative field,
-					accounting and black belt babysitting.</br>
-					</br>
+					<em>Lynda Teach</em><br/>
+					<em>age:</em> 24<br/>
+					<em>Profession:</em> Lynda is a recent graduated from University of New Mexico, with a bachelor of
+					Computer Science.
+					Lynda is currently seeking employment while working on a website where you can take on-line course
+					in the creative field,
+					accounting and black belt babysitting.<br/>
+					<br/>
 
-					<em>Technology:</em> Lynda is very tech savvy.  She is proficient in C++, Java, HTML, MEAN stack,
-					and created her own operating system called LYNDAX. She serves on the advisory board for the hack group anonymous.</br>
-					</br>
+					<em>Technology:</em> Lynda is very tech savvy. She is proficient in C++, Java, HTML, MEAN stack,
+					and created her own operating system called LYNDAX. She serves on the advisory board for the hack
+					group anonymous.<br/>
+					<br/>
 
-					<em>Attitudes and Behaviors:</em>Ms. Teach loves anything tech. She attends weekly coding networking events.
-					She has a huge twitter fan base and loves cats without hair.</br>
-					</br>
+					<em>Attitudes and Behaviors:</em>Ms. Teach loves anything tech. She attends weekly coding networking
+					events.
+					She has a huge twitter fan base and loves cats without hair.<br/>
+					<br/>
 
 					<em>Frustration and needs:</em>
 					Lynda needs to find somewhere inexpensive to eat and have a couple of beers with her friends.
@@ -136,51 +147,52 @@
 			<div class="container">
 				<h2 class="thin"><i class="fa fa-suitcase"></i> Use Cases:</h2>
 
-					<em>User access TRUfork.com using a web browser</em>
-					</br>
+				<em>User access TRUfork.com using a web browser</em>
+				<br/>
 
-					<em>User has an option to sign in and/or create a user name</em>
-					<ul>
-						<li>First, Last Name</li>
-						<li>Email</li>
-						<li>Password</li>
-						</ul>
+				<em>User has an option to sign in and/or create a user name</em>
+				<ul>
+					<li>First, Last Name</li>
+					<li>Email</li>
+					<li>Password</li>
+				</ul>
 
-					<em>User taps or clicks on search field</br>
-						The user queries:</em>
-					<ul>
-						<li>Name</li>
-						<li>Address</li>
-						<li>Zip</li>
-						<li>food type</li>
-						<li>phone</li>
-						<li>city data approved or disapproved</li>
-						</ul>
+				<em>User taps or clicks on search field<br/>
+					The user queries:</em>
+				<ul>
+					<li>Name</li>
+					<li>Address</li>
+					<li>Zip</li>
+					<li>food type</li>
+					<li>phone</li>
+					<li>city data approved or disapproved</li>
+				</ul>
 
-					<em>User submits query. The search cross references Googles Places API
-						and City of Albuquerque Data</em></br>
-						</br>
-					<em>The user sees returned results in the form of TRUfork ratings. 1-5 and a TRUfork approval</em></br>
+				<em>User submits query. The search cross references Googles Places API
+					and City of Albuquerque Data</em><br/>
+				<br/>
+				<em>The user sees returned results in the form of TRUfork ratings. 1-5 and a TRUfork approval</em><br/>
 
-					<em>TRUfork approval includes city data and averages GOOGLE data.</em></br>
-						</br>
-					<em>The user has a choice to save the results if signed in or has the option to sign up the same as
-						step 1</em></br>
-						</br>
+				<em>TRUfork approval includes city data and averages GOOGLE data.</em><br/>
+				<br/>
+				<em>The user has a choice to save the results if signed in or has the option to sign up the same as
+					step 1</em><br/>
+				<br/>
 
-					<em>The user may click to find out more information</em>
-					<ul>
-						<li>Map</li>
-						<li>Address</li>
-						<li>Phone</li>
-						<li>Other User Ratings</li>
-						</ul></br>
+				<em>The user may click to find out more information</em>
+				<ul>
+					<li>Map</li>
+					<li>Address</li>
+					<li>Phone</li>
+					<li>Other User Ratings</li>
+				</ul>
+				<br/>
 
-						<em>They may TRUfork it (like)</em></br>
-						</br>
-						<em> Comment</em></br>
-						</br>
-						<em>Compare field</em>
+				<em>They may TRUfork it (like)</em><br/>
+				<br/>
+				<em> Comment</em><br/>
+				<br/>
+				<em>Compare field</em>
 
 				<div class="hr"></div>
 			</div>
@@ -203,8 +215,10 @@
 					A restaurant has an ID, Google's restaurant ID, Google's rating, ABQ's restaurant ID, ABQ's
 					inspection data, our TruFork rating, and an address.
 				</p>
+
 				<p>
-					A comment has a comment ID, a profile ID, a restaurant ID, a date posted, and the actual comment content.
+					A comment has a comment ID, a profile ID, a restaurant ID, a date posted, and the actual comment
+					content.
 				</p>
 
 				<div class="hr"></div>
