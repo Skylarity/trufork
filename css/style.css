@@ -1,0 +1,41 @@
+* {
+	font-family: 'Roboto', sans-serif;
+}
+
+/********************************************
+ * Footer Styles
+ ********************************************/
+footer {
+	padding: 30px;
+	background-color: #FFFFFF;
+	font-size: 0.75em;
+}
+
+/***
+ * Flexbox Sticky Footer
+ * http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/
+ ***/
+
+/*corrects IE min-height bug*/
+html {
+	display: flex;
+}
+
+body {
+	width: 100%;
+}
+
+.sfooter {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+
+	box-shadow: inset 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.sfooter-content {
+	flex: 1 0 auto;
+
+	background: url(../images/bg-02.jpg) no-repeat center center fixed;
+	background-size: cover;
+}
