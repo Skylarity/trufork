@@ -42,12 +42,25 @@
 	</head>
 	<body class="sfooter">
 		<div class="sfooter-content">
-			<div class="container">
-				<header>
+			<header>
+				<div class="container">
 					TruFork
-				</header>
-				<h1>Find a delicious, clean place to eat.</h1>
-				<a href="epic/epic.php">Epic</a>
+				</div>
+			</header>
+			<div class="container">
+				<div class="white-text transparent-bg">
+					<div class="row">
+						<div class="col-md-12">
+							<h1>Find a delicious, clean place to eat.</h1>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<a href="epic/epic.php">Epic</a>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<footer>

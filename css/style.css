@@ -3,11 +3,26 @@
 	font-weight: 500;
 }
 
+header {
+	padding: 20px 0;
+	font-size: 2em;
+	background: #FFFFFF;
+}
+
 h1 {
 	padding: 100px 0;
 	font-weight: 200;
 	font-size: 5em;
 	text-align: center;
+}
+
+.white-text {
+	color: #FFFFFF;
+}
+
+.transparent-bg {
+	background: rgba(0, 0, 0, 0.3);
+	height: 100%;
 }
 
 /********************************************
@@ -47,6 +62,6 @@ body {
 .sfooter-content {
 	flex: 1 0 auto;
 
-	background: url(../images/bg-02.jpg) no-repeat center center fixed;
+	background: url(../images/bg.jpg) no-repeat center center fixed;
 	background-size: cover;
 }
