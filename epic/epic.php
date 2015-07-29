@@ -235,7 +235,6 @@
 				<h2 class="thin"><i class="fa fa-sitemap"></i> Entity Relationship Diagram:</h2>
 
 				<img src="../images/trufork_erd.svg" alt="TruFork ERD"/>
-				<img src="../images/citydata_erd.svg" alt="TruFork ERD"/>
 
 				<div class="hr"></div>
 			</div>
