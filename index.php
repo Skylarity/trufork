@@ -40,7 +40,7 @@
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 		<!-- lame favicon generated using GIMP -->
-		<link type="image/ico" href="../images/fork.ico" rel="shortcut icon"/>
+		<link type="image/ico" href="favicon.ico" rel="shortcut icon"/>
 
 		<title>Bootstrap 101 Template (DDC Version!)</title>
 	</head>
