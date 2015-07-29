@@ -18,7 +18,7 @@
      <item name="INSPECTION_DATE" type="xs:dateTime"/>
      <item name="INSPECTION_TYPE" type="xs:string" length="4"/>
      <item name="INSPECTION_DESC" type="xs:string" length="102"/>
-     <item name="SERIAL_NUM" type="xs:string" length="20"/>
+     <item name="SERIAL_NUM" type="xs:string" length="20"/> <!-- YES -->
      <item name="ACTION_CODE" type="xs:string" length="6"/> <!-- MAYBE -->
      <item name="ACTION_DESC" type="xs:string" length="102"/> <!-- MAYBE -->
      <item name="RESULT_CODE" type="xs:string" length="6"/> <!-- MAYBE -->
