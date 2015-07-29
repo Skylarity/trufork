@@ -17,8 +17,8 @@
 			href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic,100,100italic|Roboto+Condensed:300italic,400italic,700italic,400,300,700"
 			rel="stylesheet" type="text/css">
 
-		<link type="image/ico" href="../images/fork.ico" rel="shortcut icon"/>
 		<!-- lame favicon generated using GIMP -->
+		<link type="image/ico" href="../images/fork.ico" rel="shortcut icon"/>
 
 		<title>Epic: Documentation</title>
 	</head>
