@@ -42,7 +42,7 @@
 		<!-- lame favicon generated using GIMP -->
 		<link type="image/ico" href="favicon.ico" rel="shortcut icon"/>
 
-		<title>Bootstrap 101 Template (DDC Version!)</title>
+		<title>truFork</title>
 	</head>
 	<body class="sfooter">
 		<div class="sfooter-content">
