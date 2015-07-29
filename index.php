@@ -47,8 +47,8 @@
 					TruFork
 				</div>
 			</header>
-			<div class="container">
-				<div class="white-text transparent-bg">
+			<div class="white-text transparent-bg">
+				<div class="container">
 					<div class="row">
 						<div class="col-md-12">
 							<h1>Find a delicious, clean place to eat.</h1>
