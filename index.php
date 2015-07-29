@@ -44,7 +44,11 @@
 		<div class="sfooter-content">
 			<header>
 				<div class="container">
-					TruFork
+					<span class="title"><img class="logo" src="images/fork.svg" alt="TruFork Logo"/>TruFork</span>
+					<ul class="nav nav-pills pull-right">
+						<li role="presentation"><a href="#">Home</a></li>
+						<li role="presentation"><a href="epic/epic.php">Epic</a></li>
+					</ul>
 				</div>
 			</header>
 			<div class="white-text transparent-bg">
@@ -52,12 +56,6 @@
 					<div class="row">
 						<div class="col-md-12">
 							<h1>Find a delicious, clean place to eat.</h1>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-12">
-							<a href="epic/epic.php">Epic</a>
 						</div>
 					</div>
 				</div>

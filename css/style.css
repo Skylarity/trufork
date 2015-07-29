@@ -4,7 +4,7 @@
 }
 
 header {
-	padding: 20px 0;
+	padding: 10px 0;
 	font-size: 2em;
 	background: #FFFFFF;
 }
@@ -12,8 +12,23 @@ header {
 h1 {
 	padding: 100px 0;
 	font-weight: 200;
-	font-size: 5em;
+	font-size: 7em;
 	text-align: center;
+}
+
+.title {
+	font-weight: 600;
+}
+
+.logo {
+	padding: 0 10px 0 0;
+	width: 35px;
+	height: auto;
+}
+
+.nav li a {
+	color: #000000;
+	font-size: 0.6em;
 }
 
 .white-text {
@@ -21,7 +36,7 @@ h1 {
 }
 
 .transparent-bg {
-	background: rgba(0, 0, 0, 0.4);
+	background: rgba(0, 0, 0, 0.5);
 	min-height: 100%;
 }
 

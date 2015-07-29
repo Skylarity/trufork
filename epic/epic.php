@@ -127,7 +127,8 @@
 					group anonymous.<br/>
 					<br/>
 
-					<em>Attitudes and Behaviors:</em> Ms. Teach loves anything tech. She attends weekly coding networking
+					<em>Attitudes and Behaviors:</em> Ms. Teach loves anything tech. She attends weekly coding
+					networking
 					events.
 					She has a huge twitter fan base and loves cats without hair.<br/>
 					<br/>
@@ -234,6 +235,7 @@
 				<h2 class="thin"><i class="fa fa-sitemap"></i> Entity Relationship Diagram:</h2>
 
 				<img src="../images/trufork_erd.svg" alt="TruFork ERD"/>
+				<img src="../images/citydata_erd.svg" alt="TruFork ERD"/>
 
 				<div class="hr"></div>
 			</div>
