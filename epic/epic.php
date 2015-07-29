@@ -18,7 +18,7 @@
 			rel="stylesheet" type="text/css">
 
 		<!-- lame favicon generated using GIMP -->
-		<link type="image/ico" href="../images/fork.ico" rel="shortcut icon"/>
+		<link type="image/ico" href="../favicon.ico" rel="shortcut icon"/>
 
 		<title>Epic: Documentation</title>
 	</head>
