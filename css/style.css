@@ -1,8 +1,10 @@
 * {
 	font-family: 'Roboto', sans-serif;
+	font-weight: 500;
 }
 
 h1 {
+	padding: 100px 0;
 	font-weight: 200;
 	font-size: 5em;
 	text-align: center;
@@ -14,6 +16,9 @@ h1 {
 footer {
 	padding: 30px;
 	background-color: #FFFFFF;
+}
+
+.copyright {
 	font-size: 0.75em;
 }
 

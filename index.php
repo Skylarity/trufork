@@ -52,7 +52,7 @@
 		</div>
 		<footer>
 			<div class="container">
-				&copy; TruFork 2015
+				<div class="copyright">&copy; TruFork 2015</div>
 			</div>
 		</footer>
 	</body>
