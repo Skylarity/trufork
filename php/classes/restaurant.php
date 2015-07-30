@@ -268,7 +268,7 @@ class Restaurant {
 	}
 
 	/**
-	 * Inserts this profile into MySQL
+	 * Inserts this restaurant into MySQL
 	 *
 	 * @param PDO $pdo pointer to PDO connection , by reference
 	 * @throws PDOException when MySQL related errors occur
@@ -292,7 +292,7 @@ class Restaurant {
 	}
 
 	/**
-	 * Deletes this profile from MySQL
+	 * Deletes this restaurant from MySQL
 	 *
 	 * @param PDO $pdo pointer to PDO connection , by reference
 	 * @throws PDOException when MySQL related errors occur
@@ -313,7 +313,7 @@ class Restaurant {
 	}
 
 	/**
-	 * Updates this profile in MySQL
+	 * Updates this restaurant in MySQL
 	 *
 	 * @param PDO $pdo pointer to PDO connection , by reference
 	 * @throws PDOException when MySQL related errors occur
