@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS votedComment; -- dropping this table first as it is created last
 DROP TABLE IF EXISTS friend;
 DROP TABLE IF EXISTS likedRestaurant;
-DROP TABLE IF EXISTS comment;
+DROP TABLE IF EXISTS comment; -- drop it like it's hot
 DROP TABLE IF EXISTS violation;
 DROP TABLE IF EXISTS restaurant;
 DROP TABLE IF EXISTS profile;
