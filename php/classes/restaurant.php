@@ -15,31 +15,31 @@ class Restaurant {
 
 	/**
 	 * Google's ID for the restaurant
-	 * @var int $googleId
+	 * @var string $googleId
 	 */
 	private $googleId;
 
 	/**
 	 * City ID for the restaurant
-	 * @var int $facilityKey
+	 * @var string $facilityKey
 	 */
 	private $facilityKey;
 
 	/**
 	 * Address for the restaurant
-	 * @var int $address
+	 * @var string $address
 	 */
 	private $address;
 
 	/**
 	 * Phone number for the restaurant
-	 * @var int $phone
+	 * @var string $phone
 	 */
 	private $phone;
 
 	/**
 	 * TruFork rating for the restaurant
-	 * @var int $forkRating
+	 * @var string $forkRating
 	 */
 	private $forkRating;
 
@@ -77,6 +77,8 @@ class Restaurant {
 	}
 
 	/**
+	 * Accessor for restaurant ID
+	 *
 	 * @return int
 	 */
 	public function getRestaurantId() {
@@ -84,81 +86,185 @@ class Restaurant {
 	}
 
 	/**
-	 * @param int $restaurantId
+	 * Mutator for restaurant ID
+	 *
+	 * @param mixed $newRestaurantId
 	 */
-	public function setRestaurantId($restaurantId) {
-		$this->restaurantId = $restaurantId;
+	public function setRestaurantId($newRestaurantId) {
+		// Base case: If the restaurant ID is null, this is a new restaurant without a MySQL assigned ID
+		if($newRestaurantId === null) {
+			$this->restaurantId = null;
+			return;
+		}
+
+		// Verify the new restaurant ID
+		$newRestaurantId = filter_var($newRestaurantId, FILTER_VALIDATE_INT);
+		if($newRestaurantId === false) {
+			throw(new InvalidArgumentException("Restaurant ID is not a valid integer"));
+		}
+
+		// Verify the new restaurant ID is positive
+		if($newRestaurantId <= 0) {
+			throw(new RangeException("Restaurant ID is not positive"));
+		}
+
+		// Convert and store the new restaurant ID
+		$this->restaurantId = intval($newRestaurantId);
 	}
 
 	/**
-	 * @return int
+	 * Accessor for Google ID
+	 *
+	 * @return string
 	 */
 	public function getGoogleId() {
 		return $this->googleId;
 	}
 
 	/**
-	 * @param int $googleId
+	 * Mutator for Google ID
+	 *
+	 * @param string $newGoogleId
 	 */
-	public function setGoogleId($googleId) {
-		$this->googleId = $googleId;
+	public function setGoogleId($newGoogleId) {
+		// Verify the new Google ID
+		$newGoogleId = trim($newGoogleId);
+		$newGoogleId = filter_var($newGoogleId, FILTER_SANITIZE_STRING);
+		if(empty($newGoogleId) === true) {
+			throw(new InvalidArgumentException("Google Places restaurant ID is empty or insecure"));
+		}
+
+		// Verify that the Google ID will fit in the database
+		if(strlen($newGoogleId) > 128) {
+			throw(new RangeException("Google Places restaurant ID too long"));
+		}
+
+		// Store the new profile ID
+		$this->googleId = $newGoogleId;
 	}
 
 	/**
-	 * @return int
+	 * Accessor for facility key
+	 *
+	 * @return string
 	 */
 	public function getFacilityKey() {
 		return $this->facilityKey;
 	}
 
 	/**
-	 * @param int $facilityKey
+	 * Mutator for facility key
+	 *
+	 * @param string $newFacilityKey
 	 */
-	public function setFacilityKey($facilityKey) {
-		$this->facilityKey = $facilityKey;
+	public function setFacilityKey($newFacilityKey) {
+		// Verify the facility key is secure
+		$newFacilityKey = trim($newFacilityKey);
+		$newFacilityKey = filter_var($newFacilityKey, FILTER_SANITIZE_STRING);
+		if(empty($newFacilityKey) == true) {
+			throw(new InvalidArgumentException("Facility key is invalid or insecure"));
+		}
+
+		// Verify the facility key will fit in the database
+		if(strlen($newFacilityKey) > 12) {
+			throw(new RangeException("Facility key was too large"));
+		}
+
+		// Store the new facility key
+		$this->facilityKey = $newFacilityKey;
 	}
 
 	/**
-	 * @return int
+	 * Accessor for restaurant address
+	 *
+	 * @return string
 	 */
 	public function getAddress() {
 		return $this->address;
 	}
 
 	/**
-	 * @param int $address
+	 * Mutator for restaurant address
+	 *
+	 * @param string $newAddress
 	 */
-	public function setAddress($address) {
-		$this->address = $address;
+	public function setAddress($newAddress) {
+		// Verify the key is secure
+		$newAddress = trim($newAddress);
+		$newAddress = filter_var($newAddress, FILTER_SANITIZE_STRING);
+		if(empty($newAddress) === true) {
+			throw(new InvalidArgumentException("Address is empty or insecure"));
+		}
+
+		// Verify the new address will fit in the database
+		if(strlen($newAddress) > 128) {
+			throw(new RangeException("Address too large"));
+		}
+
+		// Store the new address
+		$this->address = $newAddress;
 	}
 
 	/**
-	 * @return int
+	 * Accessor for restaurant phone number
+	 *
+	 * @return string
 	 */
 	public function getPhone() {
 		return $this->phone;
 	}
 
 	/**
-	 * @param int $phone
+	 * Mutator for restaurant phone number
+	 *
+	 * @param string $newPhone
 	 */
-	public function setPhone($phone) {
-		$this->phone = $phone;
+	public function setPhone($newPhone) {
+		// Verify the phone number is secure
+		$newPhone = trim($newPhone);
+		$newPhone = filter_var($newPhone, FILTER_SANITIZE_STRING);
+		if(empty($newPhone) == true) {
+			throw(new InvalidArgumentException("Phone number is empty or insecure"));
+		}
+
+		// Verify the phone number will fit in the database
+		if(strlen($newPhone) > 32) {
+			throw(new RangeException("Phone number too large"));
+		}
+
+		// Store the new phone number
+		$this->phone = $newPhone;
 	}
 
 	/**
-	 * @return int
+	 * Accessor for restaurant TruFork rating
+	 *
+	 * @return string
 	 */
 	public function getForkRating() {
 		return $this->forkRating;
 	}
 
 	/**
-	 * @param int $forkRating
+	 * Mutator for restaurant TruFork rating
+	 *
+	 * @param string $newForkRating
 	 */
-	public function setForkRating($forkRating) {
-		$this->forkRating = $forkRating;
-	}
+	public function setForkRating($newForkRating) {
+		// Verify the rating is secure
+		$newForkRating = trim($newForkRating);
+		$newForkRating = filter_var($newForkRating, FILTER_SANITIZE_STRING);
+		if(empty($newForkRating) === true) {
+			throw(new InvalidArgumentException("TruFork rating is empty or insecure"));
+		}
 
+		// Verify the rating will fit in the database
+		if(strlen($newForkRating) > 32) {
+			throw(new RangeException("Rating too large"));
+		}
+
+		// Store the new rating
+		$this->forkRating = $newForkRating;
+	}
 
 }
