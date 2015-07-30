@@ -267,4 +267,70 @@ class Restaurant {
 		$this->forkRating = $newForkRating;
 	}
 
+	/**
+	 * Inserts this profile into MySQL
+	 *
+	 * @param PDO $pdo pointer to PDO connection , by reference
+	 * @throws PDOException when MySQL related errors occur
+	 */
+	public function insert(PDO &$pdo) {
+		// Make sure this is a new restaurant
+		if($this->restaurantId !== null) {
+			throw(new PDOException("Not a new profile"));
+		}
+
+		// Create query template
+		$query = "INSERT INTO restaurant(address, phone, forkRating, facilityKey, googleId) VALUES(:address, :phone, :forkRating, :facilityKey, :googleId)";
+		$statement = $pdo->prepare($query);
+
+		// Bind the member variables to the placeholders in the template
+		$parameters = array("address" => $this->getAddress(), "phone" => $this->getPhone(), "forkRating" => $this->getForkRating(), "facilityKey" => $this->getFacilityKey(), "googleId" => $this->getGoogleId());
+		$statement->execute($parameters);
+
+		// Update the null restaurant ID with what MySQL has generated
+		$this->setRestaurantId(intval($pdo->lastInsertId()));
+	}
+
+	/**
+	 * Deletes this profile from MySQL
+	 *
+	 * @param PDO $pdo pointer to PDO connection , by reference
+	 * @throws PDOException when MySQL related errors occur
+	 */
+	public function delete(PDO &$pdo) {
+		// Make sure this restaurant already exists
+		if($this->getRestaurantId() === null) {
+			throw(new PDOException("Unable to delete a restaurant that does not exist"));
+		}
+
+		// Create query template
+		$query = "DELETE FROM restaurant WHERE restaurantId = :restaurantId";
+		$statement = $pdo->prepare($query);
+
+		// Bind the member variables to the placeholders in the templates
+		$parameters = array("restaurantId" => $this->getRestaurantId());
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * Updates this profile in MySQL
+	 *
+	 * @param PDO $pdo pointer to PDO connection , by reference
+	 * @throws PDOException when MySQL related errors occur
+	 */
+	public function update(PDO &$pdo) {
+		// Make sure this profile exists
+		if($this->getRestaurantId() === null) {
+			throw(new PDOException("Unable to update a restaurant that does not exist"));
+		}
+
+		// Create query template
+		$query = "UPDATE restaurant SET address = :address, phone = :phone, forkRating = :forkRating, facilityKey = :facilityKey, googleId = :googleId WHERE restaurantId = :restaurantId";
+		$statement = $pdo->prepare($query);
+
+		// Bind the member variables to the placeholders in the templates
+		$parameters = array("address" => $this->getAddress(), "phone" => $this->getPhone(), "forkRating" => $this->getForkRating(), "facilityKey" => $this->getFacilityKey(), "googleId" => $this->getGoogleId(), "restaurantId" => $this->setRestaurantId());
+		$statement->execute($parameters);
+	}
+
 }
