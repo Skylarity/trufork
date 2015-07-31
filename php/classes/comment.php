@@ -143,7 +143,7 @@ class Comment {
 		$query = "INSERT INTO comment(dateTime, content) VALUES(:dateTime, :content)";
 		$statement = $pdo->prepare($query);
 
-		$parameters = array("dateTime" => $this->getDateTime(), "comment" => $this->getContent());
+		$parameters = array("dateTime" => $this->getDateTime(), "content" => $this->getContent());
 		$statement->execute($parameters);
 
 		$this->setCommentId(intval($pdo->lastInsertId()));
@@ -181,7 +181,7 @@ class Comment {
 		$statement->execute($parameters);
 	}
 
-/** gets the comment by comment Id
+/** gets the comment by comment date time
  *
  * @param PDO $pdo pointer to PDO connection, by reference
  * @param $commentId comment Id to search for
@@ -253,6 +253,7 @@ class Comment {
 			}
 			return($comment);
 		}
+
 	/** gets all Comments
 	 *
 	 * @param PDO $pdo pointer to PDO connection, by reference
