@@ -41,9 +41,14 @@ abstract class TruForkTest extends PHPUnit_Extensions_Database_TestCase {
 
 		// add all the tables for the project here
 		// THESE TABLES *MUST* BE LISTED IN THE SAME ORDER THEY WERE CREATED!!!!
+		$dataset->addTable("user");
 		$dataset->addTable("profile");
-		$dataset->addTable("tweet");
-		$dataset->addTable("favorite");
+		$dataset->addTable("restaurant");
+		$dataset->addTable("violation");
+		$dataset->addTable("comment");
+		$dataset->addTable("likedRestaurant");
+		$dataset->addTable("friend");
+		$dataset->addTable("votedComment");
 		return($dataset);
 	}
 
