@@ -333,4 +333,18 @@ class Restaurant {
 		$statement->execute($parameters);
 	}
 
+	/**
+	 * Gets the restaurant by restaurant ID
+	 *
+	 * @param PDO $pdo pointer to PDO connection, by reference
+	 * @param $restaurantId restaurant ID to search for
+	 * @return mixed Profile found or null if not found
+	 * @throws PDOException when MySQL related errors occur
+	 */
+	public static function getRestaurantById(PDO &$pdo, $restaurantId) {
+
+		// TODO
+
+	}
+
 }

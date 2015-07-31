@@ -12,7 +12,7 @@
      <item name="STREET_NAME" type="xs:string" length="52"/>
      <item name="STREET_TYPE" type="xs:string" length="10"/>
      <item name="POST_DIRECTIONAL" type="xs:string" length="6"/>
-     <item name="PHONE" type="xs:string" length="42"/> <!-- MAYBE -->
+     <item name="PHONE" type="xs:string" length="42"/> <!-- yes -->
      <item name="PROGRAM_CATEGORY" type="xs:string" length="10"/>
      <item name="PROGRAM_CATEGORY_DESCRIPTION" type="xs:string" length="92"/>
      <item name="INSPECTION_DATE" type="xs:dateTime"/>
