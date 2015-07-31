@@ -69,7 +69,7 @@ class User {
 	 */
 
 
-	private function setUserId($newUserId) {
+	public function setUserId($newUserId) {
 		//base: case: if the user id is null, this a new user id without mySQL assigned id (yet)
 		if($newUserId === null) {
 			$this->userId = null;
@@ -82,24 +82,30 @@ class User {
 			throw(new InvalidArgumentException("user id is not a valid integer"));
 		}
 
+		// covert and store the profile id
+		@$this ->userId = intval($newUserId);
+
 	// verify the profile id is positive
 		if($newUserId <= 0) {
-
-			//TODO
+			throw(new   InvalidArgumentException("profile id is not positive"));
 		}
 
 	}
 
 	/**
+	 * accessor method for salt password
 	 * @param $newSalt
+	 *
 	 */
-	private function setSalt($newSalt) {
+	public function setSalt($newSalt) {
+
+
 	}
 
 	/**
 	 * @param $newHash
 	 */
-	private function setHash($newHash) {
+	public function setHash($newHash) {
 	}
 }
 
