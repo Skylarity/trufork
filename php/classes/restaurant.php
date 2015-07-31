@@ -343,8 +343,6 @@ class Restaurant {
 	 */
 	public static function getRestaurantById(PDO &$pdo, $restaurantId) {
 
-		// TODO
-
 	}
 
 }
