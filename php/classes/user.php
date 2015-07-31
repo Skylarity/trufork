@@ -76,6 +76,18 @@ class User {
 			return;
 		}
 
+		// verify the the user id is valid
+		$newUserId = filter_var($newUserId, FILTER_VALIDATE_INT);
+		if($newUserId === false) {
+			throw(new InvalidArgumentException("user id is not a valid integer"));
+		}
+
+	// verify the profile id is positive
+		if($newUserId <= 0) {
+
+			//TODO
+		}
+
 	}
 
 	/**
