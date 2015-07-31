@@ -1,0 +1,11 @@
+filename,abqColumnName,truForkColumnName
+business.csv,business_id,facilityKey
+business.csv,name,name
+business.csv,address,address
+business.csv,city,address
+business.csv,state,address
+business.csv,postal_code,address
+business.csv,phone_number,phone
+inspections.csv,business_id,facilityKey
+inspections.csv,description,violationDesc
+FoodInspectionsCurrentFY-en-us.xml,inspection_memo,inspectionMemo
