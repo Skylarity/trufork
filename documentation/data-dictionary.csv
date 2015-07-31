@@ -8,4 +8,5 @@ business.csv,postal_code,address
 business.csv,phone_number,phone
 inspections.csv,business_id,facilityKey
 inspections.csv,description,violationDesc
+inspections.csv,date,inspectionDate
 FoodInspectionsCurrentFY-en-us.xml,inspection_memo,inspectionMemo
