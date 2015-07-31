@@ -49,7 +49,7 @@ abstract class TruForkTest extends PHPUnit_Extensions_Database_TestCase {
 		$dataset->addTable("likedRestaurant");
 		$dataset->addTable("friend");
 		$dataset->addTable("votedComment");
-		return($dataset);
+		return ($dataset);
 	}
 
 	/**
@@ -72,7 +72,7 @@ abstract class TruForkTest extends PHPUnit_Extensions_Database_TestCase {
 	 * @return PHPUnit_Extensions_Database_Operation_IDatabaseOperation delete command for the database
 	 **/
 	public final function getTearDownOperation() {
-		return(PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL());
+		return (PHPUnit_Extensions_Database_Operation_Factory::DELETE_ALL());
 	}
 
 	/**
@@ -85,7 +85,7 @@ abstract class TruForkTest extends PHPUnit_Extensions_Database_TestCase {
 		// if the connection hasn't been established, create it
 		if($this->connection === null) {
 			// grab the encrypted mySQL properties file and create the DSN
-			$config = readConfig("/etc/apache2/data-design/dmcdonald21.ini");
+			$config = readConfig("/etc/apache2/capstone/trufork.ini");
 			$dsn = "mysql:host=" . $config["hostname"] . ";dbname=" . $config["database"];
 			$options = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
 
@@ -94,7 +94,7 @@ abstract class TruForkTest extends PHPUnit_Extensions_Database_TestCase {
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$this->connection = $this->createDefaultDBConnection($pdo, $config["database"]);
 		}
-		return($this->connection);
+		return ($this->connection);
 	}
 
 	/**
@@ -103,6 +103,6 @@ abstract class TruForkTest extends PHPUnit_Extensions_Database_TestCase {
 	 * @return PDO active PDO object
 	 **/
 	public final function getPDO() {
-		return($this->getConnection()->getConnection());
+		return ($this->getConnection()->getConnection());
 	}
 }
