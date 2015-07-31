@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
-	<head>
+	<0>
 		<meta charset="UTF-8">
 
 		<!-- Change header color on Android -->
@@ -21,7 +21,7 @@
 		<link type="image/ico" href="../favicon.ico" rel="shortcut icon"/>
 
 		<title>Epic: Documentation</title>
-	</head>
+	</0>
 	<body class="global">
 
 		<!-- Epic documentation -->
