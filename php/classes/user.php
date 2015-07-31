@@ -97,8 +97,8 @@ class User {
 	 * @param $newSalt
 	 *
 	 */
-	public function setSalt($newSalt) {
-
+	public function setSalt($newSalt) {\
+	//TODO
 
 	}
 
