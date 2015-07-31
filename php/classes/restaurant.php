@@ -352,7 +352,7 @@ class Restaurant {
         }
 
         // Create query template
-        $query = "SELECT restaurantId, address, phone, forkrating, facilityKey, googleId FROM restaurant WHERE restaurantId = :restaurantId";
+        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId FROM restaurant WHERE restaurantId = :restaurantId";
         $statement = $pdo->prepare($query);
 
         // Bind restaurantId to placeholder
@@ -394,7 +394,7 @@ class Restaurant {
         }
 
         // Create query template
-        $query = "SELECT restaurantId, address, phone, forkrating, facilityKey, googleId FROM restaurant WHERE address = :address";
+        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId FROM restaurant WHERE address = :address";
         $statement = $pdo->prepare($query);
 
         // Bind address to placeholder
