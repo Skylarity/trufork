@@ -30,6 +30,7 @@ CREATE TABLE restaurant (
 	forkRating VARCHAR(32) NOT NULL,
 	facilityKey VARCHAR(12) NOT NULL,
 	googleId VARCHAR(128), -- Google assigns an alphanumeric code
+	name VARCHAR(128) NOT NULL,
 	INDEX(restaurantId),
 	PRIMARY KEY(restaurantId) -- didn't assign a foreign key bc this entity apparently has none
 );
