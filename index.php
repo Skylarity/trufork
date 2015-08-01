@@ -39,10 +39,10 @@
 		<!-- Latest compiled and minified Bootstrap JavaScript, all compiled plugins included -->
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-		<!-- lame favicon generated using GIMP -->
+		<!-- favicon generated using GIMP, improved by SR -->
 		<link type="image/ico" href="favicon.ico" rel="shortcut icon"/>
 
-		<title>TruFork</title><!-- some comments to trick PHPStorm-->
+		<title>TruFork</title>
 	</head>
 	<body class="sfooter">
 		<div class="sfooter-content">
