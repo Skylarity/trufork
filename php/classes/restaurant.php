@@ -26,6 +26,12 @@ class Restaurant {
     private $facilityKey;
 
     /**
+     * Name of the restaurant
+     * @var string $name
+     */
+    private $name;
+
+    /**
      * Address for the restaurant
      * @var string $address
      */
@@ -56,11 +62,12 @@ class Restaurant {
      * @throws RangeException If the data is out of bounds
      * @throws Exception For all other cases
      */
-    public function __construct($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating) {
+    public function __construct($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating) {
         try {
             $this->setRestaurantId($restaurantId);
             $this->setGoogleId($googleId);
             $this->setFacilityKey($facilityKey);
+            $this->setName($name);
             $this->setAddress($address);
             $this->setPhone($phone);
             $this->setForkRating($forkRating);
@@ -175,6 +182,37 @@ class Restaurant {
     }
 
     /**
+     * Accessor for restaurant name
+     *
+     * @return string
+     */
+    public function getName() {
+        return $this->name;
+    }
+
+    /**
+     * Mutator for restaurant name
+     *
+     * @param string $newName
+     */
+    public function setName($newName) {
+        // Verify the name is secure
+        $newName = trim($newName);
+        $newName = filter_var($newName, FILTER_SANITIZE_STRING);
+        if(empty($newName) === true) {
+            throw(new InvalidArgumentException("Name is empty or insecure"));
+        }
+
+        // Verify the new name will fit in the database
+        if(strlen($newName) > 128) {
+            throw(new RangeException("Name too large"));
+        }
+
+        // Store the new address
+        $this->name = $newName;
+    }
+
+    /**
      * Accessor for restaurant address
      *
      * @return string
@@ -189,7 +227,7 @@ class Restaurant {
      * @param string $newAddress
      */
     public function setAddress($newAddress) {
-        // Verify the key is secure
+        // Verify the address is secure
         $newAddress = trim($newAddress);
         $newAddress = filter_var($newAddress, FILTER_SANITIZE_STRING);
         if(empty($newAddress) === true) {
@@ -280,11 +318,11 @@ class Restaurant {
         }
 
         // Create query template
-        $query = "INSERT INTO restaurant(address, phone, forkRating, facilityKey, googleId) VALUES(:address, :phone, :forkRating, :facilityKey, :googleId)";
+        $query = "INSERT INTO restaurant(address, phone, forkRating, facilityKey, googleId, name) VALUES(:address, :phone, :forkRating, :facilityKey, :googleId, :name)";
         $statement = $pdo->prepare($query);
 
         // Bind the member variables to the placeholders in the template
-        $parameters = array("address" => $this->getAddress(), "phone" => $this->getPhone(), "forkRating" => $this->getForkRating(), "facilityKey" => $this->getFacilityKey(), "googleId" => $this->getGoogleId());
+        $parameters = array("address" => $this->getAddress(), "phone" => $this->getPhone(), "forkRating" => $this->getForkRating(), "facilityKey" => $this->getFacilityKey(), "googleId" => $this->getGoogleId(), "name" => $this->getName());
         $statement->execute($parameters);
 
         // Update the null restaurant ID with what MySQL has generated
@@ -325,11 +363,11 @@ class Restaurant {
         }
 
         // Create query template
-        $query = "UPDATE restaurant SET address = :address, phone = :phone, forkRating = :forkRating, facilityKey = :facilityKey, googleId = :googleId WHERE restaurantId = :restaurantId";
+        $query = "UPDATE restaurant SET address = :address, phone = :phone, forkRating = :forkRating, facilityKey = :facilityKey, googleId = :googleId, name = :name WHERE restaurantId = :restaurantId";
         $statement = $pdo->prepare($query);
 
         // Bind the member variables to the placeholders in the templates
-        $parameters = array("address" => $this->getAddress(), "phone" => $this->getPhone(), "forkRating" => $this->getForkRating(), "facilityKey" => $this->getFacilityKey(), "googleId" => $this->getGoogleId(), "restaurantId" => $this->getRestaurantId());
+        $parameters = array("address" => $this->getAddress(), "phone" => $this->getPhone(), "forkRating" => $this->getForkRating(), "facilityKey" => $this->getFacilityKey(), "googleId" => $this->getGoogleId(), "name" => $this->getName(), "restaurantId" => $this->getRestaurantId());
         $statement->execute($parameters);
     }
 
@@ -352,7 +390,7 @@ class Restaurant {
         }
 
         // Create query template
-        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId FROM restaurant WHERE restaurantId = :restaurantId";
+        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE restaurantId = :restaurantId";
         $statement = $pdo->prepare($query);
 
         // Bind restaurantId to placeholder
@@ -366,8 +404,8 @@ class Restaurant {
             $row = $statement->fetch();
 
             if($row !== false) {
-                // new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
-                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["address"], $row["phone"], $row["forkRating"]);
+                // new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating)
+                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
             }
         } catch(Exception $e) {
             // If the row couldn't be converted, rethrow it
@@ -394,7 +432,7 @@ class Restaurant {
         }
 
         // Create query template
-        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId FROM restaurant WHERE address = :address";
+        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE address = :address";
         $statement = $pdo->prepare($query);
 
         // Bind address to placeholder
@@ -408,8 +446,8 @@ class Restaurant {
             $row = $statement->fetch();
 
             if($row !== false) {
-                // new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
-                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["address"], $row["phone"], $row["forkRating"]);
+                // new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating)
+                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
             }
         } catch(Exception $e) {
             // If the row couldn't be converted, rethrow it
@@ -436,7 +474,7 @@ class Restaurant {
         }
 
         // Create query template
-        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId FROM restaurant WHERE phone = :phone";
+        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE phone = :phone";
         $statement = $pdo->prepare($query);
 
         // Bind phone number to placeholder
@@ -450,8 +488,8 @@ class Restaurant {
             $row = $statement->fetch();
 
             if($row !== false) {
-                // new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
-                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["address"], $row["phone"], $row["forkRating"]);
+                // new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating)
+                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
             }
         } catch(Exception $e) {
             // If the row couldn't be converted, rethrow it
@@ -478,7 +516,7 @@ class Restaurant {
         }
 
         // Create query template
-        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId FROM restaurant WHERE forkRating = :forkRating";
+        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE forkRating = :forkRating";
         $statement = $pdo->prepare($query);
 
         // Bind rating to placeholder
@@ -491,7 +529,7 @@ class Restaurant {
         while(($row = $statement->fetch()) !== false) {
             try {
                 // new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
-                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["address"], $row["phone"], $row["forkRating"]);
+                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
                 $restaurants[$restaurants->key()] = $restaurant;
                 $restaurants->next();
             } catch(Exception $e) {
@@ -520,7 +558,7 @@ class Restaurant {
         }
 
         // Create query template
-        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId FROM restaurant WHERE facilityKey = :facilityKey";
+        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE facilityKey = :facilityKey";
         $statement = $pdo->prepare($query);
 
         // Bind key to placeholder
@@ -534,8 +572,8 @@ class Restaurant {
             $row = $statement->fetch();
 
             if($row !== false) {
-                // new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
-                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["address"], $row["phone"], $row["forkRating"]);
+                // new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating)
+                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
             }
         } catch(Exception $e) {
             // If the row couldn't be converted, rethrow it
@@ -562,7 +600,7 @@ class Restaurant {
         }
 
         // Create query template
-        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId FROM restaurant WHERE googleId = :googleId";
+        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE googleId = :googleId";
         $statement = $pdo->prepare($query);
 
         // Bind ID to placeholder
@@ -576,8 +614,50 @@ class Restaurant {
             $row = $statement->fetch();
 
             if($row !== false) {
-                // new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
-                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["address"], $row["phone"], $row["forkRating"]);
+                // new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating)
+                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
+            }
+        } catch(Exception $e) {
+            // If the row couldn't be converted, rethrow it
+            throw(new PDOException($e->getMessage(), 0, $e));
+        }
+
+        return ($restaurant);
+    }
+
+    /**
+     * Gets the restaurant by name
+     *
+     * @param PDO $pdo pointer to PDO connection, by reference
+     * @param string $name restaurant name to search for
+     * @return mixed Restaurant found or null if not found
+     * @throws PDOException when MySQL related errors occur
+     */
+    public static function getRestaurantByName(PDO &$pdo, $name) {
+        // Sanitize the name before searching
+        $name = trim($name);
+        $name = filter_var($name, FILTER_SANITIZE_STRING);
+        if(empty($name)) {
+            throw(new PDOException("Restaurant name is invalid"));
+        }
+
+        // Create query template
+        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE name = :name";
+        $statement = $pdo->prepare($query);
+
+        // Bind name to placeholder
+        $parameters = array("name" => Restaurant::getName());
+        $statement->execute($parameters);
+
+        // Grab the restaurant from MySQL
+        try {
+            $restaurant = null;
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
+            $row = $statement->fetch();
+
+            if($row !== false) {
+                // new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating)
+                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
             }
         } catch(Exception $e) {
             // If the row couldn't be converted, rethrow it
@@ -596,7 +676,7 @@ class Restaurant {
      */
     public static function getAllRestaurants(PDO &$pdo) {
         // Create query template
-        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId FROM restaurant";
+        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant";
         $statement = $pdo->prepare($query);
         $statement->execute();
 
@@ -605,8 +685,8 @@ class Restaurant {
         $statement->setFetchMode(PDO::FETCH_ASSOC);
         while(($row = $statement->fetch()) !== false) {
             try {
-                // new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
-                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["address"], $row["phone"], $row["forkRating"]);
+                // new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating)
+                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
                 $restaurants[$restaurants->key()] = $restaurant;
                 $restaurants->next();
             } catch(Exception $e) {
