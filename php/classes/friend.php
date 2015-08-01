@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * This Friend is an example of date collected and store about a profile for  the
+ * capstone about restaurants
+ * @author H Perez <hperezperez.cnm.edu>
+ **/
+
+
 	class Friend {
 		/**
 		*  id for the firstProfiled who is generate ; this is a foreign key
@@ -13,6 +21,24 @@
 		**/
 		private $dateFriended;
 
+		/**
+		 * constructor for this Friend
+		 *
+		 * @param int $newFirstProfile new firstProfile id
+		 * @param int $newSecondrofile new secondProfile id
+		 * @param date $newDateFriended new dateFriended
+		 * @throws UnexpectedValueException if any of the parameters are invalid
+		 **/
+		public function __construct($newFirstProfileId, $newSecondProfileId, $newDateFriended){
+				try{
+						$this->setFirstProlifeId($newFirstProfileId);
+						$this->setSecondProfileId($newSecondProfileId);
+	 					$this->setDateFriended($newDateFriended);
+	} catch(UnexpectedValueException $exceptioon){
+			//rethrow to the caller
+				throw(new UnexpectedValueException("Unable to construct Friend", 0,$exception));
+}
+	}
 
 		/**
 		* accesor method for firstProfile id
@@ -27,9 +53,9 @@
 		*@param int $newFirstProfileId new value  of firstProfile id
 		*@throws  UnexpectedValueException if $new FirstprofileId is not integer
 		**/
-		public function setFirstProfileId($newFirstProfiled) {
+		public function setFirstProfileId($newFirstProfileId) {
 		// verify the first Profiled Id is valid
-		$newFirstProfiledId = filter_var($newFirstProfileId, FILTER_VALIDATE_INT);
+		$newFirstProfileId = filter_var($newFirstProfileId, FILTER_VALIDATE_INT);
 		if($newFirstProfileId ===false){
 					throw(new UnexpectedValueException("first profile is not valid integer"));
 		}
@@ -51,7 +77,7 @@
 		**/
 		public function setSecondProfileId($newSecondProfileId) {
 			//verify the secondProfile id is valid
-			$newSecondProfiledId = filter -var($newSecondProfileId, FILTER_VALIDATE - INT);
+			$newSecondProfileId = filter_var($newSecondProfileId, FILTER_VALIDATE_INT);
 						if($newSecondProfileId === false) {
 							throw(new UnexpectedValueException("secondProfiledId id is not a valid integer"));
 						}
@@ -74,14 +100,32 @@
 	*@throws UnexpectedValueException if $newDateProvided is not valid
 	**/
 	public function setDateFriended($newDateFriended) {
-			// verify the data friended is valid
-			$newDataFriend = filter_var($newDateFriended, FILTER_SANITIZE_STRIPING);
-			if ($newDateFriended === false) {
-								throw(newUnexpectedValueExceptin("data Friended is not a valid data")
-	}
+		// base case : if the date is null, use the current date and time
+		if($newDateFriended === null) {
+					$this->dateFriended = new DateFriended();
+					return;
+		}
 	// store the date Friended
+		try {
+					$newDateFriended = validateDate($newDateFriended);
+		} catch(InvalidArgumentException $invalidArgument ){
+					throw(new InvalidArgumentException($invalidArgument->getMessage(),
+						0, $invalidArgument));
+		} catch(RangeException $range) {
+							throw(new RangeException($range->getMessage(), 0,$range));
+		}
 	$this ->dateFriended = $newDateFriended;
-
 	}
-
-	}
+/** toString() magic method
+ *
+ * @return string HTML formatted Friend
+ **/
+       public function __tosString() {
+					//create an HTML formatted friend
+				$html="<p>FirstProfile id". $this->firstProfileId."<br/>"
+						."SecondProfile id:" .$this->secondProfileId ."<br/>"
+						."DateFriended:" .$this->dateFriended
+						."<p>";
+				return($html);
+}
+ 	}
