@@ -385,7 +385,7 @@ class Restaurant {
      * @return mixed Restaurant found or null if not found
      * @throws PDOException when MySQL related errors occur
      */
-    public static function getRestaurantByName(PDO &$pdo, $address) {
+    public static function getRestaurantByAddress(PDO &$pdo, $address) {
         // Sanitize the name before searching
         $address = trim($address);
         $address = filter_var($address, FILTER_SANITIZE_STRING);
@@ -417,6 +417,37 @@ class Restaurant {
         }
 
         return ($restaurant);
+    }
+
+    /**
+     * Gets all restaurants
+     *
+     * @param PDO $pdo pointer to PDO connection, by reference
+     * @return SplFixedArray of Restaurants found
+     * @throws PDOException when MySQL related errors occur
+     */
+    public static function getAllRestaurants(PDO &$pdo) {
+        // Create query template
+        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId FROM restaurant";
+        $statement = $pdo->prepare($query);
+        $statement->execute();
+
+        // Build an array of restaurants
+        $restaurants = new SplFixedArray($statement->rowCount());
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        while(($row = $statement->fetch()) !== false) {
+            try {
+                // new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
+                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["address"], $row["phone"], $row["forkRating"]);
+                $restaurants[$restaurants->key()] = $restaurant;
+                $restaurants->next();
+            } catch(Exception $e) {
+                // If the row couldn't be converted, rethrow it
+                throw(new PDOException($e->getMessage(), 0, $e));
+            }
+        }
+
+        return ($restaurants);
     }
 
 }
