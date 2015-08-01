@@ -337,7 +337,7 @@ class Restaurant {
      * Gets the restaurant by restaurant ID
      *
      * @param PDO $pdo pointer to PDO connection, by reference
-     * @param $restaurantId restaurant ID to search for
+     * @param int $restaurantId restaurant ID to search for
      * @return mixed Restaurant found or null if not found
      * @throws PDOException when MySQL related errors occur
      */
@@ -381,12 +381,12 @@ class Restaurant {
      * Gets the restaurant by address
      *
      * @param PDO $pdo pointer to PDO connection, by reference
-     * @param $address restaurant address to search for
+     * @param string $address restaurant address to search for
      * @return mixed Restaurant found or null if not found
      * @throws PDOException when MySQL related errors occur
      */
     public static function getRestaurantByAddress(PDO &$pdo, $address) {
-        // Sanitize the name before searching
+        // Sanitize the address before searching
         $address = trim($address);
         $address = filter_var($address, FILTER_SANITIZE_STRING);
         if(empty($address)) {
@@ -399,6 +399,174 @@ class Restaurant {
 
         // Bind address to placeholder
         $parameters = array("address" => Restaurant::getAddress());
+        $statement->execute($parameters);
+
+        // Grab the restaurant from MySQL
+        try {
+            $restaurant = null;
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
+            $row = $statement->fetch();
+
+            if($row !== false) {
+                // new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
+                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["address"], $row["phone"], $row["forkRating"]);
+            }
+        } catch(Exception $e) {
+            // If the row couldn't be converted, rethrow it
+            throw(new PDOException($e->getMessage(), 0, $e));
+        }
+
+        return ($restaurant);
+    }
+
+    /**
+     * Gets the restaurant by phone
+     *
+     * @param PDO $pdo pointer to PDO connection, by reference
+     * @param string $phone restaurant phone number to search for
+     * @return mixed Restaurant found or null if not found
+     * @throws PDOException when MySQL related errors occur
+     */
+    public static function getRestaurantByPhone(PDO &$pdo, $phone) {
+        // Sanitize the phone number before searching
+        $phone = trim($phone);
+        $phone = filter_var($phone, FILTER_SANITIZE_STRING);
+        if(empty($phone)) {
+            throw(new PDOException("Restaurant phone number is invalid"));
+        }
+
+        // Create query template
+        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId FROM restaurant WHERE phone = :phone";
+        $statement = $pdo->prepare($query);
+
+        // Bind phone number to placeholder
+        $parameters = array("phone" => Restaurant::getPhone());
+        $statement->execute($parameters);
+
+        // Grab the restaurant from MySQL
+        try {
+            $restaurant = null;
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
+            $row = $statement->fetch();
+
+            if($row !== false) {
+                // new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
+                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["address"], $row["phone"], $row["forkRating"]);
+            }
+        } catch(Exception $e) {
+            // If the row couldn't be converted, rethrow it
+            throw(new PDOException($e->getMessage(), 0, $e));
+        }
+
+        return ($restaurant);
+    }
+
+    /**
+     * Get restaurants by TruFork rating
+     *
+     * @param PDO $pdo pointer to PDO connection, by reference
+     * @param string $forkRating TruFork rating to search for
+     * @return mixed Restaurant found or null if not found
+     * @throws PDOException when MySQL related errors occur
+     */
+    public static function getRestaurantsByForkRating(PDO &$pdo, $forkRating) {
+        // Sanitize the rating before searching
+        $forkRating = trim($forkRating);
+        $forkRating = filter_var($forkRating, FILTER_SANITIZE_STRING);
+        if(empty($forkRating)) {
+            throw(new PDOException("TruFork rating is invalid"));
+        }
+
+        // Create query template
+        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId FROM restaurant WHERE forkRating = :forkRating";
+        $statement = $pdo->prepare($query);
+
+        // Bind rating to placeholder
+        $parameters = array("forkRating" => Restaurant::getForkRating());
+        $statement->execute($parameters);
+
+        // Build an array of restaurants
+        $restaurants = new SplFixedArray($statement->rowCount());
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        while(($row = $statement->fetch()) !== false) {
+            try {
+                // new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
+                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["address"], $row["phone"], $row["forkRating"]);
+                $restaurants[$restaurants->key()] = $restaurant;
+                $restaurants->next();
+            } catch(Exception $e) {
+                // If the row couldn't be converted, rethrow it
+                throw(new PDOException($e->getMessage(), 0, $e));
+            }
+        }
+
+        return ($restaurants);
+    }
+
+    /**
+     * Gets the restaurant by facility key
+     *
+     * @param PDO $pdo pointer to PDO connection, by reference
+     * @param string $facilityKey facility key to search for
+     * @return mixed Restaurant found or null if not found
+     * @throws PDOException when MySQL related errors occur
+     */
+    public static function getRestaurantByFacilityKey(PDO &$pdo, $facilityKey) {
+        // Sanitize the key before searching
+        $facilityKey = trim($facilityKey);
+        $facilityKey = filter_var($facilityKey, FILTER_SANITIZE_STRING);
+        if(empty($facilityKey)) {
+            throw(new PDOException("Facility key is invalid"));
+        }
+
+        // Create query template
+        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId FROM restaurant WHERE facilityKey = :facilityKey";
+        $statement = $pdo->prepare($query);
+
+        // Bind key to placeholder
+        $parameters = array("facilityKey" => Restaurant::getFacilityKey());
+        $statement->execute($parameters);
+
+        // Grab the restaurant from MySQL
+        try {
+            $restaurant = null;
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
+            $row = $statement->fetch();
+
+            if($row !== false) {
+                // new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
+                $restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["address"], $row["phone"], $row["forkRating"]);
+            }
+        } catch(Exception $e) {
+            // If the row couldn't be converted, rethrow it
+            throw(new PDOException($e->getMessage(), 0, $e));
+        }
+
+        return ($restaurant);
+    }
+
+    /**
+     * Gets the restaurant by Google ID
+     *
+     * @param PDO $pdo pointer to PDO connection, by reference
+     * @param string $googleId Google ID to search for
+     * @return mixed Restaurant found or null if not found
+     * @throws PDOException when MySQL related errors occur
+     */
+    public static function getRestaurantByGoogleId(PDO &$pdo, $googleId) {
+        // Sanitize the ID before searching
+        $googleId = trim($googleId);
+        $googleId = filter_var($googleId, FILTER_SANITIZE_STRING);
+        if(empty($googleId)) {
+            throw(new PDOException("Google ID is invalid"));
+        }
+
+        // Create query template
+        $query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId FROM restaurant WHERE googleId = :googleId";
+        $statement = $pdo->prepare($query);
+
+        // Bind ID to placeholder
+        $parameters = array("googleId" => Restaurant::getGoogleId());
         $statement->execute($parameters);
 
         // Grab the restaurant from MySQL
