@@ -1,11 +1,12 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: skyre_000
- * Date: 8/3/2015
- * Time: 15:48
+ * This class contains data and functionality for restaurant violations
+ *
+ * @author Skyler Rexroad
  */
 class Violation {
+
+	// TODO
 
 }
