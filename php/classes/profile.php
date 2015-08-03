@@ -33,6 +33,36 @@ class Profile {
 		return $this->profileId;
 	}
 
+
+	/**
+	 * Constructor method for user class
+	 *
+	 * @param mixed $newProfileId id for this class
+	 * @param int $userId id for profile id
+	 * @param $newEmailId
+	 * @throws InvalidArgumentException if data types are not valid
+	 * @throws RangeException if data values are out of bounds
+	 * @throws Exception if some other exception is thrown
+	 *
+	 */
+
+	public function __construct($newProfileId, $userId, $newEmailId, = null){
+		try{
+			$this->setProfileId($newProfileId);
+			$this->setUserId($userId);
+			$this->setEmail($newEmailId);
+		} catch(InvalidArgumentException $invalidArgument) {
+			// rethrow range exception to the caller
+			throw(new InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+		} catch(RangeException $range) {
+			// rethrow the exception to the caller
+			throw(new RangeException($range->getMessage(), 0, $range));
+		} catch(Exception $exception) {
+			// rethrow generic exception
+			throw(new Exception($exception->getMessage(), 0, $exception);
+		}
+	}
+
 	/**
 	 * mutator method for profile id
 	 *
