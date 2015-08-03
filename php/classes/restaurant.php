@@ -55,6 +55,7 @@ class Restaurant {
      * @param int $restaurantId ID of the restaurant
      * @param int $googleId Google ID of the restaurant
      * @param int $facilityKey City ID of the restaurant
+     * @param string
      * @param int $address address of the restaurant
      * @param int $phone phone number of the restaurant
      * @param int $forkRating TruFork rating of the restaurant
