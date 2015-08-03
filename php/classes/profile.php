@@ -142,7 +142,29 @@ class Profile {
 		// Need to Ask Dylan, about this. I remember that he sends an email validation
 		// not a FILTER_VALIDATE_EMAIL
 	}
-
-
-
 }
+
+
+
+	/**
+	 * insert this profile id into mySQL
+	 *
+	 * @param PDO $pdo pointer to PDO connection, by reference
+	 * @throws PDOException when mySQL relates errors occur
+	 *
+	 **/
+	public function insert(PDO &$pdo) {
+	// enforce the profileId is null (i.e. don't insert if a profile id already exist)
+		if($this->profileId !== null) {
+				throw(new PDOException("not a new profile id"));
+		}
+	}
+
+	// create a query template
+	$query  = "INSERT INTO profileId(profileId, userId, email) VALUES(:profileId, :userId, :email:);
+		$statment = $pdo->prepare($query);
+
+	// update the null profileId with what mySQL just gave us
+		$this->profileId = intval(pdo->LastInserId)
+
+
