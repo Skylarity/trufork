@@ -78,19 +78,19 @@ public function __construct($votedCommentId, $votedCommentVoteType = null) {
 	/** mutator method for votedCommentVoteType
 	 * @param int $voteType
 	 */
-	public function setVoteType($voteType) {
-		if($newVotedCommentVoteType === null) {
-			$this->votedCommentVoteType = null;
+	public function setVoteType($newVoteType) {
+		if($newVoteType === null) {
+			$this->voteType = null;
 			return;
 		}
-		$newVotedCommentVoteType = filter_var($newVotedCommentVoteType, FILTER_VALIDATE_INT);
-		if($newVotedCommentVoteType === false) {
+		$newVoteType = filter_var($newVoteType, FILTER_VALIDATE_INT);
+		if($newVoteType === false) {
 			throw(new InvalidArgumentException("voted comment vote type not a valid integer"));
 		}
-		if($newVotedCommentVoteType <= 0) {
+		if($newVoteType <= 0) {
 			throw(new RangeException("voted comment vote type is not positive"));
 		}
-		$this->votedCommentVoteType = intval($newVotedCommentVoteType);
+		$this->voteType = intval($newVoteType);
 	}
 	/** inserts voted comment into DB
 	 *@param PDO $pdo pointer to pdo connection by reference
