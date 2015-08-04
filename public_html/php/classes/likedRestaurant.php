@@ -234,7 +234,7 @@
 	 * Gets the likedrestaurant by profiele ID
 	 *
 	 * @param PDO $pdo pointer to PDO connection, by reference
-	 * @param string $googleId Google ID to search for
+	 * @param string $profileID profile ID to search for
 	 * @return mixed Restaurant found or null if not found
 	 * @throws PDOException when MySQL related errors occur
 	 */
@@ -278,12 +278,12 @@
 	 * Gets all restaurants
 	 *
 	 * @param PDO $pdo pointer to PDO connection, by reference
-	 * @return SplFixedArray of Restaurants found
+	 * @return SplFixedArray of LikedRestaurants found
 	 * @throws PDOException when MySQL related errors occur
 	 */
 	public static function getAllRestaurants(PDO &$pdo) {
 		// Create query template
-		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant";
+		$query = "SELECT restaurantId, profileId, name FROM likedrestaurant";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
