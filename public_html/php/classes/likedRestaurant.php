@@ -15,9 +15,13 @@ class LikedRestaurant {
 	 * it uses profileId and restaurantId as foreign keys
 	 **/
 	private $profileId;
-	private $restauranId;
+	/**
+	 * @var int foreing key
+	 */
+	private $restaurantId;
 
 	/** constructor method for likeRestaurant
+	 * @param int$profileId
 	 * @param int $likeRestaurant
 	 * @throws InvalidArgumentException if the data is invalid
 	 * @throws RangeException if data out of range
@@ -33,219 +37,325 @@ class LikedRestaurant {
 		}	catch(RangeException $range) {
 			throw(new RangeException($range->getMessage(), 0, $range));
 		}	catch(Exception $exception) {
+			// Rethrow exception to the caller
 			throw(new Exception($exception->getMessage(), 0, $exception));
 		}
-
 	}
-	/** accessor method for profileId
+
+	/**
+	 * Accessor for restaurant ID
+	 *
 	 * @return int
-	 **/
-	public function getProfileId() {
+	 */
+	public function getRestaurantId() {
+		return $this->restaurantId;
+	}
+
+	/**
+	 * Mutator for restaurant ID
+	 *
+	 * @param mixed $newRestaurantId
+	 */
+	public function setRestaurantId($newRestaurantId) {
+		// Base case: If the restaurant ID is null, this is a new restaurant without a MySQL assigned ID
+		if($newRestaurantId === null) {
+			$this->restaurantId = null;
+			return;
+		}
+
+		// Verify the new restaurant ID
+		$newRestaurantId = filter_var($newRestaurantId, FILTER_VALIDATE_INT);
+		if($newRestaurantId === false) {
+			throw(new InvalidArgumentException("Restaurant ID is not a valid integer"));
+		}
+
+		// Verify the new restaurant ID is positive
+		if($newRestaurantId <= 0) {
+			throw(new RangeException("Restaurant ID is not positive"));
+		}
+
+		// Convert and store the new restaurant ID
+		$this->restaurantId = intval($newRestaurantId);
+	}
+
+	/**
+	 * Accessor for Profile ID
+	 *
+	 * @return int
+	 */
+	public function geProfileId() {
 		return $this->profileId;
 	}
 
-	/**mutator method for setting profileId
-	 * @param int $profileId
-	 */
-	public function setProfileId($newProfileId) {
-		if($newProfileId === null) {
-			$this->profileId = null;
-			return;
-		}
-		$newProfileId = filter_var($newProfileId, FILTER_VALIDATE_INT);
-		if($newProfileId === false) {
-			throw(new InvalidArgumentException("profile id is not a valid integer"));
-		}
-		if($newProfiledId <= 0) {
-			throw(new RangeException("profile id is not positive"));
-		}
-		$this->profileId = intval($newProfileId);
-	}
-
-
-	/** accessor method for restaurantId
-	 * @return int
-	 */
-	public function getrestaurantId() {
-		return $this->restarauntId;
-	}
-
-	/** mutator method for restaurantId
-	 * @param int $restaurantId
-	 */
-	public function setRestauarantId($) {
-		if($newrestauraantidType === null) {
-			$this->restaurantIdVoteType = null;
-			return;
-		}
-		$newVotedCommentVoteType = filter_var($newVotedCommentVoteType, FILTER_VALIDATE_INT);
-		if($newVotedCommentVoteType === false) {
-			throw(new InvalidArgumentException("voted comment vote type not a valid integer"));
-		}
-		if($newVotedCommentVoteType <= 0) {
-			throw(new RangeException("voted comment vote type is not positive"));
-		}
-		$this->votedCommentVoteType = intval($newVotedCommentVoteType);
-	}
-	/** inserts voted comment into DB
-	 *@param PDO $pdo pointer to pdo connection by reference
-	 *@throws PDOException in the event of mySQL errors
-	 **/
-	public function insert (PDO &$pdo) {
-		if($this->votedCommentId !== null) {
-			throw(new PDOException("not a new voted comment"));
-		}
-		$query = "INSERT INTO votedComment(voteType) VALUES(:voteType)";
-		$statement = $pdo->prepare($query);
-
-		$parameters = array("voteType" => $this->getVoteType());
-		$statement->execute($parameters);
-
-		$this->setVotedCommentId(intval($pdo->lastInsertId()));
-	}
 	/**
-	 * Deletes voted comment from DB
+	 * Mutator for Profile ID
 	 *
-	 * @param PDO $pdo pointer to PDO connection by reference
+	 * @param in $newProfileId
+	 */
+	public function setProfileId($newProfileID){}
+
+
+	/**
+	 * Inserts this likedrestaurant into MySQL
+	 *
+	 * @param PDO $pdo pointer to PDO connection , by reference
 	 * @throws PDOException when MySQL related errors occur
-	 **/
-	public function delete (PDO &$pdo) {
-		if($this->votedCommentId === null) {
-			throw(new PDOException("cannot delete a voted comment that does not exist"));
+	 */
+	public function insert(PDO &$pdo) {
+		// Make sure this is a new likedrestaurant
+		if($this->restaurantId !== null) {
+			throw(new PDOException("Not a new likedrestaurant"));
 		}
-		$query = "DELETE FROM comment WHERE votedCommentId = :votedCommentId";
+
+		// Create query template
+		$query = "INSERT INTO likedrestaurant( retaurantId, profileId ) VALUES( :restarauntID, :profileId)";
 		$statement = $pdo->prepare($query);
 
-		$parameters = array("votedCommentId" => $this->getVotedCommentId());
+		// Bind the member variables to the placeholders in the template
+		$parameters = array("address" => $this->getAddress(), "phone" => $this->getPhone(), "forkRating" => $this->getForkRating(), "facilityKey" => $this->getFacilityKey(), "googleId" => $this->getGoogleId(), "name" => $this->getName());
 		$statement->execute($parameters);
+
+		// Update the null restaurant ID with what MySQL has generated
+		$this->setRestaurantId(intval($pdo->lastInsertId()));
 	}
-	/** updates voted comment in DB
+
+	/**
+	 * Deletes this likedrestaurant from MySQL
 	 *
-	 * @param PDO $pdo pointer to PDO connection by reference
+	 * @param PDO $pdo pointer to PDO connection , by reference
 	 * @throws PDOException when MySQL related errors occur
-	 **/
-	public function update (PDO &$pdo) {
-		if ($this->getVotedCommentId() === null) {
-			throw(new PDOException("cannot update a voted comment that does not exist"));
+	 */
+	public function delete(PDO &$pdo) {
+		// Make sure this likedrestaurant already exists
+		if($this->getRestaurantId() === null) {
+			throw(new PDOException("Unable to delete a likedrestaurant that does not exist"));
 		}
-		$query = "UPDATE comment SET dateTime = :dateTime, content = :content";
+
+		// Create query template
+		$query = "DELETE FROM restaurant WHERE restaurantId = :restaurantId";
 		$statement = $pdo->prepare($query);
 
-		$parameters = array("voteType" => $this->getVoteType());
+		// Bind the member variables to the placeholders in the templates
+		$parameters = array("restaurantId" => $this->getRestaurantId());
 		$statement->execute($parameters);
 	}
 
-	/** gets the voted comment by voted comment id
+	/**
+	 * Updates this likedrestaurant in MySQL
+	 *
+	 * @param PDO $pdo pointer to PDO connection , by reference
+	 * @throws PDOException when MySQL related errors occur
+	 */
+	public function update(PDO &$pdo) {
+		// Make sure this likedrestaurant exists
+		if($this->getRestaurantId() === null) {
+			throw(new PDOException("Unable to update a restaurant that does not exist"));
+		}
+
+		// Create query template
+		$query = "UPDATE restaurant SET address = :address, phone = :phone, forkRating = :forkRating, facilityKey = :facilityKey, googleId = :googleId, name = :name WHERE restaurantId = :restaurantId";
+		$statement = $pdo->prepare($query);
+
+		// Bind the member variables to the placeholders in the templates
+		$parameters = array("address" => $this->getAddress(), "phone" => $this->getPhone(), "forkRating" => $this->getForkRating(), "facilityKey" => $this->getFacilityKey(), "googleId" => $this->getGoogleId(), "name" => $this->getName(), "restaurantId" => $this->getRestaurantId());
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * Gets the likedrestaurant by restaurant ID
 	 *
 	 * @param PDO $pdo pointer to PDO connection, by reference
-	 * @param $votedCommentId voted comment Id to search for
-	 * @return mixed special fixed array of comments found or null if not found
-	 * @throws PDOException when MySQL errors happen
-	 **/
-	public static function getCommentByVotedCommentId(PDO &$pdo, $votedCommentId) {
-		$votedCommentId = trim($votedCommentId);
-		$votedCommentId = filter_var($votedCommentId, FILTER_VALIDATE_INT);
-		if(empty($votedCommentId) === true) {
-			throw(new PDOException("voted comment id is not a valid integer"));
+	 * @param int $restaurantId restaurant ID to search for
+	 * @return mixed Restaurant found or null if not found
+	 * @throws PDOException when MySQL related errors occur
+	 */
+	public static function getRestaurantById(PDO &$pdo, $restaurantId) {
+		// Sanitize the ID before searching
+		$restaurantId = filter_var($restaurantId, FILTER_SANITIZE_NUMBER_INT);
+		if($restaurantId === false) {
+			throw(new PDOException("Restaurant ID is not an integer"));
 		}
-		$query = "SELECT votedCommentId, voteType FROM votedComment WHERE voteType = :voteType";
+		if($restaurantId <= 0) {
+			throw(new PDOException("Profile ID is not positive"));
+		}
+
+		// Create query template
+		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE restaurantId = :restaurantId";
 		$statement = $pdo->prepare($query);
 
-		$votedCommentId = "$votedCommentId";
-		$parameters = array("votedCommentId" => $votedCommentId);
+		// Bind restaurantId to placeholder
+		$parameters = array("restaurantId" => Restaurant::getRestaurantId());
 		$statement->execute($parameters);
 
-		$votedComments = new SplFixedArray($statement->rowCount());
+		// Grab the likedrestaurant from MySQL
+		try {
+			$restaurant = null;
+			$statement->setFetchMode(PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+
+			if($row !== false) {
+				// new LIkedRestaurant($restaurantId, $profileId)
+				$likedrestaurant = new LikedRestaurant($row["restaurantId"], $row["profileId"]);
+			}
+		} catch(Exception $exception) {
+			// If the row couldn't be converted, rethrow it
+			throw(new PDOException($e->getMessage(), 0, $e));
+		}
+
+		return ($likedrestaurant);
+	}
+
+	/**
+	 * Gets the restaurant by address
+	 *
+
+
+		// Create query template
+		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE address = :address";
+		$statement = $pdo->prepare($query);
+
+		// Bind address to placeholder
+		$parameters = array("address" => Restaurant::getAddress());
+		$statement->execute($parameters);
+
+		/**
+	 * Gets the restaurant by phone
+	 *
+	 * @param PDO $pdo pointer to PDO connection, by reference
+	 * @param string $phone restaurant phone number to search for
+	 * @return mixed Restaurant found or null if not found
+	 * @throws PDOException when MySQL related e
+
+
+	/**
+	 * Get restaurants by TruFork rating
+	 *
+	 * @param PDO $pdo pointer to PDO connection, by reference
+	 * @param string $forkRating TruFork rating to search for
+	 * @return mixed Restaurant found or null if not found
+	 * @throws PDOException when MySQL related errors occur
+	 */
+
+
+		// Create query template
+		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE forkRating = :forkRating";
+		$statement = $pdo->prepare($query);
+
+		// Bind rating to placeholder
+		$parameters = array("forkRating" => Restaurant::getForkRating());
+		$statement->execute($parameters);
+
+		// Build an array of restaurants
+		$restaurants = new SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$votedComment = new votedComment($row["votedCommentId"], $row["votedCommentVoteType"]);
-				$votedComments[$votedComments->key()] = $votedComment;
-				$votedComments->next();
-			} catch(Exception $exception) {
-				throw(new PDOException($exception->getMessage(), 0, $exception));
+				// new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
+				$restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
+				$restaurants[$restaurants->key()] = $restaurant;
+				$restaurants->next();
+			} catch(Exception $e) {
+				// If the row couldn't be converted, rethrow it
+				throw(new PDOException($e->getMessage(), 0, $e));
 			}
 		}
-		/** count the results in the array and return:
-		 *  1) null if 0 results
-		 *  2) the entire array if >+ 1 result **/
-		$numberOfVotedComments = count($votedComments);
-		if($numberOfVotedComments === 0) {
-			return (null);
-		} else {
-			return($votedComments);
-		}
+
+		return ($restaurants);
 	}
 
-	/** gets the voted comment by vote type
-	 *
-	 * @param PDO $pdo pointer to PDO connection by reference
-	 * @param int $votedCommentVoteType voted comment vote type to search for
-	 * @return mixed voted comment found or null if not found
-	 * @throws PDOException when mySQL related errors occur
-	 **/
-	public static function getVotedCommentByVoteType(PDO &$pdo, $votedCommentVoteType) {
-		$votedCommentVoteType = filter_var($votedCommentVoteType, FILTER_VALIDATE_INT);
-		if($votedCommentVoteType === false) {
-			throw(new PDOException("voted comment vote type not valid"));
-		}
-		$query = "SELECT votedCommentId, voteType FROM votedComment WHERE voteType = :voteType";
-		$statement = $pdo->prepare($query);
-
-		$parameters = array("votedCommentVoteType" => $votedCommentVoteType);
-		$statement->execute($parameters);
-
-		try {
-			$votedComment = null;
-			$statement->setFetchMode(PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$votedComment = new VotedComment($row["voteType"], $row["votedCommentId"]);
-			}
-		}
-		catch(Exception $exception) {
-			throw(new PDOException($exception->getMessage(), 0, $exception));
-		}
-		return($votedComment);
-	}
-
-	/** gets all voted comments
+	/**
+	 * Gets the restaurant by facility key
 	 *
 	 * @param PDO $pdo pointer to PDO connection, by reference
-	 * @return mixed SplFixedArray of voted comments found or null if not found
-	 * @throws PDOException when mySQL related errors occur
-	 **/
-	public static function getAllVotedComments(PDO &$pdo) {
-		$query = "SELECT votedCommentId, voteType FROM votedComment";
+	 * @param string $facilityKey facility key to search for
+	 * @return mixed Restaurant found or null if not found
+	 * @throws PDOException when MySQL related errors occur
+	 */
+	public static function getRestaurantByFacilityKey(PDO &$pdo, $facilityKey) {
+		// Sanitize the key before searching
+		$facilityKey = trim($facilityKey);
+		$facilityKey = filter_var($facilityKey, FILTER_SANITIZE_STRING);
+		if(empty($facilityKey)) {
+			throw(new PDOException("Facility key is invalid"));
+		}
+
+
+	/**
+	 * Gets the likedrestaurant by profiele ID
+	 *
+	 * @param PDO $pdo pointer to PDO connection, by reference
+	 * @param string $googleId Google ID to search for
+	 * @return mixed Restaurant found or null if not found
+	 * @throws PDOException when MySQL related errors occur
+	 */
+	public static function getRestaurantByGoogleId(PDO &$pdo, $googleId) {
+		// Sanitize the ID before searching
+		$googleId = trim($googleId);
+		$googleId = filter_var($googleId, FILTER_SANITIZE_STRING);
+		if(empty($googleId)) {
+			throw(new PDOException("Google ID is invalid"));
+		}
+
+		// Create query template
+		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE googleId = :googleId";
+		$statement = $pdo->prepare($query);
+
+		// Bind ID to placeholder
+		$parameters = array("googleId" => Restaurant::getGoogleId());
+		$statement->execute($parameters);
+
+		// Grab the restaurant from MySQL
+		try {
+			$restaurant = null;
+			$statement->setFetchMode(PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+
+			if($row !== false) {
+				// new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating)
+				$restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
+			}
+		} catch(Exception $e) {
+			// If the row couldn't be converted, rethrow it
+			throw(new PDOException($e->getMessage(), 0, $e));
+		}
+
+		return ($restaurant);
+	}
+
+
+	}
+	/**
+	 * Gets all restaurants
+	 *
+	 * @param PDO $pdo pointer to PDO connection, by reference
+	 * @return SplFixedArray of Restaurants found
+	 * @throws PDOException when MySQL related errors occur
+	 */
+	public static function getAllRestaurants(PDO &$pdo) {
+		// Create query template
+		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
-		$votedComments = new SplFixedArray($statement->rowCount());
+		// Build an array of restaurants
+		$restaurants = new SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$votedComment = new VotedComment($row["votedCommentId"], $row["votedCommentVoteType"]);
-				$votedComments[$votedComments->key()] = $votedComment;
-				$votedComments->next();
-			}catch(Exception $exception) {
-				throw(new PDOException($exception->getMessage(), 0, $exception));
+				// new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating)
+				$restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
+				$restaurants[$restaurants->key()] = $restaurant;
+				$restaurants->next();
+			} catch(Exception $e) {
+				// If the row couldn't be converted, rethrow it
+				throw(new PDOException($e->getMessage(), 0, $e));
 			}
 		}
-		/** count results in array and return
-		 * 1) null if 0 results
-		 * 2) the entire array >= 1 result
-		 **/
-		$numberOfVotedComments = count($votedComments);
-		if($numberOfVotedComments === 0) {
-			return (null);
-		} else {
-			return ($votedComments);
-		}
+
+		return ($restaurants);
 	}
+
 }
-
-
-
 
 
 
