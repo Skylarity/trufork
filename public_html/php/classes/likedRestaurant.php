@@ -5,32 +5,33 @@
  *
  * This script is designed to create liked restaurant for trufork.
  *
- * @author  Humberto Perez <hperezperez@cnm,edu>
+ * @author  Humberto Perez <hperezperez@cnm.edu>
  *
  **/
-class LikedRestaurant {
+ class LikedRestaurant {
 	/** above is our class
 	 *  it's a weak entity
 	 * it has no primary key
 	 * it uses profileId and restaurantId as foreign keys
 	 **/
-	private $profileId;
-	/**
-	 * @var int foreing key
-	 */
 	private $restaurantId;
+	 /**
+	  *profile Id is a foreign key
+	  * @var int foreing key
+	 **/
+	private $profileId;
 
 	/** constructor method for likeRestaurant
-	 * @param int$profileId
+	 * @param int $profileId
 	 * @param int $likeRestaurant
 	 * @throws InvalidArgumentException if the data is invalid
 	 * @throws RangeException if data out of range
 	 * @throws Exception For all other cases
 	 *
 	 **/
-	public function __construct($profileId, $restaurantIdl) {
+	public function __construct($profileId, $restaurantId) {
 		try {
-			$this->setProfileId($profiledId);
+			$this->setProfileId($profileId);
 			$this->setRestaurantId($restaurantId);
 		}	catch(InvalidArgumentException $invalidArgument) {
 			throw(new InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
@@ -83,16 +84,34 @@ class LikedRestaurant {
 	 *
 	 * @return int
 	 */
-	public function geProfileId() {
+	public function getProfileId() {
 		return $this->profileId;
 	}
-
-	/**
+   /**
 	 * Mutator for Profile ID
 	 *
-	 * @param in $newProfileId
+	 * @param int $newProfileId
 	 */
-	public function setProfileId($newProfileID){}
+	public function setProfileId($newProfileID){
+		// Base case: If the profile ID is null, this is a new liked restaurant without a MySQL assigned ID
+		if($newProfileId === null) {
+			$this->profileId = null;
+			return;
+		}
+
+		// Verify the new restaurant ID
+		$newRestaurantId = filter_var($newProfileId, FILTER_VALIDATE_INT);
+		if($newProfileId === false) {
+			throw(new InvalidArgumentException("Profile Id is not a valid integer"));
+		}
+
+		// Verify the new profile ID is positive
+		if($newProfileId <= 0) {
+			throw(new RangeException("Profile ID is not positive"));
+		}
+
+		// Convert and store the new Profile ID
+		$this->profileId = intval($newProfileId);
 
 
 	/**
@@ -112,7 +131,7 @@ class LikedRestaurant {
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the placeholders in the template
-		$parameters = array("address" => $this->getAddress(), "phone" => $this->getPhone(), "forkRating" => $this->getForkRating(), "facilityKey" => $this->getFacilityKey(), "googleId" => $this->getGoogleId(), "name" => $this->getName());
+		$parameters = array( "restaurantId" => $this->getRestaurntId(), "profileId" => $this->getProfileId());
 		$statement->execute($parameters);
 
 		// Update the null restaurant ID with what MySQL has generated
@@ -132,7 +151,7 @@ class LikedRestaurant {
 		}
 
 		// Create query template
-		$query = "DELETE FROM restaurant WHERE restaurantId = :restaurantId";
+		$query = "DELETE FROM likedrestaurant WHERE restaurantId = :restaurantId";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the placeholders in the templates
@@ -153,11 +172,11 @@ class LikedRestaurant {
 		}
 
 		// Create query template
-		$query = "UPDATE restaurant SET address = :address, phone = :phone, forkRating = :forkRating, facilityKey = :facilityKey, googleId = :googleId, name = :name WHERE restaurantId = :restaurantId";
+		$query = "UPDATE likedrestaurant SET restaurant Id = :restaurantId";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the placeholders in the templates
-		$parameters = array("address" => $this->getAddress(), "phone" => $this->getPhone(), "forkRating" => $this->getForkRating(), "facilityKey" => $this->getFacilityKey(), "googleId" => $this->getGoogleId(), "name" => $this->getName(), "restaurantId" => $this->getRestaurantId());
+		$parameters = array("profileId" => $this->getPofileId(),"restaurantId" => $this->getRestaurantId());
 		$statement->execute($parameters);
 	}
 
@@ -169,115 +188,46 @@ class LikedRestaurant {
 	 * @return mixed Restaurant found or null if not found
 	 * @throws PDOException when MySQL related errors occur
 	 */
-	public static function getRestaurantById(PDO &$pdo, $restaurantId) {
-		// Sanitize the ID before searching
-		$restaurantId = filter_var($restaurantId, FILTER_SANITIZE_NUMBER_INT);
-		if($restaurantId === false) {
-			throw(new PDOException("Restaurant ID is not an integer"));
-		}
-		if($restaurantId <= 0) {
-			throw(new PDOException("Profile ID is not positive"));
-		}
-
-		// Create query template
-		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE restaurantId = :restaurantId";
-		$statement = $pdo->prepare($query);
-
-		// Bind restaurantId to placeholder
-		$parameters = array("restaurantId" => Restaurant::getRestaurantId());
-		$statement->execute($parameters);
-
-		// Grab the likedrestaurant from MySQL
-		try {
-			$restaurant = null;
-			$statement->setFetchMode(PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-
-			if($row !== false) {
-				// new LIkedRestaurant($restaurantId, $profileId)
-				$likedrestaurant = new LikedRestaurant($row["restaurantId"], $row["profileId"]);
+	public static function getLikedRestaurantById(PDO &$pdo, $restaurantId) {
+			// Sanitize the ID before searching
+			$restaurantId = filter_var($restaurantId, FILTER_SANITIZE_NUMBER_INT);
+			if($restaurantId === false) {
+				throw(new PDOException("Restaurant ID is not an integer"));
 			}
-		} catch(Exception $exception) {
-			// If the row couldn't be converted, rethrow it
-			throw(new PDOException($e->getMessage(), 0, $e));
-		}
+			if($restaurantId <= 0) {
+				throw(new PDOException("Profile ID is not positive"));
+			}
 
-		return ($likedrestaurant);
-	}
+			// Create query template
+			$query = "SELECT restaurantId, profileId, name FROM likedRestaurant WHERE restaurantId = :restaurantId";
+			$statement = $pdo->prepare($query);
 
-	/**
-	 * Gets the restaurant by address
-	 *
+			// Bind restaurantId to placeholder
+			$parameters = array("restaurantId" => Restaurant::getRestaurantId());
+			$statement->execute($parameters);
 
+			// Grab the likedrestaurant from MySQL
+			try {
+				$likedrestaurant = null;
+				$statement->setFetchMode(PDO::FETCH_ASSOC);
+				$row = $statement->fetch();
 
-		// Create query template
-		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE address = :address";
-		$statement = $pdo->prepare($query);
+				if($row !== false) {
+					// new LIkedRestaurant($restaurantId, $profileId)
+					$likedrestaurant = new LikedRestaurant($row["restaurantId"], $row["profileId"]);
+				}
+			} catch(Exception $exception) {
+				// If the row couldn't be converted, rethrow it
+				throw(new PDOException($e->getMessage(), 0, $e));
+			}
+
+			return ($likedrestaurant)
 
 		// Bind address to placeholder
 		$parameters = array("address" => Restaurant::getAddress());
 		$statement->execute($parameters);
 
-		/**
-	 * Gets the restaurant by phone
-	 *
-	 * @param PDO $pdo pointer to PDO connection, by reference
-	 * @param string $phone restaurant phone number to search for
-	 * @return mixed Restaurant found or null if not found
-	 * @throws PDOException when MySQL related e
 
-
-	/**
-	 * Get restaurants by TruFork rating
-	 *
-	 * @param PDO $pdo pointer to PDO connection, by reference
-	 * @param string $forkRating TruFork rating to search for
-	 * @return mixed Restaurant found or null if not found
-	 * @throws PDOException when MySQL related errors occur
-	 */
-
-
-		// Create query template
-		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE forkRating = :forkRating";
-		$statement = $pdo->prepare($query);
-
-		// Bind rating to placeholder
-		$parameters = array("forkRating" => Restaurant::getForkRating());
-		$statement->execute($parameters);
-
-		// Build an array of restaurants
-		$restaurants = new SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				// new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
-				$restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
-				$restaurants[$restaurants->key()] = $restaurant;
-				$restaurants->next();
-			} catch(Exception $e) {
-				// If the row couldn't be converted, rethrow it
-				throw(new PDOException($e->getMessage(), 0, $e));
-			}
-		}
-
-		return ($restaurants);
-	}
-
-	/**
-	 * Gets the restaurant by facility key
-	 *
-	 * @param PDO $pdo pointer to PDO connection, by reference
-	 * @param string $facilityKey facility key to search for
-	 * @return mixed Restaurant found or null if not found
-	 * @throws PDOException when MySQL related errors occur
-	 */
-	public static function getRestaurantByFacilityKey(PDO &$pdo, $facilityKey) {
-		// Sanitize the key before searching
-		$facilityKey = trim($facilityKey);
-		$facilityKey = filter_var($facilityKey, FILTER_SANITIZE_STRING);
-		if(empty($facilityKey)) {
-			throw(new PDOException("Facility key is invalid"));
-		}
 
 
 	/**
@@ -288,38 +238,38 @@ class LikedRestaurant {
 	 * @return mixed Restaurant found or null if not found
 	 * @throws PDOException when MySQL related errors occur
 	 */
-	public static function getRestaurantByGoogleId(PDO &$pdo, $googleId) {
+	public static function getRestaurantByprofileId(PDO &$pdo, $profileId) {
 		// Sanitize the ID before searching
-		$googleId = trim($googleId);
-		$googleId = filter_var($googleId, FILTER_SANITIZE_STRING);
-		if(empty($googleId)) {
-			throw(new PDOException("Google ID is invalid"));
+		$profileId = trim($profileId);
+		$profileId = filter_var($profileId, FILTER_SANITIZE_INT);
+		if(empty($profileId)) {
+			throw(new PDOException("profile ID is invalid"));
 		}
 
 		// Create query template
-		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE googleId = :googleId";
+		$query = "SELECT restaurantId, profileId, name FROM likedrestaurant WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		// Bind ID to placeholder
-		$parameters = array("googleId" => Restaurant::getGoogleId());
+		$parameters = array("profileId" => LikedRestaurant::getProfileId());
 		$statement->execute($parameters);
 
-		// Grab the restaurant from MySQL
+		// Grab the likedrestaurant from MySQL
 		try {
-			$restaurant = null;
+			$likedrestaurant = null;
 			$statement->setFetchMode(PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 
 			if($row !== false) {
-				// new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating)
-				$restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
+				// new LikedRestaurant($restaurantId, $profileId)
+				$likedrestaurant = new LIkedRestaurant($row["restaurantId"], $row["profileId"]);
 			}
-		} catch(Exception $e) {
+		} catch(Exception $exception ) {
 			// If the row couldn't be converted, rethrow it
-			throw(new PDOException($e->getMessage(), 0, $e));
+			throw(new PDOException($exception->getMessage(), 0, $exception));
 		}
 
-		return ($restaurant);
+		return ($likedrestaurant);
 	}
 
 
@@ -337,22 +287,22 @@ class LikedRestaurant {
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
-		// Build an array of restaurants
+		// Build an array of likedrestaurants
 		$restaurants = new SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				// new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating)
-				$restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
-				$restaurants[$restaurants->key()] = $restaurant;
-				$restaurants->next();
+				// new LikedRestaurant($restaurantId, $profileId)
+				$likedRestaurant = new LikedRestaurant($row["restaurantId"], $row["profileId"]);
+				$likedRestaurants[$likedRestaurants->key()] = $likedRestaurant;
+				$likedRestaurants->next();
 			} catch(Exception $e) {
 				// If the row couldn't be converted, rethrow it
 				throw(new PDOException($e->getMessage(), 0, $e));
 			}
 		}
 
-		return ($restaurants);
+		return ($likedRestaurants);
 	}
 
 }
