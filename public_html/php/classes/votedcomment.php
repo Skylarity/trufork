@@ -83,10 +83,59 @@ public function __construct($votedCommentId, $commentId, $profileId, $votedComme
 		$this->votedCommentId = intval($newVotedCommentId);
 	}
 
+	/** accessor method for commentId
+	 * @return int
+	 **/
+	public function getCommentId() {
+		return $this->commentId;
+	}
+
+	/** mutator method for commentId
+	 * @param int $commentId
+	 **/
+	public function setCommentId($newCommentId) {
+		if($newCommentId === null) {
+			$this->commentId = null;
+			return;
+		}
+		$newCommentId = filter_var($newCommentId, FILTER_VALIDATE_INT);
+		if($newCommentId === false) {
+			throw(new InvalidArgumentException("voted comment comment ID not a valid integer"));
+		}
+		if($newCommentId <= 0) {
+			throw(new RangeException("voted comment comment Id is not positive"));
+		}
+		$this->commentId = intval($newCommentId);
+	}
+
+	/** accessor method for profileId
+	 * @return int
+	 **/
+	public function getProfileId() {
+		return $this->profileId;
+	}
+
+	/** mutator method for profileId
+	 * @param int $profileId
+	 **/
+	public function setProfileId($newProfileId) {
+		if($newProfileId === null) {
+			$this->profileId = null;
+			return;
+		}
+		$newProfileId = filter_var($newProfileId, FILTER_VALIDATE_INT);
+		if($newProfileId === false) {
+			throw(new InvalidArgumentException("voted comment profile ID not a valid integer"));
+		}
+		if($newProfileId <= 0) {
+			throw(new RangeException("voted comment profile Id is not positive"));
+		}
+		$this->profileId = intval($newProfileId);
+	}
 
 	/** accessor method for votedCommentVoteType
 	 * @return int
-	 */
+	 **/
 	public function getVoteType() {
 		return $this->voteType;
 	}
