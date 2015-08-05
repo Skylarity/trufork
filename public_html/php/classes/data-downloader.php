@@ -128,12 +128,17 @@ class DataDownloader {
 	 * @param string $path path to stored file
 	 * @param string $name name of stored file
 	 * @return DateTime date of stored file
+	 * @throws Exception if file does not exist
 	 */
 	public static function getDateFromStoredFile($path, $name) {
 		// Get date from stored file
 		$currentDateStr = null;
 		$files = glob("$path$name*.csv");
-		$currentFile = $files[0];
+		if(isset($files[0])) {
+			$currentFile = $files[0];
+		} else {
+			throw(new Exception("No file exists"));
+		}
 		// echo "currentFile: " . $currentFile . "<br/>";
 
 		// Get date from filename
@@ -155,6 +160,7 @@ class DataDownloader {
 	 * @param string $newUrl url to grab from
 	 * @param string $path path to save to
 	 * @param string $name filename to save in
+	 * @return boolean true if new file was downloaded, false if not
 	 */
 	public static function downloadIfNew($newUrl, $path, $name) {
 		// Get date of city file
@@ -179,6 +185,9 @@ class DataDownloader {
 		// If the city file is newer, download it
 		if($newDate > $currentDate) {
 			DataDownloader::downloadFile($newUrl, $path, $name);
+			return true;
+		} else {
+			return false;
 		}
 	}
 }
@@ -194,4 +203,4 @@ echo "<h2>Violations:</h2><p>" . $violationsDate->format("Y-m-d H:i:s") . "</p>"
 echo "<h2>XML:</h2><p>" . $xmlDate->format("Y-m-d H:i:s") . "</p>";
 
 // This downloads the file to the server's temporary directory
-DataDownloader::downloadIfNew("http://data.cabq.gov/business/LIVES/businesses.csv", "/tmp/", "businesses");
+DataDownloader::downloadIfNew("http://data.cabq.gov/business/LIVES/businesses.csv", "/var/lib/abq-data/", "businesses");
