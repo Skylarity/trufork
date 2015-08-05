@@ -179,7 +179,7 @@
 			/** gets the friend by firstProfileId
 			 * @param PDO $pdo pointer to PDO connection by reference
 			 * @param int $firstprofileId comment firstProfileId to search for
-			 * @return mixed profile found or null if not found
+  			 * @return mixed profile found or null if not found
 			 * @throws PDOException when mySQL related errors occur
 			 **/
 			public static function getFriendById(PDO &$pdo, $firstProfileId) {
