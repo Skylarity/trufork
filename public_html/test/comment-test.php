@@ -17,13 +17,13 @@ require_once(dirname(__DIR__) . "/php/classes/comment.php");
  **/
 class CommentTest extends TruForkTest {
 	/**
-	 * valid at handle to use
-	 * @var ???
+	 * valid at datetime to use
+	 * @var int dateTime
 	 **/
-	protected $VALID_DATETIME = "????";
+	protected $VALID_DATETIME = "2015-01-01 15:16:17";
 	/**
 	 * valid content to use
-	 * @var ???
+	 * @var string content
 	 **/
 	protected $VALID_CONTENT = "????";
 
@@ -168,7 +168,7 @@ class CommentTest extends TruForkTest {
 	 **/
 	public function testGetInvalidCommentByCommentDateTime() {
 		// grab a date time that does not exist
-		$comment = Comment::getCommentByCommentDateTime($this->getPDO(), "?????");
+		$comment = Comment::getCommentByCommentDateTime($this->getPDO(), "comment doesn't exist(date time)");
 		$this->assertNull($comment);
 	}
 
@@ -195,7 +195,7 @@ class CommentTest extends TruForkTest {
 	 **/
 	public function testGetInvalidCommentByCommentContent() {
 		// grab content that does not exist
-		$comment = Comment::getCommentByCommentContent($this->getPDO(), "????");
+		$comment = Comment::getCommentByCommentContent($this->getPDO(), "comment doesn't exist(content)");
 		$this->assertNull($comment);
 	}
 }
