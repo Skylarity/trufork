@@ -134,10 +134,10 @@ class VotedCommentTest extends TruForkTest {
 
 	/**
 	 * test grabbing a voted Comment that does not exist
-	 **/
+
 	public function testGetInvalidVotedCommentByCommentId() {
 		// grab a comment id that exceeds the maximum allowable comment id
-		$comment = Comment::getVotedCommentByCommentId($this->getPDO(), TruForkTest::INVALID_KEY);
+		$comment = Comment::getInvalidVotedCommentByCommentId($this->getPDO(), TruForkTest::INVALID_KEY);
 		$this->assertNull($comment);
-	}
+	} **/
 }
