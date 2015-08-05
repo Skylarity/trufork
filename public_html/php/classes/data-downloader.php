@@ -15,7 +15,7 @@ class DataDownloader {
 	*/
 
 	/**
-	 * Grabs the metadata from a file url
+	 * Gets the metadata from a file url
 	 *
 	 * @param string $url url to grab from
 	 * @return mixed stream data
@@ -59,15 +59,50 @@ class DataDownloader {
 	}
 
 	/**
+	 * Gets the "Last-Modified" date from a file url
+	 *
+	 * @param string $url url to check
+	 * @return DateTime date last modified
+	 */
+	public static function getLastModifiedDate($url) {
+		// Get the "Last-Modified" attribute
+		$lastModified = DataDownloader::getLastModified($url);
+		$dateString = null;
+
+		if(preg_match("/(Last-Modified)/", $lastModified)) {
+			// Grab the string after "Last-Modified: "
+			$dateString = substr($lastModified, 15);
+		}
+
+		$date = new DateTime($dateString);
+
+		// $formattedDate = $date->format("Y-m-d H:i:s");
+
+		return $date;
+	}
+
+	/**
 	 * Downloads a file to a path from a url
 	 * Code modified from a stackoverflow answer
 	 *
-	 * @param $url
-	 * @param $path
+	 * @param string $url url to grab from
+	 * @param string $path path to save to
+	 * @param string $name filename to save in
+	 * @throws Exception $e catch-all exception
 	 */
-	public static function downloadFile($url, $path) {
+	public static function downloadFile($url, $path, $name) {
+		// Delete old file(s)
+		$files = glob("$path$name*.csv");
+		foreach($files as $file) {
+			// echo "glob: " . $file . "<br/>";
+			unlink($file);
+		}
+
+		// Create new file
 		$newFile = null;
-		$newFileName = $path;
+		$newFileName = $path . $name . DataDownloader::getLastModifiedDate($url)->getTimestamp() . ".csv";
+		// echo $newFileName;
+
 		$file = fopen($url, "rb");
 		if($file) {
 			$newFile = fopen($newFileName, "wb");
@@ -86,12 +121,77 @@ class DataDownloader {
 			fclose($newFile);
 		}
 	}
+
+	/**
+	 * Gets the date of a stored file
+	 *
+	 * @param string $path path to stored file
+	 * @param string $name name of stored file
+	 * @return DateTime date of stored file
+	 */
+	public static function getDateFromStoredFile($path, $name) {
+		// Get date from stored file
+		$currentDateStr = null;
+		$files = glob("$path$name*.csv");
+		$currentFile = $files[0];
+		// echo "currentFile: " . $currentFile . "<br/>";
+
+		// Get date from filename
+		$matches = array();
+		preg_match("/\\d+/", $currentFile, $matches);
+		$currentDateStr = $matches[0];
+		// echo "currentDateStr: " . $currentDateStr . "<br/>";
+
+		// Create date
+		$currentDate = DateTime::createFromFormat("U", $currentDateStr);
+		// echo "currentDate: " . $currentDate->format("Y-m-d H:i:s") . "<br/>";
+
+		return $currentDate;
+	}
+
+	/**
+	 * Saves a new version of a file if there is one
+	 *
+	 * @param string $newUrl url to grab from
+	 * @param string $path path to save to
+	 * @param string $name filename to save in
+	 */
+	public static function downloadIfNew($newUrl, $path, $name) {
+		// Get date of city file
+		$newDate = DataDownloader::getLastModifiedDate($newUrl);
+
+		// Get date of stored file
+		$currentDate = DataDownloader::getDateFromStoredFile($path, $name);
+
+		// DEBUGGING *****
+//		echo "<strong>DEBUGGING</strong><br/>";
+//		$files = glob("$path$name*.csv");
+//		echo "newDate: " . $newDate->format("Y-m-d H:i:s") . "<br/>";
+//		echo "currentDate: " . $currentDate->format("Y-m-d H:i:s") . "<br/>";
+//		echo "newUrl: " . $newUrl . "<br/>";
+//		echo "path: " . $path . "<br/>";
+//		foreach($files as $file) {
+//			echo "newPath: " . $file . "<br/>";
+//		}
+//		echo "<strong>DEBUGGING</strong><br/>";
+		// DEBUGGING *****
+
+		// If the city file is newer, download it
+		if($newDate > $currentDate) {
+			DataDownloader::downloadFile($newUrl, $path, $name);
+		}
+	}
 }
 
-echo "<h2>Businesses:</h2><p>" . DataDownloader::getLastModified("http://data.cabq.gov/business/LIVES/businesses.csv") . "</p>";
-echo "<h2>Inspections:</h2><p>" . DataDownloader::getLastModified("http://data.cabq.gov/business/LIVES/inspections.csv") . "</p>";
-echo "<h2>Violations:</h2><p>" . DataDownloader::getLastModified("http://data.cabq.gov/business/LIVES/violations.csv") . "</p>";
-echo "<h2>XML:</h2><p>" . DataDownloader::getLastModified("http://data.cabq.gov/business/foodinspections/FoodInspectionsCurrentFY-en-us.xml") . "</p>";
+$businessesDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/LIVES/businesses.csv");
+$inspectionsDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/LIVES/inspections.csv");
+$violationsDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/LIVES/violations.csv");
+$xmlDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/foodinspections/FoodInspectionsCurrentFY-en-us.xml");
+
+echo "<h2>Businesses:</h2><p>" . $businessesDate->format("Y-m-d H:i:s") . "</p>";
+echo "<h2>Inspections:</h2><p>" . $inspectionsDate->format("Y-m-d H:i:s") . "</p>";
+echo "<h2>Violations:</h2><p>" . $violationsDate->format("Y-m-d H:i:s") . "</p>";
+echo "<h2>XML:</h2><p>" . $xmlDate->format("Y-m-d H:i:s") . "</p>";
 
 // This downloads the file to the server's temporary directory
-// DataDownloader::downloadFile("http://data.cabq.gov/business/LIVES/businesses.csv", "/tmp/businesses.csv");
+DataDownloader::downloadIfNew("http://data.cabq.gov/business/LIVES/businesses.csv", "/tmp/", "businesses");
