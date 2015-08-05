@@ -191,7 +191,7 @@ class CommentTest extends TruForkTest {
 	}
 
 	/**
-	 * test grabbing a Comment by content that does not exists
+	 * test grabbing a Comment by content that does not exist
 	 **/
 	public function testGetInvalidCommentByCommentContent() {
 		// grab content that does not exist
