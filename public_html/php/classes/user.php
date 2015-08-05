@@ -97,10 +97,30 @@ class User {
 	 * @param $newSalt
 	 *
 	 */
-		function
+	public function getSalt($newSalt) {
+		// base case: if the salt id is null, this is a new salt without a mySQL assigned id
+		if($newSalt === null) {
+			$this->salt = null;
+		}
 
-
+	public function string openssl_random_pseudo_bytes()
 	}
+
+
+
+	/**
+	 * mutator method for salt
+	 *
+	 * @param setter salt password
+	 * @param openssl_random_pseudo_bytes
+	 * @param bin2hex
+	 *
+	 */
+
+	public function setSalt($newSalt){
+	}
+
+	public
 
 	/**
 	 * @param $newHash
