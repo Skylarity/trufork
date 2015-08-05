@@ -143,7 +143,7 @@ public function __construct($votedCommentId, $votedCommentVoteType = null) {
 /** gets the voted comment by voted comment id
  *
  * @param PDO $pdo pointer to PDO connection, by reference
- * @param $votedCommentId voted comment Id to search for
+ * @param $votedCommentId votedComment to search for
  * @return mixed special fixed array of comments found or null if not found
  * @throws PDOException when MySQL errors happen
  **/
