@@ -258,7 +258,7 @@ class Comment {
 	 * @return mixed Comment found or null if not found
 	 * @throws PDOException when MySQL related errors occur
 	 */
-	public static function getCommentById(PDO &$pdo, $commentId) {
+	public static function getCommentByCommentId(PDO &$pdo, $commentId) {
 
 		$commentId = filter_var($commentId, FILTER_VALIDATE_INT);
 		if($commentId === false) {
