@@ -263,8 +263,157 @@ class Violation {
         $statement->execute($parameters);
     }
 
-    public function getViolationById() {
-        // TODO
+    /**
+     * Gets the violation by restaurant ID
+     *
+     * @param PDO $pdo pointer to PDO connection, by reference
+     * @param int $violationId violation ID to search for
+     * @return mixed Violation found or null if not found
+     * @throws PDOException when MySQL related errors occur
+     */
+    public static function getViolationById(PDO &$pdo, $violationId) {
+        // Sanitize the ID before searching
+        $violationId = filter_var($violationId, FILTER_SANITIZE_NUMBER_INT);
+        if($violationId === false) {
+            throw(new PDOException("Violation ID is not an integer"));
+        }
+        if($violationId <= 0) {
+            throw(new PDOException("Violation ID is not positive"));
+        }
+
+        // Create query template
+        $query = "SELECT violationId, restaurantId, violationCode, violationDesc, inspectionMemo, serialNum FROM violation WHERE violationId = :violationId";
+        $statement = $pdo->prepare($query);
+
+        // Bind ID to placeholder
+        $parameters = array("violationId" => $violationId);
+        $statement->execute($parameters);
+
+        // Grab the violation from MySQL
+        try {
+            $violation = null;
+            $statement->setFetchMode(PDO::FETCH_ASSOC);
+            $row = $statement->fetch();
+
+            if($row !== false) {
+                // new Violation($violationId, $restaurantId, $violationCode, $violationDesc, $inspectionMemo, $serialNum);
+                $violation = new Violation($row["violationId"], $row["restaurantId"], $row["violationCode"], $row["violationDesc"], $row["inspectionMemo"], $row["serialNum"]);
+            }
+        } catch(Exception $e) {
+            // If the row couldn't be converted, rethrow it
+            throw(new PDOException($e->getMessage(), 0, $e));
+        }
+
+        return ($violation);
+    }
+
+    /**
+     * Gets the violation by an attribute and integer value
+     *
+     * @param PDO $pdo pointer to PDO connection, by reference
+     * @param string $attribute violation attribute to search for
+     * @param int $int integer value to search for
+     * @return mixed Restaurant found or null if not found
+     * @throws PDOException when MySQL related errors occur
+     */
+    public static function getViolationByInt(PDO &$pdo, $attribute, $int) {
+        // Sanitize the int before searching
+        $int = filter_var($int, FILTER_SANITIZE_NUMBER_INT);
+        if($int === false) {
+            throw(new PDOException("$attribute is not an integer"));
+        }
+        if($int <= 0) {
+            throw(new PDOException("$attribute is not positive"));
+        }
+
+        // Create query template
+        $query = "SELECT violationId, restaurantId, violationCode, violationDesc, inspectionMemo, serialNum FROM violation WHERE $attribute = :int";
+        $statement = $pdo->prepare($query);
+
+        // Bind int to placeholder
+        $parameters = array("int" => $int);
+        $statement->execute($parameters);
+
+        // Build an array of violations
+        $violations = new SplFixedArray($statement->rowCount());
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        while(($row = $statement->fetch()) !== false) {
+            try {
+                $violation = new Violation($row["violationId"], $row["restaurantId"], $row["violationCode"], $row["violationDesc"], $row["inspectionMemo"], $row["serialNum"]);
+                $violations[$violations->key()] = $violation;
+                $violations->next();
+            } catch(Exception $e) {
+                // If the row couldn't be converted, rethrow it
+                throw(new PDOException($e->getMessage(), 0, $e));
+            }
+        }
+
+        return ($violations);
+    }
+
+    /**
+     * Gets the violation by an attribute and string value
+     *
+     * @param PDO $pdo pointer to PDO connection, by reference
+     * @param string $attribute violation attribute to search for
+     * @param string $string string value to search for
+     * @return mixed Restaurant found or null if not found
+     * @throws PDOException when MySQL related errors occur
+     */
+    public static function getViolationByString(PDO &$pdo, $attribute, $string) {
+        // Sanitize the string before searching
+        $string = trim($string);
+        $string = filter_var($string, FILTER_SANITIZE_STRING);
+        if(empty($string)) {
+            throw(new PDOException("$attribute is invalid"));
+        }
+
+        // Create query template
+        $query = "SELECT violationId, restaurantId, violationCode, violationDesc, inspectionMemo, serialNum FROM violation WHERE $attribute = :string";
+        $statement = $pdo->prepare($query);
+
+        // Bind string to placeholder
+        $parameters = array("string" => $string);
+        $statement->execute($parameters);
+
+        // Build an array of violations
+        $violations = new SplFixedArray($statement->rowCount());
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        while(($row = $statement->fetch()) !== false) {
+            try {
+                $violation = new Violation($row["violationId"], $row["restaurantId"], $row["violationCode"], $row["violationDesc"], $row["inspectionMemo"], $row["serialNum"]);
+                $violations[$violations->key()] = $violation;
+                $violations->next();
+            } catch(Exception $e) {
+                // If the row couldn't be converted, rethrow it
+                throw(new PDOException($e->getMessage(), 0, $e));
+            }
+        }
+
+        return ($violations);
+    }
+
+    public static function getAllViolations(PDO &$pdo) {
+        // Create query template
+        $query = "SELECT violationId, restaurantId, violationCode, violationDesc, inspectionMemo, serialNum FROM violation";
+        $statement = $pdo->prepare($query);
+        $statement->execute();
+
+        // Build an array of violations
+        $violations = new SplFixedArray($statement->rowCount());
+        $statement->setFetchMode(PDO::FETCH_ASSOC);
+        while(($row = $statement->fetch()) !== false) {
+            try {
+                $violation = new Violation($row["violationId"], $row["restaurantId"], $row["violationCode"], $row["violationDesc"], $row["inspectionMemo"], $row["serialNum"]);
+                $violations[$violations->key()] = $violation;
+                $violations->next();
+            } catch(Exception $e) {
+                // If the row couldn't be converted, rethrow it
+                throw(new PDOException($e->getMessage(), 0, $e));
+            }
+        }
+
+        return ($violations);
     }
 
 }

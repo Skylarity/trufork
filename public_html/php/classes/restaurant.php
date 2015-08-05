@@ -404,7 +404,7 @@ class Restaurant {
             throw(new PDOException("Restaurant ID is not an integer"));
         }
         if($restaurantId <= 0) {
-            throw(new PDOException("Profile ID is not positive"));
+            throw(new PDOException("Restaurant ID is not positive"));
         }
 
         // Create query template
@@ -412,7 +412,7 @@ class Restaurant {
         $statement = $pdo->prepare($query);
 
         // Bind restaurantId to placeholder
-        $parameters = array("restaurantId" => Restaurant::getRestaurantId());
+        $parameters = array("restaurantId" => $restaurantId);
         $statement->execute($parameters);
 
         // Grab the restaurant from MySQL
@@ -454,7 +454,7 @@ class Restaurant {
         $statement = $pdo->prepare($query);
 
         // Bind address to placeholder
-        $parameters = array("address" => Restaurant::getAddress());
+        $parameters = array("address" => $address);
         $statement->execute($parameters);
 
         // Grab the restaurant from MySQL
@@ -496,7 +496,7 @@ class Restaurant {
         $statement = $pdo->prepare($query);
 
         // Bind phone number to placeholder
-        $parameters = array("phone" => Restaurant::getPhone());
+        $parameters = array("phone" => $phone);
         $statement->execute($parameters);
 
         // Grab the restaurant from MySQL
@@ -538,7 +538,7 @@ class Restaurant {
         $statement = $pdo->prepare($query);
 
         // Bind rating to placeholder
-        $parameters = array("forkRating" => Restaurant::getForkRating());
+        $parameters = array("forkRating" => $forkRating);
         $statement->execute($parameters);
 
         // Build an array of restaurants
@@ -580,7 +580,7 @@ class Restaurant {
         $statement = $pdo->prepare($query);
 
         // Bind key to placeholder
-        $parameters = array("facilityKey" => Restaurant::getFacilityKey());
+        $parameters = array("facilityKey" => $facilityKey);
         $statement->execute($parameters);
 
         // Grab the restaurant from MySQL
@@ -622,7 +622,7 @@ class Restaurant {
         $statement = $pdo->prepare($query);
 
         // Bind ID to placeholder
-        $parameters = array("googleId" => Restaurant::getGoogleId());
+        $parameters = array("googleId" => $googleId);
         $statement->execute($parameters);
 
         // Grab the restaurant from MySQL
@@ -664,7 +664,7 @@ class Restaurant {
         $statement = $pdo->prepare($query);
 
         // Bind name to placeholder
-        $parameters = array("name" => Restaurant::getName());
+        $parameters = array("name" => $name);
         $statement->execute($parameters);
 
         // Grab the restaurant from MySQL
