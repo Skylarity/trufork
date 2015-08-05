@@ -15,10 +15,22 @@ class Comment {
 	 *
 	 **/
 	private $commentId;
+
+	/** @var  int $profileId
+	 * profileId assigned to comment
+	 **/
+	private $profileId;
+
+	/** @var int restaurantId
+	 * restaurantId assigned to comment
+	 **/
+	private $restaurantId;
+
 	/** @var int $dateTime
 	 * date time assigned to comment
 	 **/
 	private $dateTime;
+
 	/** @var int content
 	 * content of comment
 	 **/
@@ -26,6 +38,8 @@ class Comment {
 
 	/** constructor method for Comment
 	 * @param int $commentId or null if a new Comment
+	 * @param int $profileId or null if a new profileId
+	 * @param int $restaurantId or null if a new restaurantId
 	 * @param int $dateTimeId datetimestamp of comment
 	 * @param int $content content of Comment
 	 * @throws InvalidArgumentException if the data is invalid
@@ -33,9 +47,11 @@ class Comment {
 	 * @throws Exception For all other cases
 	 *
 	 **/
-	public function __construct($commentId, $commentDateTime, $commentContent = null) {
+	public function __construct($commentId, $profileId, $restaurantId, $commentDateTime, $commentContent = null) {
 		try {
 			$this->setCommentId($commentId);
+			$this->setProfileId($profileId);
+			$this->setRestaurantId($restaurantId);
 			$this->setDateTime($commentDateTime);
 			$this->setContent($commentContent);
 		} catch(InvalidArgumentException $invalidArgument) {
@@ -76,6 +92,57 @@ class Comment {
 		$this->commentId = intval($newCommentId);
 	}
 
+	/** accessor method for getting profileId
+	 * @return int
+	 */
+	public function getProfileId() {
+		return $this->profileId;
+	}
+
+	/**mutator method for setting profileId
+	 * @param int $profileId
+	 */
+	public function setProfileId($newProfileId) {
+		if($newProfileId === null) {
+			$this->profileId = null;
+			return;
+		}
+		$newProfileId = filter_var($newProfileId, FILTER_VALIDATE_INT);
+		if($newProfileId === false) {
+			throw(new InvalidArgumentException("profile id is not a valid integer"));
+		}
+		if($newProfileId <= 0) {
+			throw(new RangeException("profile id is not positive"));
+		}
+		$this->profileId = intval($newProfileId);
+	}
+
+	/** accessor method for getting restaurantId
+	 * @return int
+	 */
+	public function getRestaurantId() {
+		return $this->restaurantId;
+	}
+
+	/**mutator method for setting restaurantId
+	 * @param int $restaurantId
+	 */
+	public function setRestaurantId($newRestaurantId) {
+		if($newRestaurantId === null) {
+			$this->restaurantId = null;
+			return;
+		}
+		$newRestaurantId = filter_var($newRestaurantId, FILTER_VALIDATE_INT);
+		if($newRestaurantId === false) {
+			throw(new InvalidArgumentException("restaurant id is not a valid integer"));
+		}
+		if($newRestaurantId <= 0) {
+			throw(new RangeException("restaurant id is not positive"));
+		}
+		$this->restaurantId = intval($newRestaurantId);
+	}
+
+
 	/**accessor method for getting dateTime
 	 * @return int
 	 */
@@ -88,7 +155,7 @@ class Comment {
 	 * @param int $dateTime
 	 */
 	public function setDateTime($newDateTime) {
-		if ($newDateTime === null) {
+		if($newDateTime === null) {
 			$this->dateTime = null;
 			return;
 		}
@@ -130,13 +197,14 @@ class Comment {
 		}
 		$this->commentContent = intval($newCommentContent);
 	}
-/**
- * Inserts comment into DB
- *
- * @param PDO $pdo pointer to PDO connection , by reference
- * @throws PDOException when MySQL related errors occur
- **/
-	public function insert (PDO &$pdo) {
+
+	/**
+	 * Inserts comment into DB
+	 *
+	 * @param PDO $pdo pointer to PDO connection , by reference
+	 * @throws PDOException when MySQL related errors occur
+	 **/
+	public function insert(PDO &$pdo) {
 		if($this->commentId !== null) {
 			throw(new PDOException("not a new comment"));
 		}
@@ -148,13 +216,14 @@ class Comment {
 
 		$this->setCommentId(intval($pdo->lastInsertId()));
 	}
+
 	/**
 	 * Deletes comment from DB
 	 *
 	 * @param PDO $pdo pointer to PDO connection , by reference
 	 * @throws PDOException when MySQL related errors occur
 	 **/
-	public function delete (PDO &$pdo) {
+	public function delete(PDO &$pdo) {
 		if($this->commentId === null) {
 			throw(new PDOException("cannot delete a comment that does not exist"));
 		}
@@ -165,13 +234,13 @@ class Comment {
 		$statement->execute($parameters);
 	}
 
-/** updates comment in DB
- *
- * @param PDO $pdo pointer to PDO connection, by reference
- * @throws PDOException when MySQL related errors occur
- **/
-	public function update (PDO &$pdo) {
-		if ($this->getCommentId() === null) {
+	/** updates comment in DB
+	 *
+	 * @param PDO $pdo pointer to PDO connection, by reference
+	 * @throws PDOException when MySQL related errors occur
+	 **/
+	public function update(PDO &$pdo) {
+		if($this->getCommentId() === null) {
 			throw(new PDOException("cannot update a comment that does not exist"));
 		}
 		$query = "UPDATE comment SET dateTime = :dateTime, content = :content";
@@ -179,6 +248,124 @@ class Comment {
 
 		$parameters = array("dateTime" => $this->getDateTime(), "content" => $this->getContent());
 		$statement->execute($parameters);
+	}
+
+	/**
+	 * Gets the comment by comment ID
+	 *
+	 * @param PDO $pdo pointer to PDO connection, by reference
+	 * @param int $commentId comment ID to search for
+	 * @return mixed Comment found or null if not found
+	 * @throws PDOException when MySQL related errors occur
+	 */
+	public static function getCommentById(PDO &$pdo, $commentId) {
+
+		$commentId = filter_var($commentId, FILTER_VALIDATE_INT);
+		if($commentId === false) {
+			throw(new PDOException("comment ID is not an integer"));
+		}
+		if($commentId <= 0) {
+			throw(new PDOException("comment ID is not positive"));
+		}
+
+		// Create query template
+		$query = "SELECT commentId, profileId, restaurantId, dateTime, content, name FROM comment WHERE commentId = :commentId";
+		$statement = $pdo->prepare($query);
+
+		$parameters = array("commentId" => $commentId);
+		$statement->execute($parameters);
+
+		try {
+			$comment = null;
+			$statement->setFetchMode(PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+
+			if($row !== false) {
+				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["dateTime"], $row["comment"]);
+			}
+		} catch(Exception $e) {
+			throw(new PDOException($e->getMessage(), 0, $e));
+		}
+
+		return ($comment);
+	}
+
+	/**
+	 * Gets the comment by profile ID
+	 *
+	 * @param PDO $pdo pointer to PDO connection, by reference
+	 * @param int $profileId profile ID to search for
+	 * @return mixed Comment found or null if not found
+	 * @throws PDOException when MySQL related errors occur
+	 */
+	public static function getCommentByProfileId(PDO &$pdo, $profileId) {
+
+		$profileId = filter_var($profileId, FILTER_VALIDATE_INT);
+		if($profileId === false) {
+			throw(new PDOException("profile ID is not an integer"));
+		}
+		if($profileId <= 0) {
+			throw(new PDOException("profile ID is not positive"));
+		}
+
+		// Create query template
+		$query = "SELECT commentId, profileId, restaurantId, dateTime, content, name FROM comment WHERE profileId = :profileId";
+		$statement = $pdo->prepare($query);
+
+		$parameters = array("profileId" => $profileId);
+		$statement->execute($parameters);
+
+		try {
+			$comment = null;
+			$statement->setFetchMode(PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+
+			if($row !== false) {
+				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["dateTime"], $row["comment"]);
+			}
+		} catch(Exception $e) {
+			throw(new PDOException($e->getMessage(), 0, $e));
+		}
+			return ($comment);
+		}
+
+	/**
+	 * Gets the comment by restaurant ID
+	 *
+	 * @param PDO $pdo pointer to PDO connection, by reference
+	 * @param int $restaurantId restaurant ID to search for
+	 * @return mixed Comment found or null if not found
+	 * @throws PDOException when MySQL related errors occur
+	 */
+	public static function getCommentByRestaurantId(PDO &$pdo, $restaurantId) {
+
+		$restaurantId = filter_var($restaurantId, FILTER_VALIDATE_INT);
+		if($restaurantId === false) {
+			throw(new PDOException("restaurant ID is not an integer"));
+		}
+		if($restaurantId <= 0) {
+			throw(new PDOException("restaurant ID is not positive"));
+		}
+
+		// Create query template
+		$query = "SELECT commentId, profileId, restaurantId, dateTime, content, name FROM comment WHERE profileId = :profileId";
+		$statement = $pdo->prepare($query);
+
+		$parameters = array("restaurantId" => $restaurantId);
+		$statement->execute($parameters);
+
+		try {
+			$comment = null;
+			$statement->setFetchMode(PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+
+			if($row !== false) {
+				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["dateTime"], $row["comment"]);
+			}
+		} catch(Exception $e) {
+			throw(new PDOException($e->getMessage(), 0, $e));
+		}
+		return ($comment);
 	}
 
 /** gets the comment by comment date time
@@ -194,7 +381,7 @@ class Comment {
 		if(empty($commentDateTime) === true) {
 			throw(new PDOException("date time is not a valid integer"));
 		}
-		$query = "SELECT commentId, dateTime, content FROM comment WHERE dateTime = :commentDateTime";
+		$query = "SELECT commentId, profileId, restaurantId, dateTime, content FROM comment WHERE dateTime = :commentDateTime";
 		$statement = $pdo->prepare($query);
 
 		$commentDateTime = "$commentDateTime";
@@ -205,7 +392,7 @@ class Comment {
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$comment = new Comment($row["commentId"], $row["commentDateTime"], $row["commentContent"]);
+				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["commentDateTime"], $row["commentContent"]);
 				$comments[$comments->key()] = $comment;
 				$comments->next();
 			} catch(Exception $exception) {
@@ -222,6 +409,7 @@ class Comment {
 			return($comments);
 		}
 	}
+
 	/** gets the comment by comment content
 	 *
 	 * @param PDO $pdo pointer to PDO connection, by reference
@@ -245,7 +433,7 @@ class Comment {
 			$statement->setFetchMode(PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$comment = new Comment($row["dateTime"], $row["commentId"], $row["commentContent"]);
+				$comment = new Comment($row["dateTime"], $row["commentId"], $row["profileId"], $row["restaurantId"], $row["commentContent"]);
 			}
 		}
 		catch(Exception $exception) {
@@ -269,7 +457,7 @@ class Comment {
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$comment = new Comment($row["commentId"], $row["commentDateTime"], $row["commentContent"]);
+				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["commentDateTime"], $row["commentContent"]);
 				$comments[$comments->key()] = $comment;
 				$comments->next();
 			}catch(Exception $exception) {
