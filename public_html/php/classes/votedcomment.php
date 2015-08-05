@@ -131,6 +131,74 @@ public function __construct($commentId, $profileId, $votedCommentVoteType = null
 		$this->voteType = intval($newVoteType);
 	}
 
+	/** i d u */
+
+	/**
+	 * Inserts this voted comment into MySQL
+	 *
+	 * @param PDO $pdo pointer to PDO connection , by reference
+	 * @throws PDOException when MySQL related errors occur
+	 */
+	public function insert(PDO &$pdo) {
+		// Make sure this is a new voted comment
+		if($this->commentId !== null) {
+			throw(new PDOException("Not a new voted comment"));
+		}
+
+		// Create query template
+		$query = "INSERT INTO votedComment(commentId, profileId, voteType) VALUES(:commentID, :profileId, :voteType)";
+		$statement = $pdo->prepare($query);
+
+		// Bind the member variables to the placeholders in the template
+		$parameters = array("commentId" => $this->getCommentId(), "profileId" => $this->getProfileId());
+		$statement->execute($parameters);
+
+		// Update the null comment ID with what MySQL has generated
+		$this->setCommentId(intval($pdo->lastInsertId()));
+	}
+
+	/**
+	 * Deletes this voted comment from MySQL
+	 *
+	 * @param PDO $pdo pointer to PDO connection , by reference
+	 * @throws PDOException when MySQL related errors occur
+	 */
+	public function delete(PDO &$pdo) {
+		// Make sure this voted comment already exists
+		if($this->getCommentId() === null) {
+			throw(new PDOException("Unable to delete a voted comment that does not exist"));
+		}
+
+		// Create query template
+		$query = "DELETE FROM votedComment WHERE commentId = :commentId";
+		$statement = $pdo->prepare($query);
+
+		// Bind the member variables to the placeholders in the templates
+		$parameters = array("commentId" => $this->getCommentId());
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * Updates this voted comment in MySQL
+	 *
+	 * @param PDO $pdo pointer to PDO connection , by reference
+	 * @throws PDOException when MySQL related errors occur
+	 */
+	public function update(PDO &$pdo) {
+		// Make sure this voted comment exists
+		if($this->getCommentId() === null) {
+			throw(new PDOException("Unable to update a comment that does not exist"));
+		}
+
+		// Create query template
+		$query = "UPDATE votedComment SET commentId = :commentId";
+		$statement = $pdo->prepare($query);
+
+		// Bind the member variables to the placeholders in the templates
+		$parameters = array("profileId" => $this->getProfileId(), "commentId" => $this->getCommentId());
+		$statement->execute($parameters);
+	}
+
 	/** gets the voted comment by commentId
 	 * @param PDO $pdo pointer to PDO connection by reference
 	 * @param int $commentId voted comment comment to search for

@@ -129,7 +129,7 @@ class LikedRestaurant {
 		}
 
 		// Create query template
-		$query = "INSERT INTO likedRestaurant( restaurantId, profileId ) VALUES( :restarauntID, :profileId)";
+		$query = "INSERT INTO likedRestaurant( restaurantId, profileId ) VALUES( :restaurantID, :profileId)";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the placeholders in the template
