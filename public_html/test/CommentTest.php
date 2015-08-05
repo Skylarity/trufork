@@ -105,7 +105,7 @@ class CommentTest extends TruForkTest {
 		$comment->delete($this->getPDO());
 
 		// grab the data from mySQL and enforce the Comment does not exist
-		$pdoCommment = Comment::getCommentByCommentId($this->getPDO(), $comment->getCommentId());
+		$pdoComment = Comment::getCommentByCommentId($this->getPDO(), $comment->getCommentId());
 		$this->assertNull($pdoComment);
 		$this->assertSame($numRows, $this->getConnection()->getRowCount("comment"));
 	}
