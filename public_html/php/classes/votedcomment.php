@@ -16,7 +16,6 @@ class votedComment {
   * @var int votedComment
  **/
 
-	private $votedCommentId;
 
 /** below is one of two foreign keys for this class
  * it's the ID of the comment that was voted
@@ -43,9 +42,8 @@ class votedComment {
  * @throws Exception For all other cases
  *
  **/
-public function __construct($votedCommentId, $commentId, $profileId, $votedCommentVoteType = null) {
+public function __construct($commentId, $profileId, $votedCommentVoteType = null) {
 	try {
-		$this->setVotedCommentId($votedCommentId);
 		$this->setCommentId($commentId);
 		$this->setProfileId($profileId);
 		$this->setVoteType($votedCommentVoteType);
@@ -58,31 +56,6 @@ public function __construct($votedCommentId, $commentId, $profileId, $votedComme
 		}
 
 }
-/** accessor method for votedCommentId
- * @return int
- **/
-	public function getVotedCommentId() {
-		return $this->votedCommentId;
-	}
-
-	/**mutator method for setting votedCommentId
-	 * @param int $votedCommentId
-	 */
-	public function setVotedCommentId($newVotedCommentId) {
-		if($newVotedCommentId === null) {
-			$this->votedCommentId = null;
-			return;
-		}
-		$newVotedCommentId = filter_var($newVotedCommentId, FILTER_VALIDATE_INT);
-		if($newVotedCommentId === false) {
-			throw(new InvalidArgumentException("voted comment id is not a valid integer"));
-		}
-		if($newVotedCommentId <= 0) {
-			throw(new RangeException("voted comment id is not positive"));
-		}
-		$this->votedCommentId = intval($newVotedCommentId);
-	}
-
 	/** accessor method for commentId
 	 * @return int
 	 **/
@@ -157,95 +130,6 @@ public function __construct($votedCommentId, $commentId, $profileId, $votedComme
 		}
 		$this->voteType = intval($newVoteType);
 	}
-	/** inserts voted comment into DB
-	 *@param PDO $pdo pointer to pdo connection by reference
-	 *@throws PDOException in the event of mySQL errors
-	 **/
-	public function insert (PDO &$pdo) {
-		if($this->votedCommentId !== null) {
-			throw(new PDOException("not a new voted comment"));
-		}
-		$query = "INSERT INTO votedComment(voteType) VALUES(:voteType)";
-		$statement = $pdo->prepare($query);
-
-		$parameters = array("voteType" => $this->getVoteType());
-		$statement->execute($parameters);
-
-		$this->setVotedCommentId(intval($pdo->lastInsertId()));
-	}
-	/**
-	 * Deletes voted comment from DB
-	 *
-	 * @param PDO $pdo pointer to PDO connection by reference
-	 * @throws PDOException when MySQL related errors occur
-	 **/
-	public function delete (PDO &$pdo) {
-		if($this->votedCommentId === null) {
-			throw(new PDOException("cannot delete a voted comment that does not exist"));
-		}
-		$query = "DELETE FROM comment WHERE votedCommentId = :votedCommentId";
-		$statement = $pdo->prepare($query);
-
-		$parameters = array("votedCommentId" => $this->getVotedCommentId());
-		$statement->execute($parameters);
-	}
-/** updates voted comment in DB
- *
- * @param PDO $pdo pointer to PDO connection by reference
- * @throws PDOException when MySQL related errors occur
- **/
-	public function update (PDO &$pdo) {
-		if ($this->getVotedCommentId() === null) {
-			throw(new PDOException("cannot update a voted comment that does not exist"));
-		}
-		$query = "UPDATE comment SET dateTime = :dateTime, content = :content";
-		$statement = $pdo->prepare($query);
-
-		$parameters = array("voteType" => $this->getVoteType());
-		$statement->execute($parameters);
-	}
-
-/** gets the voted comment by voted comment id
- *
- * @param PDO $pdo pointer to PDO connection, by reference
- * @param $votedCommentId votedComment to search for
- * @return mixed special fixed array of comments found or null if not found
- * @throws PDOException when MySQL errors happen
- **/
-	public static function getCommentByVotedCommentId(PDO &$pdo, $votedCommentId) {
-		$votedCommentId = trim($votedCommentId);
-		$votedCommentId = filter_var($votedCommentId, FILTER_VALIDATE_INT);
-		if(empty($votedCommentId) === true) {
-			throw(new PDOException("voted comment id is not a valid integer"));
-		}
-		$query = "SELECT votedCommentId, commentId, profileId, voteType FROM votedComment WHERE voteType = :voteType";
-		$statement = $pdo->prepare($query);
-
-		$votedCommentId = "$votedCommentId";
-		$parameters = array("votedCommentId" => $votedCommentId);
-		$statement->execute($parameters);
-
-		$votedComments = new SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$votedComment = new votedComment($row["votedCommentId"], $row["commentId"], $row["profileId"], $row["votedCommentVoteType"]);
-				$votedComments[$votedComments->key()] = $votedComment;
-				$votedComments->next();
-			} catch(Exception $exception) {
-				throw(new PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		/** count the results in the array and return:
-		 *  1) null if 0 results
-		 *  2) the entire array if >+ 1 result **/
-		$numberOfVotedComments = count($votedComments);
-		if($numberOfVotedComments === 0) {
-			return (null);
-		} else {
-			return($votedComments);
-		}
-	}
 
 	/** gets the voted comment by commentId
 	 * @param PDO $pdo pointer to PDO connection by reference
@@ -259,7 +143,7 @@ public function __construct($votedCommentId, $commentId, $profileId, $votedComme
 		if(empty($CommentId) === true) {
 			throw(new PDOException("voted comment id is not a valid integer"));
 		}
-		$query = "SELECT votedCommentId, commentId, profileId, voteType FROM votedComment WHERE voteType = :voteType";
+		$query = "SELECT commentId, profileId, voteType FROM votedComment WHERE voteType = :voteType";
 		$statement = $pdo->prepare($query);
 
 		$commentId = "$CommentId";
@@ -270,7 +154,7 @@ public function __construct($votedCommentId, $commentId, $profileId, $votedComme
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$comment = new comment($row["votedCommentId"], $row["commentId"], $row["profileId"], $row["votedCommentVoteType"]);
+				$comment = new comment($row["commentId"], $row["profileId"], $row["votedCommentVoteType"]);
 				$comments[$comments->key()] = $comment;
 				$comments->next();
 			} catch(Exception $exception) {
@@ -300,7 +184,7 @@ public function __construct($votedCommentId, $commentId, $profileId, $votedComme
 		if(empty($ProfileId) === true) {
 			throw(new PDOException("profile id is not a valid integer"));
 		}
-		$query = "SELECT votedCommentId, commentId, profileId, voteType FROM votedComment WHERE voteType = :voteType";
+		$query = "SELECT commentId, profileId, voteType FROM votedComment WHERE voteType = :voteType";
 		$statement = $pdo->prepare($query);
 
 		$profileId = "$ProfileId";
@@ -311,7 +195,7 @@ public function __construct($votedCommentId, $commentId, $profileId, $votedComme
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$profile = new profile($row["votedCommentId"], $row["commentId"], $row["profileId"], $row["votedCommentVoteType"]);
+				$profile = new profile($row["commentId"], $row["profileId"], $row["votedCommentVoteType"]);
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(Exception $exception) {
@@ -342,7 +226,7 @@ public function __construct($votedCommentId, $commentId, $profileId, $votedComme
 		if($votedCommentVoteType === false) {
 			throw(new PDOException("voted comment vote type not valid"));
 		}
-		$query = "SELECT votedCommentId, voteType FROM votedComment WHERE voteType = :voteType";
+		$query = "SELECT voteType FROM votedComment WHERE voteType = :voteType";
 		$statement = $pdo->prepare($query);
 
 		$parameters = array("votedCommentVoteType" => $votedCommentVoteType);
@@ -353,7 +237,7 @@ public function __construct($votedCommentId, $commentId, $profileId, $votedComme
 			$statement->setFetchMode(PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$votedComment = new VotedComment($row["voteType"], $row["votedCommentId"]);
+				$votedComment = new VotedComment($row["commentId"], $row["profileId"], $row["voteType"]);
 			}
 		}
 		catch(Exception $exception) {
@@ -369,7 +253,7 @@ public function __construct($votedCommentId, $commentId, $profileId, $votedComme
  * @throws PDOException when mySQL related errors occur
  **/
 	public static function getAllVotedComments(PDO &$pdo) {
-		$query = "SELECT votedCommentId, voteType FROM votedComment";
+		$query = "SELECT voteType FROM votedComment";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
@@ -377,7 +261,7 @@ public function __construct($votedCommentId, $commentId, $profileId, $votedComme
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$votedComment = new VotedComment($row["votedCommentId"], $row["votedCommentVoteType"]);
+				$votedComment = new VotedComment($row["commentId"], $row["profileId"], $row["votedCommentVoteType"]);
 				$votedComments[$votedComments->key()] = $votedComment;
 				$votedComments->next();
 			}catch(Exception $exception) {
@@ -396,10 +280,3 @@ public function __construct($votedCommentId, $commentId, $profileId, $votedComme
 		}
 	}
 	}
-
-
-
-
-
-
-

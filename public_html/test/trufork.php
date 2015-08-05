@@ -19,7 +19,7 @@ require_once("/etc/apache2/data-design/encrypted-config.php");
  **/
 abstract class TruForkTest extends PHPUnit_Extensions_Database_TestCase {
 	/**
-	 * invalid id to use for an INT UNSIGNED field (maximum allowed INT UNSIGTNED in mySQL) + 1
+	 * invalid id to use for an INT UNSIGNED field (maximum allowed INT UNSIGNED in mySQL) + 1
 	 * @see https://dev.mysql.com/doc/refman/5.6/en/integer-types.html mySQL Integer Types
 	 * @var int INVALID_KEY
 	 **/
