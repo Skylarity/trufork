@@ -148,7 +148,7 @@ class CommentTest extends TruForkTest {
 		$this->assertNull($comment);
 	}
 
-	public function testGetValidCommentByDateTime() {
+	public function testGetValidCommentByCommentDateTime() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("comment");
 
@@ -157,7 +157,7 @@ class CommentTest extends TruForkTest {
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoComment = Comment::getCommentByDateTime($this->getPDO(), $this->VALID_DATETIME);
+		$pdoComment = Comment::getCommentByCommentDateTime($this->getPDO(), $this->VALID_DATETIME);
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
 		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
 		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
@@ -166,16 +166,16 @@ class CommentTest extends TruForkTest {
 	/**
 	 * test grabbing a Comment by date time that does not exist
 	 **/
-	public function testGetInvalidCommentByDateTime() {
+	public function testGetInvalidCommentByCommentDateTime() {
 		// grab a date time that does not exist
-		$comment = Comment::getCommentByDateTime($this->getPDO(), "@doesnotexist");
+		$comment = Comment::getCommentByCommentDateTime($this->getPDO(), "?????");
 		$this->assertNull($comment);
 	}
 
 	/**
 	 * test grabbing a Comment by content
 	 **/
-	public function testGetValidCommentByContent() {
+	public function testGetValidCommentByCommentContent() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("comment");
 
@@ -184,7 +184,7 @@ class CommentTest extends TruForkTest {
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoComment = Comment::getCommentByContent($this->getPDO(), $this->VALID_CONTENT);
+		$pdoComment = Comment::getCommentByCommentContent($this->getPDO(), $this->VALID_CONTENT);
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
 		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
 		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
@@ -193,9 +193,9 @@ class CommentTest extends TruForkTest {
 	/**
 	 * test grabbing a Comment by content that does not exists
 	 **/
-	public function testGetInvalidCommentByContent() {
+	public function testGetInvalidCommentByCommentContent() {
 		// grab content that does not exist
-		$comment = Comment::getCommentByContent($this->getPDO(), "????");
+		$comment = Comment::getCommentByCommentContent($this->getPDO(), "????");
 		$this->assertNull($comment);
 	}
 }
