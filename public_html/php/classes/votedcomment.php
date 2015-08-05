@@ -222,7 +222,7 @@ public function __construct($commentId, $profileId, $votedCommentVoteType = null
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$comment = new comment($row["commentId"], $row["profileId"], $row["votedCommentVoteType"]);
+				$comment = new comment($row["commentId"], $row["profileId"], $row["votedCommentVoteType"], $row["commentDateTime"]);
 				$comments[$comments->key()] = $comment;
 				$comments->next();
 			} catch(Exception $exception) {
