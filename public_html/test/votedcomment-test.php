@@ -9,8 +9,7 @@ require_once(dirname(__DIR__) . "/php/classes/votedcomment.php");
 /**
  * Full PHPUnit test for the votedComment class
  *
- * This is a complete PHPUnit test of the votedComment class. It is complete because *ALL* mySQL/PDO enabled methods
- * are tested for both invalid and valid inputs.
+ * I am very doubtful that this works.
  *
  * @see Comment
  * @author
