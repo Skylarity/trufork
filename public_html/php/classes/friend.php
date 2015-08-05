@@ -31,12 +31,12 @@
 		 **/
 		public function __construct($newFirstProfileId, $newSecondProfileId, $newDateFriended){
 				try{
-						$this->setFirstProlifeId($newFirstProfileId);
+						$this->setFirstProfileId($newFirstProfileId);
 						$this->setSecondProfileId($newSecondProfileId);
 	 					$this->setDateFriended($newDateFriended);
-	} catch(UnexpectedValueException $exceptioon){
+	} catch(UnexpectedValueException $exception){
 			//rethrow to the caller
-				throw(new UnexpectedValueException("Unable to construct Friend", 0,$exception));
+				throw(new UnexpectedValueException("Unable to construct Friend", 0, $exception));
 }
 	}
 
