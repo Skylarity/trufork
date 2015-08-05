@@ -91,7 +91,7 @@ class Violation {
 	/**
 	 * Mutator for serial number (max length 12)
 	 *
-	 * @param string $serialNum
+	 * @param string $serialNum the serial number to change
 	 */
 	public function setSerialNum($serialNum) {
 		$this->serialNum = Filter::filterString($serialNum, 12, "Serial number");
@@ -109,7 +109,7 @@ class Violation {
 	/**
 	 * Mutator for violation ID
 	 *
-	 * @param int $violationId
+	 * @param int $violationId the violation ID to change
 	 */
 	public function setViolationId($violationId) {
 		$this->violationId = Filter::filterID($violationId, "Violation ID");
@@ -127,7 +127,7 @@ class Violation {
 	/**
 	 * Mutator for restaurant ID
 	 *
-	 * @param int $restaurantId
+	 * @param int $restaurantId the restaurant ID to change
 	 */
 	public function setRestaurantId($restaurantId) {
 		$this->restaurantId = Filter::filterInt($restaurantId, "Restaurant ID");
@@ -145,7 +145,7 @@ class Violation {
 	/**
 	 * Mutator for the violation code
 	 *
-	 * @param int $violationCode
+	 * @param int $violationCode the violation code to change
 	 */
 	public function setViolationCode($violationCode) {
 		$this->violationCode = Filter::filterInt($violationCode, "Violation code");
@@ -163,7 +163,7 @@ class Violation {
 	/**
 	 * Mutator for the violation description (max length 64)
 	 *
-	 * @param string $violationDesc
+	 * @param string $violationDesc the violation description to change
 	 */
 	public function setViolationDesc($violationDesc) {
 		$this->violationDesc = Filter::filterString($violationDesc, 64, "Violation description");
@@ -181,7 +181,7 @@ class Violation {
 	/**
 	 * Mutator for the inspection memo (max length 256)
 	 *
-	 * @param string $inspectionMemo
+	 * @param string $inspectionMemo the inspection memo to change
 	 */
 	public function setInspectionMemo($inspectionMemo) {
 		$this->inspectionMemo = Filter::filterString($inspectionMemo, 256, "Inspection memo");
