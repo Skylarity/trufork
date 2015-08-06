@@ -118,11 +118,11 @@ class Profile {
 		// verify the user id is positive
 		If($newUserId <= 0) {
 			throw(new RangeException("user id is not positive"));
-
+			}
 			//convert and store user id
 			$this->userId = intval($newUserId);
 		}
-	}
+
 
 
 	/**
@@ -189,7 +189,7 @@ class Profile {
 	}
 
 	/**
-	 * Deletes this restaurant from MySQL
+	 * Deletes this Profile from MySQL
 	 *
 	 * @param PDO $pdo pointer to PDO connection , by reference
 	 * @throws PDOException when MySQL related errors occur
@@ -197,7 +197,7 @@ class Profile {
 	public function delete(PDO &$pdo) {
 		// Make sure this restaurant already exists
 		if($this->getProfileId() === null) {
-			throw(new PDOException("Unable to delete a restaurant that does not exist"));
+			throw(new PDOException("Unable to delete a profile that does not exist"));
 		}
 
 	// Create query template
@@ -205,7 +205,7 @@ class Profile {
 	$statement = $pdo->prepare($query);
 
 	// Bind the member variables to the place holders in the template
-	$parameters = array("profileId" => $this->getProileId());
+	$parameters = array("profileId" => $this->getProfileId());
 	$statement->execute($parameters);
 }
 
@@ -233,10 +233,10 @@ class Profile {
 	/**
 	 * Gets the profile by profile ID
 	 *
-	 * @param PDO $pd pointer to the PDO connection, by reference
+	 * @param PDO $pdo
 	 * @param int $profileId profile ID to search for
 	 * @return mixed profile found null if not found
-	 * @throws PDOException when MySQL related errors
+	 * @internal param PDO $pd pointer to the PDO connection, by reference
 	 */
 	public static function getProfileByProfileId(PDO &$pdo, $profileId) {
 		// sanitize the tweetId before searching
@@ -312,12 +312,9 @@ class Profile {
 	}
 
 	/**
-	 * Gets the profile by email ID
-	 *
-	 * @param PDO $pd pointer to the PDO connection, by reference
-	 * @param int $email ID to search for
-	 * @return mixed profile found null if not found
-	 * @throws PDOException when MySQL related errors
+	 * @param PDO $pdo
+	 * @param $email
+	 * @return null|Profile
 	 */
 	public static function getProfileByEmail(PDO &$pdo, $email) {
 		// sanitize the tweetId before searching
@@ -353,30 +350,27 @@ class Profile {
 	}
 
 	/**
-	 * Gets all profile
-	 *
-	 * @param PDO $pdo pointer to PDO connection, by reference
-	 * @return SplFixedArray of Restaurants found
-	 * @throws PDOException when MySQL related errors occur
+	 * @param PDO $pdo
+	 * @return Profile|SplFixedArray
 	 */
 	public static function getAllProfile(PDO &$pdo) {
 		// Create query template
-		$query = "SELECT profileId, userId, email,";
+		$query = "SELECT profileId, userId, email FROM profile";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
-		// Build an array of restaurants
+		// Build an array of profile
 		$profile = new SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				// new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating)
+				// new Profile ($profileId, $userId, $email)
 				$profile = new Profile($row["profileId"], $row["userId"], $row["email"]);
-				$profile[$profile->key()] = $profile;
+				$profiles[$profiles->key()] = $profile;
 				$profile->next();
-			} catch(Exception $e) {
+			} catch(Exception $exception) {
 				// If the row couldn't be converted, rethrow it
-				throw(new PDOException($e->getMessage(), 0, $e));
+				throw(new PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
 
