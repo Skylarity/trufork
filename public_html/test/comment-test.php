@@ -7,10 +7,9 @@ require_once(dirname(__DIR__) . "/php/classes/comment.php");
 
 
 /**
- * Full PHPUnit test for the Comment class
+ * PHPUnit test for the Comment class
  *
- * This is a complete PHPUnit test of the Comment class. It is complete because *ALL* mySQL/PDO enabled methods
- * are tested for both invalid and valid inputs.
+ * ????
  *
  * @see Comment
  * @author
