@@ -369,7 +369,7 @@ class RestaurantTest extends TruForkTest {
 	 **/
 	public function testGetInvalidRestaurantByForkRating() {
 		// Grab a name that does not exist
-		$restaurant = new Restaurant(TruForkTest::INVALID_KEY, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, "u suck");
+		$restaurant = new Restaurant(TruForkTest::INVALID_KEY, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, "1");
 		$this->assertNull($restaurant);
 	}
 
