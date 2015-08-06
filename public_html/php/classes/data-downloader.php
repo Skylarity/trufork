@@ -23,7 +23,7 @@ class DataDownloader {
 	public static function getMetaData($url) {
 		$context = stream_context_create(array("http" => array("method" => "HEAD")));
 		$fd = fopen($url, "rb", false, $context);
-		var_dump(stream_get_meta_data($fd));
+//		var_dump(stream_get_meta_data($fd));
 
 		// Grab the stream data
 		$streamData = stream_get_meta_data($fd);
@@ -139,17 +139,17 @@ class DataDownloader {
 		} else {
 			throw(new Exception("No file exists"));
 		}
-		echo "currentFile: " . $currentFile . "<br/>";
+//		echo "currentFile: " . $currentFile . "<br/>";
 
 		// Get date from filename
 		$matches = array();
 		preg_match("/\\d+/", $currentFile, $matches);
 		$currentDateStr = $matches[0];
-		echo "currentDateStr: " . $currentDateStr . "<br/>";
+//		echo "currentDateStr: " . $currentDateStr . "<br/>";
 
 		// Create date
 		$currentDate = DateTime::createFromFormat("U", $currentDateStr);
-		echo "currentDate: " . $currentDate->format("Y-m-d H:i:s") . "<br/>";
+//		echo "currentDate: " . $currentDate->format("Y-m-d H:i:s") . "<br/>";
 
 		return $currentDate;
 	}
@@ -169,16 +169,16 @@ class DataDownloader {
 		// Get date of stored file
 		$currentDate = DataDownloader::getDateFromStoredFile($path, $name);
 
-		// TODO: Comment out all this [WORD REDACTED FOR PRESENTATION PURPOSES]
 		// DEBUGGING *****
-		$files = glob("$path$name*.csv");
-		echo "newDate: " . $newDate->format("Y-m-d H:i:s") . "<br/>";
-		echo "currentDate: " . $currentDate->format("Y-m-d H:i:s") . "<br/>";
-		echo "newUrl: " . $newUrl . "<br/>";
-		echo "path: " . $path . "<br/>";
-		foreach($files as $file) {
-			echo "newPath: " . $file . "<br/>";
-		}// DEBUGGING *****
+//		$files = glob("$path$name*.csv");
+//		echo "newDate: " . $newDate->format("Y-m-d H:i:s") . "<br/>";
+//		echo "currentDate: " . $currentDate->format("Y-m-d H:i:s") . "<br/>";
+//		echo "newUrl: " . $newUrl . "<br/>";
+//		echo "path: " . $path . "<br/>";
+//		foreach($files as $file) {
+//			echo "newPath: " . $file . "<br/>";
+//		}
+		// DEBUGGING *****
 
 		// If the city file is newer, download it
 		if($newDate > $currentDate) {
