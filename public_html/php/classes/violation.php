@@ -112,7 +112,7 @@ class Violation {
 	 * @param int $violationId the violation ID to change
 	 */
 	public function setViolationId($violationId) {
-		$this->violationId = Filter::filterID($violationId, "Violation ID");
+		$this->violationId = Filter::filterInt($violationId, "Violation ID", true);
 	}
 
 	/**
@@ -186,15 +186,6 @@ class Violation {
 	public function setInspectionMemo($inspectionMemo) {
 		$this->inspectionMemo = Filter::filterString($inspectionMemo, 256, "Inspection memo");
 	}
-
-	/*
-	 * violationId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	 * restaurantId INT UNSIGNED NOT NULL,
-	 * violationCode INT(12) NOT NULL,
-	 * violationDesc VARCHAR(64) NOT NULL,
-	 * inspectionMemo VARCHAR(256) NOT NULL,
-	 * serialNum VARCHAR(12) NOT NULL
-	 */
 
 	/**
 	 * Inserts this violation into MySQL
