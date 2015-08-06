@@ -200,10 +200,5 @@ echo "<h2>Inspections:</h2><p>" . $inspectionsDate->format("Y-m-d H:i:s") . "</p
 echo "<h2>Violations:</h2><p>" . $violationsDate->format("Y-m-d H:i:s") . "</p>";
 echo "<h2>XML:</h2><p>" . $xmlDate->format("Y-m-d H:i:s") . "</p>";
 
-echo "<code>";
-echo "<strong>DEBUGGING:</strong><br/>";
-
 // This downloads the file to the server's temporary directory
 DataDownloader::downloadIfNew("http://data.cabq.gov/business/LIVES/businesses.csv", "/var/lib/abq-data/", "businesses");
-
-echo "</code>";
