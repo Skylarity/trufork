@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This Friend is an example of date collected and store about a profile for  trufork
+ * This Friend is an example of date collected and store  for  trufork
  *
  * @author H Perez <hperezperez.cnm.edu>
  */
@@ -251,7 +251,7 @@
 			}
 
 		/**
-		 * Gets all restaurants
+		 * Gets all friends
 		 *
 		 * @param PDO $pdo pointer to PDO connection, by reference
 		 * @return SplFixedArray of Friends found
