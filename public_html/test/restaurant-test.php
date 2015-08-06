@@ -11,7 +11,7 @@
 require_once("trufork.php");
 
 // Get the class to test
-require_once(dirname(__DIR__) . "php/classes/restaurant.php");
+require_once(dirname(__DIR__) . "/php/classes/restaurant.php");
 
 class RestaurantTest extends TruForkTest {
 
@@ -19,7 +19,7 @@ class RestaurantTest extends TruForkTest {
 	 * Valid ID to use
 	 * @var int $VALID_ID
 	 */
-	protected $VALID_ID = 1;
+	protected $VALID_ID = null;
 
 	/**
 	 * Valid Google ID to use
@@ -37,7 +37,7 @@ class RestaurantTest extends TruForkTest {
 	 * Valid name to use
 	 * @var string $VALID_NAME
 	 */
-	protected $VALID_NAME = "FRESHY'S BURGERS AND MORE";
+	protected $VALID_NAME = "FRESHY&#39;S BURGERS AND MORE";
 
 	/**
 	 * Second valid name to use
@@ -71,13 +71,13 @@ class RestaurantTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("restaurant");
 
 		// Create a new Restaurant and insert it into MySQL
-		$restaurant = new Restaurant(null, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
+		$restaurant = new Restaurant(null, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
 		$restaurant->insert($this->getPDO());
 
 		// Grab the data from MySQL and enforce the fields match out expectations
 		$pdoRestaurant = Restaurant::getRestaurantById($this->getPDO(), $restaurant->getRestaurantId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
-		$this->assertSame($pdoRestaurant->getRestaurantId(), $this->VALID_ID);
+		$this->assertLessThan($pdoRestaurant->getRestaurantId(), 0);
 		$this->assertSame($pdoRestaurant->getGoogleId(), $this->VALID_GOOGLE_ID);
 		$this->assertSame($pdoRestaurant->getFacilityKey(), $this->VALID_FACILITY_KEY);
 		$this->assertSame($pdoRestaurant->getName(), $this->VALID_NAME);
@@ -93,7 +93,7 @@ class RestaurantTest extends TruForkTest {
 	 **/
 	public function testInsertInvalidRestaurant() {
 		// create a profile with a non null profileId and watch it fail
-		$restaurant = new Restaurant(TruForkTest::INVALID_KEY, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
+		$restaurant = new Restaurant(TruForkTest::INVALID_KEY, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
 		$restaurant->insert($this->getPDO());
 	}
 
@@ -105,7 +105,7 @@ class RestaurantTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("restaurant");
 
 		// Create a new Restaurant and insert it into MySQL
-		$restaurant = new Restaurant(null, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
+		$restaurant = new Restaurant(null, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
 		$restaurant->insert($this->getPDO());
 
 		// Edit the restaurant and update it in MySQL
@@ -115,10 +115,10 @@ class RestaurantTest extends TruForkTest {
 		// Grab the data from MySQL and enforce the fields match out expectations
 		$pdoRestaurant = Restaurant::getRestaurantById($this->getPDO(), $restaurant->getRestaurantId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
-		$this->assertSame($pdoRestaurant->getRestaurantId(), $this->VALID_ID);
+		$this->assertLessThan($pdoRestaurant->getRestaurantId(), 0);
 		$this->assertSame($pdoRestaurant->getGoogleId(), $this->VALID_GOOGLE_ID);
 		$this->assertSame($pdoRestaurant->getFacilityKey(), $this->VALID_FACILITY_KEY);
-		$this->assertSame($pdoRestaurant->getName(), $this->VALID_NAME);
+		$this->assertSame($pdoRestaurant->getName(), $this->VALID_NAME2);
 		$this->assertSame($pdoRestaurant->getAddress(), $this->VALID_ADDRESS);
 		$this->assertSame($pdoRestaurant->getPhone(), $this->VALID_PHONE);
 		$this->assertSame($pdoRestaurant->getForkRating(), $this->VALID_FORK_RATING);
@@ -131,7 +131,7 @@ class RestaurantTest extends TruForkTest {
 	 **/
 	public function testUpdateInvalidRestaurant() {
 		// create a Restaurant and try to update it without actually inserting it
-		$restaurant = new Restaurant(null, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
+		$restaurant = new Restaurant(null, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
 		$restaurant->update($this->getPDO());
 	}
 
@@ -143,7 +143,7 @@ class RestaurantTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("restaurant");
 
 		// Create a new Restaurant and insert it into MySQL
-		$restaurant = new Restaurant(null, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
+		$restaurant = new Restaurant(null, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
 		$restaurant->insert($this->getPDO());
 
 		// Delete the Restaurant from MySQL
@@ -163,7 +163,7 @@ class RestaurantTest extends TruForkTest {
 	 **/
 	public function testDeleteInvalidRestaurant() {
 		// create a Restaurant and try to delete it without actually inserting it
-		$restaurant = new Restaurant(null, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
+		$restaurant = new Restaurant(null, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
 		$restaurant->delete($this->getPDO());
 	}
 
@@ -175,13 +175,13 @@ class RestaurantTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("restaurant");
 
 		// Create a new Restaurant and insert it into MySQL
-		$restaurant = new Restaurant(null, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
+		$restaurant = new Restaurant(null, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
 		$restaurant->insert($this->getPDO());
 
 		// Grab the data from MySQL and enforce the fields match out expectations
 		$pdoRestaurant = Restaurant::getRestaurantByGoogleId($this->getPDO(), $restaurant->getGoogleId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
-		$this->assertSame($pdoRestaurant->getRestaurantId(), $this->VALID_ID);
+		$this->assertLessThan($pdoRestaurant->getRestaurantId(), 0);
 		$this->assertSame($pdoRestaurant->getGoogleId(), $this->VALID_GOOGLE_ID);
 		$this->assertSame($pdoRestaurant->getFacilityKey(), $this->VALID_FACILITY_KEY);
 		$this->assertSame($pdoRestaurant->getName(), $this->VALID_NAME);
@@ -197,7 +197,7 @@ class RestaurantTest extends TruForkTest {
 	 **/
 	public function testGetInvalidRestaurantByGoogleId() {
 		// Grab a Google ID that does not exist
-		$restaurant = new Restaurant(TruForkTest::INVALID_KEY, $this->VALID_ID, "doesnotexistG3TR3KT", $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
+		$restaurant = Restaurant::getRestaurantByGoogleId($this->getPDO(), "<script></script>");
 		$this->assertNull($restaurant);
 	}
 
@@ -209,13 +209,13 @@ class RestaurantTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("restaurant");
 
 		// Create a new Restaurant and insert it into MySQL
-		$restaurant = new Restaurant(null, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
+		$restaurant = new Restaurant(null, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
 		$restaurant->insert($this->getPDO());
 
 		// Grab the data from MySQL and enforce the fields match out expectations
 		$pdoRestaurant = Restaurant::getRestaurantByFacilityKey($this->getPDO(), $restaurant->getFacilityKey());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
-		$this->assertSame($pdoRestaurant->getRestaurantId(), $this->VALID_ID);
+		$this->assertLessThan($pdoRestaurant->getRestaurantId(), 0);
 		$this->assertSame($pdoRestaurant->getGoogleId(), $this->VALID_GOOGLE_ID);
 		$this->assertSame($pdoRestaurant->getFacilityKey(), $this->VALID_FACILITY_KEY);
 		$this->assertSame($pdoRestaurant->getName(), $this->VALID_NAME);
@@ -231,7 +231,7 @@ class RestaurantTest extends TruForkTest {
 	 **/
 	public function testGetInvalidRestaurantByFacilityKey() {
 		// Grab a facility key that does not exist
-		$restaurant = new Restaurant(TruForkTest::INVALID_KEY, $this->VALID_ID, $this->VALID_GOOGLE_ID, "R3KTS0N", $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
+		$restaurant = Restaurant::getRestaurantByFacilityKey($this->getPDO(), "<script></script>");
 		$this->assertNull($restaurant);
 	}
 
@@ -243,13 +243,13 @@ class RestaurantTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("restaurant");
 
 		// Create a new Restaurant and insert it into MySQL
-		$restaurant = new Restaurant(null, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
+		$restaurant = new Restaurant(null, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
 		$restaurant->insert($this->getPDO());
 
 		// Grab the data from MySQL and enforce the fields match out expectations
 		$pdoRestaurant = Restaurant::getRestaurantByName($this->getPDO(), $restaurant->getName());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
-		$this->assertSame($pdoRestaurant->getRestaurantId(), $this->VALID_ID);
+		$this->assertLessThan($pdoRestaurant->getRestaurantId(), 0);
 		$this->assertSame($pdoRestaurant->getGoogleId(), $this->VALID_GOOGLE_ID);
 		$this->assertSame($pdoRestaurant->getFacilityKey(), $this->VALID_FACILITY_KEY);
 		$this->assertSame($pdoRestaurant->getName(), $this->VALID_NAME);
@@ -265,7 +265,7 @@ class RestaurantTest extends TruForkTest {
 	 **/
 	public function testGetInvalidRestaurantByName() {
 		// Grab a name that does not exist
-		$restaurant = new Restaurant(TruForkTest::INVALID_KEY, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, "not open :(", $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
+		$restaurant = Restaurant::getRestaurantByName($this->getPDO(), "<script></script>");
 		$this->assertNull($restaurant);
 	}
 
@@ -277,13 +277,13 @@ class RestaurantTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("restaurant");
 
 		// Create a new Restaurant and insert it into MySQL
-		$restaurant = new Restaurant(null, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
+		$restaurant = new Restaurant(null, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
 		$restaurant->insert($this->getPDO());
 
 		// Grab the data from MySQL and enforce the fields match out expectations
 		$pdoRestaurant = Restaurant::getRestaurantByAddress($this->getPDO(), $restaurant->getAddress());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
-		$this->assertSame($pdoRestaurant->getRestaurantId(), $this->VALID_ID);
+		$this->assertLessThan($pdoRestaurant->getRestaurantId(), 0);
 		$this->assertSame($pdoRestaurant->getGoogleId(), $this->VALID_GOOGLE_ID);
 		$this->assertSame($pdoRestaurant->getFacilityKey(), $this->VALID_FACILITY_KEY);
 		$this->assertSame($pdoRestaurant->getName(), $this->VALID_NAME);
@@ -299,7 +299,7 @@ class RestaurantTest extends TruForkTest {
 	 **/
 	public function testGetInvalidRestaurantByAddress() {
 		// Grab a name that does not exist
-		$restaurant = new Restaurant(TruForkTest::INVALID_KEY, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, "123 GET THE F*** AWAY FROM ME ST.", $this->VALID_PHONE, $this->VALID_FORK_RATING);
+		$restaurant = Restaurant::getRestaurantByAddress($this->getPDO(), "<script></script>");
 		$this->assertNull($restaurant);
 	}
 
@@ -311,13 +311,13 @@ class RestaurantTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("restaurant");
 
 		// Create a new Restaurant and insert it into MySQL
-		$restaurant = new Restaurant(null, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
+		$restaurant = new Restaurant(null, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
 		$restaurant->insert($this->getPDO());
 
 		// Grab the data from MySQL and enforce the fields match out expectations
 		$pdoRestaurant = Restaurant::getRestaurantByPhone($this->getPDO(), $restaurant->getPhone());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
-		$this->assertSame($pdoRestaurant->getRestaurantId(), $this->VALID_ID);
+		$this->assertLessThan($pdoRestaurant->getRestaurantId(), 0);
 		$this->assertSame($pdoRestaurant->getGoogleId(), $this->VALID_GOOGLE_ID);
 		$this->assertSame($pdoRestaurant->getFacilityKey(), $this->VALID_FACILITY_KEY);
 		$this->assertSame($pdoRestaurant->getName(), $this->VALID_NAME);
@@ -333,7 +333,7 @@ class RestaurantTest extends TruForkTest {
 	 **/
 	public function testGetInvalidRestaurantByPhone() {
 		// Grab a name that does not exist
-		$restaurant = new Restaurant(TruForkTest::INVALID_KEY, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, "5058008135", $this->VALID_FORK_RATING);
+		$restaurant = Restaurant::getRestaurantByPhone($this->getPDO(), "<script></script>");
 		$this->assertNull($restaurant);
 	}
 
@@ -345,14 +345,14 @@ class RestaurantTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("restaurant");
 
 		// Create a new Restaurant and insert it into MySQL
-		$restaurant = new Restaurant(null, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
+		$restaurant = new Restaurant(null, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
 		$restaurant->insert($this->getPDO());
 
 		// Grab the data from MySQL and enforce the fields match out expectations
 		$pdoRestaurants = Restaurant::getRestaurantsByForkRating($this->getPDO(), $restaurant->getForkRating());
 		foreach($pdoRestaurants as $pdoRestaurant) {
 			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
-			$this->assertSame($pdoRestaurant->getRestaurantId(), $this->VALID_ID);
+			$this->assertLessThan($pdoRestaurant->getRestaurantId(), 0);
 			$this->assertSame($pdoRestaurant->getGoogleId(), $this->VALID_GOOGLE_ID);
 			$this->assertSame($pdoRestaurant->getFacilityKey(), $this->VALID_FACILITY_KEY);
 			$this->assertSame($pdoRestaurant->getName(), $this->VALID_NAME);
@@ -369,7 +369,7 @@ class RestaurantTest extends TruForkTest {
 	 **/
 	public function testGetInvalidRestaurantByForkRating() {
 		// Grab a name that does not exist
-		$restaurant = new Restaurant(TruForkTest::INVALID_KEY, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, "1");
+		$restaurant = Restaurant::getRestaurantByPhone($this->getPDO(), "<script></script>");
 		$this->assertNull($restaurant);
 	}
 
