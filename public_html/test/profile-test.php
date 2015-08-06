@@ -1,48 +1,34 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: kennethchavez
- * Date: 8/5/15
- * Time: 4:04 PM
- */
 
-// grab the project test parameters
-require_once("trufork.php");
+// unit test for profile class
 
-// grab the class under scrutiny
-require_once(dirname(__DIR__) . "/php/classes/profile.php");
-
+// get test parameters
+require_once(dirname(__DIR__) . "php/classes/profile.php");
 
 /**
- * Full PHPUnit test for the Profile class
  *
- * This is a complete PHPUnit test of the Profile class. It is complete because *ALL* mySQL/PDO enabled methods
- * are tested for both invalid and valid inputs.
- *
- * @see Profile
- * @author Dylan McDonald <dmcdonald21@cnm.edu>
+ * @author kenneth Chavez <kchavez68@cnm.edu>
  **/
-class ProfileTest extends truForkTest {
+class ProfileTest extends TruForkTest {
+
 	/**
-	 * valid at handle to use
-	 * @var string $VALID_ATHANDLE
+	 * profileId is valid
+	 * @var int $VALID_ID
 	 **/
-	protected $VALID_ATHANDLE = "@phpunit";
+	protected $VALID_ID = 1;
+
 	/**
-	 * second valid at handle to use
-	 * @var string $VALID_ATHANDLE2
+	 * userId is valid
+	 * @var int $VALID_ID
 	 **/
-	protected $VALID_ATHANDLE2 = "@passingtests";
+	protected $VALID_USER_ID = 1;
+
 	/**
-	 * valid email to use
-	 * @var string $VALID_EMAIL
+	 * email is valid
+	 * @var int $VALID_ID
 	 **/
-	protected $VALID_EMAIL = "test@phpunit.de";
-	/**
-	 * valid phone number to use
-	 * @var string $VALID_PHONE
-	 **/
-	protected $VALID_PHONE = "+12125551212";
+	protected $VALID_EMAIL = "kchavez68@cnm.edu";
+
 
 	/**
 	 * test inserting a valid Profile and verify that the actual mySQL data matches
@@ -52,25 +38,24 @@ class ProfileTest extends truForkTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->VALID_ATHANDLE, $this->VALID_EMAIL, $this->VALID_PHONE);
+		$profile = new Profile(null, $this->VALID_ID, $this->VALID_USER_ID, $this->VALID_EMAIL);
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertSame($pdoProfile->getAtHandle(), $this->VALID_ATHANDLE);
+		$this->assertSame($pdoProfile->getProfileId(), $this->VALID_ID);
+		$this->assertSame($pdoProfile->getUserId(), $this->VALID_USER_ID);
 		$this->assertSame($pdoProfile->getEmail(), $this->VALID_EMAIL);
-		$this->assertSame($pdoProfile->getPhone(), $this->VALID_PHONE);
 	}
-
 	/**
 	 * test inserting a Profile that already exists
 	 *
 	 * @expectedException PDOException
 	 **/
 	public function testInsertInvalidProfile() {
-		// create a profile with a non null profileId and watch it fail
-		$profile = new Profile(DataDesignTest::INVALID_KEY, $this->VALID_ATHANDLE, $this->VALID_EMAIL, $this->VALID_PHONE);
+		// create a profile with a non null profileId and watch it fail!!
+		$profile = new Profile(ProfileTest::INVALID_KEY, $this->VALID_USER_ID, $this->VALID_EMAIL);
 		$profile->insert($this->getPDO());
 	}
 
@@ -82,19 +67,18 @@ class ProfileTest extends truForkTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->VALID_ATHANDLE, $this->VALID_EMAIL, $this->VALID_PHONE);
+		$profile = new Profile(null, $this->VALID_USER_ID, $this->VALID_EMAIL);
 		$profile->insert($this->getPDO());
 
 		// edit the Profile and update it in mySQL
-		$profile->setAtHandle($this->VALID_ATHANDLE2);
+		$profile->setAtHandle($this->VALID_USER_ID2);
 		$profile->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertSame($pdoProfile->getAtHandle(), $this->VALID_ATHANDLE2);
+		$this->assertSame($pdoProfile->getAtHandle(), $this->VALID_USER_ID2);
 		$this->assertSame($pdoProfile->getEmail(), $this->VALID_EMAIL);
-		$this->assertSame($pdoProfile->getPhone(), $this->VALID_PHONE);
 	}
 
 	/**
@@ -104,7 +88,7 @@ class ProfileTest extends truForkTest {
 	 **/
 	public function testUpdateInvalidProfile() {
 		// create a Profile and try to update it without actually inserting it
-		$profile = new Profile(null, $this->VALID_ATHANDLE, $this->VALID_EMAIL, $this->VALID_PHONE);
+		$profile = new Profile(null, $this->VALID_USER_ID, $this->VALID_EMAIL);
 		$profile->update($this->getPDO());
 	}
 
@@ -116,7 +100,7 @@ class ProfileTest extends truForkTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->VALID_ATHANDLE, $this->VALID_EMAIL, $this->VALID_PHONE);
+		$profile = new Profile(null, $this->VALID_USER_ID, $this->VALID_EMAIL);
 		$profile->insert($this->getPDO());
 
 		// delete the Profile from mySQL
@@ -128,7 +112,6 @@ class ProfileTest extends truForkTest {
 		$this->assertNull($pdoProfile);
 		$this->assertSame($numRows, $this->getConnection()->getRowCount("profile"));
 	}
-
 	/**
 	 * test deleting a Profile that does not exist
 	 *
@@ -136,7 +119,7 @@ class ProfileTest extends truForkTest {
 	 **/
 	public function testDeleteInvalidProfile() {
 		// create a Profile and try to delete it without actually inserting it
-		$profile = new Profile(null, $this->VALID_ATHANDLE, $this->VALID_EMAIL, $this->VALID_PHONE);
+		$profile = new Profile(null, $this->VALID_USER_ID, $this->VALID_EMAIL);
 		$profile->delete($this->getPDO());
 	}
 
@@ -148,15 +131,14 @@ class ProfileTest extends truForkTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->VALID_ATHANDLE, $this->VALID_EMAIL, $this->VALID_PHONE);
+		$profile = new Profile(null, $this->VALID_USER_ID, $this->VALID_EMAIL);
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertSame($pdoProfile->getAtHandle(), $this->VALID_ATHANDLE);
+		$this->assertSame($pdoProfile->getAtHandle(), $this->VALID_USER_ID);
 		$this->assertSame($pdoProfile->getEmail(), $this->VALID_EMAIL);
-		$this->assertSame($pdoProfile->getPhone(), $this->VALID_PHONE);
 	}
 
 	/**
@@ -164,32 +146,16 @@ class ProfileTest extends truForkTest {
 	 **/
 	public function testGetInvalidProfileByProfileId() {
 		// grab a profile id that exceeds the maximum allowable profile id
-		$profile = Profile::getProfileByProfileId($this->getPDO(), DataDesignTest::INVALID_KEY);
+		$profile = Profile::getProfileByProfileId($this->getPDO(), ProfileTest::INVALID_KEY);
 		$this->assertNull($profile);
-	}
-
-	public function testGetValidProfileByAtHandle() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("profile");
-
-		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->VALID_ATHANDLE, $this->VALID_EMAIL, $this->VALID_PHONE);
-		$profile->insert($this->getPDO());
-
-		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProfile = Profile::getProfileByAtHandle($this->getPDO(), $this->VALID_ATHANDLE);
-		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertSame($pdoProfile->getAtHandle(), $this->VALID_ATHANDLE);
-		$this->assertSame($pdoProfile->getEmail(), $this->VALID_EMAIL);
-		$this->assertSame($pdoProfile->getPhone(), $this->VALID_PHONE);
 	}
 
 	/**
 	 * test grabbing a Profile by at handle that does not exist
 	 **/
-	public function testGetInvalidProfileByAtHandle() {
+	public function testGetInvalidProfileByUserId() {
 		// grab an at handle that does not exist
-		$profile = Profile::getProfileByAtHandle($this->getPDO(), "@doesnotexist");
+		$profile = Profile::getProfileByUserId($this->getPDO(), "@userId");
 		$this->assertNull($profile);
 	}
 
@@ -201,17 +167,15 @@ class ProfileTest extends truForkTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->VALID_ATHANDLE, $this->VALID_EMAIL, $this->VALID_PHONE);
+		$profile = new Profile(null, $this->VALID_ATHANDLE, $this->VALID_EMAIL);
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByEmail($this->getPDO(), $this->VALID_EMAIL);
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertSame($pdoProfile->getAtHandle(), $this->VALID_ATHANDLE);
+		$this->assertSame($pdoProfile->getUserId(), $this->VALID_USER_ID);
 		$this->assertSame($pdoProfile->getEmail(), $this->VALID_EMAIL);
-		$this->assertSame($pdoProfile->getPhone(), $this->VALID_PHONE);
 	}
-
 	/**
 	 * test grabbing a Profile by an email that does not exists
 	 **/
