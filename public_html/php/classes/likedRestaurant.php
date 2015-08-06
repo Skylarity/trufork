@@ -220,67 +220,22 @@ class LikedRestaurant {
 				$likedRestaurant = new LikedRestaurant($row["restaurantId"], $row["profileId"]);
 			}
 		} catch(Exception $exception) {
-			// If the row couldn't be converted, rethrow it
-			throw(new PDOException($exception->getMessage(), 0, $exception));
+			// If the row couldn't be converted, rethrow i
 		}
 
-		return ($likedRestaurant);
 
-		// Sanitize the ID before searching
-		$profileId = trim($profileId);
-		$profileId = filter_var($profileId, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($profileId)) {
-			throw(new PDOException("profile ID is invalid"));
-		}
+return ($likedRestaurant);
 
-		// Create query template
-		$query = "SELECT restaurantId, profileId FROM likedRestaurant WHERE profileId = :profileId";
-		$statement = $pdo->prepare($query);
-
-		// Bind ID to placeholder
-		$parameters = array("profileId" => LikedRestaurant::getProfileId());
-		$statement->execute($parameters);
-
-		// Grab the liked restaurant from MySQL
-		try {
-			$likedRestaurant = null;
-			$statement->setFetchMode(PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-
-			if($row !== false) {
-				// new LikedRestaurant($restaurantId, $profileId)
-				$likedRestaurant = new LIkedRestaurant($row["restaurantId"], $row["profileId"]);
-			}
-		} catch(Exception $exception) {
-			// If the row couldn't be converted, rethrow it
-			throw(new PDOException($exception->getMessage(), 0, $exception));
-		}
-
-		return ($likedRestaurant);
-				 $statement->setFetchMode(PDO::FETCH_ASSOC);
-				 $row = $statement->fetch();
-
-				 if($row !== false) {
-					 // new LIkedRestaurant($restaurantId, $profileId)
-					 $likedRestaurant = new LikedRestaurant($row["restaurantId"], $row["profileId"]);
-
-				 catch
-					 (Exception $exception) {
-						 // If the row couldn't be converted, rethrow it
-						 throw(new PDOException($exception->getMessage(), 0, $exception));
-					 }
-
-			 return ($likedRestaurant);
-	}
+}
 
 	/**
-	 * Gets all restaurants
+	 * Gets all liked restaurants
 	 *
 	 * @param PDO $pdo pointer to PDO connection, by reference
 	 * @return SplFixedArray of LikedRestaurants found
 	 * @throws PDOException when MySQL related errors occur
 	*/
-	public static function getAllRestaurants(PDO &$pdo) {
+	public static function getAllLikedRestaurants(PDO &$pdo) {
 		// Create query template
 		$query = "SELECT restaurantId, profileId FROM likedRestaurant";
 		$statement = $pdo->prepare($query);
@@ -293,7 +248,7 @@ class LikedRestaurant {
 			try {
 				// new LikedRestaurant($restaurantId, $profileId)
 				$likedRestaurant = new LikedRestaurant($row["restaurantId"], $row["profileId"]);
-				$likedRestaurants[$likedRestaurants->key()] = $likedRestaurant;
+				$likedRestaurants[$likedRestaurants->key()] = $likedRestaurants;
 				$likedRestaurants->next();
 			} catch(Exception $e) {
 				// If the row couldn't be converted, rethrow it
@@ -305,7 +260,7 @@ class LikedRestaurant {
 	}
 
 
-	public static function getAllRestaurants(PDO &$pdo); {
+	public static function getAllLikedRestaurant(PDO &$pdo) {
 			 // Create query template
 			 $query = "SELECT restaurantId, profileId  FROM likedRestaurant";
 			 $statement = $pdo->prepare($query);
@@ -318,7 +273,8 @@ class LikedRestaurant {
 				 try {
 					 // new LikedRestaurant($restaurantId, $profileId)
 					 $likedRestaurant = new LikedRestaurant($row["restaurantId"], $row["profileId"]);
-					 $likedRestaurants[$likedRestaurants->key()] = $likedRestaurant;
+					 $likedRestaurants[$likedRestaurants->key()] = $likedRestaurant
+					 ;
 					 $likedRestaurants->next();
 				 } catch(Exception $e) {
 					 // If the row couldn't be converted, rethrow it
@@ -332,6 +288,5 @@ class LikedRestaurant {
 
 
  }
->>>>>>> Stashed changes
 
 
