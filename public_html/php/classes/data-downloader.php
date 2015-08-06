@@ -23,7 +23,7 @@ class DataDownloader {
 	public static function getMetaData($url) {
 		$context = stream_context_create(array("http" => array("method" => "HEAD")));
 		$fd = fopen($url, "rb", false, $context);
-		// var_dump(stream_get_meta_data($fd));
+		var_dump(stream_get_meta_data($fd));
 
 		// Grab the stream data
 		$streamData = stream_get_meta_data($fd);
@@ -49,7 +49,7 @@ class DataDownloader {
 		// Loop through to find the "Last-Modified" attribute
 		$lastModified = "";
 		foreach($wrapperData as $data) {
-			if(preg_match("/(Last-Modified)/", $data)) {
+			if(strpos($data, "Last-Modified") !== false) {
 				$lastModified = $data;
 				break;
 			}
@@ -69,7 +69,7 @@ class DataDownloader {
 		$lastModified = DataDownloader::getLastModified($url);
 		$dateString = null;
 
-		if(preg_match("/(Last-Modified)/", $lastModified)) {
+		if(strpos($lastModified, "Last-Modified") !== false) {
 			// Grab the string after "Last-Modified: "
 			$dateString = substr($lastModified, 15);
 		}

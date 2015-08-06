@@ -129,7 +129,7 @@ class RestaurantTest extends TruForkTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testUpdateInvalidProfile() {
+	public function testUpdateInvalidRestaurant() {
 		// create a Restaurant and try to update it without actually inserting it
 		$restaurant = new Restaurant(null, $this->VALID_ID, $this->VALID_GOOGLE_ID, $this->VALID_FACILITY_KEY, $this->VALID_NAME, $this->VALID_ADDRESS, $this->VALID_PHONE, $this->VALID_FORK_RATING);
 		$restaurant->update($this->getPDO());
