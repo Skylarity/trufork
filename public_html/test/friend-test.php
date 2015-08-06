@@ -13,7 +13,7 @@ require_once("trufork.php");
 * are tested for both invalid and valid inputs.
 *
 * @see Friend
-* @author Dylan McDonald <dmcdonald21@cnm.edu>
+* @author H perez <hperezperez@cnm,edu>
 **/
 class FriendTest extends TruForkTest {
 /**
