@@ -4,6 +4,7 @@ require_once(dirname(__DIR__) . "/test/trufork.php");
 
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/php/classes/comment.php");
+require_once(dirname(__DIR__) . "/php/classes/restaurant.php");
 
 
 /**
@@ -51,6 +52,22 @@ class CommentTest extends TruForkTest {
 	 * create dependent objects b4 running each test
 	 *
 	 **/
+	public final function setUp() {
+		// run the default setup() method first
+		parent::setUp();
+
+		//create and insert a Restaurant to own the test Comment
+		$this->restaurant = new Restaurant(null, "ChIJ18Mh_sa6woARKLIrL9eOxTs", "ABCD12345678", "Sticky Rice", "317 South Broadway, Los Angeles, CA 90013", "+18185551212", "5");
+		$this->restaurant->insert($this->getPDO());
+
+		//create the new test Comment
+		$this->comment = new Comment(null, null, $this->restaurant->getRestaurantId(), "01/01/2005", "2012-01-01 14:15:16");
+		$this->comment->insert($this->getPDO());
+
+		//calculate the test comment content
+		//$this->VALID_CONTENT = new Content();
+	}
+
 
 	/**
 	 * test inserting a valid Comment and verify that the actual mySQL data matches
