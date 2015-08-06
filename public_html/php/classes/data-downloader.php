@@ -139,17 +139,17 @@ class DataDownloader {
 		} else {
 			throw(new Exception("No file exists"));
 		}
-		// echo "currentFile: " . $currentFile . "<br/>";
+		echo "currentFile: " . $currentFile . "<br/>";
 
 		// Get date from filename
 		$matches = array();
 		preg_match("/\\d+/", $currentFile, $matches);
 		$currentDateStr = $matches[0];
-		// echo "currentDateStr: " . $currentDateStr . "<br/>";
+		echo "currentDateStr: " . $currentDateStr . "<br/>";
 
 		// Create date
 		$currentDate = DateTime::createFromFormat("U", $currentDateStr);
-		// echo "currentDate: " . $currentDate->format("Y-m-d H:i:s") . "<br/>";
+		echo "currentDate: " . $currentDate->format("Y-m-d H:i:s") . "<br/>";
 
 		return $currentDate;
 	}
@@ -169,18 +169,16 @@ class DataDownloader {
 		// Get date of stored file
 		$currentDate = DataDownloader::getDateFromStoredFile($path, $name);
 
+		// TODO: Comment out all this shit
 		// DEBUGGING *****
-//		echo "<strong>DEBUGGING</strong><br/>";
-//		$files = glob("$path$name*.csv");
-//		echo "newDate: " . $newDate->format("Y-m-d H:i:s") . "<br/>";
-//		echo "currentDate: " . $currentDate->format("Y-m-d H:i:s") . "<br/>";
-//		echo "newUrl: " . $newUrl . "<br/>";
-//		echo "path: " . $path . "<br/>";
-//		foreach($files as $file) {
-//			echo "newPath: " . $file . "<br/>";
-//		}
-//		echo "<strong>DEBUGGING</strong><br/>";
-		// DEBUGGING *****
+		$files = glob("$path$name*.csv");
+		echo "newDate: " . $newDate->format("Y-m-d H:i:s") . "<br/>";
+		echo "currentDate: " . $currentDate->format("Y-m-d H:i:s") . "<br/>";
+		echo "newUrl: " . $newUrl . "<br/>";
+		echo "path: " . $path . "<br/>";
+		foreach($files as $file) {
+			echo "newPath: " . $file . "<br/>";
+		}// DEBUGGING *****
 
 		// If the city file is newer, download it
 		if($newDate > $currentDate) {
@@ -202,5 +200,10 @@ echo "<h2>Inspections:</h2><p>" . $inspectionsDate->format("Y-m-d H:i:s") . "</p
 echo "<h2>Violations:</h2><p>" . $violationsDate->format("Y-m-d H:i:s") . "</p>";
 echo "<h2>XML:</h2><p>" . $xmlDate->format("Y-m-d H:i:s") . "</p>";
 
+echo "<code>";
+echo "<strong>DEBUGGING:</strong><br/>";
+
 // This downloads the file to the server's temporary directory
 DataDownloader::downloadIfNew("http://data.cabq.gov/business/LIVES/businesses.csv", "/var/lib/abq-data/", "businesses");
+
+echo "</code>";
