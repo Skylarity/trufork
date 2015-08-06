@@ -169,7 +169,7 @@ class DataDownloader {
 		// Get date of stored file
 		$currentDate = DataDownloader::getDateFromStoredFile($path, $name);
 
-		// TODO: Comment out all this shit
+		// TODO: Comment out all this [WORD REDACTED FOR PRESENTATION PURPOSES]
 		// DEBUGGING *****
 		$files = glob("$path$name*.csv");
 		echo "newDate: " . $newDate->format("Y-m-d H:i:s") . "<br/>";
