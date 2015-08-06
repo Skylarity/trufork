@@ -52,13 +52,13 @@ class Comment {
 	 * @throws Exception For all other cases
 	 *
 	 **/
-	public function __construct($commentId, $profileId, $restaurantId, $commentDateTime, $commentContent = null) {
+	public function __construct($commentId, $profileId, $restaurantId, $dateTime, $content = null) {
 		try {
 			$this->setCommentId($commentId);
 			$this->setProfileId($profileId);
 			$this->setRestaurantId($restaurantId);
-			$this->setCommentDateTime($commentDateTime);
-			$this->setCommentContent($commentContent);
+			$this->setCommentDateTime($dateTime);
+			$this->setCommentContent($content);
 		} catch(InvalidArgumentException $invalidArgument) {
 			throw(new InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(RangeException $range) {

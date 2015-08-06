@@ -38,7 +38,7 @@ CREATE TABLE restaurant (
 CREATE TABLE violation (
 	violationId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	restaurantId INT UNSIGNED NOT NULL,
-	violationCode INT(12) NOT NULL,
+	violationCode VARCHAR(8) NOT NULL,
 	violationDesc VARCHAR(64) NOT NULL,
 	inspectionMemo VARCHAR(256) NOT NULL,
 	serialNum VARCHAR(12) NOT NULL, -- this value is alphanumeric, hence not an integer

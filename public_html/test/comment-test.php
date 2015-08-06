@@ -15,16 +15,42 @@ require_once(dirname(__DIR__) . "/php/classes/comment.php");
  * @author
  **/
 class CommentTest extends TruForkTest {
+
+	/**
+	 * Valid ID to use
+	 * @var int $VALID_ID
+	 */
+	protected $VALID_ID = "1";
+
 	/**
 	 * valid at datetime to use
 	 * @var int dateTime
 	 **/
 	protected $VALID_DATETIME = "2015-01-01 15:16:17";
+
 	/**
 	 * valid content to use
 	 * @var string content
 	 **/
 	protected $VALID_CONTENT = "bigoldstringofnonsense";
+
+	/**
+	 * valid Profile that created the comment
+	 * @var Profile $profile
+	 **/
+	protected $profile = null;
+
+	/**
+	 * valid Restaurant upon which the comment is made
+	 * @var Restaurant $restaurant
+	 **/
+	protected $restaurant = null;
+
+	/**
+	 *
+	 * create dependent objects b4 running each test
+	 *
+	 **/
 
 	/**
 	 * test inserting a valid Comment and verify that the actual mySQL data matches
@@ -34,12 +60,13 @@ class CommentTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoComment = Comment::getCommentByCommentId($this->getPDO(), $comment->getCommentId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
+		$this->assertSame($pdoComment->getCommentId(), $this->VALID_ID);
 		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
 		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
 	}
@@ -51,7 +78,7 @@ class CommentTest extends TruForkTest {
 	 **/
 	public function testInsertInvalidComment() {
 		// create a comment with a non null commentId and watch it fail
-		$comment = new Comment(TruforkTest::INVALID_KEY, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(TruforkTest::INVALID_KEY, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 	}
 
@@ -63,7 +90,7 @@ class CommentTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// edit the Comment and update it in mySQL
@@ -73,6 +100,7 @@ class CommentTest extends TruForkTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoComment = Comment::getCommentByCommentId($this->getPDO(), $comment->getCommentId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
+		$this->assertSame($pdoComment->getCommentId(),$this->VALID_ID);
 		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
 		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
 	}
@@ -84,7 +112,7 @@ class CommentTest extends TruForkTest {
 	 **/
 	public function testUpdateInvalidComment() {
 		// create a Comment and try to update it without actually inserting it
-		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->update($this->getPDO());
 	}
 
@@ -96,7 +124,7 @@ class CommentTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// delete the Comment from mySQL
@@ -116,7 +144,7 @@ class CommentTest extends TruForkTest {
 	 **/
 	public function testDeleteInvalidComment() {
 		// create a Comment and try to delete it without actually inserting it
-		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->delete($this->getPDO());
 	}
 
@@ -128,12 +156,13 @@ class CommentTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoComment = Comment::getCommentByCommentId($this->getPDO(), $comment->getCommentId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
+		$this->assertSame($pdoComment->getCommentId(), $this->VALID_ID);
 		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
 		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
 	}
@@ -152,12 +181,13 @@ class CommentTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoComment = Comment::getCommentByCommentDateTime($this->getPDO(), $this->VALID_DATETIME);
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
+		$this->assertSame($pdoComment->getCommentId(), $this->VALID_ID);
 		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
 		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
 	}
@@ -179,12 +209,13 @@ class CommentTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Profile and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoComment = Comment::getCommentByCommentContent($this->getPDO(), $this->VALID_CONTENT);
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
+		$this->assertSame($pdoComment->getDateTime(), $this->VALID_ID);
 		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
 		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
 	}
