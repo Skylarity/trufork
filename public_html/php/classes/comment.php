@@ -1,7 +1,7 @@
 <?php
 
 //grab the date parsing function
-require_once(dirname(__DIR__) . "/functions/validatedate.php");
+require_once(dirname(__DIR__) . "/traits/validatedate.php");
 
 /**
  * Creation of Comment class for trufork
@@ -165,7 +165,7 @@ class Comment {
 	public function setCommentDateTime($newCommentDateTime) {
 		//if date null, default to current date
 		if($newCommentDateTime === null) {
-			$this->commentDateTime = null;
+			$this->commentDateTime = new DateTime();
 			return;
 		}
 		//store comment date

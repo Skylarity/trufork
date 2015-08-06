@@ -1,6 +1,6 @@
 <?php
 // grab the project test parameters
-require_once("trufork.php");
+require_once(dirname(__DIR__) . "/test/trufork.php");
 
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/php/classes/comment.php");
@@ -24,7 +24,7 @@ class CommentTest extends TruForkTest {
 	 * valid content to use
 	 * @var string content
 	 **/
-	protected $VALID_CONTENT = "????";
+	protected $VALID_CONTENT = "bigoldstringofnonsense";
 
 	/**
 	 * test inserting a valid Comment and verify that the actual mySQL data matches
