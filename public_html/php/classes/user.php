@@ -36,7 +36,7 @@ class User {
 		try {
 			$this->setUserId($newUserId);
 			$this->setSalt($salt);
-			$this->setHash($hash);
+			$this->sethash($hash);
 		} catch(InvalidArgumentException $invalidArgument) {
 			//rethrow the exception to the call
 			throw(new InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
@@ -100,7 +100,7 @@ class User {
 	 */
 	public function setSalt($newSalt) {
 		// verify if salt is exactly string of 64
-			if((crypt_digit($newSalt)) === false) {
+			if((ctype_xdigit($newSalt)) === false) {
 				if(empty($newSalt) === true) {
 					throw new InvalidArgumentException ("content invalid");
 				}
@@ -115,23 +115,24 @@ class User {
 	 *
 	 * @return string
 	 */
-	public function getHash() {
+	public function gethash() {
 		return $this->hash;
 	}
 
-	/** mutator method for hash
-	 * @param $newHash
+	/**
+	 * @param $newhash
 	 */
-	public function setHash($newHash) {
+	public function sethash($newhash) {
 		// verify if hash is exactly string of 128
-		if((crypt_digit($newHash)) === false) {
-			if(empty($newHash) === true) {
+		/** @var TYPE_NAME $newhash */
+		if((ctype_xdigit($newhash)) === false) {
+			if(empty($newhash) === true) {
 				throw new InvalidArgumentException ("content invalid");
 			}
-			if(strlen($newHash) !== 128) {
+			if(strlen($newhash) !== 128) {
 				throw new RangeException ("hash is not valid");
 			}
-			$this->hash = $newHash;
+			$this->hash = $newhash;
 		}
 	}
 
@@ -149,14 +150,14 @@ class User {
 		}
 
 		// create a query template
-		$query = "INSERT INTO user(userId, salt, hash) VALUES(:userid, :salt, :hash)";
+		$query = "INSERT INTO user(userId) VALUES(:userid)";
 		$statement = $pdo->prepare($query);
 
 		// update the null profileId with what mySQL gave us
 		$this->userId = intval($pdo->lastInsertId());
 
 		// bind profileId to placeholders in template
-		$parameters = array("profileId" => $this->getUserId(), "userId" =>$this->getUserId(), "salt" =>$this->getSalt(), getHash());
+		$parameters = array("profileId" => $this->getUserId(), "userId" =>$this->getUserId(), "salt" =>$this->getSalt(),"hash" =>$this->getHash());
 		$statement->execute($parameters);
 
 		// Update the null profile ID with what MySQL has generate
@@ -176,7 +177,7 @@ class User {
 		}
 
 		// Create query template
-		$query = "DELETE FROM profile WHERE userId = :userId";
+		$query = "DELETE FROM user WHERE userId = :userId";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the place holders in the template
@@ -185,28 +186,28 @@ class User {
 	}
 
 	/**
-	 * Updates this profile in MySQL
+	 * Updates this userId in MySQL
 	 *
 	 * @param PDO $pdo pointer to PDO connection , by reference
 	 * @throws PDOException when MySQL related errors occur
 	 */
 	public function update(PDO &$pdo) {
 		// Make sure this restaurant exists
-		if($this->getProfileId() === null) {
+		if($this->getUserId() === null) {
 			throw(new PDOException("Unable to update a profile that does not exist"));
 		}
 
 		// Create query template
-		$query = "UPDATE profile SET userId = :userId, salt = :salt, hash = :hash, name = :name WHERE userId = :userId";
+		$query = "UPDATE user SET userId = :userId, salt = :salt, hash = :hash, name = :name WHERE userId = :userId";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the placeholders in the templates
-		$parameters = array("userId" => $this->getUserId(), "salt" =>$this->getSalt(), "hash" =>$this->getHash());
+		$parameters = array("userId" => $this->getUserId(), "salt" =>$this->getSalt(), "hash" =>$this->gethash());
 		$statement->execute($parameters);
 	}
 
 	/**
-	 * Gets the profile by profile ID
+	 * Gets the profile by user ID
 	 *
 	 * @param PDO $pdo
 	 * @param int $userId user ID to search for
@@ -224,11 +225,11 @@ class User {
 		}
 
 		// create query template
-		$query	 = "SELECT userId, salt, hash FROM profile WHERE profileId = :profileId";
+		$query	 = "SELECT userId, salt, hash FROM user WHERE userId = :userId";
 		$statement = $pdo->prepare($query);
 
 		// bind the tweet id to the place holder in the template
-		$parameters = array("tweetId" => $profileId);
+		$parameters = array("tweetId" => $userId);
 		$statement->execute($parameters);
 
 		// grab the tweet from mySQL
@@ -237,18 +238,14 @@ class User {
 			$statement->setFetchMode(PDO::FETCH_ASSOC);
 			$row   = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["userId"], $row["email"]);
+				$userId = new User($row["userId"], $row["salt"], $row["hash"]);
 			}
 		} catch(Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($profile);
+		return($userId);
 	}
-
-
-
-
 }
 
 

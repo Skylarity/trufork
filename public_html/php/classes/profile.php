@@ -145,7 +145,7 @@ class Profile {
 
 	public function setEmail($newEmail) {
 		// verify if email is positive
-		if($newEmail = filter_var($newEmail, FILTER_VALIDATE_EMAIL)) ;
+		if($newEmail = filter_var($newEmail, FILTER_SANITIZE_EMAIL)) ;
 		if($newEmail === false) {
 			throw(new InvalidArgumentException ("email is not a valid email"));
 		}
@@ -174,7 +174,7 @@ class Profile {
 		}
 
 		// create a query template
-		$query = "INSERT INTO profile(profileId, userId, email) VALUES(:proflieId, :uerId, :email)";
+		$query = "INSERT INTO profile(userId, email) VALUES(:proflieId, :userId, :email)";
 		$statement = $pdo->prepare($query);
 
 		// update the null profileId with what mySQL gave us
@@ -239,7 +239,7 @@ class Profile {
 	 * @internal param PDO $pd pointer to the PDO connection, by reference
 	 */
 	public static function getProfileByProfileId(PDO &$pdo, $profileId) {
-		// sanitize the tweetId before searching
+		// sanitize the profileId before searching
 		$profileId = filter_var($profileId, FILTER_VALIDATE_INT);
 		if($profileId === false) {
 			throw(new PDOException("profile id is not an integer"));
@@ -252,11 +252,11 @@ class Profile {
 		$query	 = "SELECT profileId, userId, email FROM profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
-		// bind the tweet id to the place holder in the template
-		$parameters = array("tweetId" => $profileId);
+		// bind the profile id to the place holder in the template
+		$parameters = array("profileId" => $profileId);
 		$statement->execute($parameters);
 
-		// grab the tweet from mySQL
+		// grab the profile from mySQL
 		try {
 			$profile = null;
 			$statement->setFetchMode(PDO::FETCH_ASSOC);
@@ -270,113 +270,85 @@ class Profile {
 		}
 		return($profile);
 	}
+
 	/**
 	 * Gets the profile by userId
 	 *
-	 * @param PDO $pod pointer to the PDO connection, by reference
+	 * @param PDO $pdo get profile by User Id
 	 * @param int $userId profile ID to search for
 	 * @return mixed profile found null if not found
-	 * @throws PDOException when MySQL related errors
+	 * @internal param PDO $pod pointer to the PDO connection, by reference
 	 */
-	public static function getProfileByuserId(PDO &$pdo, $userId) {
-		// sanitize the tweetId before searching
-		$userId = filter_var($userId, FILTER_VALIDATE_INT);
-		if($userId === false) {
-			throw(new PDOException("user id is not an integer"));
-		}
-		if($userId <= 0) {
-			throw(new PDOException("user id is not positive"));
-		}
-
-		// create query template
-		$query = "SELECT profileId, userId, email FROM profile WHERE profileId = :profileId";
-		$statement = $pdo->prepare($query);
-
-		// bind the tweet id to the place holder in the template
-		$parameters = array("tweetId" => $userId);
-		$statement->execute($parameters);
-
-		// grab the tweet from mySQL
-		try {
-			$profile = null;
-			$statement->setFetchMode(PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["userId"], $row["email"]);
+		public static function getProfileByUserId(PDO &$pdo, $userId) {
+			// sanitize the profileId before searching
+			$userId = filter_var($userId, FILTER_VALIDATE_INT);
+			if($userId === false) {
+				throw(new PDOException("user id is not an integer"));
 			}
-		} catch(Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new PDOException($exception->getMessage(), 0, $exception));
-		}
-		return ($profile);
-	}
-
-	/**
-	 * @param PDO $pdo
-	 * @param $email
-	 * @return null|Profile
-	 */
-	public static function getProfileByEmail(PDO &$pdo, $email) {
-		// sanitize the tweetId before searching
-		$email = filter_var($email, FILTER_VALIDATE_INT);
-		if($email === false) {
-			throw(new PDOException("tweet id is not an integer"));
-		}
-		if($email <= 0) {
-			throw(new PDOException("tweet id is not positive"));
-		}
-
-		// create query template
-		$query = "SELECT profileId, userId, email FROM profile WHERE profileId = :profileId";
-		$statement = $pdo->prepare($query);
-
-		// bind the tweet id to the place holder in the template
-		$parameters = array("tweetId" => $email);
-		$statement->execute($parameters);
-
-		// grab the tweet from mySQL
-		try {
-			$profile = null;
-			$statement->setFetchMode(PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["userId"], $row["email"]);
+			if($userId <= 0) {
+				throw(new PDOException("user id is not positive"));
 			}
-		} catch(Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new PDOException($exception->getMessage(), 0, $exception));
-		}
-		return ($profile);
-	}
 
-	/**
-	 * @param PDO $pdo
-	 * @return Profile|SplFixedArray
-	 */
-	public static function getAllProfile(PDO &$pdo) {
-		// Create query template
-		$query = "SELECT profileId, userId, email FROM profile";
-		$statement = $pdo->prepare($query);
-		$statement->execute();
+			// create query template
+			$query = "SELECT profileId, userId, email FROM profile WHERE profileId = :profileId";
+			$statement = $pdo->prepare($query);
 
-		// Build an array of profile
-		$profile = new SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
+			// bind the profile id to the place holder in the template
+			$parameters = array("profileId" => $userId);
+			$statement->execute($parameters);
+
+			// grab the profile from mySQL
 			try {
-				// new Profile ($profileId, $userId, $email)
-				$profile = new Profile($row["profileId"], $row["userId"], $row["email"]);
-				$profiles[$profiles->key()] = $profile;
-				$profile->next();
+				$profile = null;
+				$statement->setFetchMode(PDO::FETCH_ASSOC);
+				$row = $statement->fetch();
+				if($row !== false) {
+					$profile = new Profile($row["profileId"], $row["userId"], $row["email"]);
+				}
 			} catch(Exception $exception) {
-				// If the row couldn't be converted, rethrow it
+				// if the row couldn't be converted, rethrow it
 				throw(new PDOException($exception->getMessage(), 0, $exception));
 			}
+			return ($profile);
 		}
 
-		return ($profile);
-	}
+		/**
+		 * @param PDO $pdo
+		 * @param $email
+		 * @return null|Profile
+		 */
+		public static function getProfileByEmail(PDO &$pdo, $email) {
+			// sanitize the email before searching
+			$email = filter_var($email, FILTER_SANITIZE_EMAIL);
+			if($email === false) {
+				throw(new PDOException("email id is not an email"));
+			}
+			if($email <= 0) {
+				throw(new PDOException("email id is not positive"));
+			}
 
-}
+			// create query template
+			$query = "SELECT userId, salt, hash FROM profile WHERE profileId = :profileId";
+			$statement = $pdo->prepare($query);
+
+			// bind the email to the place holder in the template
+			$parameters = array("email" => $email);
+			$statement->execute($parameters);
+
+			// grab the email from mySQL
+			try {
+				$profile = null;
+				$statement->setFetchMode(PDO::FETCH_ASSOC);
+				$row = $statement->fetch();
+				if($row !== false) {
+					$profile = new Profile($row["profileId"], $row["userId"], $row["email"]);
+				}
+			} catch(Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new PDOException($exception->getMessage(), 0, $exception));
+			}
+			return ($profile);
+		}
+	}
 
 
