@@ -74,7 +74,7 @@ class Profile {
 	public function setProfileId($newProfileId) {
 		// base case: if the profile id is null, this a new profile id without a mySQL assigned id (yet)
 		if($newProfileId === null) {
-			$this->profileId = $ProfileId = null;
+			$this->profileId = null;
 			return;
 		}
 
@@ -151,8 +151,8 @@ class Profile {
 		}
 
 		//verify the email is positive
-		if($newEmail <= 0) {
-			throw(new RangeException("email is not positive"));
+		if(strlen($newEmail) > 64) {
+			throw(new RangeException("email is too long"));
 		}
 
 		// convert and store email id
