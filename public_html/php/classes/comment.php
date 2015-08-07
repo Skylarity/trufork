@@ -29,7 +29,7 @@ class Comment {
 	 **/
 	private $restaurantId;
 
-	/** @var int $dateTime
+	/** @var DateTime $dateTime
 	 * date time assigned to comment
 	 **/
 	private $dateTime;
@@ -57,7 +57,7 @@ class Comment {
 			$this->setCommentId($commentId);
 			$this->setProfileId($profileId);
 			$this->setRestaurantId($restaurantId);
-			$this->setCommentDateTime($dateTime);
+			$this->setDateTime($dateTime);
 			$this->setCommentContent($content);
 		} catch(InvalidArgumentException $invalidArgument) {
 			throw(new InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
@@ -162,21 +162,21 @@ class Comment {
 	 * $throws RangeException if $commentDateTime is out of range or a non-existent date
 	 * uses validateDate (grabs it at beginning of code, references it in state variables
 	 */
-	public function setCommentDateTime($newCommentDateTime) {
+	public function setDateTime($newDateTime = null) {
 		//if date null, default to current date
-		if($newCommentDateTime === null) {
-			$this->commentDateTime = new DateTime();
+		if($newDateTime === null) {
+			$this->dateTime = new DateTime();
 			return;
 		}
 		//store comment date
 		try {
-			$newCommentDateTime = validateDate::validateDate($newCommentDateTime);
+			$newDateTime = validateDate::validateDate($newDateTime);
 		} catch(InvalidArgumentException $invalidArgument) {
 			throw(new InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(RangeException $range) {
 			throw(new RangeException($range->getMessage(), 0, $range));
 		}
-		$this->commentDateTime = $newCommentDateTime;
+		$this->dateTime = $newDateTime;
 
 	}
 
@@ -222,7 +222,7 @@ class Comment {
 		$query = "INSERT INTO comment(dateTime, content) VALUES(:dateTime, :content)";
 		$statement = $pdo->prepare($query);
 
-		$parameters = array("dateTime" => $this->getDateTime(), "content" => $this->getContent());
+		$parameters = array("dateTime" => $this->getDateTime()->format("Y-m-d H:i:s"), "content" => $this->getCommentContent());
 		$statement->execute($parameters);
 
 		$this->setCommentId(intval($pdo->lastInsertId()));
