@@ -26,16 +26,6 @@ class Profile {
 	private $email;
 
 	/**
-	 * accessor method for profileId
-	 *
-	 * @return int mixed value of profileId
-	 */
-	public function getProfileId() {
-		return $this->profileId;
-	}
-
-
-	/**
 	 * Constructor method for user class
 	 *
 	 * @param mixed $newProfileId id for this class
@@ -63,6 +53,16 @@ class Profile {
 			throw(new Exception($exception->getMessage(), 0, $exception));
 		}
 	}
+
+	/**
+	 * accessor method for profileId
+	 *
+	 * @return int mixed value of profileId
+	 */
+	public function getProfileId() {
+		return $this->profileId;
+	}
+
 
 	/**
 	 * mutator method for profile id
@@ -174,14 +174,11 @@ class Profile {
 		}
 
 		// create a query template
-		$query = "INSERT INTO profile(userId, email) VALUES(:proflieId, :userId, :email)";
+		$query = "INSERT INTO profile(userId, email) VALUES(:userId, :email)";
 		$statement = $pdo->prepare($query);
 
-		// update the null profileId with what mySQL gave us
-		$this->profileId = intval($pdo->lastInsertId());
-
 		// bind profileId to placeholders in template
-		$parameters = array("profileId" => $this->getProfileId(), "userId" =>$this->getUserId(), "email" =>$this->getEmail());
+		$parameters = array("userId" =>$this->getUserId(), "email" =>$this->getEmail());
 		$statement->execute($parameters);
 
 		// Update the null profile ID with what MySQL has generate
@@ -226,7 +223,7 @@ class Profile {
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the placeholders in the templates
-		$parameters = array("profileId" => $this->getProfileId(), "userId" =>$this->getUserId(), "email" =>$this->getEmail());
+		$parameters = array("userId" =>$this->getUserId(), "email" =>$this->getEmail());
 		$statement->execute($parameters);
 	}
 
@@ -317,25 +314,25 @@ class Profile {
 		 * @param $email
 		 * @return null|Profile
 		 */
-		public static function getProfileByEmail(PDO &$pdo, $email) {
+		public static function getProfileByEmail(PDO &$pdo, $profile) {
 			// sanitize the email before searching
-			$email = filter_var($email, FILTER_SANITIZE_EMAIL);
-			if($email === false) {
+			$profile = filter_var($profile, FILTER_SANITIZE_EMAIL);
+			if($profile === false) {
 				throw(new PDOException("email id is not an email"));
 			}
-			if($email <= 0) {
-				throw(new PDOException("email id is not positive"));
-			}
+			//if($email <= 0) {
+			//	throw(new PDOException("email id is not positive"));
+			//}
 
 			// create query template
-			$query = "SELECT userId, salt, hash FROM profile WHERE profileId = :profileId";
+			$query = "SELECT profileId, userId, email FROM profile WHERE email = :email";
 			$statement = $pdo->prepare($query);
 
 			// bind the email to the place holder in the template
-			$parameters = array("email" => $email);
+			$parameters = array("email" => $profile);
 			$statement->execute($parameters);
 
-			// grab the email from mySQL
+			// grab the profile from mySQL
 			try {
 				$profile = null;
 				$statement->setFetchMode(PDO::FETCH_ASSOC);
