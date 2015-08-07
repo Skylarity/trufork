@@ -1,9 +1,10 @@
 <?php
 
 // unit test for profile class
+require_once("trufork.php");
 
 // get test parameters
-require_once(dirname(__DIR__) . "php/classes/profile.php");
+require_once(dirname(__DIR__) . "/php/classes/profile.php");
 
 /**
  *
@@ -15,19 +16,34 @@ class ProfileTest extends TruForkTest {
 	 * profileId is valid
 	 * @var int $VALID_ID
 	 **/
-	protected $VALID_ID = 1;
+	protected $VALID_ID = null;
 
 	/**
 	 * userId is valid
 	 * @var int $VALID_ID
 	 **/
-	protected $VALID_USER_ID = 1;
+	protected $VALID_USER_ID = null;
 
 	/**
 	 * email is valid
 	 * @var int $VALID_ID
 	 **/
-	protected $VALID_EMAIL = "kchavez68@cnm.edu";
+	protected $VALID_EMAIL = null;
+
+	/** create set up method for each dependant objects
+	 *
+	 */
+	public final function setUp() {
+		// run the default setUp() method first
+		parent::setup();
+		// create and insert a Profile to own the test Profile
+		$this->VALID_ID= new Profile(null, "1", "test@phpunit.de");
+		$this->VALID_ID->insert($this->getPDO());
+		// create the test Profile
+		$this->VALID_ID = new profile(null, $this->profile->getProfileId(), "PHPUnit favorite test passing");
+		$this->insert($this->getPDO());
+	}
+
 
 
 	/**
@@ -167,7 +183,7 @@ class ProfileTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->VALID_ATHANDLE, $this->VALID_EMAIL);
+		$profile = new Profile(null, $this->VALID_USER_ID, $this->VALID_EMAIL);
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations

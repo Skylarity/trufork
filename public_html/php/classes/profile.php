@@ -150,9 +150,9 @@ class Profile {
 			throw(new InvalidArgumentException ("email is not a valid email"));
 		}
 
-		//verify the email is not too large
-		if(strlen($newEmail) > 64) {
-			throw(new RangeException("email is too large"));
+		//verify the email is positive
+		if($newEmail <= 0) {
+			throw(new RangeException("email is not positive"));
 		}
 
 		// convert and store email id
