@@ -150,14 +150,14 @@ class User {
 		}
 
 		// create a query template
-		$query = "INSERT INTO user(userId) VALUES(:userid)";
+		$query = "INSERT INTO user(salt, hash) VALUES(:salt, :hash)";
 		$statement = $pdo->prepare($query);
 
 		// update the null profileId with what mySQL gave us
 		$this->userId = intval($pdo->lastInsertId());
 
 		// bind profileId to placeholders in template
-		$parameters = array("profileId" => $this->getUserId(), "userId" =>$this->getUserId(), "salt" =>$this->getSalt(),"hash" =>$this->getHash());
+		$parameters = array("salt" =>$this->getSalt(),"hash" =>$this->getHash());
 		$statement->execute($parameters);
 
 		// Update the null profile ID with what MySQL has generate

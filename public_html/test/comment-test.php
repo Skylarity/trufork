@@ -6,6 +6,7 @@ require_once(dirname(__DIR__) . "/test/trufork.php");
 require_once(dirname(__DIR__) . "/php/classes/comment.php");
 require_once(dirname(__DIR__) . "/php/classes/restaurant.php");
 require_once(dirname(__DIR__) . "/php/classes/profile.php");
+require_once(dirname(__DIR__) . "/php/classes/user.php");
 
 /**
  * PHPUnit test for the Comment class
@@ -47,25 +48,42 @@ class CommentTest extends TruForkTest {
 	 **/
 	protected $restaurant = null;
 
+
+	/**
+	 * valid User by which comment is made via Profile
+	 * @var User $user
+	 *
+	 **/
+protected $user = null;
+
+
 	/**
 	 *
 	 * create dependent objects ProfileId & RestaurantId b4 running each test
 	 *
 	 **/
+
 	public final function setUp() {
 		// run the default setup() method first
 		parent::setUp();
 
+		//create and insert a User to own the test Comment via Profile
+		$salt = bin2hex(openssl_random_pseudo_bytes(32));
+		$hash = hash_pbkdf2("sha512","password1234", $salt, 262144, 128);
+		$this->user = new User(null, $salt, $hash);
+		$this->user->insert($this->getPDO());
+
 		//create and insert a Profile to own the test Comment
-		$this->profile = new Profile(null, "1", "joebob@sixfingers.com");
+		$this->profile = new Profile(null, $this->user->getUserId(), "joebob@sixfinger.com");
 		$this->profile->insert($this->getPDO());
+
 
 		//create and insert a Restaurant to own the test Comment
 		$this->restaurant = new Restaurant(null, "ChIJ18Mh_sa6woARKLIrL9eOxTs", "ABCD12345678", "Sticky Rice", "317 South Broadway, Los Angeles, CA 90013", "+18185551212", "5");
 		$this->restaurant->insert($this->getPDO());
 
 		//create the new test Comment
-		$this->comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), "2012-01-01 14:15:16", "somecomment");
+		$this->comment = new Comment($this->user->getUserId(), $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), "2012-01-01 14:15:16", "somecomment");
 		$this->comment->insert($this->getPDO());
 	}
 

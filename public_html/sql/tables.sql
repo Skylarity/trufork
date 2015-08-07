@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS user; -- dropping this table last as it is created first
 CREATE TABLE user (
 	userId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	hash VARCHAR(128),
+	salt VARCHAR(64),
 	INDEX(userId),
 	PRIMARY KEY(userId)
 );
@@ -39,8 +40,8 @@ CREATE TABLE violation (
 	violationId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	restaurantId INT UNSIGNED NOT NULL,
 	violationCode VARCHAR(8) NOT NULL,
-	violationDesc VARCHAR(64) NOT NULL,
-	inspectionMemo VARCHAR(256) NOT NULL,
+	violationDesc VARCHAR(1024) NOT NULL,
+	inspectionMemo VARCHAR(1024) NOT NULL,
 	serialNum VARCHAR(12) NOT NULL, -- this value is alphanumeric, hence not an integer
 	INDEX(violationId),
 	PRIMARY KEY(violationId),
