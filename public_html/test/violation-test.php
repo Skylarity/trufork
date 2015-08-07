@@ -13,6 +13,9 @@ require_once("trufork.php");
 // Get the class to test
 require_once(dirname(__DIR__) . "/php/classes/violation.php");
 
+// Get the foreign class
+require_once(dirname(__DIR__) . "/php/classes/restaurant.php");
+
 class ViolationTest extends TruForkTest {
 
 	/**
@@ -43,7 +46,7 @@ class ViolationTest extends TruForkTest {
 	 * Valid serial number to use
 	 * @var string $VALID_SERIAL_NUM
 	 */
-	protected $VALID_SERIAL_NUM = "3gj5wm35n45b3e4";
+	protected $VALID_SERIAL_NUM = "21j7dg0or7ks";
 
 	/**
 	 * Restaurant that has the violation(s); this is for foreign key relations
@@ -76,7 +79,7 @@ class ViolationTest extends TruForkTest {
 
 		// Grab the data from MySQL and enforce the fields match out expectations
 		$pdoViolation = Violation::getViolationById($this->getPDO(), $violation->getViolationId());
-		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
+		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("violation"));
 		$this->assertLessThan($pdoViolation->getViolationId(), 0);
 		$this->assertSame($pdoViolation->getRestaurantId(), $this->restaurant->getRestaurantId());
 		$this->assertSame($pdoViolation->getViolationCode(), $this->VALID_VIOLATION_CODE);
@@ -94,6 +97,94 @@ class ViolationTest extends TruForkTest {
 		// Create a violation with no foreign key and watch it fail
 		$violation = new Violation(null, null, $this->VALID_VIOLATION_CODE, $this->VALID_VIOLATION_DESC, $this->VALID_INSPECTION_MEMO, $this->VALID_SERIAL_NUM);
 		$violation->insert($this->getPDO());
+	}
+
+	/**
+	 * Test creating a Violations and then deleting it
+	 */
+	public function testDeleteValidViolation() {
+		// Count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("violation");
+
+		// Create a new violation and insert it into MySQL
+		$violation = new Violation($this->VALID_ID, $this->restaurant->getRestaurantId(), $this->VALID_VIOLATION_CODE, $this->VALID_VIOLATION_DESC, $this->VALID_INSPECTION_MEMO, $this->VALID_SERIAL_NUM);
+		$violation->insert($this->getPDO());
+
+		// delete the violation from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("violation"));
+		$violation->delete($this->getPDO());
+		// grab the data from mySQL and enforce the violation does not exist
+		$pdoViolation = Violation::getViolationByRestaurantId($this->getPDO(), $this->restaurant->getRestaurantId());
+		$this->assertNull($pdoViolation);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("violation"));
+	}
+
+	/**
+	 * Test grabbing a Violation that does not exist
+	 *
+	 * @expectedException PDOException
+	 */
+	public function testGetInvalidViolationByRestaurantId() {
+		// Create a violation with no foreign key and watch it fail
+		$violation = new Violation(TruForkTest::INVALID_KEY, TruForkTest::INVALID_KEY, $this->VALID_VIOLATION_CODE, $this->VALID_VIOLATION_DESC, $this->VALID_INSPECTION_MEMO, $this->VALID_SERIAL_NUM);
+		$violation->insert($this->getPDO());
+	}
+
+	public function testGetValidViolationByString() {
+		// Count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("violation");
+
+		// Create a new Violation and insert it into MySQL
+		$violation = new Violation($this->VALID_ID, $this->restaurant->getRestaurantId(), $this->VALID_VIOLATION_CODE, $this->VALID_VIOLATION_DESC, $this->VALID_INSPECTION_MEMO, $this->VALID_SERIAL_NUM);
+		$violation->insert($this->getPDO());
+
+		// Grab the data from MySQL and enforce the fields match out expectations - VIOLATION CODE
+		$pdoViolations = Violation::getViolationByString($this->getPDO(), "violationCode", 8, $this->VALID_VIOLATION_CODE);
+		foreach($pdoViolations as $pdoViolation) {
+			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("violation"));
+			$this->assertLessThan($pdoViolation->getViolationId(), 0);
+			$this->assertSame($pdoViolation->getRestaurantId(), $this->restaurant->getRestaurantId());
+			$this->assertSame($pdoViolation->getViolationCode(), $this->VALID_VIOLATION_CODE);
+			$this->assertSame($pdoViolation->getViolationDesc(), $this->VALID_VIOLATION_DESC);
+			$this->assertSame($pdoViolation->getInspectionMemo(), $this->VALID_INSPECTION_MEMO);
+			$this->assertSame($pdoViolation->getSerialNum(), $this->VALID_SERIAL_NUM);
+		}
+
+		// Grab the data from MySQL and enforce the fields match out expectations - VIOLATION DESC
+		$pdoViolations = Violation::getViolationByString($this->getPDO(), "violationDesc", 1024, $this->VALID_VIOLATION_DESC);
+		foreach($pdoViolations as $pdoViolation) {
+			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("violation"));
+			$this->assertLessThan($pdoViolation->getViolationId(), 0);
+			$this->assertSame($pdoViolation->getRestaurantId(), $this->restaurant->getRestaurantId());
+			$this->assertSame($pdoViolation->getViolationCode(), $this->VALID_VIOLATION_CODE);
+			$this->assertSame($pdoViolation->getViolationDesc(), $this->VALID_VIOLATION_DESC);
+			$this->assertSame($pdoViolation->getInspectionMemo(), $this->VALID_INSPECTION_MEMO);
+			$this->assertSame($pdoViolation->getSerialNum(), $this->VALID_SERIAL_NUM);
+		}
+
+		// Grab the data from MySQL and enforce the fields match out expectations - INSPECTION MEMO
+		$pdoViolations = Violation::getViolationByString($this->getPDO(), "inspectionMemo", 1024, $this->VALID_INSPECTION_MEMO);
+		foreach($pdoViolations as $pdoViolation) {
+			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("violation"));
+			$this->assertLessThan($pdoViolation->getViolationId(), 0);
+			$this->assertSame($pdoViolation->getRestaurantId(), $this->restaurant->getRestaurantId());
+			$this->assertSame($pdoViolation->getViolationCode(), $this->VALID_VIOLATION_CODE);
+			$this->assertSame($pdoViolation->getViolationDesc(), $this->VALID_VIOLATION_DESC);
+			$this->assertSame($pdoViolation->getInspectionMemo(), $this->VALID_INSPECTION_MEMO);
+			$this->assertSame($pdoViolation->getSerialNum(), $this->VALID_SERIAL_NUM);
+		}
+
+		// Grab the data from MySQL and enforce the fields match out expectations - SERIAL NUMBER
+		$pdoViolations = Violation::getViolationByString($this->getPDO(), "serialNum", 12, $this->VALID_SERIAL_NUM);
+		foreach($pdoViolations as $pdoViolation) {
+			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("violation"));
+			$this->assertLessThan($pdoViolation->getViolationId(), 0);
+			$this->assertSame($pdoViolation->getRestaurantId(), $this->restaurant->getRestaurantId());
+			$this->assertSame($pdoViolation->getViolationCode(), $this->VALID_VIOLATION_CODE);
+			$this->assertSame($pdoViolation->getViolationDesc(), $this->VALID_VIOLATION_DESC);
+			$this->assertSame($pdoViolation->getInspectionMemo(), $this->VALID_INSPECTION_MEMO);
+			$this->assertSame($pdoViolation->getSerialNum(), $this->VALID_SERIAL_NUM);
+		}
 	}
 
 }

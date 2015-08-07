@@ -75,6 +75,7 @@ class DataDownloader {
 		}
 
 		$date = new DateTime($dateString);
+		$date->setTimezone(new DateTimeZone(date_default_timezone_get()));
 
 		// $formattedDate = $date->format("Y-m-d H:i:s");
 
@@ -194,11 +195,13 @@ $businessesDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/busi
 $inspectionsDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/LIVES/inspections.csv");
 $violationsDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/LIVES/violations.csv");
 $xmlDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/foodinspections/FoodInspectionsCurrentFY-en-us.xml");
+$importantDate = DataDownloader::getLastModifiedDate("https://bootcamp-coders.cnm.edu/~srexroad/text.txtxxxx");
 
 echo "<h2>Businesses:</h2><p>" . $businessesDate->format("Y-m-d H:i:s") . "</p>";
 echo "<h2>Inspections:</h2><p>" . $inspectionsDate->format("Y-m-d H:i:s") . "</p>";
 echo "<h2>Violations:</h2><p>" . $violationsDate->format("Y-m-d H:i:s") . "</p>";
 echo "<h2>XML:</h2><p>" . $xmlDate->format("Y-m-d H:i:s") . "</p>";
+echo "<h2>Important:</h2><p>" . $importantDate->format("Y-m-d H:i:s") . "</p>";
 
 // This downloads the file to the server's temporary directory
 DataDownloader::downloadIfNew("http://data.cabq.gov/business/LIVES/businesses.csv", "/var/lib/abq-data/", "businesses");
