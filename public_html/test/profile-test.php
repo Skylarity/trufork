@@ -16,35 +16,32 @@ class ProfileTest extends TruForkTest {
 	 * profileId is valid
 	 * @var int $VALID_ID
 	 **/
-	protected $VALID_ID = null;
+	protected $PROFILE_ID = "63";
 
 	/**
 	 * userId is valid
 	 * @var int $VALID_ID
 	 **/
-	protected $VALID_USER_ID = null;
+	protected $VALID_USER_ID = "3";
 
 	/**
 	 * email is valid
 	 * @var int $VALID_ID
 	 **/
-	protected $VALID_EMAIL = null;
+	protected $VALID_EMAIL = "kchavez@kennethanthony.com";
+
 
 	/** create set up method for each dependant objects
 	 *
 	 */
-	public final function setUp() {
-		// run the default setUp() method first
-		parent::setup();
+	public function setUp() {
+		parent::setUp();
+
 		// create and insert a Profile to own the test Profile
-		$this->VALID_ID= new Profile(null, "1", "test@phpunit.de");
-		$this->VALID_ID->insert($this->getPDO());
+		$this->PROFILE_ID= new Profile(null, "1", "test@phpunit.de");
+		$this->PROFILE_ID->insert($this->getPDO());
 		// create the test Profile
-		$this->VALID_ID = new profile(null, $this->profile->getProfileId(), "PHPUnit favorite test passing");
-		$this->insert($this->getPDO());
 	}
-
-
 
 	/**
 	 * test inserting a valid Profile and verify that the actual mySQL data matches
