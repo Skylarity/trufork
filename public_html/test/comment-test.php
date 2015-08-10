@@ -19,12 +19,6 @@ require_once(dirname(__DIR__) . "/php/classes/user.php");
 class CommentTest extends TruForkTest {
 
 	/**
-	 * Valid ID to use
-	 * @var int $VALID_ID
-	 */
-	protected $VALID_ID = "1";
-
-	/**
 	 * valid at datetime to use
 	 * @var int dateTime
 	 **/
@@ -95,13 +89,12 @@ protected $user = null;
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoComment = Comment::getCommentByCommentId($this->getPDO(), $comment->getCommentId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
-		$this->assertSame($pdoComment->getCommentId(), $this->VALID_ID);
 		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
 		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
 	}
@@ -113,7 +106,7 @@ protected $user = null;
 	 **/
 	public function testInsertInvalidComment() {
 		// create a comment with a non null commentId and watch it fail
-		$comment = new Comment(TruforkTest::INVALID_KEY, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(TruforkTest::INVALID_KEY, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 	}
 
@@ -125,7 +118,7 @@ protected $user = null;
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// edit the Comment and update it in mySQL
@@ -135,7 +128,6 @@ protected $user = null;
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoComment = Comment::getCommentByCommentId($this->getPDO(), $comment->getCommentId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
-		$this->assertSame($pdoComment->getCommentId(),$this->VALID_ID);
 		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
 		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
 	}
@@ -147,7 +139,7 @@ protected $user = null;
 	 **/
 	public function testUpdateInvalidComment() {
 		// create a Comment and try to update it without actually inserting it
-		$comment = new Comment(null, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->update($this->getPDO());
 	}
 
@@ -159,7 +151,7 @@ protected $user = null;
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// delete the Comment from mySQL
@@ -179,7 +171,7 @@ protected $user = null;
 	 **/
 	public function testDeleteInvalidComment() {
 		// create a Comment and try to delete it without actually inserting it
-		$comment = new Comment(null, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->delete($this->getPDO());
 	}
 
@@ -191,13 +183,12 @@ protected $user = null;
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoComment = Comment::getCommentByCommentId($this->getPDO(), $comment->getCommentId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
-		$this->assertSame($pdoComment->getCommentId(), $this->VALID_ID);
 		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
 		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
 	}
@@ -216,13 +207,12 @@ protected $user = null;
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoComment = Comment::getCommentByCommentDateTime($this->getPDO(), $this->VALID_DATETIME);
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
-		$this->assertSame($pdoComment->getCommentId(), $this->VALID_ID);
 		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
 		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
 	}
@@ -244,13 +234,12 @@ protected $user = null;
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Profile and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_ID, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoComment = Comment::getCommentByCommentContent($this->getPDO(), $this->VALID_CONTENT);
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
-		$this->assertSame($pdoComment->getDateTime(), $this->VALID_ID);
 		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
 		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
 	}

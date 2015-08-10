@@ -159,7 +159,6 @@ class Profile {
 		$this->profileId = intval($newEmail);
 	}
 
-
 	/**
 	 * insert this profile id into mySQL
 	 *
