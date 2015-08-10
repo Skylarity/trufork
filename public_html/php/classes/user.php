@@ -99,17 +99,17 @@ class User {
 	 *
 	 */
 	public function setSalt($newSalt) {
-		// verify if salt is exactly string of 64
-			if((ctype_xdigit($newSalt)) === false) {
-				if(empty($newSalt) === true) {
-					throw new InvalidArgumentException ("content invalid");
-				}
-				if(strlen($newSalt) !== 128) {
-					throw new RangeException ("hash is not valid");
-				}
-				$this->hash = $newSalt;
+		// verify salt is exactly string of 64
+		if((ctype_xdigit($newSalt)) === false) {
+			if(empty($newSalt) === true) {
+				throw new InvalidArgumentException ("salt invalid");
+			}
+			if(strlen($newSalt) !== 64) {
+				throw (new RangeException ("salt not valid"));
 			}
 		}
+		$this->salt = $newSalt;
+	}
 
 	/** accessor method for  hash
 	 *
@@ -120,22 +120,20 @@ class User {
 	}
 
 	/**
-	 * @param $newhash
+	 * @param $newHash
 	 */
-	public function sethash($newhash) {
-		// verify if hash is exactly string of 128
-		/** @var TYPE_NAME $newhash */
-		if((ctype_xdigit($newhash)) === false) {
-			if(empty($newhash) === true) {
-				throw new InvalidArgumentException ("content invalid");
+	public function setHash($newHash) {
+		// verify Hash is exactly string of 128
+		if((ctype_xdigit($newHash)) === false) {
+			if(empty($newHash) === true) {
+				throw new InvalidArgumentException ("hash invalid");
 			}
-			if(strlen($newhash) !== 128) {
-				throw new RangeException ("hash is not valid");
+			if(strlen($newHash) !== 128) {
+				throw new RangeException ("hash not valid");
 			}
-			$this->hash = $newhash;
 		}
+		$this->hash = $newHash;
 	}
-
 	/**
 	 * insert this userId into mySQL
 	 *

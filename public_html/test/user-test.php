@@ -7,7 +7,7 @@
  */
 
 // grab the encrypted properties file
-require_once(dirname(__DIR__) . "/php/classes/restaurant.php");
+require_once(dirname(__DIR__) . "/php/classes/user.php");
 
 
 /**
@@ -23,12 +23,7 @@ class UserTest extends TruForkTest {
 	 * valid at handle to use
 	 * @var int $user profile
 	 **/
-	protected $VALID_ID = "5";
-	/**
-	 * second valid at handle to use
-	 * @var int $user profile
-	 **/
-	protected $VALID_ID2 = "6";
+	protected $VALID_ID = null;
 	/**
 	 * valid password salt for userId;
 	 * @var string $passwordSalt
@@ -55,7 +50,7 @@ class UserTest extends TruForkTest {
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProfile = Profile::getProfileByUserId($this->getPDO(), $profile->getUserId());
+		$pdoProfile = Profile::getUserByUserId($this->getPDO(), $profile->getUserId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("user"));
 		$this->assertSame($pdoProfile->getAtuserId(), $this->VALID_ID);
 		$this->assertSame($pdoProfile->getSalt(), $this->VALID_SALT);
@@ -117,7 +112,7 @@ class UserTest extends TruForkTest {
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProfile = Profile::getProfileByUserId($this->getPDO(), $profile->getUserId());
+		$pdoProfile = Profile::getUserByUserId($this->getPDO(), $profile->getUserId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertSame($pdoProfile->getUserId(), $this->VALID_ID);
 		$this->assertSame($pdoProfile->getSalt(), $this->VALID_SALT);
@@ -129,10 +124,7 @@ class UserTest extends TruForkTest {
 	 **/
 	public function testGetInvalidUseByUserId() {
 		// grab a profile id that exceeds the maximum allowable profile id
-		$profile = Profile::getProfileByUserId($this->getPDO(), TruForkTest::INVALID_KEY);
+		$profile = Profile::getUserByUserId($this->getPDO(), TruForkTest::INVALID_KEY);
 		$this->assertNull($profile);
 	}
-
-
-
 }
