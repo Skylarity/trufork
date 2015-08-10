@@ -29,9 +29,13 @@ class ProfileTest extends TruForkTest {
 	 * email is valid
 	 * @var int $VALID_ID
 	 **/
-	protected $VALID_EMAIL = null;
+	protected $VALID_EMAIL = "kchavez@gmail.com";
 
 	protected $user = null;
+
+	protected $VALID_SALT;
+
+	protected $VALID_HASH;
 
 	/** create set up method for each dependant objects
 	 *
@@ -39,8 +43,11 @@ class ProfileTest extends TruForkTest {
 	public final function setUp() {
 		// run the default setUp() method first
 		parent::setup();
-		// create and insert a Profile to own the test Profile
-		$this->user= new User(null, "1", "test@phpunit.de");
+		// create a salt and hash test
+		$this->VALID_SALT = bin2hex(openssl_random_pseudo_bytes(32));
+		$this->VALID_HASH = $this->VALID_HASH = hash_pbkdf2("sha512", "password1234", $this->VALID_SALT, 262144, 128);
+		// create and insert a User to own the test Profile
+		$this->user= new User(null, $this->VALID_SALT, $this->VALID_HASH);
 		$this->user->insert($this->getPDO());
 	}
 
@@ -54,7 +61,7 @@ class ProfileTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->VALID_ID, $this->user->getUserId(), $this->VALID_EMAIL);
+		$profile = new Profile(null, $this->user->getUserId(), $this->VALID_EMAIL);
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -86,14 +93,10 @@ class ProfileTest extends TruForkTest {
 		$profile = new Profile(null, $this->user->getUserId(), $this->VALID_EMAIL);
 		$profile->insert($this->getPDO());
 
-		// edit the Profile and update it in mySQL
-		$profile->setAtHandle($this->VALID_USER_ID2);
-		$profile->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertSame($pdoProfile->getAtHandle(), $this->VALID_USER_ID2);
 		$this->assertSame($pdoProfile->getEmail(), $this->VALID_EMAIL);
 	}
 

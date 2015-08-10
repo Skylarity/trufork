@@ -7,23 +7,22 @@
  */
 
 // grab the encrypted properties file
+// Get the test parameters
+require_once("trufork.php");
 require_once(dirname(__DIR__) . "/php/classes/user.php");
 
 
 /**
  * Full PHPUnit test for the User class
  *
- * This is a complete PHPUnit test of the Profile class. It is complete because *ALL* mySQL/PDO enabled methods
+ * This is a complete PHPUnit test of the user class class. It is complete because *ALL* mySQL/PDO enabled methods
  * are tested for both invalid and valid inputs.
  *
- **/
+ *
+ * @property User profile
+ */
 
 class UserTest extends TruForkTest {
-	/**
-	 * valid at handle to use
-	 * @var int $user profile
-	 **/
-	protected $VALID_ID = null;
 	/**
 	 * valid password salt for userId;
 	 * @var string $passwordSalt
@@ -35,26 +34,37 @@ class UserTest extends TruForkTest {
 	 **/
 	protected $VALID_HASH;
 
+	protected $user = null;
+
+
+	/**
+	 * profile set up
+	 */
 	public function setup() {
 		parent::setup();
+
+		// create a salt and hash test
 		$this->VALID_SALT = bin2hex(openssl_random_pseudo_bytes(32));
 		$this->VALID_HASH = $this->VALID_HASH = hash_pbkdf2("sha512", "password1234", $this->VALID_SALT, 262144, 128);
+
+		$this->user = new User(null, $this->VALID_SALT, $this->VALID_HASH);
+		$this->user->insert($this->getPDO());
 	}
 
-	public function testInsertValidProfile() {
+	public function testInsertValidUser() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("profile");
+		$numRows = $this->getConnection()->getRowCount("user");
 
 		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->VALID_ID, $this->VALID_SALT, $this->VALID_HASH);
-		$profile->insert($this->getPDO());
+		$user = new User(null, $this->VALID_SALT, $this->VALID_HASH);
+		$user->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProfile = Profile::getUserByUserId($this->getPDO(), $profile->getUserId());
+		$pdoUser = User::getUserByUserId($this->getPDO(), $user->getUserId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("user"));
-		$this->assertSame($pdoProfile->getAtuserId(), $this->VALID_ID);
-		$this->assertSame($pdoProfile->getSalt(), $this->VALID_SALT);
-		$this->assertSame($pdoProfile->getHash(), $this->VALID_HASH);
+		$this->assertLessThan($pdoUser->getUserId(), 0);
+		$this->assertSame($pdoUser->getSalt(), $this->VALID_SALT);
+		$this->assertSame($pdoUser->getHash(), $this->VALID_HASH);
 	}
 
 	/**
@@ -62,30 +72,30 @@ class UserTest extends TruForkTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testUpdateInvalidProfile() {
+	public function testUpdateInvalidUser() {
 		// create a Profile and try to update it without actually inserting it
-		$profile = new Profile(null, $this->VALID_ID, $this->VALID_SALT, $this->VALID_HASH);
-		$profile->update($this->getPDO());
+		$user = new User(null, $this->VALID_SALT, $this->VALID_HASH);
+		$user->update($this->getPDO());
 
 	}
-	/**
+	/**VALID_ID
 	 * test creating a Profile and then deleting it
 	 **/
 	public function testDeleteValidUser() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("profile");
+		$numRows = $this->getConnection()->getRowCount("user");
 
 		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->VALID_ID, $this->VALID_SALT, $this->VALID_HASH);
-		$profile->insert($this->getPDO());
+		$user = new User(null, $this->VALID_SALT, $this->VALID_HASH);
+		$user->insert($this->getPDO());
 
 		// delete the Profile from mySQL
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("user"));
-		$profile->delete($this->getPDO());
+		$user->delete($this->getPDO());
 
 		// grab the data from mySQL and enforce the Profile does not exist
-		$pdoProfile = Profile::getProfileByUserId($this->getPDO(), $profile->getUserId());
-		$this->assertNull($pdoProfile);
+		$pdoUser = User::getUserByUserId($this->getPDO(), $user->getUserId());
+		$this->assertNull($pdoUser);
 		$this->assertSame($numRows, $this->getConnection()->getRowCount("user"));
 	}
 
@@ -96,35 +106,8 @@ class UserTest extends TruForkTest {
 	 **/
 	public function testDeleteInvalidUser() {
 		// create a Profile and try to delete it without actually inserting it
-		$profile = new Profile(null, $this->VALID_ID, $this->VALID_SALT, $this->VALID_HASH);
-		$profile->delete($this->getPDO());
+		$user = new User(null, $this->VALID_SALT, $this->VALID_HASH);
+		$user->delete($this->getPDO());
 	}
 
-	/**
-	 * test inserting a User and regrabbing it from mySQL
-	 **/
-	public function testGetValidUserByUserId() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("profile");
-
-		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->VALID_ID, $this->VALID_SALT, $this->VALID_HASH);
-		$profile->insert($this->getPDO());
-
-		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProfile = Profile::getUserByUserId($this->getPDO(), $profile->getUserId());
-		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertSame($pdoProfile->getUserId(), $this->VALID_ID);
-		$this->assertSame($pdoProfile->getSalt(), $this->VALID_SALT);
-		$this->assertSame($pdoProfile->getHash(), $this->VALID_HASH);
-	}
-
-	/**
-	 * test grabbing a UserId that does not exist
-	 **/
-	public function testGetInvalidUseByUserId() {
-		// grab a profile id that exceeds the maximum allowable profile id
-		$profile = Profile::getUserByUserId($this->getPDO(), TruForkTest::INVALID_KEY);
-		$this->assertNull($profile);
-	}
 }

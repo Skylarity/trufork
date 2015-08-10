@@ -44,9 +44,9 @@ class User {
 			// rethrow the exception to caller
 			throw(new RangeException($range->getMessage(), 0, $range));
 			// rethrow the exception to caller
-		} catch(Exception $exception) {
+		} catch(Exception $e) {
 			//rethrow generic exception
-			throw(new Exception($exception->getMessage(), 0, $exception));
+			throw(new Exception($e->getMessage(), 0, $e));
 		}
 	}
 
@@ -111,11 +111,10 @@ class User {
 		$this->salt = $newSalt;
 	}
 
-	/** accessor method for  hash
-	 *
-	 * @return string
+	/**
+	 * @return string hash
 	 */
-	public function gethash() {
+	public function getHash() {
 		return $this->hash;
 	}
 
@@ -148,12 +147,9 @@ class User {
 			throw(new PDOException("not a new profile id"));
 		}
 
-		// create a query template
+		// create a query template 
 		$query = "INSERT INTO user(salt, hash) VALUES(:salt, :hash)";
 		$statement = $pdo->prepare($query);
-
-		// update the null profileId with what mySQL gave us
-		$this->userId = intval($pdo->lastInsertId());
 
 		// bind profileId to placeholders in template
 		$parameters = array("salt" =>$this->getSalt(),"hash" =>$this->getHash());
@@ -180,7 +176,7 @@ class User {
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the place holders in the template
-		$parameters = array("profileId" => $this->getUserId());
+		$parameters = array("userId" => $this->getUserId());
 		$statement->execute($parameters);
 	}
 
@@ -208,18 +204,17 @@ class User {
 	/**
 	 * Gets the profile by user ID
 	 *
-	 * @param PDO $pdo
-	 * @param int $userId user ID to search for
-	 * @return mixed profile found null if not found
-	 * @internal param PDO $pd pointer to the PDO connection, by reference
+	 * @param PDO $pdo pointer to the PDO connection, by reference
+	 * @param int $user user ID to search for
+	 * @return mixed profile found null if not found\
 	 */
-	public static function getUserIdByUserId(PDO &$pdo, $userId) {
+	public static function getUserByUserId(PDO &$pdo, $user) {
 		// sanitize the tweetId before searching
-		$userId = filter_var($userId, FILTER_VALIDATE_INT);
-		if($userId === false) {
+		$user = filter_var($user, FILTER_VALIDATE_INT);
+		if($user === false) {
 			throw(new PDOException("profile id is not an integer"));
 		}
-		if($userId <= 0) {
+		if($user <= 0) {
 			throw(new PDOException("profile id is not positive"));
 		}
 
@@ -227,23 +222,23 @@ class User {
 		$query	 = "SELECT userId, salt, hash FROM user WHERE userId = :userId";
 		$statement = $pdo->prepare($query);
 
-		// bind the tweet id to the place holder in the template
-		$parameters = array("tweetId" => $userId);
+		// bind the user id to the place holder in the template
+		$parameters = array("userId" => $user);
 		$statement->execute($parameters);
 
 		// grab the tweet from mySQL
 		try {
-			$profile = null;
+			$user = null;
 			$statement->setFetchMode(PDO::FETCH_ASSOC);
 			$row   = $statement->fetch();
 			if($row !== false) {
-				$userId = new User($row["userId"], $row["salt"], $row["hash"]);
+				$user = new User($row["userId"], $row["salt"], $row["hash"]);
 			}
 		} catch(Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($userId);
+		return($user);
 	}
 }
 
