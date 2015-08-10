@@ -88,7 +88,7 @@ class Violation {
 	 */
 	public function getSerialNum() {
 		return $this->serialNum;
-	}
+ 	}
 
 	/**
 	 * Mutator for serial number (max length 12)

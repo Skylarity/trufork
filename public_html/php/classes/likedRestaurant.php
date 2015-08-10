@@ -6,7 +6,7 @@
  * This script is designed to create liked restaurant for trufork.
  *
  * @author  Humberto Perez <hperezperez@cnm.edu>
-<<<<<<< Updated upstream
+ *
  *
  **/
 class LikedRestaurant {
@@ -128,19 +128,15 @@ class LikedRestaurant {
 		if($this->restaurantId !== null) {
 			throw(new PDOException("Not a new liked restaurant"));
 		}
-
 		// Create query template
-		$query = "INSERT INTO likedRestaurant( restaurantId, profileId ) VALUES( :restaurantID, :profileId)";
+		$query = "INSERT INTO likedRestaurant( restaurantId, profileId ) VALUES( :restaurantId, :profileId)";
 		$statement = $pdo->prepare($query);
-
 		// Bind the member variables to the placeholders in the template
 		$parameters = array("restaurantId" => $this->getRestaurantId(), "profileId" => $this->getProfileId());
 		$statement->execute($parameters);
-
 		// Update the null restaurant ID with what MySQL has generated
 		$this->setRestaurantId(intval($pdo->lastInsertId()));
 	}
-
 	/**
 	 * Deletes this liked restaurant from MySQL
 	 *
@@ -152,16 +148,15 @@ class LikedRestaurant {
 		if($this->getRestaurantId() === null) {
 			throw(new PDOException("Unable to delete a liked restaurant that does not exist"));
 		}
-
 		// Create query template
-		$query = "DELETE FROM likedRestaurant WHERE restaurantId = :restaurantId";
+		$query = "DELETE FROM likedRestaurant WHERE restaurantId = :restaurantId or profileId = :profileId";
 		$statement = $pdo->prepare($query);
-
 		// Bind the member variables to the placeholders in the templates
 		$parameters = array("restaurantId" => $this->getRestaurantId());
 		$statement->execute($parameters);
-	}
 
+
+	}
 	/**
 	 * Updates this liked restaurant in MySQL
 	 *
@@ -184,37 +179,43 @@ class LikedRestaurant {
 	}
 
 	/**
-	 * Gets the likedrestaurant by restaurant ID
+	 * Gets the likedrestaurant by restaurant ID or profile Id
 	 *
 	 * @param PDO $pdo pointer to PDO connection, by reference
 	 * @param int $restaurantId restaurant ID to search for
+	 * @param int $profileId profile Id to search for
 	 * @return mixed Restaurant found or null if not found
 	 * @throws PDOException when MySQL related errors occur
 	 */
-	public static function getLikedRestaurantById(PDO &$pdo, $restaurantId) {
-		// Sanitize the ID before searching
+	public static function getLikedRestaurantBYId(PDO &$pdo, $restaurantId,$profileId) {
+		// Sanitize the restaurant ID before searching
 		$restaurantId = filter_var($restaurantId, FILTER_SANITIZE_NUMBER_INT);
 		if($restaurantId === false) {
 			throw(new PDOException("Restaurant ID is not an integer"));
 		}
 		if($restaurantId <= 0) {
+			throw(new PDOException("Restaurant ID is not positive"));
+		}
+		// Sanitize the profileID before searching
+		$profileId = filter_var($profileId, FILTER_SANITIZE_NUMBER_INT);
+		if($profileId === false) {
+			throw(new PDOException("Profile ID is not an integer"));
+		}
+		if($profileId <= 0) {
 			throw(new PDOException("Profile ID is not positive"));
 		}
-
 		// Create query template
-		$query = "SELECT restaurantId, profileId FROM likedRestaurant WHERE restaurantId = :restaurantId";
+		$query = "SELECT restaurantId, profileId FROM likedRestaurant WHERE restaurantId = :restaurantId
+ 								or profileId = :profileId";
 		$statement = $pdo->prepare($query);
-
-		// Bind restaurantId to placeholder
-		$parameters = array("restaurantId" => LikedRestaurant::getRestaurantId());
+		// Bind restaurantId and profileId to placeholder
+		$parameters = array("restaurantId" => LikedRestaurant::getRestaurantId(),"profileId" => LikeRestaurant::getProfileId());
 		$statement->execute($parameters);
-
 		// Grab the liked restaurant from MySQL
 		try {
 			$likedRestaurant = null;
 			$statement->setFetchMode(PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
-
 			if($row !== false) {
 				// new LIkedRestaurant($restaurantId, $profileId)
 				$likedRestaurant = new LikedRestaurant($row["restaurantId"], $row["profileId"]);
@@ -222,10 +223,7 @@ class LikedRestaurant {
 		} catch(Exception $exception) {
 			// If the row couldn't be converted, rethrow i
 		}
-
-
 return ($likedRestaurant);
-
 }
 
 	/**

@@ -22,7 +22,7 @@ class ViolationTest extends TruForkTest {
 	 * Valid ID to use
 	 * @var int $VALID_ID
 	 */
-	protected $VALID_ID = null;
+        	protected $VALID_ID = null;
 
 	/**
 	 * Valid violation code to use
@@ -60,7 +60,6 @@ class ViolationTest extends TruForkTest {
 	public final function setUp() {
 		// Run the default setUp() method first
 		parent::setUp();
-
 		// create and insert a Profile to own the test Tweet
 		$this->restaurant = new Restaurant(null, "3498bf923f893", "FD8098S", "NAME", "123 ADDRESS ST", "505555555", "5");
 		$this->restaurant->insert($this->getPDO());

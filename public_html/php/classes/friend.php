@@ -1,4 +1,6 @@
 <?php
+//grab the date parsing function
+require_once(dirname(__DIR__) . "/traits/validatedate.php");
 
 /**
  * This Friend is an example of date collected and store  for  trufork
@@ -21,6 +23,10 @@
 		**/
 		private $dateFriended;
 
+
+		use validateDate;
+
+
 		/**
 		 * constructor for this Friend
 		 *
@@ -34,10 +40,16 @@
 						$this->setFirstProfileId($newFirstProfileId);
 						$this->setSecondProfileId($newSecondProfileId);
 	 					$this->setDateFriended($newDateFriended);
-	} catch(UnexpectedValueException $exception){
-			//rethrow to the caller
-				throw(new UnexpectedValueException("Unable to construct Friend", 0,$exception));
-	}
+	}   catch(InvalidArgumentException $invalidArgument) {
+					// Rethrow exception to the caller
+					throw(new InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+				} catch(RangeException $range) {
+					// Rethrow exception to the caller
+					throw(new RangeException($range->getMessage(), 0, $range));
+				} catch(Exception $e) {
+					// Rethrow exception to the caller
+					throw(new Exception($e->getMessage(), 0, $e));
+				}
 	}
 
 		/**
@@ -56,11 +68,15 @@
 		public function setFirstProfileId($newFirstProfileId) {
 		// verify the first Profiled Id is valid
 		$newFirstProfileId = filter_var($newFirstProfileId, FILTER_VALIDATE_INT);
-		if($newFirstProfileId ===false){
+		if($newFirstProfileId === false){
 					throw(new UnexpectedValueException("first profile is not valid integer"));
 		}
-		// convert and store the firstprofiled id
-		$this -> firstProfileId = intval($newFirstProfileId);
+		 //verify the firstProfile Id is positive
+		 if ($newFirstProfileId <= 0){
+		 			throw(new RangeException(" firstProfileId is not positive"));
+		// convert and store the firstprofile id
+		 }
+			$this->firstProfileId = intval($newFirstProfileId);
 		}
 		/**
 		*		accesor method for secondProfileId
@@ -102,19 +118,19 @@
 	public function setDateFriended($newDateFriended) {
 		// base case : if the date is null, use the current date and time
 		if($newDateFriended === null) {
-					$this->dateFriended = new DateFriended();
+					$this->dateFriended = $newDateFriended;
 					return;
 		}
 	// store the date Friended
 		try {
-					$newDateFriended = validateDate($newDateFriended);
+					$newDateFriended = validateDate::validateDate($newDateFriended);
 		} catch(InvalidArgumentException $invalidArgument ){
 					throw(new InvalidArgumentException($invalidArgument->getMessage(),
 						0, $invalidArgument));
 		} catch(RangeException $range) {
 							throw(new RangeException($range->getMessage(), 0,$range));
 		}
-	$this ->dateFriended = $newDateFriended;
+	$this->dateFriended = $newDateFriended;
 	}
 /** toString() magic method
  *
@@ -133,13 +149,11 @@
 		 *@throws PDOException in the event of mySQL errors
 		 **/
 		public function insert (PDO &$pdo) {
-			if($this->firstProfileIdId !== null) {
-				throw(new PDOException("not a new friend"));
-			}
-			$query = "INSERT INTO dateFriend(dateType) VALUES(:dateType)";
+			$query = "INSERT INTO friend(firstProfileId, secondProfileId, dateFriended) VALUES (:firstProfileId,:secondProfileId,:dateFriended)";
 			$statement = $pdo->prepare($query);
 
-			$parameters = array("dateFriended" => $this->getDateFriended());
+			$formattedDateFriended = $this->dateFriended->format("Y-m-d H:i:s");
+			$parameters = array("dateFriended" => $formattedDateFriended,"firstProfileId" => $this->firstProfileId,"secondProfileId" => $this->secondProfileId);
 			$statement->execute($parameters);
 
 			$this->setFirstProfileId(intval($pdo->lastInsertId()));
@@ -154,11 +168,11 @@
 			if($this->firstProfileId === null) {
 				throw(new PDOException("cannot delete a friend that does not exist"));
 			}
-			$query = "DELETE FROM friend WHERE firstProfileId = :firstProfileId";
+			$query = "DELETE FROM friend WHERE firstProfileId = :firstProfileId AND secondProfileId = :secondProfileId";
 			$statement = $pdo->prepare($query);
 
-			$parameters = array("firstProfileId" => $this->getFirstProfileId());
-			$statement->execute($parameters);
+			$parameters = array("firstProfileId" => $this->firstProfileId,"secondProfileId" =>$this->secondProfileId);
+			 $statement->execute($parameters);
 		}
 		/** updates friend in DB
 		 *
@@ -166,23 +180,27 @@
 		 * @throws PDOException when MySQL related errors occur
 		 **/
 		public function update (PDO &$pdo) {
-			if ($this->getFistProfileId() === null) {
+
+
+			if ($this->firstProfileId === null && $this->secondProfileId === null) {
 				throw(new PDOException("cannot update a friend that does not exist"));
 			}
-			$query = "UPDATE friend SET dateTime = :dateTime, content = :content";
+			$query = "UPDATE friend SET firstProfileId = :firstProfileId, secondProfileId = :secondProfileId, dateFriended = :dateFriended
+			WHERE firstProfileId = :firstProfileId AND secondProfileId = :secondProfileId AND dateFriended = :dateFriended ";
 			$statement = $pdo->prepare($query);
 
-			$parameters = array("dateFriended" => $this->getDateFriended());
+			$formattedDateFriended = $this->dateFriended->format("Y-m-d H:i:s");
+			$parameters = array("dateFriended" => $formattedDateFriended,"firstProfileId" => $this->firstProfileId,"secondProfileId" => $this->secondProfileId);
 			$statement->execute($parameters);
 		 }
 
-			/** gets the friend by firstProfileId
+			/** gets the friend by firstProfileId or secondProfileId
 			 * @param PDO $pdo pointer to PDO connection by reference
 			 * @param int $firstprofileId comment firstProfileId to search for
   			 * @return mixed profile found or null if not found
 			 * @throws PDOException when mySQL related errors occur
 			 **/
-			public static function getFriendById(PDO &$pdo, $firstProfileId) {
+			public static function getFriendByFriendId(PDO &$pdo, $firstProfileId, $secondProfileId) {
 					// Sanitize the ID before searching
 					$firstProfileId = filter_var($firstProfileId, FILTER_SANITIZE_NUMBER_INT);
 					if($firstProfileId === false) {
@@ -191,16 +209,26 @@
 					if($firstProfileId <= 0) {
 						throw(new PDOException("firstProfile ID is not positive"));
 					}
+					//Sanitize the secodProfileID
+				$secondProfileId = filter_var($secondProfileId, FILTER_SANITIZE_NUMBER_INT);
+				if($secondProfileId === false) {
+					throw(new PDOException(" secondProfile Id is not an integer"));
+				}
+				if($secondProfileId <= 0) {
+					throw(new PDOException("secondProfile ID is not positive"));
+				}
 
-					// Create query template
-					$query = "SELECT firstProfileId, secondProfileId, name FROM friend WHERE firstProfileId = :firstProfileId";
+				// Create query template
+					$query = "SELECT firstProfileId, secondProfileId, dateFriended FROM friend WHERE firstProfileId = :firstProfileId
+					OR secondProfileId = :secondProfileId ";
 					$statement = $pdo->prepare($query);
 
-					// Bind restaurantId to placeholder
-					$parameters = array("restaurantId" => $firstProfileId);
+					// Bind firstProfileId  and secondProfileId to placeholder
+					$parameters = array("firstProfileId" => $firstProfileId,"secondProfileId"=> $secondProfileId);
 					$statement->execute($parameters);
 
-					// Grab the restaurant from MySQL
+
+					// Grab the friend from MySQL
 					try {
 						$friend = null;
 						$statement->setFetchMode(PDO::FETCH_ASSOC);
@@ -217,73 +245,6 @@
 
 					return ($friend);
 				}
-
-/** gets the friend by datefriend
- *
- * @param PDO $pdo pointer to PDO connection by reference
- * @param date $datefriend  friend  date friended to search for
- * @return mixed date Friended found or null if not found
- * @throws PDOException when mySQL related errors occur
- **/
-	public static function getFriendedByDateFriended(PDO &$pdo, $friendDateFriended) {
-				$friendDateFriended = filter_var($friendDateFriended, FILTER_VALIDATE_INT);
-				if($friendDateFriended === false) {
-					throw(new PDOException(" friend date Friended not valid"));
-				}
-				$query = "SELECT  dateFriended, FROM friend WHERE dateFriended = :dateFriended";
-				$statement = $pdo->prepare($query);
-
-				$parameters = array("friendDateFriended" => $friendDateFriended);
-				$statement->execute($parameters);
-
-				try {
-					$friend = null;
-					$statement->setFetchMode(PDO::FETCH_ASSOC);
-					$row = $statement->fetch();
-					if($row !== false) {
-						$dateFriended = new DateFriended($row["dateFriended"]);
-					}
-				}
-				catch(Exception $exception) {
-					throw(new PDOException($exception->getMessage(), 0, $exception));
-				}
-				return($friend);
-			}
-
-		/**
-		 * Gets all friends
-		 *
-		 * @param PDO $pdo pointer to PDO connection, by reference
-		 * @return SplFixedArray of Friends found
-		 * @throws PDOException when MySQL related errors occur
-		 */
-		public static function getAllFriends(PDO &$pdo) {
-			// Create query template
-			$query = "SELECT firstProfileId, secondProfileId, dateFriended, name FROM friend";
-			$statement = $pdo->prepare($query);
-			$statement->execute();
-
-			// Build an array of friends
-			$friends = new SplFixedArray($statement->rowCount());
-			$statement->setFetchMode(PDO::FETCH_ASSOC);
-			while(($row = $statement->fetch()) !== false) {
-				try {
-					// new Friend($firstProfileId, $secondProfileId, $datefriended)
-					$friend = new Friend($row["firstProfileId"], $row["secondProfileId"], $row["datefriende"]);
-					$friends[$friends->key()] = $friend;
-					$friends->next();
-				} catch(Exception $e) {
-					// If the row couldn't be converted, rethrow it
-					throw(new PDOException($e->getMessage(), 0, $e));
-				}
-			}
-
-			return ($friends);
-		}
-
-
-
-
 
 
 	}

@@ -49,7 +49,7 @@ class Profile {
 			// rethrow the exception to the caller
 			throw(new RangeException($range->getMessage(), 0, $range));
 		} catch(Exception $exception) {
-			// rethrow generic exception
+   			// rethrow generic exception
 			throw(new Exception($exception->getMessage(), 0, $exception));
 		}
 	}
