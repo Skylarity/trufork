@@ -14,18 +14,6 @@ require_once(dirname(__DIR__) . "/php/classes/user.php");
 class ProfileTest extends TruForkTest {
 
 	/**
-	 * profileId is valid
-	 * @var int $VALID_ID
-	 **/
-	protected $VALID_ID = null;
-
-	/**
-	 * userId is valid
-	 * @var int $VALID_ID
-	 **/
-	protected $VALID_USER_ID = null;
-
-	/**
 	 * email is valid
 	 * @var int $VALID_ID
 	 **/
@@ -46,6 +34,7 @@ class ProfileTest extends TruForkTest {
 		// create a salt and hash test
 		$this->VALID_SALT = bin2hex(openssl_random_pseudo_bytes(32));
 		$this->VALID_HASH = $this->VALID_HASH = hash_pbkdf2("sha512", "password1234", $this->VALID_SALT, 262144, 128);
+
 		// create and insert a User to own the test Profile
 		$this->user= new User(null, $this->VALID_SALT, $this->VALID_HASH);
 		$this->user->insert($this->getPDO());
@@ -62,13 +51,14 @@ class ProfileTest extends TruForkTest {
 
 		// create a new Profile and insert to into mySQL
 		$profile = new Profile(null, $this->user->getUserId(), $this->VALID_EMAIL);
+		var_dump($profile);
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertSame($pdoProfile->getProfileId(), $this->VALID_ID);
-		$this->assertSame($pdoProfile->getUserId(), $this->VALID_USER_ID);
+		$this->assertSame($pdoProfile->getProfileId(), $this->user);
+		$this->assertSame($pdoProfile->getUserId(), $this->user->getUserId());
 		$this->assertSame($pdoProfile->getEmail(), $this->VALID_EMAIL);
 	}
 	/**
@@ -156,7 +146,7 @@ class ProfileTest extends TruForkTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertSame($pdoProfile->getAtHandle(), $this->VALID_USER_ID);
+		$this->assertSame($pdoProfile->getUserId(), $this->user->getUserId());
 		$this->assertSame($pdoProfile->getEmail(), $this->VALID_EMAIL);
 	}
 
@@ -170,11 +160,11 @@ class ProfileTest extends TruForkTest {
 	}
 
 	/**
-	 * test grabbing a Profile by at handle that does not exist
+	 * test grabbing a Profile by user that does not exist
 	 **/
 	public function testGetInvalidProfileByUserId() {
 		// grab an at handle that does not exist
-		$profile = Profile::getProfileByUserId($this->getPDO(), "@userId");
+		$profile = Profile::getProfileByUserId($this->getPDO(), "5");
 		$this->assertNull($profile);
 	}
 
@@ -192,7 +182,7 @@ class ProfileTest extends TruForkTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByEmail($this->getPDO(), $this->VALID_EMAIL);
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertSame($pdoProfile->getUserId(), $this->VALID_USER_ID);
+		$this->assertSame($pdoProfile->getUserId(), $this->user->getUserId());
 		$this->assertSame($pdoProfile->getEmail(), $this->VALID_EMAIL);
 	}
 	/**

@@ -156,7 +156,7 @@ class Profile {
 		}
 
 		// convert and store email id
-		$this->profileId = intval($newEmail);
+		$this->email = $newEmail;
 	}
 
 	/**
@@ -167,10 +167,11 @@ class Profile {
 	 *
 	 **/
 	public function insert(PDO &$pdo) {
-		// enforce the profileId is null (i.e. don't insert if a profile id already exist)
+		// Make sure this is a new profile
 		if($this->profileId !== null) {
-			throw(new PDOException("not a new profile id"));
+			throw(new PDOException("Not a new profile"));
 		}
+
 
 		// create a query template
 		$query = "INSERT INTO profile(userId, email) VALUES(:userId, :email)";
