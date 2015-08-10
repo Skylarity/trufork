@@ -358,7 +358,7 @@ class Violation {
 		// Sanitize the string before searching
 		try {
 			$string = Filter::filterString($string, $string, $size);
-			$attribute = Filter::filterString($attribute, $attribute, 999);
+			$attribute = Filter::filterString($attribute, $attribute);
 		} catch(InvalidArgumentException $invalidArgument) {
 			throw(new PDOException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(RangeException $range) {
