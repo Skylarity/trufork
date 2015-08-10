@@ -4,7 +4,8 @@ require_once("trufork.php");
 
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/php/classes/votedcomment.php");
-
+require_once(dirname(__DIR__) . "/php/classes/comment.php");
+require_once(dirname(__DIR__) . "/php/classes/profile.php");
 
 /**
  * Full PHPUnit test for the votedComment class
@@ -15,11 +16,12 @@ require_once(dirname(__DIR__) . "/php/classes/votedcomment.php");
  * @author
  **/
 class VotedCommentTest extends TruForkTest {
+
 	/**
 	 * valid voteType to use
 	 * @var int voteType
 	 **/
-	protected $VALID_VOTETYPE = "???????????????????????????????";
+	protected $VALID_VOTETYPE = 3;
 
 	/**
 	 * test inserting a valid votedComment and verify that the actual mySQL data matches
@@ -36,7 +38,6 @@ class VotedCommentTest extends TruForkTest {
 		$pdoVotedComment = VotedComment::getVotedCommentByCommentId($this->getPDO(), $votedComment->getVotedCommentId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("votedComment"));
 		$this->assertSame($pdoVotedComment->getVoteType(), $this->VALID_VOTETYPE);
-
 	}
 
 	/**

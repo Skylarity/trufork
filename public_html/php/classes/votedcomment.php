@@ -131,7 +131,6 @@ public function __construct($commentId, $profileId, $votedCommentVoteType = null
 		$this->voteType = intval($newVoteType);
 	}
 
-	/** i d u */
 
 	/**
 	 * Inserts this voted comment into MySQL

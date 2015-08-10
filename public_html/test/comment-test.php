@@ -19,10 +19,10 @@ require_once(dirname(__DIR__) . "/php/classes/user.php");
 class CommentTest extends TruForkTest {
 
 	/**
-	 * valid at datetime to use
+	 * valid  datetime to use
 	 * @var int dateTime
 	 **/
-	protected $VALID_DATETIME = "2015-01-01 15:16:17";
+	protected $VALID_DATETIME = null;
 
 	/**
 	 * valid content to use
@@ -42,7 +42,6 @@ class CommentTest extends TruForkTest {
 	 **/
 	protected $restaurant = null;
 
-
 	/**
 	 * valid User by which comment is made via Profile
 	 * @var User $user
@@ -50,16 +49,18 @@ class CommentTest extends TruForkTest {
 	 **/
 protected $user = null;
 
-
 	/**
 	 *
-	 * create dependent objects ProfileId & RestaurantId b4 running each test
-	 *
+	 * create dependent objects ProfileId & RestaurantId before running each test
+	 * references getSetUpOperation from test/trufork.php
 	 **/
 
 	public final function setUp() {
 		// run the default setup() method first
 		parent::setUp();
+
+		// Initialize DateTime
+		$this->VALID_DATETIME = DateTime::createFromFormat("Y-m-d H:i:s", "2015-01-01 15:16:17");
 
 		//create and insert a User to own the test Comment via Profile
 		$salt = bin2hex(openssl_random_pseudo_bytes(32));
@@ -71,14 +72,9 @@ protected $user = null;
 		$this->profile = new Profile(null, $this->user->getUserId(), "joebob@sixfinger.com");
 		$this->profile->insert($this->getPDO());
 
-
 		//create and insert a Restaurant to own the test Comment
 		$this->restaurant = new Restaurant(null, "ChIJ18Mh_sa6woARKLIrL9eOxTs", "ABCD12345678", "Sticky Rice", "317 South Broadway, Los Angeles, CA 90013", "+18185551212", "5");
 		$this->restaurant->insert($this->getPDO());
-
-		//create the new test Comment
-		$this->comment = new Comment($this->user->getUserId(), $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), "2012-01-01 14:15:16", "somecomment");
-		$this->comment->insert($this->getPDO());
 	}
 
 	/**
@@ -89,7 +85,7 @@ protected $user = null;
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -106,7 +102,7 @@ protected $user = null;
 	 **/
 	public function testInsertInvalidComment() {
 		// create a comment with a non null commentId and watch it fail
-		$comment = new Comment(TruforkTest::INVALID_KEY, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(TruforkTest::INVALID_KEY, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 	}
 
@@ -118,7 +114,7 @@ protected $user = null;
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// edit the Comment and update it in mySQL
@@ -139,7 +135,7 @@ protected $user = null;
 	 **/
 	public function testUpdateInvalidComment() {
 		// create a Comment and try to update it without actually inserting it
-		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->update($this->getPDO());
 	}
 
@@ -151,7 +147,7 @@ protected $user = null;
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// delete the Comment from mySQL
@@ -171,7 +167,7 @@ protected $user = null;
 	 **/
 	public function testDeleteInvalidComment() {
 		// create a Comment and try to delete it without actually inserting it
-		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->delete($this->getPDO());
 	}
 
@@ -183,7 +179,7 @@ protected $user = null;
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -207,7 +203,7 @@ protected $user = null;
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -233,15 +229,17 @@ protected $user = null;
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("comment");
 
-		// create a new Profile and insert to into mySQL
-		$comment = new Comment(null, $this->VALID_DATETIME, $this->VALID_CONTENT);
+		// create a new Comment and insert to into mySQL
+		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoComment = Comment::getCommentByCommentContent($this->getPDO(), $this->VALID_CONTENT);
-		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
-		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
-		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
+		$pdoComments = Comment::getCommentByCommentContent($this->getPDO(), $this->VALID_CONTENT);
+		foreach($pdoComments as $pdoComment) {
+			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
+			$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
+			$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
+		}
 	}
 
 	/**
@@ -249,7 +247,9 @@ protected $user = null;
 	 **/
 	public function testGetInvalidCommentByCommentContent() {
 		// grab content that does not exist
-		$comment = Comment::getCommentByCommentContent($this->getPDO(), "comment doesn't exist(content)");
-		$this->assertNull($comment);
+		$comments = Comment::getCommentByCommentContent($this->getPDO(), "no comment containing this content exists");
+		foreach($comments as $comment) {
+			$this->assertNull($comment);
+		}
 	}
 }

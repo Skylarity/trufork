@@ -52,13 +52,13 @@ class Comment {
 	 * @throws Exception For all other cases
 	 *
 	 **/
-	public function __construct($commentId, $profileId, $restaurantId, $dateTime, $content = null) {
+	public function __construct($commentId, $profileId, $restaurantId, $dateTime, $content) {
 		try {
 			$this->setCommentId($commentId);
 			$this->setProfileId($profileId);
 			$this->setRestaurantId($restaurantId);
 			$this->setDateTime($dateTime);
-			$this->setCommentContent($content);
+			$this->setcontent($content);
 		} catch(InvalidArgumentException $invalidArgument) {
 			throw(new InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(RangeException $range) {
@@ -149,7 +149,7 @@ class Comment {
 
 
 	/**accessor method for getting dateTime
-	 * @return int
+	 * @return DateTime
 	 */
 	public function getDateTime() {
 		return $this->dateTime;
@@ -157,12 +157,12 @@ class Comment {
 
 
 	/**mutator method for setting dateTime
-	 * @param mixed $commentDateTime
+	 * @param mixed $newDateTime
 	 * $throws InvalidArgumentException if $commentDateTime is not a valid object or string
 	 * $throws RangeException if $commentDateTime is out of range or a non-existent date
 	 * uses validateDate (grabs it at beginning of code, references it in state variables
 	 */
-	public function setDateTime($newDateTime = null) {
+	public function setDateTime($newDateTime) {
 		//if date null, default to current date
 		if($newDateTime === null) {
 			$this->dateTime = new DateTime();
@@ -183,30 +183,30 @@ class Comment {
 	/**accessor method for getting content
 	 * @return int
 	 */
-	public function getCommentContent() {
+	public function getcontent() {
 		return $this->content;
 	}
 
 	/**mutator method for setting content
 	 * @param int $newContent new value of comment content
-	 * @throws RangeException if $newCommentContent is too long
-	 * @throws InvalidArgumentException if $newCommentContent fails sanitization
+	 * @throws RangeException if $newcontent is too long
+	 * @throws InvalidArgumentException if $newcontent fails sanitization
 	 */
-	public function setCommentContent($newCommentContent) {
-		if($newCommentContent === null) {
+	public function setcontent($newcontent) {
+		if($newcontent === null) {
 			$this->content = null;
 			return;
 
 		}
-		$newCommentContent = filter_var($newCommentContent, FILTER_SANITIZE_STRING);
-		if($newCommentContent === false) {
+		$newcontent = filter_var($newcontent, FILTER_SANITIZE_STRING);
+		if($newcontent === false) {
 			throw(new InvalidArgumentException("comment content is not valid"));
 
 		}
-		if($newCommentContent > 1064) {
+		if($newcontent > 1064) {
 			throw(new RangeException("comment content too long"));
 		}
-		$this->content = intval($newCommentContent);
+		$this->content = intval($newcontent);
 	}
 
 	/**
@@ -219,10 +219,10 @@ class Comment {
 		if($this->commentId !== null) {
 			throw(new PDOException("not a new comment"));
 		}
-		$query = "INSERT INTO comment(dateTime, content) VALUES(:dateTime, :content)";
+		$query = "INSERT INTO comment(profileId, restaurantId, dateTime, content) VALUES(:profileId, :restaurantId, :dateTime, :content)";
 		$statement = $pdo->prepare($query);
 
-		$parameters = array("dateTime" => $this->getDateTime()->format("Y-m-d H:i:s"), "content" => $this->getCommentContent());
+		$parameters = array("profileId" => $this->getProfileId(), "restaurantId" => $this->getRestaurantId(), "dateTime" => $this->getDateTime()->format("Y-m-d H:i:s"), "content" => $this->getcontent());
 		$statement->execute($parameters);
 
 		$this->setCommentId(intval($pdo->lastInsertId()));
@@ -257,7 +257,7 @@ class Comment {
 		$query = "UPDATE comment SET dateTime = :dateTime, content = :content";
 		$statement = $pdo->prepare($query);
 
-		$parameters = array("dateTime" => $this->getDateTime(), "content" => $this->getContent());
+		$parameters = array("dateTime" => $this->getDateTime(), "content" => $this->getcontent());
 		$statement->execute($parameters);
 	}
 
@@ -280,7 +280,7 @@ class Comment {
 		}
 
 		// Create query template
-		$query = "SELECT commentId, profileId, restaurantId, dateTime, content, name FROM comment WHERE commentId = :commentId";
+		$query = "SELECT commentId, profileId, restaurantId, dateTime, content FROM comment WHERE commentId = :commentId";
 		$statement = $pdo->prepare($query);
 
 		$parameters = array("commentId" => $commentId);
@@ -292,7 +292,7 @@ class Comment {
 			$row = $statement->fetch();
 
 			if($row !== false) {
-				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["dateTime"], $row["comment"]);
+				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["dateTime"], $row["content"]);
 			}
 		} catch(Exception $exception) {
 			throw(new PDOException($exception->getMessage(), 0, $exception));
@@ -332,7 +332,7 @@ class Comment {
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["commentDateTime"], $row["commentContent"]);
+				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["commentDateTime"], $row["content"]);
 				$comments[$comments->key()] = $comment;
 				$comments->next();
 			} catch(Exception $exception) {
@@ -375,7 +375,7 @@ class Comment {
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["commentDateTime"], $row["commentContent"]);
+				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["commentDateTime"], $row["content"]);
 				$comments[$comments->key()] = $comment;
 				$comments->next();
 			} catch(Exception $exception) {
@@ -390,15 +390,24 @@ class Comment {
 	/** gets the comment by comment date time
 	 *
 	 * @param PDO $pdo pointer to PDO connection, by reference
-	 * @param $commentId comment Id to search for
+	 * @param $commentDateTime comment date to search for
 	 * @return mixed special fixed array of comments found or null if not found
 	 * @throws PDOException when MySQL errors happen
 	 **/
 	public static function getCommentByCommentDateTime(PDO &$pdo, $commentDateTime) {
+		// Turn date into string
+		if(is_object($commentDateTime) === true && get_class($commentDateTime) === "DateTime") {
+			$commentDateTime = $commentDateTime->format("Y-m-d H:i:s");
+		}
 		$commentDateTime = trim($commentDateTime);
-		$commentDateTime = filter_var($commentDateTime, FILTER_VALIDATE_INT);
+		$commentDateTime = validateDate::validateDate($commentDateTime);
+		// Turn date into string
+		if(is_object($commentDateTime) === true && get_class($commentDateTime) === "DateTime") {
+			$commentDateTime = $commentDateTime->format("Y-m-d H:i:s");
+		}
+
 		if(empty($commentDateTime) === true) {
-			throw(new PDOException("date time is not a valid integer"));
+			throw(new PDOException("date time is not  valid "));
 		}
 		$query = "SELECT commentId, profileId, restaurantId, dateTime, content FROM comment WHERE dateTime = :commentDateTime";
 		$statement = $pdo->prepare($query);
@@ -411,7 +420,7 @@ class Comment {
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["commentDateTime"], $row["commentContent"]);
+				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["commentDateTime"], $row["content"]);
 				$comments[$comments->key()] = $comment;
 				$comments->next();
 			} catch(Exception $exception) {
@@ -432,21 +441,21 @@ class Comment {
 	/** gets the comment by comment content
 	 *
 	 * @param PDO $pdo pointer to PDO connection, by reference
-	 * @param int $commentContent comment content to search for
+	 * @param int $content comment content to search for
 	 * @return mixed Comment found or null if not found
 	 * @throws PDOException when mySQL related errors occur
 	 **/
-	public static function getCommentByCommentContent(PDO &$pdo, $commentContent) {
-		$commentContent = filter_var($commentContent, FILTER_SANITIZE_STRING);
-		if($commentContent === false) {
+	public static function getCommentByCommentContent(PDO &$pdo, $content) {
+		$content = filter_var($content, FILTER_SANITIZE_STRING);
+		if($content === false) {
 			throw(new PDOException("comment content not valid"));
 		}
-		$query = "SELECT commentId, dateTime, content FROM comment WHERE commentContent LIKE :commentContent";
+		$query = "SELECT commentId, dateTime, content FROM comment WHERE content LIKE :content";
 		$statement = $pdo->prepare($query);
 
 		//bind comment content to placeholder in template
-		$commentContent = "%$commentContent%";
-		$parameters = array("commentContent" => $commentContent);
+		$content = "%$content%";
+		$parameters = array("content" => $content);
 		$statement->execute($parameters);
 
 		//build an array of comments
@@ -454,7 +463,7 @@ class Comment {
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["commentDateTime"], $row["commentContent"]);
+				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["commentDateTime"], $row["content"]);
 				$comments[$comments->key()] = $comment;
 				$comments->next();
 			} catch(Exception $exception) {
