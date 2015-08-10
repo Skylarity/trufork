@@ -51,13 +51,11 @@ class ProfileTest extends TruForkTest {
 
 		// create a new Profile and insert to into mySQL
 		$profile = new Profile(null, $this->user->getUserId(), $this->VALID_EMAIL);
-		var_dump($profile);
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertSame($pdoProfile->getProfileId(), $this->user);
 		$this->assertSame($pdoProfile->getUserId(), $this->user->getUserId());
 		$this->assertSame($pdoProfile->getEmail(), $this->VALID_EMAIL);
 	}
