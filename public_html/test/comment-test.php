@@ -11,10 +11,10 @@ require_once(dirname(__DIR__) . "/php/classes/user.php");
 /**
  * PHPUnit test for the Comment class
  *
- * ????
+ * This tests the Comment Class for truFork.
  *
  * @see Comment
- * @author
+ * @author Trevor Rigler tarigler@gmail.com
  **/
 class CommentTest extends TruForkTest {
 
