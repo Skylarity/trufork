@@ -44,11 +44,11 @@ class Filter {
 	 * Filters a string
 	 *
 	 * @param string $string string to use
-	 * @param int $size maximum length of the string
 	 * @param string $name name of attribute to filter
+	 * @param int $size maximum length of the string
 	 * @return mixed new string to use
 	 */
-	public static function filterString($string, $size, $name) {
+	public static function filterString($string, $name, $size = 0) {
 		// Verify the new string
 		$string = trim($string);
 		$string = filter_var($string, FILTER_SANITIZE_STRING);
@@ -57,8 +57,10 @@ class Filter {
 		}
 
 		// Verify that the string will fit in the database
-		if(strlen($string) > $size) {
-			throw(new RangeException("$name is too long"));
+		if($size > 0) {
+			if(strlen($string) > $size) {
+				throw(new RangeException("$name is too long"));
+			}
 		}
 
 		// Return the new string

@@ -119,7 +119,7 @@ class Restaurant {
 	 * @param string $newGoogleId
 	 */
 	public function setGoogleId($newGoogleId) {
-		$this->googleId = Filter::filterString($newGoogleId, 128, "Google restaurant ID");
+		$this->googleId = Filter::filterString($newGoogleId, "Google restaurant ID", 128);
 	}
 
 	/**
@@ -137,7 +137,7 @@ class Restaurant {
 	 * @param string $newFacilityKey
 	 */
 	public function setFacilityKey($newFacilityKey) {
-		$this->facilityKey = Filter::filterString($newFacilityKey, 12, "Facility key");
+		$this->facilityKey = Filter::filterString($newFacilityKey, "Facility key", 12);
 	}
 
 	/**
@@ -155,7 +155,7 @@ class Restaurant {
 	 * @param string $newName
 	 */
 	public function setName($newName) {
-		$this->name = Filter::filterString($newName, 128, "Restaurant name");
+		$this->name = Filter::filterString($newName, "Restaurant name", 128);
 	}
 
 	/**
@@ -173,7 +173,7 @@ class Restaurant {
 	 * @param string $newAddress
 	 */
 	public function setAddress($newAddress) {
-		$this->address = Filter::filterString($newAddress, 128, "Restaurant address");
+		$this->address = Filter::filterString($newAddress, "Restaurant address", 128);
 	}
 
 	/**
@@ -191,7 +191,7 @@ class Restaurant {
 	 * @param string $newPhone
 	 */
 	public function setPhone($newPhone) {
-		$this->phone = Filter::filterString($newPhone, 32, "Restaurant phone number");
+		$this->phone = Filter::filterString($newPhone, "Restaurant phone number", 32);
 	}
 
 	/**
@@ -209,7 +209,7 @@ class Restaurant {
 	 * @param string $newForkRating
 	 */
 	public function setForkRating($newForkRating) {
-		$this->forkRating = Filter::filterString($newForkRating, 32, "TruFork rating");
+		$this->forkRating = Filter::filterString($newForkRating, "TruFork rating", 32);
 	}
 
 	/**
@@ -335,7 +335,7 @@ class Restaurant {
 	public static function getRestaurantByAddress(PDO &$pdo, $address) {
 		// Sanitize the address before searching
 		try {
-			$address = Filter::filterString($address, 128, "Restaurant address");
+			$address = Filter::filterString($address, "Restaurant address", 128);
 		} catch(InvalidArgumentException $invalidArgument) {
 			throw(new PDOException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(RangeException $range) {
@@ -381,7 +381,7 @@ class Restaurant {
 	public static function getRestaurantByPhone(PDO &$pdo, $phone) {
 		// Sanitize the phone number before searching
 		try {
-			$phone = Filter::filterString($phone, 32, "Restaurant phone number");
+			$phone = Filter::filterString($phone, "Restaurant phone number", 32);
 		} catch(InvalidArgumentException $invalidArgument) {
 			throw(new PDOException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(RangeException $range) {
@@ -427,7 +427,7 @@ class Restaurant {
 	public static function getRestaurantsByForkRating(PDO &$pdo, $forkRating) {
 		// Sanitize the rating before searching
 		try {
-			$forkRating = Filter::filterString($forkRating, 12, "TruFork rating");
+			$forkRating = Filter::filterString($forkRating, "TruFork rating", 12);
 		} catch(InvalidArgumentException $invalidArgument) {
 			throw(new PDOException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(RangeException $range) {
@@ -473,7 +473,7 @@ class Restaurant {
 	public static function getRestaurantByFacilityKey(PDO &$pdo, $facilityKey) {
 		// Sanitize the key before searching
 		try {
-			$facilityKey = Filter::filterString($facilityKey, 12, "Facility Key");
+			$facilityKey = Filter::filterString($facilityKey, "Facility Key", 12);
 		} catch(InvalidArgumentException $invalidArgument) {
 			throw(new PDOException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(RangeException $range) {
@@ -519,7 +519,7 @@ class Restaurant {
 	public static function getRestaurantByGoogleId(PDO &$pdo, $googleId) {
 		// Sanitize the ID before searching
 		try {
-			$googleId = Filter::filterString($googleId, 128, "Google restaurant ID");
+			$googleId = Filter::filterString($googleId, "Google restaurant ID", 128);
 		} catch(InvalidArgumentException $invalidArgument) {
 			throw(new PDOException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(RangeException $range) {
@@ -565,7 +565,7 @@ class Restaurant {
 	public static function getRestaurantByName(PDO &$pdo, $name) {
 		// Sanitize the name before searching
 		try {
-			$name = Filter::filterString($name, 128, "Name");
+			$name = Filter::filterString($name, "Name", 128);
 		} catch(InvalidArgumentException $invalidArgument) {
 			throw(new PDOException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(RangeException $range) {

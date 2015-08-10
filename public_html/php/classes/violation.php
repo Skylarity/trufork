@@ -96,7 +96,7 @@ class Violation {
 	 * @param string $serialNum the serial number to change
 	 */
 	public function setSerialNum($serialNum) {
-		$this->serialNum = Filter::filterString($serialNum, 12, "Serial number");
+		$this->serialNum = Filter::filterString($serialNum, "Serial number", 12);
 	}
 
 	/**
@@ -150,7 +150,7 @@ class Violation {
 	 * @param int $violationCode the violation code to change
 	 */
 	public function setViolationCode($violationCode) {
-		$this->violationCode = Filter::filterString($violationCode, 8, "Violation code");
+		$this->violationCode = Filter::filterString($violationCode, "Violation code", 8);
 	}
 
 	/**
@@ -168,7 +168,7 @@ class Violation {
 	 * @param string $violationDesc the violation description to change
 	 */
 	public function setViolationDesc($violationDesc) {
-		$this->violationDesc = Filter::filterString($violationDesc, 1024, "Violation description");
+		$this->violationDesc = Filter::filterString($violationDesc, "Violation description", 1024);
 	}
 
 	/**
@@ -186,7 +186,7 @@ class Violation {
 	 * @param string $inspectionMemo the inspection memo to change
 	 */
 	public function setInspectionMemo($inspectionMemo) {
-		$this->inspectionMemo = Filter::filterString($inspectionMemo, 1024, "Inspection memo");
+		$this->inspectionMemo = Filter::filterString($inspectionMemo, "Inspection memo", 1024);
 	}
 
 	/**
@@ -345,50 +345,6 @@ class Violation {
 	}
 
 	/**
-	 * Gets the violation by an attribute and integer value
-	 *
-	 * @param PDO $pdo pointer to PDO connection, by reference
-	 * @param string $attribute violation attribute to search for
-	 * @param int $int integer value to search for
-	 * @return mixed Restaurant found or null if not found
-	 * @throws PDOException when MySQL related errors occur
-	 */
-	public static function getViolationByInt(PDO &$pdo, $attribute, $int) {
-		// Sanitize the int before searching
-		$int = filter_var($int, FILTER_SANITIZE_NUMBER_INT);
-		if($int === false) {
-			throw(new PDOException("$attribute is not an integer"));
-		}
-		if($int <= 0) {
-			throw(new PDOException("$attribute is not positive"));
-		}
-
-		// Create query template
-		$query = "SELECT violationId, restaurantId, violationCode, violationDesc, inspectionMemo, serialNum FROM violation WHERE $attribute = :int";
-		$statement = $pdo->prepare($query);
-
-		// Bind int to placeholder
-		$parameters = array("int" => $int);
-		$statement->execute($parameters);
-
-		// Build an array of violations
-		$violations = new SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$violation = new Violation($row["violationId"], $row["restaurantId"], $row["violationCode"], $row["violationDesc"], $row["inspectionMemo"], $row["serialNum"]);
-				$violations[$violations->key()] = $violation;
-				$violations->next();
-			} catch(Exception $e) {
-				// If the row couldn't be converted, rethrow it
-				throw(new PDOException($e->getMessage(), 0, $e));
-			}
-		}
-
-		return ($violations);
-	}
-
-	/**
 	 * Gets the violation by an attribute and string value
 	 *
 	 * @param PDO $pdo pointer to PDO connection, by reference
@@ -401,7 +357,8 @@ class Violation {
 	public static function getViolationByString(PDO &$pdo, $attribute, $size, $string) {
 		// Sanitize the string before searching
 		try {
-			$string = Filter::filterString($string, $size, $string);
+			$string = Filter::filterString($string, $string, $size);
+			$attribute = Filter::filterString($attribute, $attribute, 999);
 		} catch(InvalidArgumentException $invalidArgument) {
 			throw(new PDOException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(RangeException $range) {
@@ -411,11 +368,11 @@ class Violation {
 		}
 
 		// Create query template
-		$query = "SELECT violationId, restaurantId, violationCode, violationDesc, inspectionMemo, serialNum FROM violation WHERE $attribute = :string";
+		$query = "SELECT violationId, restaurantId, violationCode, violationDesc, inspectionMemo, serialNum FROM violation WHERE :attribute = :string";
 		$statement = $pdo->prepare($query);
 
 		// Bind string to placeholder
-		$parameters = array("string" => $string);
+		$parameters = array("attribute" => $attribute, "string" => $string);
 		$statement->execute($parameters);
 
 		// Build an array of violations
