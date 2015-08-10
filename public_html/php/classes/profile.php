@@ -206,6 +206,7 @@ class Profile {
 	$statement->execute($parameters);
 }
 
+
 	/**
 	 * Updates this profile in MySQL
 	 *
@@ -219,7 +220,7 @@ class Profile {
 		}
 
 		// Create query template
-		$query = "UPDATE profile SET profileId = :profileId, userId = :userId, email = :email, WHERE profileId = :profileId";
+		$query = "UPDATE profile SET profileId = :profileId, userId = :userId, email = :email WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the placeholders in the templates
