@@ -231,10 +231,9 @@ class Profile {
 	/**
 	 * Gets the profile by profile ID
 	 *
-	 * @param PDO $pdo
+	 * @param PDO $pdo pointer to the PDO connection, by reference
 	 * @param int $profileId profile ID to search for
 	 * @return mixed profile found null if not found
-	 * @internal param PDO $pd pointer to the PDO connection, by reference
 	 */
 	public static function getProfileByProfileId(PDO &$pdo, $profileId) {
 		// sanitize the profileId before searching
@@ -272,10 +271,9 @@ class Profile {
 	/**
 	 * Gets the profile by userId
 	 *
-	 * @param PDO $pdo get profile by User Id
+	 * @param PDO $pdo pointer to the PDO connection, by reference
 	 * @param int $userId profile ID to search for
 	 * @return mixed profile found null if not found
-	 * @internal param PDO $pod pointer to the PDO connection, by reference
 	 */
 		public static function getProfileByUserId(PDO &$pdo, $userId) {
 			// sanitize the profileId before searching
@@ -315,10 +313,10 @@ class Profile {
 		 * @param $email
 		 * @return null|Profile
 		 */
-		public static function getProfileByEmail(PDO &$pdo, $profile) {
+		public static function getProfileByEmail(PDO &$pdo, $email) {
 			// sanitize the email before searching
-			$profile = filter_var($profile, FILTER_SANITIZE_EMAIL);
-			if($profile === false) {
+			$email = filter_var($email, FILTER_SANITIZE_EMAIL);
+			if($email === false) {
 				throw(new PDOException("email id is not an email"));
 			}
 			//if($email <= 0) {
@@ -330,22 +328,22 @@ class Profile {
 			$statement = $pdo->prepare($query);
 
 			// bind the email to the place holder in the template
-			$parameters = array("email" => $profile);
+			$parameters = array("email" => $email);
 			$statement->execute($parameters);
 
 			// grab the profile from mySQL
 			try {
-				$profile = null;
+				$email = null;
 				$statement->setFetchMode(PDO::FETCH_ASSOC);
 				$row = $statement->fetch();
 				if($row !== false) {
-					$profile = new Profile($row["profileId"], $row["userId"], $row["email"]);
+					$email = new Profile($row["profileId"], $row["userId"], $row["email"]);
 				}
 			} catch(Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new PDOException($exception->getMessage(), 0, $exception));
 			}
-			return ($profile);
+			return ($email);
 		}
 	}
 

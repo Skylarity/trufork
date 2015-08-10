@@ -5,6 +5,7 @@ require_once("trufork.php");
 
 // get test parameters
 require_once(dirname(__DIR__) . "/php/classes/profile.php");
+require_once(dirname(__DIR__) . "/php/classes/user.php");
 
 /**
  *
@@ -16,32 +17,34 @@ class ProfileTest extends TruForkTest {
 	 * profileId is valid
 	 * @var int $VALID_ID
 	 **/
-	protected $PROFILE_ID = "63";
+	protected $VALID_ID = null;
 
 	/**
 	 * userId is valid
 	 * @var int $VALID_ID
 	 **/
-	protected $VALID_USER_ID = "3";
+	protected $VALID_USER_ID = null;
 
 	/**
 	 * email is valid
 	 * @var int $VALID_ID
 	 **/
-	protected $VALID_EMAIL = "kchavez@kennethanthony.com";
+	protected $VALID_EMAIL = null;
 
+	protected $user = null;
 
 	/** create set up method for each dependant objects
 	 *
 	 */
-	public function setUp() {
-		parent::setUp();
-
+	public final function setUp() {
+		// run the default setUp() method first
+		parent::setup();
 		// create and insert a Profile to own the test Profile
-		$this->PROFILE_ID= new Profile(null, "1", "test@phpunit.de");
-		$this->PROFILE_ID->insert($this->getPDO());
-		// create the test Profile
+		$this->user= new User(null, "1", "test@phpunit.de");
+		$this->user->insert($this->getPDO());
 	}
+
+
 
 	/**
 	 * test inserting a valid Profile and verify that the actual mySQL data matches
@@ -51,7 +54,7 @@ class ProfileTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->VALID_ID, $this->VALID_USER_ID, $this->VALID_EMAIL);
+		$profile = new Profile(null, $this->VALID_ID, $this->user->getUserId(), $this->VALID_EMAIL);
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -68,7 +71,7 @@ class ProfileTest extends TruForkTest {
 	 **/
 	public function testInsertInvalidProfile() {
 		// create a profile with a non null profileId and watch it fail!!
-		$profile = new Profile(ProfileTest::INVALID_KEY, $this->VALID_USER_ID, $this->VALID_EMAIL);
+		$profile = new Profile(ProfileTest::INVALID_KEY, $this->user->getUserId(), $this->VALID_EMAIL);
 		$profile->insert($this->getPDO());
 	}
 
@@ -80,7 +83,7 @@ class ProfileTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->VALID_USER_ID, $this->VALID_EMAIL);
+		$profile = new Profile(null, $this->user->getUserId(), $this->VALID_EMAIL);
 		$profile->insert($this->getPDO());
 
 		// edit the Profile and update it in mySQL
@@ -101,7 +104,7 @@ class ProfileTest extends TruForkTest {
 	 **/
 	public function testUpdateInvalidProfile() {
 		// create a Profile and try to update it without actually inserting it
-		$profile = new Profile(null, $this->VALID_USER_ID, $this->VALID_EMAIL);
+		$profile = new Profile(null, $this->user->getUserId(), $this->VALID_EMAIL);
 		$profile->update($this->getPDO());
 	}
 
@@ -113,7 +116,7 @@ class ProfileTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->VALID_USER_ID, $this->VALID_EMAIL);
+		$profile = new Profile(null, $this->user->getUserId(), $this->VALID_EMAIL);
 		$profile->insert($this->getPDO());
 
 		// delete the Profile from mySQL
@@ -132,7 +135,7 @@ class ProfileTest extends TruForkTest {
 	 **/
 	public function testDeleteInvalidProfile() {
 		// create a Profile and try to delete it without actually inserting it
-		$profile = new Profile(null, $this->VALID_USER_ID, $this->VALID_EMAIL);
+		$profile = new Profile(null, $this->user->getUserId(), $this->VALID_EMAIL);
 		$profile->delete($this->getPDO());
 	}
 
@@ -144,7 +147,7 @@ class ProfileTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->VALID_USER_ID, $this->VALID_EMAIL);
+		$profile = new Profile(null, $this->user->getUserId(), $this->VALID_EMAIL);
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -180,7 +183,7 @@ class ProfileTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new Profile and insert to into mySQL
-		$profile = new Profile(null, $this->VALID_USER_ID, $this->VALID_EMAIL);
+		$profile = new Profile(null, $this->user->getUserId(), $this->VALID_EMAIL);
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
