@@ -2,7 +2,7 @@
 // grab the project test parameters
 require_once("trufork.php");
 // grab the class under scrutiny
-require_once(dirname(__DIR__) . "/php/classes/likedRestaurant.php");
+require_once(dirname(__DIR__) . "/php/classes/likedrestaurant.php");
 require_once(dirname(__DIR__) . "/php/classes/user.php");
 require_once(dirname(__DIR__) . "/php/classes/profile.php");
 
@@ -80,7 +80,7 @@ class LikedRestaurantTest extends TruForkTest {
 	 * @expectedException PDOException
 	 **/
 	public function testInsertInvalidLikedRestaurant () {
-// create a friend with a non null friendId and watch it fail
+// create a likedRestaurant with a non null likedRestaurantId and watch it fail
 		$likedRestaurant= new LikedRestaurant(TruForkTest::INVALID_KEY, $this->VALID_RESTAURANTID);
 		$likedRestaurant->insert($this->getPDO());
 	}
@@ -91,7 +91,7 @@ class LikedRestaurantTest extends TruForkTest {
 	 **/
 	public function testUpdateValidLikedRestaurant(){
 // count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("likedRstaurant");
+		$numRows = $this->getConnection()->getRowCount("likedRestaurant");
 
 // create a new LikedRestaurant and insert into MySQl
 		$likedRestaurant =newLikeRestaurant($this->VALID_PROFILEID,$this->VALID_RESTAURANTID);
