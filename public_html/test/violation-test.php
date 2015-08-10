@@ -26,9 +26,15 @@ class ViolationTest extends TruForkTest {
 
 	/**
 	 * Valid violation code to use
-	 * @var int $violationCode
+	 * @var int $VALID_VIOLATION_CODE
 	 */
 	protected $VALID_VIOLATION_CODE = "04  S8";
+
+	/**
+	 * Second valid violation code to use
+	 * @var int $VALID_VIOLATION_CODE2
+	 */
+	protected $VALID_VIOLATION_CODE2 = "04  S9";
 
 	/**
 	 * Valid violation description to use
@@ -99,7 +105,43 @@ class ViolationTest extends TruForkTest {
 	}
 
 	/**
-	 * Test creating a Violations and then deleting it
+	 * Test creating a violation, editing it, and then updating it
+	 */
+	public function testUpdateValidViolation() {
+		// Count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("violation");
+
+		// Create a new Violation and insert it into MySQL
+		$violation = new Violation($this->VALID_ID, $this->restaurant->getRestaurantId(), $this->VALID_VIOLATION_CODE, $this->VALID_VIOLATION_DESC, $this->VALID_INSPECTION_MEMO, $this->VALID_SERIAL_NUM);
+		$violation->insert($this->getPDO());
+
+		// Edit the violation and update it in MySQL
+		$violation->setViolationCode($this->VALID_VIOLATION_CODE2);
+		$violation->update($this->getPDO());
+
+		// Grab the data from MySQL and enforce the fields match out expectations
+		$pdoViolation = Violation::getViolationById($this->getPDO(), $violation->getViolationId());
+		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("violation"));
+		$this->assertLessThan($pdoViolation->getViolationId(), 0);
+		$this->assertSame($pdoViolation->getRestaurantId(), $this->restaurant->getRestaurantId());
+		$this->assertSame($pdoViolation->getViolationCode(), $this->VALID_VIOLATION_CODE2);
+		$this->assertSame($pdoViolation->getViolationDesc(), $this->VALID_VIOLATION_DESC);
+		$this->assertSame($pdoViolation->getInspectionMemo(), $this->VALID_INSPECTION_MEMO);
+		$this->assertSame($pdoViolation->getSerialNum(), $this->VALID_SERIAL_NUM);
+	}
+
+	/**
+	 * Test updating a violation without inserting it
+	 *
+	 * @expectedException PDOException
+	 */
+	public function testUpdateInvalidViolation() {
+		$violation = new Violation($this->VALID_ID, $this->restaurant->getRestaurantId(), $this->VALID_VIOLATION_CODE, $this->VALID_VIOLATION_DESC, $this->VALID_INSPECTION_MEMO, $this->VALID_SERIAL_NUM);
+		$violation->update($this->getPDO());
+	}
+
+	/**
+	 * Test creating a Violation and then deleting it
 	 */
 	public function testDeleteValidViolation() {
 		// Count the number of rows and save it for later

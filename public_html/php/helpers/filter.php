@@ -12,6 +12,7 @@ class Filter {
 	 *
 	 * @param int $int integer to use
 	 * @param string $name name of attribute to filter
+	 * @param boolean $nullable whether the int can be null or not
 	 * @return int|null new ID to use
 	 */
 	public static function filterInt($int, $name, $nullable = false) {
@@ -53,14 +54,12 @@ class Filter {
 		$string = trim($string);
 		$string = filter_var($string, FILTER_SANITIZE_STRING);
 		if(empty($string) === true) {
-			throw(new InvalidArgumentException("$name is empty or insecure"));
+			throw(new InvalidArgumentException("value is empty or insecure"));
 		}
 
 		// Verify that the string will fit in the database
-		if($size > 0) {
-			if(strlen($string) > $size) {
-				throw(new RangeException("$name is too long"));
-			}
+		if($size > 0 && strlen($string) > $size) {
+			throw(new RangeException("$name is too long"));
 		}
 
 		// Return the new string

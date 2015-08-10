@@ -1,18 +1,17 @@
 <?php
 
-/**
- * Full PHPUnit test for the Restaurant class
- *
- * @see Profile
- * @author Skyler Rexroad skyrex1095@gmail.com
- */
-
 // Get the test parameters
 require_once("trufork.php");
 
 // Get the class to test
 require_once(dirname(__DIR__) . "/php/classes/restaurant.php");
 
+/**
+ * Full PHPUnit test for the Restaurant class
+ *
+ * @see Profile
+ * @author Skyler Rexroad skyrex1095@gmail.com
+ */
 class RestaurantTest extends TruForkTest {
 
 	/**
