@@ -150,6 +150,7 @@ class ProfileTest extends TruForkTest {
 		$this->assertSame($pdoProfile->getEmail(), $this->VALID_EMAIL);
 	}
 
+
 	/**
 	 * test grabbing a Profile that does not exist
 	 **/
