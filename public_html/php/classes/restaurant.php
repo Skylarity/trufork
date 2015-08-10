@@ -1,13 +1,12 @@
 <?php
 
+require_once(dirname(__DIR__) . "/helpers/filter.php");
+
 /**
  * This class contains data and functionality for a restaurant
  *
- * @author Skyler Rexroad
+ * @author Skyler Rexroad skyrex1095@gmail.com
  */
-
-require_once(dirname(__DIR__) . "/helpers/filter.php");
-
 class Restaurant {
 
 	/**

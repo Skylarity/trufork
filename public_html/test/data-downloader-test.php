@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: skyre_000
- * Date: 8/9/2015
- * Time: 12:26
+ * Full PHPUnit test for the Violation class
+ *
+ * @see Profile
+ * @author Skyler Rexroad
  */
 class DataDownloaderTest {
 
-    // TODO
+	// TODO
 
 }

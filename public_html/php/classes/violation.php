@@ -1,13 +1,15 @@
 <?php
 
+require_once(dirname(__DIR__) . "/helpers/filter.php");
+
 /**
  * This class contains data and functionality for restaurant violations
  *
- * @author Skyler Rexroad
+ * A violation has an ID, code, description, memo, and serial number.
+ * It is attached to a restaurant via a restaurant ID.
+ *
+ * @author Skyler Rexroad skyrex1095@gmail.com
  */
-
-require_once(dirname(__DIR__) . "/helpers/filter.php");
-
 class Violation {
 
 	/**
