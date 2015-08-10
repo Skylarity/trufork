@@ -119,6 +119,7 @@ class User {
 		return $this->hash;
 	}
 
+
 	/**
 	 * @param $newHash
 	 */
