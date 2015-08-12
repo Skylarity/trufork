@@ -61,6 +61,8 @@ class User {
 
 	/**
 	 * @param $newUserId
+	 * sets user
+	 * filter user
 	 */
 
 	public function setUserId($newUserId) {
@@ -96,6 +98,7 @@ class User {
 
 	/** mutator method for salt
 	 * @param $newSalt
+	 * sets salt with hex of 64
 	 *
 	 */
 	public function setSalt($newSalt) {
@@ -121,6 +124,7 @@ class User {
 
 	/**
 	 * @param $newHash
+	 * sets hash with a string of 128
 	 */
 	public function setHash($newHash) {
 		// verify Hash is exactly string of 128

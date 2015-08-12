@@ -310,6 +310,7 @@ class Profile {
 		}
 
 	/**
+	 * gets profile by email
 	 * @param PDO $pdo
 	 * @param $profile
 	 * @return null|Profile

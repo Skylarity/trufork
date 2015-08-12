@@ -6,9 +6,11 @@ require_once("trufork.php");
 // get test for class
 require_once(dirname(__DIR__) . "/php/classes/profile.php");
 
+
 require_once(dirname(__DIR__) . "/php/classes/user.php");
 
 /**
+ * gets user by userid
  *
  * @author kenneth Chavez <kchavez68@cnm.edu>
  **/
