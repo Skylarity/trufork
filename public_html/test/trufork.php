@@ -46,9 +46,7 @@ abstract class TruForkTest extends PHPUnit_Extensions_Database_TestCase {
 		$dataset->addTable("restaurant");
 		$dataset->addTable("violation");
 		$dataset->addTable("comment");
-		$dataset->addTable("likedRestaurant");
 		$dataset->addTable("friend");
-		$dataset->addTable("votedComment");
 		return ($dataset);
 	}
 

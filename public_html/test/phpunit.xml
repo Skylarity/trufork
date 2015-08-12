@@ -5,7 +5,6 @@
 			<file>profile-test.php</file>
 			<file>friend-test.php</file>
 			<file>restaurant-test.php</file>
-			<file>likedrestaurant-test.php</file>
 			<file>violation-test.php</file>
 			<file>comment-test.php</file>
 		</testsuite>
