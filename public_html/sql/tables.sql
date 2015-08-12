@@ -1,7 +1,6 @@
 DROP TABLE IF EXISTS comment; -- drop it like it's hot
 DROP TABLE IF EXISTS friend; -- drop first bc created last
 DROP TABLE IF EXISTS violation;
-DROP TABLE IF EXISTS likedRestaurant;
 DROP TABLE IF EXISTS restaurant;
 DROP TABLE IF EXISTS profile;
 DROP TABLE IF EXISTS user; -- dropping this table last as it is created first
@@ -55,15 +54,6 @@ CREATE TABLE comment (
 	content VARCHAR(1064) NOT NULL,
 	INDEX(commentId),
 	PRIMARY KEY(commentId),
-	FOREIGN KEY(restaurantId) REFERENCES restaurant(restaurantId),
-	FOREIGN KEY(profileId) REFERENCES profile(profileId)
-);
-
-CREATE TABLE likedRestaurant (
-	likedRestaurantId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	restaurantId INT UNSIGNED NOT NULL,
-	profileId INT UNSIGNED NOT NULL,
-	INDEX(likedRestaurantId),
 	FOREIGN KEY(restaurantId) REFERENCES restaurant(restaurantId),
 	FOREIGN KEY(profileId) REFERENCES profile(profileId)
 );
