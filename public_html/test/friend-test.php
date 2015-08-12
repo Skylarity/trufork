@@ -1,7 +1,7 @@
 <?php
 // grab the project test parameters
 require_once("trufork.php");
-// grab the class under scrutiny
+   // grab the class under scrutiny
   require_once(dirname(__DIR__) . "/php/classes/friend.php");
   require_once(dirname(__DIR__) . "/php/classes/user.php");
   require_once(dirname(__DIR__) . "/php/classes/profile.php");
@@ -23,39 +23,53 @@ class FriendTest extends TruForkTest {
 	 * VALID firstProfile Id
 	 * @var int $FIRSTPROFILE Id
 	 */
-protected $VALID_FIRSTPROFILEID = 99;
+protected $VALID_FIRSTPROFILEID = 1;
 	/**
 	 * VALID secondProfile Id
 	 * @var int $SECONDPROFILE Id
 	 */
-protected $VALID_SECONDPROFILEID = 100;
+protected $VALID_SECONDPROFILEID = 1;
 	/**
 	 * VALID date friended to use
 	 * var date
 	 */
-protected $VALID_DATEFRIENDED = "2015-03-23 15:23:04";
+protected $VALID_DATEFRIENDED = null;
 	/**
  * Profile that has the friend(s); this is for foreign key relations
  * @var Friend $profile
  */
-	protected $profile = null;
-	protected $user = null;
-
+	protected $profile1 = null;
+	protected $user1 = null;
+	protected $user =null;
+	protected $VALID_SALT;
+	/**
+	 * @VAR STRING HASH
+	 */
+	protected $VALID_HASH;
 	/**
 	 * Create dependent objects before running each test
 	 */
 	public final function setUp() {
 		// Run the default setUp() method first
 		parent::setUp();
+		//create  a salt and hash test
+		$this->VALID_SALT = bin2hex(openssl_random_pseudo_bytes(32));
+		$this->VALID_HASH = $this->VALID_HASH = hash_pbkdf2("sha512", "password4321", $this->VALID_SALT, 262144, 128);
+		//create and insert a user test profile
+		$this->user = new User(null, $this->VALID_SALT, $this->VALID_HASH);
+		$this->user->insert($this->getPDO());
 
-		// create and insert a Profile to own the test Tweet
+
+		// Create date
+		$this->VALID_DATEFRIENDED = DateTime::createFromFormat("Y-m-d H:i:s", "2015-03-23 15:23:04");
+		// create and insert a  to own the test Tweet
 //		$formattedDateFriended= Datetime::createFromFormat("Y-m-d H:i:s",$this->VALID_DATEFRIENDED);
-		$this->user1 = new user(null, "233", "345");
+		$this->user1 = new User(null, "233", "345");
 		$this->user1->insert($this->getPDO());
-		$this->user2 = new user(null, "233", "345");
+		$this->user2 = new User(null, "233", "345");
 		$this->user2->insert($this->getPDO());
-		$this->profile1 = new profile(null, $this->user1->getUserId(), "user1@example.com");
-		$this->profile2 = new profile(null, $this->user2->getUserId(), "user2@example.com");
+		$this->profile1 = new Profile(null, $this->user1->getUserId(), "user1@example.com");
+		$this->profile2 = new Profile(null, $this->user2->getUserId(), "user2@example.com");
 		$this->profile1->insert($this->getPDO());
 		$this->profile2->insert($this->getPDO());
 
@@ -66,18 +80,17 @@ protected $VALID_DATEFRIENDED = "2015-03-23 15:23:04";
 * test inserting a valid Friend and verify that the actual mySQL data matches
 **/
 public function testInsertValidFriend() {
-// count the number of rows and save it for later
-$numRows = $this->getConnection()->getRowCount("friend");
+	// count the number of rows and save it for later
+	$numRows = $this->getConnection()->getRowCount("friend");
 
-// create a new Friend and insert to into mySQL
-$friend = new Friend($this->VALID_FIRSTPROFILEID,$this->VALID_SECONDPROFILEID, $this->VALID_DATEFRIENDED);
-$friend->insert($this->getPDO());
+	// create a new Friend and insert to into mySQL
+	$friend = new Friend($this->VALID_FIRSTPROFILEID,$this->VALID_SECONDPROFILEID, $this->VALID_DATEFRIENDED);
+	$friend->insert($this->getPDO());
 
-// grab the data from mySQL and enforce the fields match our expectations
-$pdoFriend = Friend::getFriendByFriendId($this->getPDO(), $friend->getFriendId()
-);
-$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("friend"));
-$this->assertSame($pdoFriend->getDate(),$this->VALID_DATEFRIENDED);
+	// grab the data from mySQL and enforce the fields match our expectations
+	$pdoFriend = Friend::getFriendById($this->getPDO(), $friend->getFriendId());
+			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("friend"));
+			$this->assertSame($pdoFriend->getDate(),$this->VALID_DATEFRIENDED);
 }
 
 /**
@@ -108,7 +121,7 @@ $friend->update($this->getPDO());
 
 // grab the data from mySQL and enforce the fields match our expectations
 $pdoFriend = Friend::getFriendByFriendId($this->getPDO(), $friend->getFriendId);
-$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("profile"));
+$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("friend"));
 $this->assertSame($pdoFriend->getFirstProfileId(), $this->VALID_FIRSTPROFILEID);
 $this->assertSame($pdoFriend->getSecondProfileId(), $this->VALID_SECONDPROFILEID);
 $this->assertSame($pdoFriend->getDatefriended(), $this->VALID_DATEFRIENDED);

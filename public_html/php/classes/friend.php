@@ -153,7 +153,7 @@ require_once(dirname(__DIR__) . "/traits/validatedate.php");
 			$statement = $pdo->prepare($query);
 
 			$formattedDateFriended = $this->dateFriended->format("Y-m-d H:i:s");
-			$parameters = array("dateFriended" => $formattedDateFriended,"firstProfileId" => $this->firstProfileId,"secondProfileId" => $this->secondProfileId);
+			$parameters = array("firstProfileId" => $this->firstProfileId,"secondProfileId" => $this->secondProfileId, "dateFriended" => $formattedDateFriended);
 			$statement->execute($parameters);
 
 			$this->setFirstProfileId(intval($pdo->lastInsertId()));
