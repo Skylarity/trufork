@@ -154,7 +154,7 @@ class Friend {
 	 *
 	 * @return string HTML formatted Friend
 	 **/
-	public function __tosString() {
+	public function __toString() {
 		//create an HTML formatted friend
 		$html = "<p>FirstProfile id" . $this->firstProfileId . "<br/>"
 			. "SecondProfile id:" . $this->secondProfileId . "<br/>"
