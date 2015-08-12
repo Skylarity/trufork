@@ -20,9 +20,15 @@ class CommentTest extends TruForkTest {
 
 	/**
 	 * valid  datetime to use
-	 * @var int dateTime
+	 * @var DateTime dateTime
 	 **/
 	protected $VALID_DATETIME = null;
+
+	/**
+	 * second valid  datetime to use
+	 * @var DateTime dateTime
+	 **/
+	protected $VALID_DATETIME2 = null;
 
 	/**
 	 * valid content to use
@@ -47,7 +53,7 @@ class CommentTest extends TruForkTest {
 	 * @var User $user
 	 *
 	 **/
-protected $user = null;
+	protected $user = null;
 
 	/**
 	 *
@@ -59,12 +65,13 @@ protected $user = null;
 		// run the default setup() method first
 		parent::setUp();
 
-		// Initialize DateTime
+		// Initialize DateTime objects
 		$this->VALID_DATETIME = DateTime::createFromFormat("Y-m-d H:i:s", "2015-01-01 15:16:17");
+		$this->VALID_DATETIME2 = DateTime::createFromFormat("Y-m-d H:i:s", "2013-01-01 15:12:15");
 
 		//create and insert a User to own the test Comment via Profile
 		$salt = bin2hex(openssl_random_pseudo_bytes(32));
-		$hash = hash_pbkdf2("sha512","password1234", $salt, 262144, 128);
+		$hash = hash_pbkdf2("sha512", "password1234", $salt, 262144, 128);
 		$this->user = new User(null, $salt, $hash);
 		$this->user->insert($this->getPDO());
 
@@ -91,7 +98,6 @@ protected $user = null;
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoComment = Comment::getCommentByCommentId($this->getPDO(), $comment->getCommentId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
-		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
 		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
 	}
 
@@ -118,13 +124,13 @@ protected $user = null;
 		$comment->insert($this->getPDO());
 
 		// edit the Comment and update it in mySQL
-		$comment->setDateTime($this->VALID_DATETIME);
+		$comment->setDateTime($this->VALID_DATETIME2);
 		$comment->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoComment = Comment::getCommentByCommentId($this->getPDO(), $comment->getCommentId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
-		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
+		$this->assertEquals($pdoComment->getDateTime(), $this->VALID_DATETIME2);
 		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
 	}
 
@@ -185,7 +191,7 @@ protected $user = null;
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoComment = Comment::getCommentByCommentId($this->getPDO(), $comment->getCommentId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
-		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
+		$this->assertEquals($pdoComment->getDateTime(), $this->VALID_DATETIME);
 		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
 	}
 
@@ -207,10 +213,12 @@ protected $user = null;
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoComment = Comment::getCommentByCommentDateTime($this->getPDO(), $this->VALID_DATETIME);
-		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
-		$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
-		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
+		$pdoComments = Comment::getCommentByDateTime($this->getPDO(), $this->VALID_DATETIME);
+		foreach($pdoComments as $pdoComment) {
+			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
+			$this->assertEquals($pdoComment->getDateTime(), $this->VALID_DATETIME);
+			$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
+		}
 	}
 
 	/**
@@ -218,7 +226,7 @@ protected $user = null;
 	 **/
 	public function testGetInvalidCommentByCommentDateTime() {
 		// grab a date time that does not exist
-		$comment = Comment::getCommentByCommentDateTime($this->getPDO(), "comment doesn't exist(date time)");
+		$comment = Comment::getCommentByDateTime($this->getPDO(), "comment doesn't exist(date time)");
 		$this->assertNull($comment);
 	}
 
@@ -237,7 +245,7 @@ protected $user = null;
 		$pdoComments = Comment::getCommentByCommentContent($this->getPDO(), $this->VALID_CONTENT);
 		foreach($pdoComments as $pdoComment) {
 			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
-			$this->assertSame($pdoComment->getDateTime(), $this->VALID_DATETIME);
+			$this->assertEquals($pdoComment->getDateTime(), $this->VALID_DATETIME);
 			$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
 		}
 	}

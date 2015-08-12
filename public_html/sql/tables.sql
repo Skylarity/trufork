@@ -1,11 +1,10 @@
-DROP TABLE IF EXISTS votedComment; -- dropping this table first as it is created last
-DROP TABLE IF EXISTS friend;
-DROP TABLE IF EXISTS likedRestaurant;
 DROP TABLE IF EXISTS comment; -- drop it like it's hot
+DROP TABLE IF EXISTS friend; -- drop first bc created last
 DROP TABLE IF EXISTS violation;
+DROP TABLE IF EXISTS likedRestaurant;
 DROP TABLE IF EXISTS restaurant;
-DROP TABLE IF EXISTS profile;
 DROP TABLE IF EXISTS user; -- dropping this table last as it is created first
+DROP TABLE IF EXISTS profile;
 
 CREATE TABLE user (
 	userId INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -78,12 +77,3 @@ CREATE TABLE friend (
 	FOREIGN KEY(firstProfileId) REFERENCES profile(profileId)
 );
 
-CREATE TABLE votedComment (
-	votedCommentId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	commentId INT UNSIGNED NOT NULL,
-	profileId INT UNSIGNED NOT NULL,
-	voteType INT(8) NOT NULL, -- assuming it's some number
-	INDEX(votedCommentId),
-	FOREIGN KEY(commentId) REFERENCES comment(commentId),
-	FOREIGN KEY(profileId) REFERENCES profile(profileId)
-);

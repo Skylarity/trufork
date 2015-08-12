@@ -8,7 +8,6 @@
 			<file>likedrestaurant-test.php</file>
 			<file>violation-test.php</file>
 			<file>comment-test.php</file>
-			<file>votedcomment-test.php</file>
 		</testsuite>
 	</testsuites>
 </phpunit>

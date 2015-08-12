@@ -2,6 +2,7 @@
 
 //grab the date parsing function
 require_once(dirname(__DIR__) . "/traits/validatedate.php");
+require_once(dirname(__DIR__) . "/helpers/filter.php");
 
 /**
  * Creation of Comment class for trufork
@@ -45,7 +46,7 @@ class Comment {
 	 * @param int $commentId or null if a new Comment
 	 * @param int $profileId or null if a new profileId
 	 * @param int $restaurantId or null if a new restaurantId
-	 * @param int $dateTime datetimestamp of comment
+	 * @param DateTime $dateTime datetimestamp of comment
 	 * @param int $content content of Comment
 	 * @throws InvalidArgumentException if the data is invalid
 	 * @throws RangeException if data out of range
@@ -58,7 +59,7 @@ class Comment {
 			$this->setProfileId($profileId);
 			$this->setRestaurantId($restaurantId);
 			$this->setDateTime($dateTime);
-			$this->setcontent($content);
+			$this->setContent($content);
 		} catch(InvalidArgumentException $invalidArgument) {
 			throw(new InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(RangeException $range) {
@@ -83,18 +84,7 @@ class Comment {
 	 * @param int $commentId
 	 */
 	public function setCommentId($newCommentId) {
-		if($newCommentId === null) {
-			$this->commentId = null;
-			return;
-		}
-		$newCommentId = filter_var($newCommentId, FILTER_VALIDATE_INT);
-		if($newCommentId === false) {
-			throw(new InvalidArgumentException("comment id is not a valid integer"));
-		}
-		if($newCommentId <= 0) {
-			throw(new RangeException("comment id is not positive"));
-		}
-		$this->commentId = intval($newCommentId);
+		$this->commentId = Filter::filterInt($newCommentId, "Comment ID", true);
 	}
 
 	/** accessor method for getting profileId
@@ -108,18 +98,7 @@ class Comment {
 	 * @param int $profileId
 	 */
 	public function setProfileId($newProfileId) {
-		if($newProfileId === null) {
-			$this->profileId = null;
-			return;
-		}
-		$newProfileId = filter_var($newProfileId, FILTER_VALIDATE_INT);
-		if($newProfileId === false) {
-			throw(new InvalidArgumentException("profile id is not a valid integer"));
-		}
-		if($newProfileId <= 0) {
-			throw(new RangeException("profile id is not positive"));
-		}
-		$this->profileId = intval($newProfileId);
+		$this->profileId = Filter::filterInt($newProfileId, "Profile ID", true);
 	}
 
 	/** accessor method for getting restaurantId
@@ -133,18 +112,7 @@ class Comment {
 	 * @param int $restaurantId
 	 */
 	public function setRestaurantId($newRestaurantId) {
-		if($newRestaurantId === null) {
-			$this->restaurantId = null;
-			return;
-		}
-		$newRestaurantId = filter_var($newRestaurantId, FILTER_VALIDATE_INT);
-		if($newRestaurantId === false) {
-			throw(new InvalidArgumentException("restaurant id is not a valid integer"));
-		}
-		if($newRestaurantId <= 0) {
-			throw(new RangeException("restaurant id is not positive"));
-		}
-		$this->restaurantId = intval($newRestaurantId);
+		$this->restaurantId = Filter::filterInt($newRestaurantId, "Restaurant ID", true);
 	}
 
 
@@ -189,24 +157,11 @@ class Comment {
 
 	/**mutator method for setting content
 	 * @param int $newContent new value of comment content
-	 * @throws RangeException if $newcontent is too long
-	 * @throws InvalidArgumentException if $newcontent fails sanitization
+	 * @throws RangeException if $newContent is too long
+	 * @throws InvalidArgumentException if $newContent fails sanitization
 	 */
-	public function setcontent($newcontent) {
-		if($newcontent === null) {
-			$this->content = null;
-			return;
-
-		}
-		$newcontent = filter_var($newcontent, FILTER_SANITIZE_STRING);
-		if($newcontent === false) {
-			throw(new InvalidArgumentException("comment content is not valid"));
-
-		}
-		if($newcontent > 1064) {
-			throw(new RangeException("comment content too long"));
-		}
-		$this->content = intval($newcontent);
+	public function setContent($newContent) {
+		$this->content = Filter::filterString($newContent, "Comment content", 1064);
 	}
 
 	/**
@@ -257,7 +212,7 @@ class Comment {
 		$query = "UPDATE comment SET dateTime = :dateTime, content = :content";
 		$statement = $pdo->prepare($query);
 
-		$parameters = array("dateTime" => $this->getDateTime(), "content" => $this->getcontent());
+		$parameters = array("dateTime" => $this->getDateTime()->format("Y-m-d H:i:s"), "content" => $this->getcontent());
 		$statement->execute($parameters);
 	}
 
@@ -375,7 +330,7 @@ class Comment {
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["commentDateTime"], $row["content"]);
+				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["dateTime"], $row["content"]);
 				$comments[$comments->key()] = $comment;
 				$comments->next();
 			} catch(Exception $exception) {
@@ -390,37 +345,35 @@ class Comment {
 	/** gets the comment by comment date time
 	 *
 	 * @param PDO $pdo pointer to PDO connection, by reference
-	 * @param $commentDateTime comment date to search for
+	 * @param $dateTime comment date to search for
 	 * @return mixed special fixed array of comments found or null if not found
 	 * @throws PDOException when MySQL errors happen
 	 **/
-	public static function getCommentByCommentDateTime(PDO &$pdo, $commentDateTime) {
+	public static function getCommentByDateTime(PDO &$pdo, $dateTime) {
 		// Turn date into string
-		if(is_object($commentDateTime) === true && get_class($commentDateTime) === "DateTime") {
-			$commentDateTime = $commentDateTime->format("Y-m-d H:i:s");
+		if(is_object($dateTime) === true && get_class($dateTime) === "DateTime") {
+			$dateTime = validateDate::validateDate($dateTime);
 		}
-		$commentDateTime = trim($commentDateTime);
-		$commentDateTime = validateDate::validateDate($commentDateTime);
 		// Turn date into string
-		if(is_object($commentDateTime) === true && get_class($commentDateTime) === "DateTime") {
-			$commentDateTime = $commentDateTime->format("Y-m-d H:i:s");
+		if(is_object($dateTime) === true && get_class($dateTime) === "DateTime") {
+			$dateTime = $dateTime->format("Y-m-d H:i:s");
 		}
 
-		if(empty($commentDateTime) === true) {
+		if(empty($dateTime) === true) {
 			throw(new PDOException("date time is not  valid "));
 		}
-		$query = "SELECT commentId, profileId, restaurantId, dateTime, content FROM comment WHERE dateTime = :commentDateTime";
+		$query = "SELECT commentId, profileId, restaurantId, dateTime, content FROM comment WHERE dateTime = :dateTime";
 		$statement = $pdo->prepare($query);
 
-		$commentDateTime = "$commentDateTime";
-		$parameters = array("commentDateTime" => $commentDateTime);
+		$dateTime = "$dateTime";
+		$parameters = array("dateTime" => $dateTime);
 		$statement->execute($parameters);
 
 		$comments = new SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["commentDateTime"], $row["content"]);
+				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["dateTime"], $row["content"]);
 				$comments[$comments->key()] = $comment;
 				$comments->next();
 			} catch(Exception $exception) {
@@ -450,7 +403,7 @@ class Comment {
 		if($content === false) {
 			throw(new PDOException("comment content not valid"));
 		}
-		$query = "SELECT commentId, dateTime, content FROM comment WHERE content LIKE :content";
+		$query = "SELECT * FROM comment WHERE content LIKE :content";
 		$statement = $pdo->prepare($query);
 
 		//bind comment content to placeholder in template
@@ -463,7 +416,7 @@ class Comment {
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["commentDateTime"], $row["content"]);
+				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["dateTime"], $row["content"]);
 				$comments[$comments->key()] = $comment;
 				$comments->next();
 			} catch(Exception $exception) {
