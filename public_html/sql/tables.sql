@@ -3,8 +3,8 @@ DROP TABLE IF EXISTS friend; -- drop first bc created last
 DROP TABLE IF EXISTS violation;
 DROP TABLE IF EXISTS likedRestaurant;
 DROP TABLE IF EXISTS restaurant;
-DROP TABLE IF EXISTS user; -- dropping this table last as it is created first
 DROP TABLE IF EXISTS profile;
+DROP TABLE IF EXISTS user; -- dropping this table last as it is created first
 
 CREATE TABLE user (
 	userId INT UNSIGNED AUTO_INCREMENT NOT NULL,
