@@ -99,6 +99,7 @@ class CommentTest extends TruForkTest {
 		$pdoComment = Comment::getCommentByCommentId($this->getPDO(), $comment->getCommentId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
 		$this->assertSame($pdoComment->getContent(), $this->VALID_CONTENT);
+		$this->assertEquals($pdoComment->getDateTime(), $this->VALID_DATETIME);
 	}
 
 	/**
