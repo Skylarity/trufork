@@ -161,7 +161,7 @@ class Profile {
 
 	/**
 	 * insert this profile id into mySQL
-	 *
+	 * pdo Represents a connection between PHP and a database server.
 	 * @param PDO $pdo pointer to PDO connection, by reference
 	 * @throws PDOException when mySQL relates errors occur
 	 *
@@ -187,7 +187,7 @@ class Profile {
 
 	/**
 	 * Deletes this Profile from MySQL
-	 *
+	 * Represents a connection between PHP and a database server.
 	 * @param PDO $pdo pointer to PDO connection , by reference
 	 * @throws PDOException when MySQL related errors occur
 	 */

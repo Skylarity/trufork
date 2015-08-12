@@ -3,8 +3,9 @@
 // unit test for profile class
 require_once("trufork.php");
 
-// get test parameters
+// get test for class
 require_once(dirname(__DIR__) . "/php/classes/profile.php");
+
 require_once(dirname(__DIR__) . "/php/classes/user.php");
 
 /**
@@ -14,19 +15,29 @@ require_once(dirname(__DIR__) . "/php/classes/user.php");
 class ProfileTest extends TruForkTest {
 
 	/**
+	 *
 	 * email is valid
 	 * @var int $VALID_ID
+
 	 **/
 	protected $VALID_EMAIL = "kchavez@gmail.com";
 
 	protected $user = null;
 
+	/**
+	 * @var string salt
+	 */
 	protected $VALID_SALT;
-
+	/**
+	 * @var string $hash
+	 */
 	protected $VALID_HASH;
+
 
 	/** create set up method for each dependant objects
 	 *
+	 * @var string salt hex value of 32 bytes
+	 * @var string hash value 2^18
 	 */
 	public final function setUp() {
 		// run the default setUp() method first
@@ -35,7 +46,7 @@ class ProfileTest extends TruForkTest {
 		$this->VALID_SALT = bin2hex(openssl_random_pseudo_bytes(32));
 		$this->VALID_HASH = $this->VALID_HASH = hash_pbkdf2("sha512", "password1234", $this->VALID_SALT, 262144, 128);
 
-		// create and insert a User to own the test Profile
+		// create and insert a User test Profile
 		$this->user= new User(null, $this->VALID_SALT, $this->VALID_HASH);
 		$this->user->insert($this->getPDO());
 	}
@@ -101,6 +112,7 @@ class ProfileTest extends TruForkTest {
 
 	/**
 	 * test creating a Profile and then deleting it
+	 * assert checks if assertion is false
 	 **/
 	public function testDeleteValidProfile() {
 		// count the number of rows and save it for later
@@ -132,6 +144,7 @@ class ProfileTest extends TruForkTest {
 
 	/**
 	 * test inserting a Profile and regrabbing it from mySQL
+	 * creates a new profile inserts it asserts by same
 	 **/
 	public function testGetValidProfileByProfileId() {
 		// count the number of rows and save it for later

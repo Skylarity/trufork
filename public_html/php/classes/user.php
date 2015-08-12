@@ -1,7 +1,6 @@
 <?php
 
 /**
- * Created by PhpStorm.
  * User: Kenneth Anthony
  * Date: 7/29/2015
  * Time: 9:44 PM
@@ -14,7 +13,7 @@ class User {
 	private $userId;
 	/**
 	 * salt encryption for userId
-	 * @var int $userId
+	 * @var string $salt
 	 **/
 	private $salt;
 	/**
@@ -99,17 +98,17 @@ class User {
 	 *
 	 */
 	public function setSalt($newSalt) {
-		// verify if salt is exactly string of 64
-			if((ctype_xdigit($newSalt)) === false)   {
-				if(empty($newSalt) === true) {
-					throw new InvalidArgumentException ("content invalid");
-				}
-				if(strlen($newSalt) !== 128) {
-					throw new RangeException ("hash is not valid");
-				}}
-				$this->hash = $newSalt;
-
+		// verify salt is exactly string of 64
+		if((ctype_xdigit($newSalt)) === false) {
+			if(empty($newSalt) === true) {
+				throw new InvalidArgumentException ("salt invalid");
+			}
+			if(strlen($newSalt) !== 64) {
+				throw (new RangeException ("salt not valid"));
+			}
 		}
+		$this->salt = $newSalt;
+	}
 
 	/**
 	 * @return string hash
@@ -118,23 +117,22 @@ class User {
 		return $this->hash;
 	}
 
-	/**
-	 * @param $newhash
-	 */
-	public function sethash($newhash) {
-		// verify if hash is exactly string of 128
-		/** @var TYPE_NAME $newhash */
-		if((ctype_xdigit($newhash)) === false) {
-			if(empty($newhash) === true) {
-				throw new InvalidArgumentException ("content invalid");
-			}
-			if(strlen($newhash) !== 128) {
-				throw new RangeException ("hash is not valid");
-			}
-			$this->hash = $newhash;
-		}
-	}
 
+	/**
+	 * @param $newHash
+	 */
+	public function setHash($newHash) {
+		// verify Hash is exactly string of 128
+		if((ctype_xdigit($newHash)) === false) {
+			if(empty($newHash) === true) {
+				throw new InvalidArgumentException ("hash invalid");
+			}
+			if(strlen($newHash) !== 128) {
+				throw new RangeException ("hash not valid");
+			}
+		}
+		$this->hash = $newHash;
+	}
 	/**
 	 * insert this userId into mySQL
 	 *
