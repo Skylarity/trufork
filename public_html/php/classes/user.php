@@ -211,7 +211,6 @@ class User {
 		$parameters = array("userId" => $this->getUserId(), "salt" =>$this->getSalt(), "hash" =>$this->gethash());
 		$statement->execute($parameters);
 	}
-
 	/**
 	 * Gets the profile by user ID
 	 *
