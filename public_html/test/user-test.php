@@ -45,6 +45,15 @@ class UserTest extends TruForkTest {
 	 */
 	protected $USER_3= "5";
 
+	/**
+	 * @var string salt 2
+	 */
+	protected $VALID_SALT_2;
+	/**
+	 * @var string $hash 2
+	 */
+	protected $VALID_HASH_2;
+
 
 
 	/**
@@ -56,6 +65,10 @@ class UserTest extends TruForkTest {
 		// create a salt and hash test
 		$this->VALID_SALT = bin2hex(openssl_random_pseudo_bytes(32));
 		$this->VALID_HASH = $this->VALID_HASH = hash_pbkdf2("sha512", "password1234", $this->VALID_SALT, 262144, 128);
+
+		// salt and hash 2
+		$this->VALID_SALT_2 = bin2hex(openssl_random_pseudo_bytes(32));
+		$this->VALID_HASH_2 = $this->VALID_HASH = hash_pbkdf2("sha512", "password1234", $this->VALID_SALT, 262144, 128);
 
 		// set up user test in mySQL
 		$this->USER_ID = new User(null, $this->VALID_SALT, $this->VALID_HASH);
@@ -105,15 +118,17 @@ class UserTest extends TruForkTest {
 	/**
 	 * Test inserting a User, editing it, and then updating it
 	 **/
-	public function testValidUpdateUser() {
+
+	public function testUpdateValidUser() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("user");
 
-		// create a new user and insert
+		// create a new Profile and insert to into mySQL
 		$user = new User(null, $this->VALID_SALT, $this->VALID_HASH);
 		$user->insert($this->getPDO());
 
 		// edit the user and update it in mySQL
+		$user->setUserId($this->VALID_HASH_2);
 		$user->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations

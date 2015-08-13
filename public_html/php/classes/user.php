@@ -24,6 +24,8 @@ class User {
 	private $hash;
 
 
+
+
 	/**
 	 * @param $newUserId
 	 * @param $salt
