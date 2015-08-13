@@ -319,7 +319,7 @@ class Comment {
 		}
 
 		// Create query template
-		$query = "SELECT commentId, profileId, restaurantId, dateTime, content FROM comment WHERE profileId = :profileId";
+		$query = "SELECT commentId, profileId, restaurantId, dateTime, content FROM comment WHERE restaurantId = :restaurantId";
 		$statement = $pdo->prepare($query);
 
 		//bind restaurant id to placeholder in comments
