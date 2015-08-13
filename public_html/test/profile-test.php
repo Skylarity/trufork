@@ -94,6 +94,9 @@ class ProfileTest extends TruForkTest {
 		$profile = new Profile(null, $this->user->getUserId(), $this->VALID_EMAIL);
 		$profile->insert($this->getPDO());
 
+		// edit the user and update it in mySQL
+		$profile->setProfileId($this->Profile);
+		$profile->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());

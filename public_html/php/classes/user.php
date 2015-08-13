@@ -63,6 +63,7 @@ class User {
 	 * @param $newUserId
 	 * sets user
 	 * filter user
+	 * user id is a valid int
 	 */
 
 	public function setUserId($newUserId) {
@@ -71,21 +72,18 @@ class User {
 			$this->userId = null;
 			return;
 		}
-
 		// verify the the user id is valid
 		$newUserId = filter_var($newUserId, FILTER_VALIDATE_INT);
 		if($newUserId === false) {
 			throw(new InvalidArgumentException("user id is not a valid integer"));
 		}
-
-		// covert and store the profile id
-		$this ->userId = intval($newUserId);
-
-	// verify the profile id is positive
+		// verify the profile id is positive
 		if($newUserId <= 0) {
-			throw(new   InvalidArgumentException("profile id is not positive"));
+			throw(new InvalidArgumentException("user id is not positive"));
+			// covert and store the profile id
 		}
-	}
+			$this->userId = intval($newUserId);
+		}
 
 	/** accessor method for salt
 	 * @return mixed
@@ -148,7 +146,7 @@ class User {
 	public function insert(PDO &$pdo) {
 		// enforce the profileId is null (i.e. don't insert if a profile id already exist)
 		if($this->userId !== null) {
-			throw(new PDOException("not a new profile id"));
+			throw(new PDOException("not a new user id"));
 		}
 
 		// create a query template 
@@ -172,7 +170,7 @@ class User {
 	public function delete(PDO &$pdo) {
 		// Make sure this restaurant already exists
 		if($this->getUserId() === null) {
-			throw(new PDOException("Unable to delete a restaurant that does not exist"));
+			throw(new PDOException("Unable to delete a user that does not exist"));
 		}
 
 		// Create query template
@@ -193,7 +191,7 @@ class User {
 	public function update(PDO &$pdo) {
 		// Make sure this restaurant exists
 		if($this->getUserId() === null) {
-			throw(new PDOException("Unable to update a profile that does not exist"));
+			throw(new PDOException("Unable to update a user that does not exist"));
 		}
 
 		// Create query template
@@ -216,10 +214,10 @@ class User {
 		// sanitize the tweetId before searching
 		$user = filter_var($user, FILTER_VALIDATE_INT);
 		if($user === false) {
-			throw(new PDOException("profile id is not an integer"));
+			throw(new PDOException("user id is not an integer"));
 		}
 		if($user <= 0) {
-			throw(new PDOException("profile id is not positive"));
+			throw(new PDOException("user id is not positive"));
 		}
 
 		// create query template
