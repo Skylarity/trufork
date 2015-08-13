@@ -373,5 +373,16 @@
             </div>
         </div>
 
+        <!-- Changes / Addendum -->
+        <div class="full-width">
+            <div class="container">
+                <h2 class="thin"><i class="fa fa-spinner"></i> Changes / Addendum:</h2>
+                <p>
+                    An addendum to this epic can be found <a href="epic-addendum.php">here</a>.
+                </p>
+
+            </div>
+        </div>
+
     </body>
 </html>
