@@ -368,11 +368,11 @@ class Violation {
 		}
 
 		// Create query template
-		$query = "SELECT violationId, restaurantId, violationCode, violationDesc, inspectionMemo, serialNum FROM violation WHERE :attribute = :string";
+		$query = "SELECT violationId, restaurantId, violationCode, violationDesc, inspectionMemo, serialNum FROM violation WHERE $attribute = :string";
 		$statement = $pdo->prepare($query);
 
 		// Bind string to placeholder
-		$parameters = array("attribute" => $attribute, "string" => $string);
+		$parameters = array("string" => $string);
 		$statement->execute($parameters);
 
 		// Build an array of violations
