@@ -209,7 +209,7 @@ class Friend {
 		}
 
 		// Create MySQL query template
-		$query = "SELECT * FROM friend WHERE firstProfileId = :profileId";
+		$query = "SELECT  firstProfileId,secondProfileId,dateFriended FROM  friend WHERE firstProfileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		// Bind variables to placeholders
