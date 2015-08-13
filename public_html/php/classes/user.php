@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Gets User by UserId
- * User: Kenneth Anthony
- * Date: 7/29/2015
- * Time: 9:44 PM
+ * User Class for trufork.com. This class sets User Id and Salt and Hash
+ *
+ * @author Kenneth Chavez <kchavez68@gmail.com>
  */
 class User {
 	/**
@@ -27,12 +26,13 @@ class User {
 
 
 	/**
-	 * @param $newUserId
-	 * @param $salt
-	 * @param $hash
+	 * Constructor method for this User
+	 *
+	 * @param int $newUserId of this user or null if new user
+	 * @param string $salt sets salt
+	 * @param string $hash sets hash
 	 * @throw InvalidArgumentException if data types are not valid
-	 * @throw Exception if some other exception is thrown
-	 * @throws Exception
+	 * @throws Exception if some other exception is thrown
 	 */
 	public function __construct($newUserId, $salt, $hash) {
 		try {
@@ -55,17 +55,18 @@ class User {
 	/**
 	 *accessor method for user id
 	 *
-	 *@return mixed value
+	 *@return int value for new user id
 	 **/
 	public function getUserId() {
 		return($this->userId);
 	}
 
 	/**
-	 * @param $newUserId
-	 * sets user
-	 * filter user
-	 * user id is a valid int
+	 * mutator method for user id
+	 *
+	 * @param mixed $newUserId or null for new $newUserId
+	 * @throws InvalidArgumentException if $newUser Id in not a vaild Interger
+	 * @throws InvalidArgumentException if User Id is not Positive
 	 */
 
 	public function setUserId($newUserId) {
@@ -96,10 +97,11 @@ class User {
 	}
 	// base case: if the salt id is null, this is a new salt without a mySQL assigned id
 
-	/** mutator method for salt
-	 * @param $newSalt
-	 * sets salt with hex of 64
+	/**
+	 * mutator method for salt
 	 *
+	 * @param string $newSalt with a hex of 64
+	 * @throws RangeException if salt is not Valid
 	 */
 	public function setSalt($newSalt) {
 		// verify salt is exactly string of 64
@@ -115,6 +117,8 @@ class User {
 	}
 
 	/**
+	 * accessor method for Hash
+	 *
 	 * @return string hash
 	 */
 	public function getHash() {
@@ -123,8 +127,10 @@ class User {
 
 
 	/**
-	 * @param $newHash
-	 * sets hash with a string of 128
+	 * mutator method for hash
+	 *
+	 * @param string $newHash with cytpe xdigit with a string of 128
+	 * @throws RangeException if has is not 128
 	 */
 	public function setHash($newHash) {
 		// verify Hash is exactly string of 128
@@ -138,6 +144,7 @@ class User {
 		}
 		$this->hash = $newHash;
 	}
+
 	/**
 	 * insert this userId into mySQL
 	 *
@@ -210,7 +217,7 @@ class User {
 	 *
 	 * @param PDO $pdo pointer to the PDO connection, by reference
 	 * @param int $user user ID to search for
-	 * @return mixed profile found null if not found\
+	 * @return mixed profile found null if not found
 	 */
 	public static function getUserByUserId(PDO &$pdo, $user) {
 		// sanitize the tweetId before searching

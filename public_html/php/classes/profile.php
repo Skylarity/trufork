@@ -1,16 +1,16 @@
 <?php
 
 /**
- * creates profile
- * User: Kenneth Anthony
- * Date: 8/2/2015
- * Time: 8:24 PM
+ * Profile class for trufork.com
+ *
+ * This is the profile entity that sets Profile Id, userId and user email
+ * @author Kenneth Anthony <kchavez68@cnm.edu>
  */
 
 class Profile {
 	/**
 	 * id for TruFork; this is a primary key
-	 * @var   int $profileId
+	 * @var int $profileId
 	 */
 	private $profileId;
 
@@ -67,7 +67,7 @@ class Profile {
 	/**
 	 * mutator method for profile id
 	 *
-	 * @param int $newProfileId
+	 * @param mixed $newProfileId
 	 * @throws InvalidArgumentException if $profileId is not integer
 	 * @throws RangeException if $newProfileId is not positive
 	 */
@@ -94,7 +94,9 @@ class Profile {
 	}
 
 	/**
-	 * @return mixed
+	 * accessor method for userId
+	 *
+	 * @return int user id
 	 */
 	public function getUserId() {
 		return $this->userId;
@@ -128,7 +130,7 @@ class Profile {
 	/**
 	 * accessor method for email
 	 *
-	 * @return int value of email
+	 * @return string value of email
 	 */
 
 	public function getEmail() {
@@ -138,7 +140,7 @@ class Profile {
 	/**
 	 * mutator method for email
 	 *
-	 * @param int $newEmail new value of email
+	 * @param string $newEmail new value of email
 	 * @throws InvalidArgumentException if $newEmail is not a integer or not positive
 	 * @throws RangeException if $newEmail is not Positive
 	 */
@@ -161,6 +163,7 @@ class Profile {
 
 	/**
 	 * insert this profile id into mySQL
+	 *
 	 * pdo Represents a connection between PHP and a database server.
 	 * @param PDO $pdo pointer to PDO connection, by reference
 	 * @throws PDOException when mySQL relates errors occur
@@ -187,6 +190,7 @@ class Profile {
 
 	/**
 	 * Deletes this Profile from MySQL
+	 *
 	 * Represents a connection between PHP and a database server.
 	 * @param PDO $pdo pointer to PDO connection , by reference
 	 * @throws PDOException when MySQL related errors occur
@@ -312,9 +316,10 @@ class Profile {
 	/**
 	 * gets profile by email
 	 *
-	 * @param PDO $pdo
-	 * @param $profile
-	 * @return null|Profile
+	 * @param PDO $pdo pointer for the pdo connection
+	 * @param string $profile for user email
+	 * @throws PDOException for mySQL errors
+	 * @return string $profile user email
 	 */
 		public static function getProfileByEmail(PDO &$pdo, $profile) {
 			// sanitize the email before searching
@@ -322,9 +327,6 @@ class Profile {
 			if($profile === false) {
 				throw(new PDOException("email id is not an email"));
 			}
-			//if($email <= 0) {
-			//	throw(new PDOException("email id is not positive"));
-			//}
 
 			// create query template
 			$query = "SELECT profileId, userId, email FROM profile WHERE email = :email";
