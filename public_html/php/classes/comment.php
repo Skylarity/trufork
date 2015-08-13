@@ -275,7 +275,7 @@ class Comment {
 		}
 
 		// Create query template
-		$query = "SELECT commentId, profileId, restaurantId, dateTime, content, name FROM comment WHERE profileId = :profileId";
+		$query = "SELECT commentId, profileId, restaurantId, dateTime, content FROM comment WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		// bind profile id to placeholder in template
@@ -284,10 +284,11 @@ class Comment {
 
 		//build array of comments
 		$comments = new SplFixedArray($statement->rowCount());
+
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["commentDateTime"], $row["content"]);
+				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["dateTime"], $row["content"]);
 				$comments[$comments->key()] = $comment;
 				$comments->next();
 			} catch(Exception $exception) {
@@ -318,7 +319,7 @@ class Comment {
 		}
 
 		// Create query template
-		$query = "SELECT commentId, profileId, restaurantId, dateTime, content, name FROM comment WHERE profileId = :profileId";
+		$query = "SELECT commentId, profileId, restaurantId, dateTime, content FROM comment WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		//bind restaurant id to placeholder in comments

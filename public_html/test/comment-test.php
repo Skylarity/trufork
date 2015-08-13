@@ -197,6 +197,44 @@ class CommentTest extends TruForkTest {
 	}
 
 	/**
+	 * test grabbing a Comment by Profile Id
+	 **/
+	public function testGetValidCommentByProfileId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("comment");
+
+		// create a new Comment and insert to into mySQL
+		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoComments = Comment::getCommentByProfileId($this->getPDO(), $this->profile->getProfileId());
+		foreach($pdoComments as $pdoComment) {
+			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
+			$this->assertSame($pdoComment->getProfileId(), $this->profile->getProfileId());
+		}
+	}
+
+	/**
+	 * test grabbing a Comment by Restaurant Id
+	 **/
+	public function testGetValidCommentByRestaurantId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("comment");
+
+		// create a new Comment and insert to into mySQL
+		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoComments = Comment::getCommentByRestaurantId($this->getPDO(), $this->restaurant->getRestaurantId());
+		foreach($pdoComments as $pdoComment) {
+			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
+			$this->assertSame($pdoComment->getRestaurantId(), $this->restaurant->getRestaurantId());
+		}
+	}
+
+	/**
 	 * test grabbing a Comment that does not exist
 	 **/
 	public function testGetInvalidCommentByCommentId() {

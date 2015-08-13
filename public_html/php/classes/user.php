@@ -52,7 +52,7 @@ class User {
 		}
 	}
 
-	/**
+		/**
 	 *accessor method for user id
 	 *
 	 *@return int value for new user id

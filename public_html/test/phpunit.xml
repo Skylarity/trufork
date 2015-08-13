@@ -1,11 +1,11 @@
 <phpunit>
 	<testsuites>
 		<testsuite name="TruFork">
-			<file>user-test.php</file>
-			<file>profile-test.php</file>
-			<file>friend-test.php</file>
-			<file>restaurant-test.php</file>
-			<file>violation-test.php</file>
+			<!--<file>user-test.php</file>-->
+			<!--<file>profile-test.php</file>-->
+			<!--<file>friend-test.php</file>-->
+			<!--<file>restaurant-test.php</file>-->
+			<!--<file>violation-test.php</file>-->
 			<file>comment-test.php</file>
 		</testsuite>
 	</testsuites>
