@@ -128,7 +128,7 @@ class UserTest extends TruForkTest {
 		$user->insert($this->getPDO());
 
 		// edit the user and update it in mySQL
-		$user->setUserId($this->VALID_HASH_2);
+		$user->setHash($this->VALID_HASH_2);
 		$user->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -136,7 +136,7 @@ class UserTest extends TruForkTest {
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("user"));
 		$this->assertLessThan($pdoUser->getUserId(), 0);
 		$this->assertSame($pdoUser->getSalt(), $this->VALID_SALT);
-		$this->assertSame($pdoUser->getHash(), $this->VALID_HASH);
+		$this->assertSame($pdoUser->getHash(), $this->VALID_HASH_2);
 	}
 
 	/**

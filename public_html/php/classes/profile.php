@@ -224,7 +224,7 @@ class Profile {
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the placeholders in the templates
-		$parameters = array("userId" =>$this->getUserId(), "email" =>$this->getEmail());
+		$parameters = array("profileId" =>$this->getProfileId(), "userId" =>$this->getUserId(), "email" =>$this->getEmail());
 		$statement->execute($parameters);
 	}
 

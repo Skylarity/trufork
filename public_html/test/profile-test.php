@@ -24,6 +24,8 @@ class ProfileTest extends TruForkTest {
 	 **/
 	protected $VALID_EMAIL = "kchavez@gmail.com";
 
+	protected $VALID_EMAIL2 = "newemail@gak.com";
+
 	protected $user = null;
 
 	/**
@@ -108,13 +110,13 @@ class ProfileTest extends TruForkTest {
 		$profile->insert($this->getPDO());
 
 		// edit the user and update it in mySQL
-		$profile->setProfileId($this->VALID_HASH_2);
+		$profile->setEmail($this->VALID_EMAIL2);
 		$profile->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertSame($pdoProfile->getEmail(), $this->VALID_EMAIL);
+		$this->assertSame($pdoProfile->getEmail(), $this->VALID_EMAIL2);
 	}
 
 	/**

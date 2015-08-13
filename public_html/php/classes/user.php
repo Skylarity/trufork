@@ -197,7 +197,7 @@ class User {
 		}
 
 		// Create query template
-		$query = "UPDATE user SET userId = :userId, salt = :salt, hash = :hash, name = :name WHERE userId = :userId";
+		$query = "UPDATE user SET userId = :userId, salt = :salt, hash = :hash WHERE userId = :userId";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the placeholders in the templates
