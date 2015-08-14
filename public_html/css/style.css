@@ -47,8 +47,7 @@ h1 {
 	color: tomato;
 }
 
-.search {
-	margin: auto;
+.main-search {
 	padding: 20px;
 	width: 75%;
 	height: 2.5em;
@@ -56,6 +55,14 @@ h1 {
 	color: tomato;
 	border: 3px solid tomato;
 	border-radius: 20px;
+}
+
+.search {
+	padding: 0 5px;
+	color: tomato;
+	font-size: 0.8em;
+	border: 2px solid tomato;
+	border-radius: 10px;
 }
 
 /********************************************

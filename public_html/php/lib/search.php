@@ -7,7 +7,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<input class="search" type="search" placeholder="Search in Albuquerque"/>
+				<input class="main-search" type="search" placeholder="Search in Albuquerque"/>
 			</div>
 		</div>
 	</div>
