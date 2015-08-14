@@ -65,8 +65,8 @@ h1 {
 	color: #333333;
 }
 
-.orange-text {
-	color: tomato;
+.main-text {
+	color: #FFFFFF;
 }
 
 .main-search {
@@ -97,6 +97,8 @@ footer {
 	background-color: #333333;
 	color: tomato;
 	font-size: 1.5em;
+
+	box-shadow: 0 -42px 42px rgba(0, 0, 0, 0.42);
 }
 
 .align-right {
@@ -125,8 +127,6 @@ body {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
-
-	box-shadow: inset 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .sfooter-content {
