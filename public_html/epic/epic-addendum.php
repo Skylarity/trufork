@@ -99,15 +99,36 @@
 				<img class="wireframe" src="../images/Wireframes/home-desktop.png"/>
 				<img class="wireframe" src="../images/Wireframes/home-mobile.png"/>
 
+				<br/>
+				<a href="https://wireframe.cc/mMu2tD">Home - Desktop</a>,
+				<a href="https://wireframe.cc/Vpaz43">Home - Mobile</a>
+				<br/>
+
 				<img class="wireframe" src="../images/Wireframes/search-results-desktop.png"/>
 				<img class="wireframe" src="../images/Wireframes/search-results-mobile.png"/>
+
+				<br/>
+				<a href="https://wireframe.cc/F3eEvU">Search Results - Desktop</a>,
+				<a href="https://wireframe.cc/SbrgPw">Search Results - Mobile</a>
+				<br/>
 
 				<img class="wireframe" src="../images/Wireframes/restaurant-desktop.png"/>
 				<img class="wireframe" src="../images/Wireframes/restaurant-mobile-pt1.png"/>
 				<img class="wireframe" src="../images/Wireframes/restaurant-mobile-pt2.png"/>
 
+				<br/>
+				<a href="https://wireframe.cc/GXStrw">Restaurant - Desktop</a>,
+				<a href="https://wireframe.cc/Dxctge">Restaurant - Mobile Part 1</a>,
+				<a href="https://wireframe.cc/8LQQnx">Restaurant - Mobile Part 2</a>
+				<br/>
+
 				<img class="wireframe" src="../images/Wireframes/profile-desktop.png"/>
 				<img class="wireframe" src="../images/Wireframes/profile-mobile.png"/>
+
+				<br/>
+				<a href="https://wireframe.cc/cmjfGo">Profile - Desktop</a>,
+				<a href="https://wireframe.cc/5CqUh5">Profile - Mobile</a>
+				<br/>
 
 			</div>
 		</div>
