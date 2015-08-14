@@ -1,7 +1,12 @@
-<div class="container">
+<div class="container" xmlns="http://www.w3.org/1999/html">
 	<div class="row">
 		<div class="col-md-4">
-			<span class="title"><img class="logo" src="images/fork.svg" alt="TruFork Logo"/>TruFork</span>
+			<a class="home-link" href="#">
+				<span class="title">
+					<img class="logo" src="images/fork.svg" alt="TruFork Logo"/>
+					TruFork
+				</span>
+			</a>
 		</div>
 		<div class="col-md-4">
 			<input class="search" type="search" placeholder="Search in Albuquerque"/>

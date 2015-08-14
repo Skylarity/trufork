@@ -3,10 +3,27 @@
 	font-weight: 500;
 }
 
+input:focus, textarea:focus {
+	outline: none;
+}
+
+.home-link {
+	padding: 10px;
+	text-decoration: none;
+	color: tomato;
+	border-radius: 5px;
+}
+
+.home-link:hover {
+	text-decoration: none;
+	background-color: tomato;
+	color: #333333;
+}
+
 .social-media {
 	padding: 10px;
 	color: tomato;
-	border-radius: 4px;
+	border-radius: 5px;
 }
 
 .social-media:hover {
@@ -43,15 +60,21 @@ h1 {
 	font-size: 0.6em;
 }
 
+.nav li a:hover {
+	background-color: tomato;
+	color: #333333;
+}
+
 .orange-text {
 	color: tomato;
 }
 
 .main-search {
-	padding: 20px;
+	padding: 15px;
 	width: 75%;
 	height: 2.5em;
-	font-size: 2em;
+	font-size: 2.2em;
+	font-weight: 300;
 	color: tomato;
 	border: 3px solid tomato;
 	border-radius: 20px;
@@ -61,6 +84,7 @@ h1 {
 	padding: 0 5px;
 	color: tomato;
 	font-size: 0.8em;
+	font-weight: 300;
 	border: 2px solid tomato;
 	border-radius: 10px;
 }
