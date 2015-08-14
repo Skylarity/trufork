@@ -3,10 +3,22 @@
 	font-weight: 500;
 }
 
+.social-media {
+	padding: 10px;
+	color: tomato;
+	border-radius: 4px;
+}
+
+.social-media:hover {
+	background-color: tomato;
+	color: #333333;
+}
+
 header {
 	padding: 10px 0;
 	font-size: 2em;
-	background: #FFFFFF;
+	background: #333333;
+	color: tomato;
 }
 
 h1 {
@@ -27,17 +39,12 @@ h1 {
 }
 
 .nav li a {
-	color: #000000;
+	color: tomato;
 	font-size: 0.6em;
 }
 
-.white-text {
-	color: #FFFFFF;
-}
-
-.transparent-bg {
-	background: rgba(0, 0, 0, 0.5);
-	min-height: 100%;
+.orange-text {
+	color: tomato;
 }
 
 .search {
@@ -46,8 +53,8 @@ h1 {
 	width: 75%;
 	height: 2.5em;
 	font-size: 2em;
-	color: orangered;
-	border: 2px solid orangered;
+	color: tomato;
+	border: 3px solid tomato;
 	border-radius: 20px;
 }
 
@@ -55,12 +62,18 @@ h1 {
  * Footer Styles
  ********************************************/
 footer {
-	padding: 30px;
-	background-color: #FFFFFF;
+	padding: 20px 0;
+	background-color: #333333;
+	color: tomato;
+	font-size: 1.5em;
+}
+
+.align-right {
+	text-align: right;
 }
 
 .copyright {
-	font-size: 0.75em;
+	font-size: 0.42em;
 }
 
 /***

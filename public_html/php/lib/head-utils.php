@@ -16,6 +16,9 @@
 		<!-- Custom CSS -->
 		<link type="text/css" href="css/style.css" rel="stylesheet"/>
 
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
 		<!-- Google WebFonts -->
 		<link
 			href='//fonts.googleapis.com/css?family=Roboto:500,400italic,100,700italic,300,700,500italic,100italic,300italic,400'
