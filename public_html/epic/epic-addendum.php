@@ -60,7 +60,7 @@
 				</p>
 
 				<p>
-					However, changes in at the class-level of this project compel the following change(s) to <em>Use
+					However, changes at the class-level of this project compel the following change(s) to <em>Use
 						Cases</em>:
 				</p>
 				<ul>
