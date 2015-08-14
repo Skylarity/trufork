@@ -80,16 +80,65 @@ h1 {
 	font-weight: 300;
 	color: tomato;
 	border: 3px solid tomato;
-	border-radius: 20px;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
 }
 
-.search {
+.main-search:focus {
+	box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.42);
+}
+
+.main-search-button {
+	margin: 0 0 20px 0;
+	padding: 15px;
+	height: 2.5em;
+	font-size: 2.2em;
+	font-weight: 300;
+	background-color: tomato;
+	color: #333333;
+	border: 3px solid tomato;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+
+.header-search {
 	padding: 0 5px;
 	color: tomato;
 	font-size: 0.8em;
 	font-weight: 300;
 	border: 2px solid tomato;
-	border-radius: 10px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+
+}
+
+.header-search:focus {
+	box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.42);
+}
+
+.header-search-button {
+	padding: 0 5px;
+	background-color: tomato;
+	color: #333333;
+	font-size: 0.8em;
+	font-weight: 300;
+	border: 2px solid tomato;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.search-bar-left {
+	margin-right: 0;
+	padding-right: 0;
+}
+
+.search-bar-right {
+	margin-left: 0;
+	padding-left: 0;
+}
+
+.inline-block {
+	display: inline-block;
 }
 
 /********************************************
