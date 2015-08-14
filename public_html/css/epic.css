@@ -63,6 +63,7 @@ a {
 	font-weight: bold;
 	text-decoration: none;
 }
+
 a:hover {
 	text-decoration: underline;
 }
@@ -148,4 +149,10 @@ li {
 
 	color: #70986F;
 	background: #FFFFF9;
+}
+
+.wireframe {
+	height: 400px;
+	width: auto;
+	display: inline-block;
 }
