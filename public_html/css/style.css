@@ -40,6 +40,17 @@ h1 {
 	min-height: 100%;
 }
 
+.search {
+	margin: auto;
+	padding: 20px;
+	width: 75%;
+	height: 2.5em;
+	font-size: 2em;
+	color: orangered;
+	border: 2px solid orangered;
+	border-radius: 20px;
+}
+
 /********************************************
  * Footer Styles
  ********************************************/
