@@ -55,6 +55,7 @@ class Autoloader {
 		if(is_readable(__DIR__ . "/$className.php")) {
 			require_once(__DIR__ . "/$className.php");
 		} else {
+			echo "I can't even!";
 			throw(new Exception("Unable to load $className.php"));
 		}
 	}
