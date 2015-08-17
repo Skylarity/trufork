@@ -1,9 +1,4 @@
-<?php
-$CURRENT_DIR = __DIR__;
-$PAGE_TITLE = "TruFork";
-require_once("../php/lib/head-utils.php");
-?>
-<div class="container" xmlns="http://www.w3.org/1999/html">
+<div class="container">
 	<div class="row">
 		<div class="col-md-3">
 			<a class="home-link" href=".">
