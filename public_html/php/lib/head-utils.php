@@ -50,7 +50,7 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 		<script type="text/javascript"
 				src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
 		<script type="text/javascript"
-				src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.12.1/additional-methods.min.js"></script>
+				src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/additional-methods.min.js"></script>
 
 		<!-- Latest compiled and minified Bootstrap JavaScript, all compiled plugins included -->
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>

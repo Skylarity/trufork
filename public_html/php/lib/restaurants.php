@@ -4,7 +4,7 @@
 			<div class="col-md-7">
 				<div class="row">
 					<div class="col-md-4">
-						<img class="restaurant-image" src="../images/fork.svg" alt="Restaurant Image"/>
+						<img class="restaurant-image img-responsive" src="../images/fork.svg" alt="Restaurant Image"/>
 					</div>
 					<div class="col-md-8">
 						<h1 class="restaurant-name">
@@ -13,13 +13,10 @@
 
 						<p class="restaurant-description">
 							Restaurant description - Shields up. I recommend we transfer power to phasers and arm the
-							photon
-							torpedoes. Something strange on the detector circuit. The weapons must have disrupted our
-							communicators. You saw
-							something as tasty as meat, but inorganically materialized out of patterns used by our
-							transporters. Captain, the most elementary and valuable statement in science, the beginning
-							of
-							wisdom, is 'I do not know.' All transporters off.
+							photon torpedoes. Something strange on the detector circuit. The weapons must have disrupted
+							our communicators. You saw something as tasty as meat, but inorganically materialized out of
+							patterns used by our transporters. Captain, the most elementary and valuable statement in
+							science, the beginning of wisdom, is 'I do not know.' All transporters off.
 						</p>
 					</div>
 				</div>
@@ -41,15 +38,29 @@
 						</h2>
 
 						<p class="restaurant-inspection-p">
-							Shields up. I recommend we transfer power to phasers and arm the
-							photon
-							torpedoes. Something strange on the detector circuit. The weapons must have disrupted our
-							communicators. You saw
+							Shields up. I recommend we transfer power to phasers and arm the photon torpedoes. Something
+							strange on the detector circuit. The weapons must have disrupted our communicators. You saw
 							something as tasty as meat, but inorganically materialized out of patterns used by our
 							transporters. Captain, the most elementary and valuable statement in science, the beginning
-							of
-							wisdom, is 'I do not know.' All transporters off.
+							of wisdom, is 'I do not know.' All transporters off.
 						</p>
+
+						<p class="restaurant-inspection-p">
+							We're acquainted with the wormhole phenomenon, but this... Is a remarkable piece of
+							bio-electronic engineering by which I see much of the EM spectrum ranging from heat and
+							infrared through radio waves, et cetera, and forgive me if I've said and listened to this a
+							thousand times. This planet's interior heat provides an abundance of geothermal energy. We
+							need to neutralize the homing signal.
+						</p>
+
+						<p class="restaurant-inspection-p">
+							Unidentified vessel travelling at sub warp speed, bearing 235.7. Fluctuations in energy
+							readings from it, Captain. All transporters off. A strange set-up, but I'd say the graviton
+							generator is depolarized. The dark colourings of the scrapes are the leavings of natural
+							rubber, a type of non-conductive sole used by researchers experimenting with electricity.
+							The molecules must have been partly de-phased by the anyon beam.
+						</p>
+
 					</div>
 				</div>
 			</div>
@@ -66,6 +77,19 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
+						<div class="restaurant-comment-add">
+							<form>
+								<div class="col-xs-10 restaurant-comment-add-left">
+									<input class="restaurant-comment-add-box" type="search"
+										   placeholder="Say something"/>
+								</div>
+								<div class="col-xs-2 restaurant-comment-add-right">
+									<input class="restaurant-comment-add-button" type="submit" value="Add"/>
+								</div>
+							</form>
+							<div class="clearfix"></div>
+						</div>
+
 						<div class="restaurant-comment">
 							<h3>
 								<img src="../images/fork.svg" alt="Profile Image"/>
@@ -73,9 +97,8 @@
 							</h3>
 
 							<p>
-								You saw
-								something as tasty as meat, but inorganically materialized out of patterns used by our
-								transporters.
+								You saw something as tasty as meat, but inorganically materialized out of patterns used
+								by our transporters.
 							</p>
 						</div>
 						<div class="restaurant-comment">
@@ -85,9 +108,8 @@
 							</h3>
 
 							<p>
-								You saw
-								something as tasty as meat, but inorganically materialized out of patterns used by our
-								transporters.
+								You saw something as tasty as meat, but inorganically materialized out of patterns used
+								by our transporters.
 							</p>
 						</div>
 						<div class="restaurant-comment">
@@ -97,9 +119,8 @@
 							</h3>
 
 							<p>
-								You saw
-								something as tasty as meat, but inorganically materialized out of patterns used by our
-								transporters.
+								You saw something as tasty as meat, but inorganically materialized out of patterns used
+								by our transporters.
 							</p>
 						</div>
 					</div>
