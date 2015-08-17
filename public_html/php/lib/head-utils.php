@@ -59,7 +59,7 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 		<link type="image/ico" href="../../favicon.ico" rel="shortcut icon"/>
 
 		<!-- custom JavaScript file-->
-		<script type="text/javascript" src="../../js/comment-script.js"></script>
+		<script type="text/javascript" src="<?php echo $PREFIX; ?>js/comment-script.js"></script>
 
 		<title><?php echo $PAGE_TITLE; ?></title>
 	</head>
