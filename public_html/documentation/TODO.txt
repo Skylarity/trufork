@@ -1,4 +1,4 @@
-Friends weak entity - many to many
+ Friends weak entity - many to many
 
 Make sure to set time zone to UTC, otherwise days will be off-by-one
 

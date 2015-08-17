@@ -1,1 +1,1 @@
-<?php header("Location: ..", true, 301);
+<?php  header("Location: ..", true, 301);
