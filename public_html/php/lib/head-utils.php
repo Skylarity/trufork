@@ -58,5 +58,8 @@ $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
 		<!-- favicon generated using GIMP, improved by SR -->
 		<link type="image/ico" href="../../favicon.ico" rel="shortcut icon"/>
 
+		<!-- custom JavaScript file-->
+		<script type="text/javascript" src="../../js/comment-script.js"></script>
+
 		<title><?php echo $PAGE_TITLE; ?></title>
 	</head>

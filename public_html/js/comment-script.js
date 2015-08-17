@@ -44,7 +44,7 @@ $(document).ready(function(){
 			var h = addZero(d.getHours());
 			var m = addZero(d.getMinutes());
 			var s = addZero(d.getSeconds());
-			return year + ". " + month + ". " + day + " (" + h + ":" + m + ":" + s +")";
+			return year + ". " + month + ". " + day + " (" + h + ":" + m + ":" + s + ")";
 		}
 
 		$(document).ready(function() {
