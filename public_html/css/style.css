@@ -354,6 +354,23 @@ header {
 }
 
 /********************************************
+ * Modal Styles
+ ********************************************/
+
+.form-group {
+	padding: 10px;
+	color: tomato;
+	font-size: 0.8em;
+	font-weight: 400;
+}
+
+.modal form label {
+	padding: 10px 0;
+	font-size: .8em;
+	color: tomato;
+
+
+/********************************************
  * Footer Styles
  ********************************************/
 footer {
