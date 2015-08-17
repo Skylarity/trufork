@@ -275,6 +275,51 @@ header {
 }
 
 /********************************************
+ * Profile
+ ********************************************/
+
+.profile {
+	margin: auto;
+	padding: 20px 0 0 0;
+
+	width: 100%;
+}
+
+.profile-picture {
+	margin: auto;
+	padding: 0 0 20px 0;
+
+	max-width: 300px;
+	height: auto;
+}
+
+.add-friend {
+	width: 25%;
+	min-width: 300px;
+
+	color: #333333;
+	font-size: 2em;
+
+	background-color: tomato;
+}
+
+.profile-management-btn {
+	width: 25%;
+	min-width: 300px;
+
+	color: tomato;
+	font-size: 2em;
+
+	background-color: #333333;
+}
+
+.center-button {
+	padding: 0 0 20px 0;
+
+	text-align: center;
+}
+
+/********************************************
  * Footer Styles
  ********************************************/
 footer {
