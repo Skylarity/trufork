@@ -33,13 +33,56 @@
 							<div class="modal-header">
 								<div class="button" class="create-account" data dismiss="modal" 
 									  aria-label="close"><span aria-hidden="true">&times;</span></button> 
-									<h3 class="new-account">Modal title</h3></div>
-								<div	class="sign-up-body"> 
-									<input class="create" type="text" placeholder="choose a user name"/> 
-									<input class="create" type="text" placeholder="password"/>
-									<input class="create" type="text" placeholder="verify password"/> 
-									<input class="create" type="text" placeholder="email (optional)"/> 
-									<input class="create" type="checkbox"<span class="checkbox" Remember Me </span> 
+									<form class="form-horizontal">
+
+										<div class="form-group">
+											<label for="inputUserName" class="col-sm-2">User Name</label>
+											<div class="col-sm-10">
+												<input type="User Name" class="form-control" id="User Name" placeholder="User Name">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputPassword" class="col-sm-2 control-label">Password</label>
+											<div class="col-sm-10">
+												<input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputVerifyPassword" class="col-sm-2 control-label">Verify Password</label>
+											<div class="col-sm-10">
+												<input type="password" class="form-control" id="inputPassword3" placeholder="Verify Password">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="email" class="col-sm-2 control-label">email (optional)</label>
+											<div class="col-sm-10">
+												<input type="email" class="form-control" id="inputPassword3" placeholder="Email (Optional)">
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+												<div class="checkbox">
+													<label>
+														<input type="checkbox"> Remember me
+													</label>
+												</div>
+												<div type="button" class="header-search-button" type="search" placeholder="CREATE ACCOUNT"/>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+												<button type="submit" class="btn btn-default">Sign in</button>
+											</div>
+										</div>
+									</form>
+
+<!--									<input class="create" type="text" placeholder="password"/>-->
+<!--									<input class="create" type="text" placeholder="verify password"/> -->
+<!--									<input class="create" type="text" placeholder="email (optional)"/> -->
+<!--									<input class="create" type="checkbox"<span class="checkbox" Remember Me </span> -->
+
+								</form>
 							</div> 
 						</div> 
 					</div> 
