@@ -1,4 +1,5 @@
 <?php
+$CURRENT_DIR = __DIR__;
 $PAGE_TITLE = "TruFork";
 require_once("../php/lib/head-utils.php");
 ?>
