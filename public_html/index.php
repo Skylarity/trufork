@@ -8,7 +8,7 @@ require_once("php/lib/head-utils.php");
 		<header>
 			<?php require_once("php/lib/header.php"); ?>
 		</header>
-		<?php require_once("php/lib/search.php"); ?>
+		<?php require_once("php/lib/search-main.php"); ?>
 	</div>
 	<footer>
 		<?php require_once("php/lib/footer.php"); ?>

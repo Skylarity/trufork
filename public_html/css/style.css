@@ -40,7 +40,7 @@ header {
 	box-shadow: 0 42px 100px rgba(0, 0, 0, 0.42);
 }
 
-h1 {
+.search-main-h1 {
 	padding: 100px 0;
 	font-weight: 200;
 	font-size: 7em;
@@ -139,6 +139,86 @@ h1 {
 
 .inline-block {
 	display: inline-block;
+}
+
+/********************************************
+ * Restaurant
+ ********************************************/
+
+.restaurant {
+	padding: 20px 0;
+
+	color: #FFFFFF;
+}
+
+.restaurant-image {
+	width: auto;
+	height: 100%;
+}
+
+.restaurant-name {
+	margin: 0;
+	padding: 0 0 10px 0;
+
+	font-size: 3em;
+	font-weight: 100;
+}
+
+.restaurant-rating {
+
+}
+
+.star {
+	padding: 5px 20px 5px 0;
+
+	font-size: 3em;
+
+	display: inline-block;
+}
+
+.restaurant-description {
+
+}
+
+.restaurant-inspection-h2 {
+	margin: 0;
+	padding: 0 0 10px 0;
+
+	font-size: 3em;
+	font-weight: 100;
+}
+
+.restaurant-inspection-p {
+
+}
+
+.restaurant-comment {
+	margin: 10px 0;
+	padding: 10px;
+
+	width: 100%;
+
+	background-color: rgba(42, 42, 42, 0.75);
+
+	border-radius: 3px;
+}
+
+.restaurant-comment > h3 {
+	margin: 0;
+	padding: 0 0 5px 0;
+
+	font-size: 2em;
+	font-weight: 300;
+}
+
+.restaurant-comment > h3 > img {
+	width: 52px;
+	height: auto;
+}
+
+.restaurant-comment > p {
+	margin: 0;
+	padding: 0;
 }
 
 /********************************************
