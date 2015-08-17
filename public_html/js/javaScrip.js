@@ -1,3 +1,7 @@
 /**
- * Created by kennethchavez on 8/14/15.
- */
+ * shows a modal window
+ * popUp
+ **/
+function popUp() {
+	document.getElementById("signUp").style.display = "block";
+}
