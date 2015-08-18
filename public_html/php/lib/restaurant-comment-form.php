@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <form id="restaurant-comment-form" post /restaurant-comment-controller.php
-<?php
-filter_var restaurantId
-	?>
+
+<input type="text" name="name" value="<?php echo $restaurantId;?>" />
 	<input type="hidden" id="..." name="..."/>
 
 		<div class="form-group"
-			<textarea name="..." rows="4" cols="50" id="txtComment" class="input-control" maxlength="1064">
+			<textarea name="..." rows="4" cols="1" id="txtComment" class="input-control" maxlength="1064">
 
-			</textarea> //RTFM
+			</textarea>
 		</div>
 
 		<div class="button-group">
