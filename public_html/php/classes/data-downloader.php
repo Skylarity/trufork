@@ -56,7 +56,7 @@ class DataDownloader {
 			throw(new Exception("Not found"));
 		}
 		if(strpos($http, "418")) {
-			throw(new Exception("Go find a stove"));
+			throw(new Exception("Get your tea set"));
 		}
 
 		return $streamData;

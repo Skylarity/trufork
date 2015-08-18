@@ -23,7 +23,7 @@ class ViolationTest extends TruForkTest {
 	 * Valid ID to use
 	 * @var int $VALID_ID
 	 */
-        	protected $VALID_ID = null;
+	protected $VALID_ID = null;
 
 	/**
 	 * Valid violation code to use
