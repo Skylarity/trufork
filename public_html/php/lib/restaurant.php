@@ -77,18 +77,8 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<div class="restaurant-comment-add">
-							<form>
-								<div class="col-xs-10 restaurant-comment-add-left">
-									<input class="restaurant-comment-add-box" type="search"
-										   placeholder="Say something"/>
-								</div>
-								<div class="col-xs-2 restaurant-comment-add-right">
-									<input class="restaurant-comment-add-button" type="submit" value="Add"/>
-								</div>
-							</form>
-							<div class="clearfix"></div>
-						</div>
+
+						//comment form r_o stmt here
 
 						<div class="restaurant-comment">
 							<h3>
