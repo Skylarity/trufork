@@ -19,7 +19,7 @@ try {
 
 	// create the new comment and insert into mySQL
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
-	$comment = new Comment(null, $_POST["commentContent"]);
+	$comment = new Comment(null, $_POST["profileId"], $_POST["restaurantId"], $_POST["dateTime"], $_POST["content"]);
 	$comment->insert($pdo);
 	echo "<p class=\"alert alert-success\">Comment (id = " . $comment->getCommentId() . ") posted!</p>";
 }catch(Exception $exception) {

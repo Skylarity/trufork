@@ -171,6 +171,10 @@ header {
  * Restaurant
  ********************************************/
 
+#txtComment {
+	width: 100%;
+}
+
 .restaurant {
 	padding: 20px 0;
 
