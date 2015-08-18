@@ -6,7 +6,7 @@
 
 		<div class="form-group"
 			<textarea name="..." rows="4" cols="1" id="txtComment" class="input-control" maxlength="1064">
-
+				some text here?
 			</textarea>
 		</div>
 
