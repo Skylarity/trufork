@@ -1,4 +1,7 @@
-<?php session_start();
+<?php
+if(!PHP_SESSION_ACTIVE) {
+	session_start();
+}
 
 /**
  * Get the relative path.
