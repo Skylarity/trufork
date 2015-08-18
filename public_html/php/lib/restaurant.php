@@ -78,9 +78,7 @@
 				<div class="row">
 					<div class="col-md-12">
 
-						<?php require_once(__DIR__ . "restaurant-comment-form.php")?>
-
-						//the next 3 restaurant-comment divs probably need to go away
+						<?php require_once "restaurant-comment-form.php" ?>
 
 						<div class="restaurant-comment">
 							<h3>
