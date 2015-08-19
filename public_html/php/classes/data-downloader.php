@@ -22,9 +22,10 @@ class DataDownloader {
 	 * @throws Exception if file doesn't exist
 	 */
 	public static function getMetaData($url) {
-		$context = stream_context_create(array("http" => array("method" => "HEAD")));
+		$context = stream_context_create(array("http" => array("ignore_errors" => true, "method" => "HEAD")));
 
-		$fd = fopen($url, "rb", false, $context);
+		// "@" suppresses warnings and errors
+		$fd = @fopen($url, "rb", false, $context);
 //		var_dump(stream_get_meta_data($fd));
 
 		// Grab the stream data

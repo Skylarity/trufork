@@ -50,6 +50,14 @@ class DataDownloaderTest extends PHPUnit_Framework_TestCase {
 	 */
 	protected $fileExtension = ".csv";
 
+	/**
+	 * Creates a test file for... you guessed it... testing
+	 *
+	 * @param string $path file path
+	 * @param string $name file name
+	 * @param string $time file time
+	 * @param string $extension file extension
+	 */
 	public function createTestFile($path, $name, $time, $extension) {
 		// Delete file(s)
 		$files = glob("$path$name*$extension");
@@ -66,10 +74,16 @@ class DataDownloaderTest extends PHPUnit_Framework_TestCase {
 		fclose($handle);
 	}
 
+	/**
+	 * Create test file before running test
+	 */
 	public final function setUp() {
 		$this->createTestFile($this->filePath, $this->fileName, $this->fileTime, $this->fileExtension);
 	}
 
+	/**
+	 * Test getting metadata from a file on the bootcamp server
+	 */
 	public function testGetMetaData() {
 		// Grab the metadata from a file on the bootcamp server
 		$streamData = DataDownloader::getMetaData($this->fileToGrab);
@@ -78,13 +92,40 @@ class DataDownloaderTest extends PHPUnit_Framework_TestCase {
 		$this->assertContains("Last-Modified", $streamData);
 	}
 
-	public function testDeleteFiles() {
-		// MAKE SURE THIS FUNCTION IS CALLED LAST
-		// TODO
+	/**
+	 * Grab from an invalid url
+	 *
+	 * @expectedException Exception
+	 */
+	public function testGetInvalidMetaData() {
+		// Grab the metadata from a file on the bootcamp server
+		$streamData = DataDownloader::getMetaData($this->fileToGrab . "x");
+
+		$wrapperData = $streamData["wrapper_data"];
+
+		// Assert the status is 404
+		$this->assertContains("404", $wrapperData);
 	}
 
+	/**
+	 * Test deleting the files that we created and used for testing
+	 */
+	public function testDeleteFiles() {
+		// MAKE SURE THIS FUNCTION IS CALLED LAST
+		DataDownloader::deleteFiles($this->filePath, $this->fileName, $this->fileExtension);
+
+		// See what files are there
+		$files = glob("$this->filePath$this->fileName*$this->fileExtension");
+
+		// See if they're GONE
+		$this->assertEmpty($files);
+	}
+
+	/**
+	 * Delete any left over files (if they exist)
+	 */
 	public final function tearDown() {
-		// Delete files that weren't deleted by testing
+		// Delete files that weren't deleted by testing (even though this is the same way deleteFiles() does it, so...)
 		$files = glob("$this->filePath$this->fileName*$this->fileExtension");
 		foreach($files as $file) {
 			unlink($file);
