@@ -23,7 +23,7 @@ try {
 				var_dump(json_decode($response));
 
 			} else  if($response-> status ==="zero_results"){
-							throw(newInvalitArgumentException("this search get zero resul nada"));
+							throw(newInvalidArgumentException("this search get zero resul nada"));
 			}
 } catch(InvalidArgumentException $invalidArgument) {
 	throw(new InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
