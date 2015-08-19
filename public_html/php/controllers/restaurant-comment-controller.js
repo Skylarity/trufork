@@ -4,16 +4,17 @@ $(document).ready(
 	function() {
 
 		// tell the validator to validate this form
-		$("#restaurant-comment-controller").validate({
+		$("#restaurant-comment-form").validate({
+			debug: true,
 			// setup the formatting for the errors
-			errorClass: "label-danger",
+			errorClass: "has-error",
 			errorLabelContainer: "#outputArea",
 			wrapper: "li",
 
 			// rules define what is good/bad input
 			rules: {
 				// each rule starts with the inputs name (NOT id)
-				content: {
+				txtComment: {
 					maxlength: 1064,
 					required: true
 				}
@@ -21,7 +22,7 @@ $(document).ready(
 
 			// error messages to display to the end user
 			messages: {
-				content: {
+				txtComment: {
 					maxlength: "Comment is too long.",
 					required: "What's on your mind?"
 				}
@@ -33,7 +34,7 @@ $(document).ready(
 					// GET or POST
 					type: "POST",
 					// where to submit data
-					url: "restaurant-comment-controller.php",
+					url: $(form).attr("action"),
 					// this sends the XSRF token along with the form data
 					headers: {
 						"X-XSRF-TOKEN": Cookies.get("XSRF-TOKEN")
