@@ -66,7 +66,7 @@ function verifyXsrf() {
 	// grab the XSRF token sent by Angular, jQuery, or JavaScript in the header
 	$headers = apache_request_headers();
 	if(array_key_exists("X-XSRF-TOKEN", $headers) === false) {
-		throw(new InvalidArgumentException("Cannot grab XSRF token sent by A, jQ, or JS in the header.", 401));
+		throw(new InvalidArgumentException("Cannot grab XSRF token sent by Angular, jQuery, or JavaScript in the header.", 401));
 	}
 	$angularHeader = $headers["X-XSRF-TOKEN"];
 
