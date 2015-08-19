@@ -4,11 +4,10 @@ $(document).ready(
 	function() {
 
 		// tell the validator to validate this form
-		// ???????need a CSS element as below????????????????
-		$("#commentController").validate({
+		$("#restaurant-comment-controller").validate({
 			// setup the formatting for the errors
 			errorClass: "label-danger",
-			errorLabelContainer: "#txtComment",
+			errorLabelContainer: "#outputArea",
 			wrapper: "li",
 
 			// rules define what is good/bad input
@@ -34,18 +33,17 @@ $(document).ready(
 					// GET or POST
 					type: "POST",
 					// where to submit data
-					url: "need path for a controller-post.php which doesn't presently exist",
+					url: "restaurant-comment-controller.php",
 					// this sends the XSRF token along with the form data
 					headers: {
 						"X-XSRF-TOKEN": Cookies.get("XSRF-TOKEN")
 					},
 					// success is an event that happens when the server replies
-					// ???????????need to create the CSS elements below or rename to what is analogous???????
 					success: function(ajaxOutput) {
 						// clear the output area's formatting
-						$("#txtComment").css("display", "");
+						$("#outputArea").css("display", "");
 						// write the server's reply to the output area
-						$("#txtComment").html(ajaxOutput);
+						$("#outputArea").html(ajaxOutput);
 
 
 						// reset the form if it was successful

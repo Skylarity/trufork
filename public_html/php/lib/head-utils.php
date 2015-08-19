@@ -50,6 +50,7 @@ setXsrfCookie();
 		<script type="text/javascript" src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
+
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 		<script type="text/javascript"

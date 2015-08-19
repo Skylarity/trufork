@@ -17,6 +17,12 @@
 	</div>
 
 </form>
+
+
+<div id="outputArea"></div>
+
+<script type="text/javascript" src= "<?php echo $PREFIX; ?>php/controllers/restaurant-comment-controller.js"></script>
+
 <?php
 }
 ?>
