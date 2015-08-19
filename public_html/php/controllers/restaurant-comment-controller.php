@@ -6,7 +6,7 @@ require_once(dirname(__DIR__) . "/lib/encrypted-config.php");
 
 try {
 	// ensure te field is actually filled out properly
-	if(@isset($_POST["content"]) === false) {
+	if(@isset($_POST["txtComment"]) === false) {
 		throw(new InvalidArgumentException ("Comment not complete. Please try again."));
 	}
 

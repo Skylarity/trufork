@@ -8,7 +8,7 @@ $(document).ready(
 		$("#commentController").validate({
 			// setup the formatting for the errors
 			errorClass: "label-danger",
-			errorLabelContainer: "#outputArea",
+			errorLabelContainer: "#txtComment",
 			wrapper: "li",
 
 			// rules define what is good/bad input
@@ -43,9 +43,9 @@ $(document).ready(
 					// ???????????need to create the CSS elements below or rename to what is analogous???????
 					success: function(ajaxOutput) {
 						// clear the output area's formatting
-						$("#outputArea").css("display", "");
+						$("#txtComment").css("display", "");
 						// write the server's reply to the output area
-						$("#outputArea").html(ajaxOutput);
+						$("#txtComment").html(ajaxOutput);
 
 
 						// reset the form if it was successful
