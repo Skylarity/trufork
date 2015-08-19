@@ -6,7 +6,7 @@
 	<input type="hidden" name="restaurantId" value="<?php echo $restaurantId; ?>"/>
 
 	<div class="restaurant-comment-form-group">
-			<label for="txtComment">Restaurant Comment Field</label>
+			<label for="txtComment"></label>
 			<textarea name="txtComment" id="txtComment" class="input-control" rows="6"
 						cols="50" maxlength="1064" placeholder="Whatchoo tryna say about this restaurant?"></textarea>
 	</div>
