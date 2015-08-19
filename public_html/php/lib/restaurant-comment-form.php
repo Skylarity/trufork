@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<form id="restaurant-comment-form" post="restaurant-comment-controller.php">
+<form id="restaurant-comment-form" action="<?php echo $PREFIX; ?>php/controllers/restaurant-comment-controller.php" method="post">
 	<?php
 	$restaurantId = filter_input(INPUT_GET, "restaurantId", FILTER_VALIDATE_INT);
 	if($restaurantId !== false && $restaurantId > 0) {

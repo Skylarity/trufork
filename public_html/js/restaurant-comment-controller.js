@@ -14,7 +14,7 @@ $(document).ready(
 			// rules define what is good/bad input
 			rules: {
 				// each rule starts with the inputs name (NOT id)
-				commentContent: {
+				content: {
 					maxlength: 1064,
 					required: true
 				}
@@ -22,7 +22,7 @@ $(document).ready(
 
 			// error messages to display to the end user
 			messages: {
-				commentContent: {
+				content: {
 					maxlength: "Comment is too long.",
 					required: "What's on your mind?"
 				}
