@@ -58,7 +58,7 @@ class Friend {
 	 * accesor method for firstProfile id
 	 * @return int value for firstProfile id
 	 **/
-	public function getFirstProfileId() {
+ 	public function getFirstProfileId() {
 		return ($this->firstProfileId);
 	}
 
