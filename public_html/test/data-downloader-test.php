@@ -107,6 +107,47 @@ class DataDownloaderTest extends PHPUnit_Framework_TestCase {
 		$this->assertContains("404", $wrapperData);
 	}
 
+	public function testGetLastModified() {
+		// Grab the "Last-Modified" attribute
+		$lastModified = DataDownloader::getLastModified($this->fileToGrab);
+
+		// Assert we got a string that contains "Last-Modified"
+		$this->assertContains("Last-Modified", $lastModified);
+	}
+
+	public function testGetLastModifiedDate() {
+		// Grab the last modified date
+		$lastModifiedDate = DataDownloader::getLastModifiedDate($this->fileToGrab);
+
+		// Make sure we got a DateTime object
+		$this->assertInstanceOf("DateTime", $lastModifiedDate);
+	}
+
+	/**
+	 * Test getting a date from a stored file, using our date system
+	 */
+	public function testGetDateFromStoredFile() {
+		// Grab the date off of the file on the bootcamp server
+		$date = DataDownloader::getDateFromStoredFile($this->filePath, $this->fileName, $this->fileExtension);
+
+		// Make sure we got a DateTime object
+		$this->assertInstanceOf("DateTime", $date);
+	}
+
+	/**
+	 * Test only downloading a file if we have an older version
+	 */
+	public function testDownloadIfNew() {
+		// TODO
+	}
+
+	/**
+	 * Test downloading a file
+	 */
+	public function testDownloadFile() {
+		// TODO
+	}
+
 	/**
 	 * Test deleting the files that we created and used for testing
 	 */
