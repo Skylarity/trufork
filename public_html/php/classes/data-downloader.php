@@ -129,6 +129,40 @@ class DataDownloader {
 	}
 
 	/**
+	 * Gets the date of a stored file
+	 *
+	 * @param string $path path to stored file
+	 * @param string $name name of stored file
+	 * @param string $extension extension of stored file
+	 * @return DateTime date of stored file
+	 * @throws Exception if file does not exist
+	 */
+	public static function getDateFromStoredFile($path, $name, $extension) {
+		// Get date from stored file
+		$currentDateStr = null;
+		$currentFile = null;
+		$files = glob("$path$name*$extension");
+		if(count($files) > 0) {
+			$currentFile = $files[0];
+		} else {
+			return DateTime::createFromFormat("U", "0");
+		}
+//		echo "currentFile: " . $currentFile . "<br/>";
+
+		// Get date from filename
+		$matches = array();
+		preg_match("/\\d+/", $currentFile, $matches);
+		$currentDateStr = $matches[0];
+//		echo "currentDateStr: " . $currentDateStr . "<br/>";
+
+		// Create date
+		$currentDate = DateTime::createFromFormat("U", $currentDateStr);
+//		echo "currentDate: " . $currentDate->format("Y-m-d H:i:s") . "<br/>";
+
+		return $currentDate;
+	}
+
+	/**
 	 * Downloads a file to a path from a url
 	 * Code modified from a stackoverflow answer
 	 * http://stackoverflow.com/a/9843981
@@ -165,40 +199,6 @@ class DataDownloader {
 	}
 
 	/**
-	 * Gets the date of a stored file
-	 *
-	 * @param string $path path to stored file
-	 * @param string $name name of stored file
-	 * @param string $extension extension of stored file
-	 * @return DateTime date of stored file
-	 * @throws Exception if file does not exist
-	 */
-	public static function getDateFromStoredFile($path, $name, $extension) {
-		// Get date from stored file
-		$currentDateStr = null;
-		$currentFile = null;
-		$files = glob("$path$name*$extension");
-		if(count($files) > 0) {
-			$currentFile = $files[0];
-		} else {
-			return DateTime::createFromFormat("U", "0");
-		}
-//		echo "currentFile: " . $currentFile . "<br/>";
-
-		// Get date from filename
-		$matches = array();
-		preg_match("/\\d+/", $currentFile, $matches);
-		$currentDateStr = $matches[0];
-//		echo "currentDateStr: " . $currentDateStr . "<br/>";
-
-		// Create date
-		$currentDate = DateTime::createFromFormat("U", $currentDateStr);
-//		echo "currentDate: " . $currentDate->format("Y-m-d H:i:s") . "<br/>";
-
-		return $currentDate;
-	}
-
-	/**
 	 * Saves a new version of a file if there is one
 	 *
 	 * @param string $url url to grab from
@@ -228,6 +228,30 @@ class DataDownloader {
 			return true;
 		}
 	}
+
+	/**
+	 * This function grabs a .csv file and reads it
+	 *
+	 * @param string $url url to grab file at
+	 */
+	public function readCSV($url) {
+		$context = stream_context_create(array("http" => array("ignore_errors" => true, "method" => "HEAD")));
+
+		$row = 1;
+		if(($fd = @fopen($url, "rb", false, $context)) !== false) {
+			while(($data = fgetcsv($fd, 1000, ",")) !== false) {
+				$num = count($data);
+				echo "<p> $num fields in line $row: <br /></p>\n";
+				$row++;
+				for($c = 0; $c < $num; $c++) {
+					echo $data[$c] . "<br />\n";
+				}
+			}
+
+			fclose($fd);
+		}
+	}
+
 }
 
 // TESTING ********************
