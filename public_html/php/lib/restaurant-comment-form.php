@@ -7,8 +7,9 @@
 	<input type="hidden" name="restaurantId" value="<?php echo $restaurantId; ?>"/>
 
 	<div class="form-group">
+			<label for="txtComment">Restaurant Comment Field</label>
 			<textarea name="txtComment" id="txtComment" class="input-control" rows="6"
-						 maxlength="1064"></textarea>
+						cols="50" maxlength="1064">Whatchoo tryna say about this restaurant?</textarea>
 	</div>
 
 	<div class="button-group">

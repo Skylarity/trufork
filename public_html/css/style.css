@@ -228,7 +228,14 @@ header {
  ********************************************/
 
 #txtComment {
+	padding: 0 5px;
 	width: 100%;
+	color: tomato;
+	font-size: 1.2em;
+	font-weight: 300;
+	border: 2px solid tomato;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
 }
 
 .restaurant {
