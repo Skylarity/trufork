@@ -230,20 +230,22 @@ class DataDownloader {
 	}
 }
 
-$businessesDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/LIVES/businesses.csv");
-$inspectionsDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/LIVES/inspections.csv");
-$violationsDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/LIVES/violations.csv");
-$xmlDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/foodinspections/FoodInspectionsCurrentFY-en-us.xml");
-$importantDate = DataDownloader::getLastModifiedDate("https://bootcamp-coders.cnm.edu/~srexroad/text.txt");
-
-echo "<h2>Businesses:</h2><p>" . $businessesDate->format("Y-m-d H:i:s") . "</p>";
-echo "<h2>Inspections:</h2><p>" . $inspectionsDate->format("Y-m-d H:i:s") . "</p>";
-echo "<h2>Violations:</h2><p>" . $violationsDate->format("Y-m-d H:i:s") . "</p>";
-echo "<h2>XML:</h2><p>" . $xmlDate->format("Y-m-d H:i:s") . "</p>";
-echo "<h2>Important:</h2><p>" . $importantDate->format("Y-m-d H:i:s") . "</p>";
-
-// This deletes the files on the bootcamp server
-DataDownloader::deleteFiles("/var/lib/abq-data/", "businesses", ".csv");
-
-// This downloads the file to the bootcamp server
-DataDownloader::downloadIfNew("http://data.cabq.gov/business/LIVES/businesses.csv", "/var/lib/abq-data/", "businesses", ".csv");
+// TESTING ********************
+//$businessesDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/LIVES/businesses.csv");
+//$inspectionsDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/LIVES/inspections.csv");
+//$violationsDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/LIVES/violations.csv");
+//$xmlDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/foodinspections/FoodInspectionsCurrentFY-en-us.xml");
+//$importantDate = DataDownloader::getLastModifiedDate("https://bootcamp-coders.cnm.edu/~srexroad/text.txt");
+//
+//echo "<h2>Businesses:</h2><p>" . $businessesDate->format("Y-m-d H:i:s") . "</p>";
+//echo "<h2>Inspections:</h2><p>" . $inspectionsDate->format("Y-m-d H:i:s") . "</p>";
+//echo "<h2>Violations:</h2><p>" . $violationsDate->format("Y-m-d H:i:s") . "</p>";
+//echo "<h2>XML:</h2><p>" . $xmlDate->format("Y-m-d H:i:s") . "</p>";
+//echo "<h2>Important:</h2><p>" . $importantDate->format("Y-m-d H:i:s") . "</p>";
+//
+//// This deletes the files on the bootcamp server
+//DataDownloader::deleteFiles("/var/lib/abq-data/", "businesses", ".csv");
+//
+//// This downloads the file to the bootcamp server
+//DataDownloader::downloadIfNew("http://data.cabq.gov/business/LIVES/businesses.csv", "/var/lib/abq-data/", "businesses", ".csv");
+// TESTING ********************

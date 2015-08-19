@@ -1,5 +1,11 @@
 <?php
 
+// Get test parameters
+require_once("trufork.php");
+
+// Get the class to test
+require_once(dirname(__DIR__) . "/php/classes/data-downloader.php");
+
 /**
  * Full PHPUnit test for the Data Downloader class
  *
@@ -8,7 +14,41 @@
  */
 class DataDownloaderTest extends PHPUnit_Framework_TestCase {
 
+	/**
+	 * Valid test data to use
+	 * @var string $testData
+	 */
 	protected $testData = 'FA0117942,"SINNERS AND SAINTS BAR AND GRILL LLC",9800 MONTGOMERY BLVD NE STE 3,ALBUQUERQUE,NM,87111,5056205440' . PHP_EOL . 'FA0115526,"MCDONALDS OF MCMAHON",5700 MCMAHON BLVD NW,ALBUQUERQUE,NM,87114' . PHP_EOL . 'FA0115560,"ELEPHANT BAR RESTAURANT",2240 LOUISIANA BLVD NE STE 5A,ALBUQUERQUE,NM,87110,5058842355' . PHP_EOL . 'FA0115576,"BEEZ WIENER WAGON",200 LOMAS NW,ALBUQUERQUE,NM,87102,5053458667' . PHP_EOL . 'FA0117064,"SIMPLY SWEET BY DARCI",1416 JUAN TABO NE,ALBUQUERQUE,NM,87112,5059225560' . PHP_EOL . 'FA0119118,"FORASTEROS MEXICAN FOOD # 2",5016 LOMAS BLVD NE,ALBUQUERQUE,NM,87110,6266079715' . PHP_EOL . 'FA0115149,"TOTAL NUTRITION",6550 PASEO DEL NORTE BLVD NE STE D3,ALBUQUERQUE,NM,87113,5055031715';
+
+	/**
+	 * Valid file to grab
+	 * @var string $fileToGrab
+	 */
+	protected $fileToGrab = "https://bootcamp-coders.cnm.edu/~srexroad/businesses.csv";
+
+	/**
+	 * Valid file path to use
+	 * @var string $filePath
+	 */
+	protected $filePath = "/tmp/";
+
+	/**
+	 * Valid file name to use
+	 * @var string $fileName
+	 */
+	protected $fileName = "businesses";
+
+	/**
+	 * Valid file time to use
+	 * @var string $fileTime
+	 */
+	protected $fileTime = "0";
+
+	/**
+	 * Valid file extension to use
+	 * @var string $fileExtension
+	 */
+	protected $fileExtension = ".csv";
 
 	public function createTestFile($path, $name, $time, $extension) {
 		// Delete file(s)
@@ -27,11 +67,28 @@ class DataDownloaderTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public final function setUp() {
-		$this->createTestFile("/var/lib/abq-data/", "businesses", DateTime::createFromFormat("U", "0"), ".csv");
+		$this->createTestFile($this->filePath, $this->fileName, $this->fileTime, $this->fileExtension);
 	}
 
 	public function testGetMetaData() {
+		// Grab the metadata from a file on the bootcamp server
+		$streamData = DataDownloader::getMetaData($this->fileToGrab);
+
+		// Assert the metadata contains "Last-Modified"
+		$this->assertContains("Last-Modified", $streamData);
+	}
+
+	public function testDeleteFiles() {
+		// MAKE SURE THIS FUNCTION IS CALLED LAST
 		// TODO
+	}
+
+	public final function tearDown() {
+		// Delete files that weren't deleted by testing
+		$files = glob("$this->filePath$this->fileName*$this->fileExtension");
+		foreach($files as $file) {
+			unlink($file);
+		}
 	}
 
 }
