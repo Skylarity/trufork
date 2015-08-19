@@ -23,90 +23,103 @@
 
 				<!--Button Trigger User Login--> 
 				<button type="button" class="modal-button" data-toggle="modal" data-target="#myModal"> 
-					Login or create an account
-				</button> 
-
-
+					Sign Up
+				</button>
+				 
 				<!-- 	login modal--> 
 				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 					<div class="modal-dialog"> 
+						<form class="form">
+							<div class="modal-content">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+										aria-hidden="true">&times;</span>
+								</button>
+								<div class="modal-header">
+									<h3>Create A New Account</h3>
+								</div>
 
-						<div class="modal-content">
-								<div class="button"  data dismiss="modal" aria-label="close"><span aria-hidden="true">&times;</span></button> 
+								<div class="form-group">
+									<label for="UserId">User Name</label>
+									<input type="UserId" class="form-control" id="UserId" placeholder="Choose a username">
+								</div>
 
-									<form class="form-horizontal">
-										<div class="modal-header">
-											<h3>Create A New Account</h3>
+								<div class="form-group">
+									<label for="hash1">Password</label>
+									<input type="password" class="form-control" id="verifyPassword1" placeholder="password">
+								</div>
 
-										<div class="form-group">
-											<label for="inputUserName" class="col-sm-2">User Name</label>
-											<div class="col-sm-10">
-												<input type="User Name" class="form-control" id="User Name" placeholder="User Name">
-											</div>
-										</div>
+								<div class="form-group">
+									<label for="Hash2">Email address</label>
+									<input type="Hash2" class="form-control" id="verifyPassword1" placeholder="verify password">
+								</div>
 
-										<div class="form-group">
-											<label for="inputPassword" class="col-sm-2 control-label">Password</label>
-											<div class="col-sm-10">
-												<input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-											</div>
-										</div>
+								<div class="form-group">
+									<label for="email">Email address</label>
+									<input type="email" class="form-control" id="email" placeholder="email (optional)">
+								</div>
 
-										<div class="form-group">
-											<label for="inputVerifyPassword" class="col-sm-2 control-label">Verify Password</label>
-											<div class="col-sm-10">
-												<input type="password" class="form-control" id="inputPassword3" placeholder="Verify Password">
-											</div>
-										</div>
+								<div class="form-group">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox"> Remember me
+										</label>
+									</div>
+								</div>
 
-										<div class="form-group">
-											<label for="email" class="col-sm-2 control-label">email (optional)</label>
-											<div class="col-sm-10">
-												<input type="email" class="form-control" id="inputPassword3" placeholder="Email (Optional)">
-											</div>
-										</div>
+								<div class="form-group">
+									<div class="modal-footer"
+										<label>
+											<button type="submit" class="modal-button">Create Account</button>
+										</label>
+									</div>
+							</div>
+						</form>
+					</div>
+				</div>
 
-										<div class="form-group">
-											<div class="col-sm-offset-2 col-sm-10">
-													<label>
-														<button type="submit" class="modal-button">Create Account</button>
-													</label>
-												</div>
-											</div>
-										</div>
+				<!--Button Trigger User Login--> 
+				<button type="button" class="modal-button" data-toggle="modal" data-target="#myModal"> 
+					Log In
+				</button>
+				 
+				<!-- 	login modal--> 
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+					<div class="modal-dialog"> 
+						<form class="form">
+							<div class="modal-content">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+										aria-hidden="true">&times;</span>
+								</button>
+								<div class="modal-header">
+									<h3>Log In</h3>
+								</div>
 
+								<div class="form-group">
+									<label for="UserId">User Name</label>
+									<input type="UserId" class="form-control" id="UserId" placeholder="Choose a username">
+								</div>
 
-										<div class="form-group">
-											<div class="col-sm-offset-2 col-sm-10">
-												<div class="checkbox">
-													<label>
-														<input type="checkbox"> Remember me
-													</label>
-												</div>
-											</div>
-										</div>
+								<div class="form-group">
+									<label for="hash1">Password</label>
+									<input type="password" class="form-control" id="verifyPassword1" placeholder="password">
+								</div>
 
-										<div class="form-group">
-											<div class="col-sm-offset-2 col-sm-10">
-												<button type="submit" class="modal-button">Sign in</button>
-											</div>
-										</div>
-									</form>
+								<div class="form-group">
+									<div class="modal-footer"
+									<label>
+										<button type="submit" class="modal-button">Create Account</button>
+									</label>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
 
-<!--									<input class="create" type="text" placeholder="password"/>-->
-<!--									<input class="create" type="text" placeholder="verify password"/> -->
-<!--									<input class="create" type="text" placeholder="email (optional)"/> -->
-<!--									<input class="create" type="checkbox"<span class="checkbox" Remember Me </span> -->
-
-								</form>
-							</div> 
-						</div> 
-					</div> 
-				</div> 
-<!--				<li role="presentation"><a href="#">Login/Register</a></li>-->
+				<!--				<li role="presentation"><a href="#">Login/Register</a></li>-->
 				<!--				-<li role="presentation"><a href="epic/epic.php">Epic</a></li>-->
+				<!--				<li role="presentation"><a href="epic/epic-addendum.php">Addendum</a></li>-->
 
-<!--				<li role="presentation"><a href="epic/epic-addendum.php">Addendum</a></li>-->
 			</ul>
 		</div>
 	</div>
+</div>
