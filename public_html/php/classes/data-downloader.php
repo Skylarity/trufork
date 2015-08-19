@@ -137,7 +137,6 @@ class DataDownloader {
 	 * @param string $path path to save to
 	 * @param string $name filename to save in
 	 * @param string $extension extension to save in
-	 * @throws Exception $e catch-all exception
 	 */
 	public static function downloadFile($url, $path, $name, $extension) {
 		// Delete old file(s)

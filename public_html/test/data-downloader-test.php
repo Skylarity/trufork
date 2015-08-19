@@ -138,14 +138,14 @@ class DataDownloaderTest extends PHPUnit_Framework_TestCase {
 	 * Test only downloading a file if we have an older version
 	 */
 	public function testDownloadIfNew() {
-		// TODO
-	}
+		// Try to download the file (true if it did, false if not)
+		$this->assertTrue(DataDownloader::downloadIfNew($this->fileToGrab, $this->filePath, $this->fileName, $this->fileExtension));
 
-	/**
-	 * Test downloading a file
-	 */
-	public function testDownloadFile() {
-		// TODO
+		// See what files are there
+		$files = glob("$this->filePath$this->fileName*$this->fileExtension");
+
+		// See if they're there
+		$this->assertNotEmpty($files);
 	}
 
 	/**
