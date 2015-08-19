@@ -13,8 +13,8 @@
 	</div>
 
 	<div class="button-group">
-		<button type="button" class="btn btn-primary">Submit</button>
-		<button type="button" class="btn btn-default">Reset</button>
+		<button type="submit" class="btn btn-primary">Submit</button>
+		<button type="reset" class="btn btn-default">Reset</button>
 	</div>
 
 </form>
