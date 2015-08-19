@@ -1,13 +1,12 @@
 <?php
-require_once(dirname(__DIR__) . "classes/comment.php");
-require_once(dirname(__DIR__) . "lib/restaurant.php");
-require_once(dirname(__DIR__) . "lib/xsrf.php");
-require_once(dirname(__DIR__) . "lib/encrypted-config.php");
-require_once(dirname(dirname(__DIR__)) . "js/restaurant-comment-controller.js");
+require_once(dirname(__DIR__) . "/classes/comment.php");
+require_once(dirname(__DIR__) . "/lib/xsrf.php");
+require_once(dirname(__DIR__) . "/lib/encrypted-config.php");
+//require_once(dirname(dirname(__DIR__)) . "/js/restaurant-comment-controller.js");
 
 try {
 	// ensure te field is actually filled out properly
-	if(@isset($_POST["commentContent"]) === false) {
+	if(@isset($_POST["content"]) === false) {
 		throw(new InvalidArgumentException ("Comment not complete. Please try again."));
 	}
 
