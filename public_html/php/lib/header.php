@@ -29,7 +29,7 @@
 				<!-- 	login modal--> 
 				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 					<div class="modal-dialog"> 
-						<form class="form">
+						<form id="signUpForm" name="signUpForm" class="form" method="post" action="../controllers/signUp-controller.php">
 							<div class="modal-content">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
 										aria-hidden="true">&times;</span>
@@ -39,29 +39,29 @@
 								</div>
 
 								<div class="form-group">
-									<label for="UserId">User Name</label>
-									<input type="UserId" class="form-control" id="UserId" placeholder="Choose a username">
+									<label for="userName">User Name</label>
+									<input type="text" class="form-control" id="userName" name="userName" placeholder="choose a username">
 								</div>
 
 								<div class="form-group">
-									<label for="hash1">Password</label>
-									<input type="password" class="form-control" id="verifyPassword1" placeholder="password">
+									<label for=Password>Password</label>
+									<input type="password" class="form-control" id="password" name="password" placeholder="password">
 								</div>
 
 								<div class="form-group">
-									<label for="Hash2">Email address</label>
-									<input type="Hash2" class="form-control" id="verifyPassword1" placeholder="verify password">
+									<label for="verifyPassword">Verify Password</label>
+									<input type="password" class="form-control" id="password" name="password" placeholder="verify password">
 								</div>
 
 								<div class="form-group">
 									<label for="email">Email address</label>
-									<input type="email" class="form-control" id="email" placeholder="email (optional)">
+									<input type="email" class="form-control" id="email" name="email" placeholder="email (optional)">
 								</div>
 
 								<div class="form-group">
 									<div class="checkbox">
 										<label>
-											<input type="checkbox"> Remember me
+											<input type="checkbox" id="rememberMe[]" name="rememberMe" value="Remember Me"> Remember Me
 										</label>
 									</div>
 								</div>
@@ -69,7 +69,7 @@
 								<div class="form-group">
 									<div class="modal-footer"
 										<label>
-											<button type="submit" class="modal-button">Create Account</button>
+											<button type="submit" class="modal-button" id="submitButton" name="submitButton">Create Account</button>
 										</label>
 									</div>
 							</div>
@@ -77,43 +77,43 @@
 					</div>
 				</div>
 
-				<!--Button Trigger User Login--> 
-				<button type="button" class="modal-button" data-toggle="modal" data-target="#myModal"> 
-					Log In
-				</button>
-				 
-				<!-- 	login modal--> 
-				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-					<div class="modal-dialog"> 
-						<form class="form">
-							<div class="modal-content">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-										aria-hidden="true">&times;</span>
-								</button>
-								<div class="modal-header">
-									<h3>Log In</h3>
-								</div>
-
-								<div class="form-group">
-									<label for="UserId">User Name</label>
-									<input type="UserId" class="form-control" id="UserId" placeholder="Choose a username">
-								</div>
-
-								<div class="form-group">
-									<label for="hash1">Password</label>
-									<input type="password" class="form-control" id="verifyPassword1" placeholder="password">
-								</div>
-
-								<div class="form-group">
-									<div class="modal-footer"
-									<label>
-										<button type="submit" class="modal-button">Create Account</button>
-									</label>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
+<!--				<!--Button Trigger User Login--> -->
+<!--				<button type="button" class="modal-button" data-toggle="modal" data-target="#myModal"> -->
+<!--					Log In-->
+<!--				</button>-->
+<!--				 -->
+<!--				<!-- 	login modal--> -->
+<!--				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
+<!--					<div class="modal-dialog"> -->
+<!--						<form id="profileController" class="form" method="post" action="../../php/controllers/profile-controller.php">-->
+<!--							<div class="modal-content">-->
+<!--								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span-->
+<!--										aria-hidden="true">&times;</span>-->
+<!--								</button>-->
+<!--								<div class="modal-header">-->
+<!--									<h3>Log In</h3>-->
+<!--								</div>-->
+<!---->
+<!--								<div class="form-group">-->
+<!--									<label for="UserId">User Name</label>-->
+<!--									<input type="UserId" class="form-control" id="UserId" placeholder="Choose a username">-->
+<!--								</div>-->
+<!---->
+<!--								<div class="form-group">-->
+<!--									<label for="hash1">Password</label>-->
+<!--									<input type="password" class="form-control" id="verifyPassword1" placeholder="password">-->
+<!--								</div>-->
+<!---->
+<!--								<div class="form-group">-->
+<!--									<div class="modal-footer"-->
+<!--									<label>-->
+<!--										<button type="submit" class="modal-button">Create Account</button>-->
+<!--									</label>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</form>-->
+<!--					</div>-->
+<!--				</div>-->
 
 				<!--				<li role="presentation"><a href="#">Login/Register</a></li>-->
 				<!--				-<li role="presentation"><a href="epic/epic.php">Epic</a></li>-->
