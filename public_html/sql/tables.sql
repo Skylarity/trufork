@@ -26,8 +26,8 @@ CREATE TABLE restaurant (
 	restaurantId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	address VARCHAR(128) NOT NULL,
 	phone VARCHAR(32) NOT NULL,
-	forkRating VARCHAR(32) NOT NULL,
-	facilityKey VARCHAR(12) NOT NULL,
+	forkRating FLOAT(32) NOT NULL, -- this is a decimal value
+	facilityKey VARCHAR(64) NOT NULL,
 	googleId VARCHAR(128), -- Google assigns an alphanumeric code
 	name VARCHAR(128) NOT NULL,
 	INDEX(restaurantId),
