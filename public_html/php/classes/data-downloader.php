@@ -1,5 +1,7 @@
 <?php
 
+header("Content-type:text/plain");
+
 /**
  * This class will download ABQ data about restaurant inspections
  *
@@ -238,15 +240,12 @@ class DataDownloader {
 	public static function readCSV($url) {
 		$context = stream_context_create(array("http" => array("ignore_errors" => true, "method" => "GET")));
 
-		$row = 1;
 		if(($fd = @fopen($url, "rb", false, $context)) !== false) {
 			while(($data = fgetcsv($fd, 0, ",")) !== false) {
 				echo $data[0] . " " . $data[1] . " " . $data[2] . " " . $data[6];
 //				$restaurant = new Restaurant(null, "", $data[0], $data[1], $data[2], $data[6], "");
 //				$restaurant->insert();
-				$row++;
 			}
-
 			fclose($fd);
 		}
 	}
