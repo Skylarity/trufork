@@ -29,7 +29,8 @@
 				<!-- 	login modal--> 
 				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 					<div class="modal-dialog"> 
-						<form id="signUpForm" name="signUpForm" class="form" method="post" action="../controllers/signUp-controller.php">
+						<form id="signUpForm" name="signUpForm" class="form"  <?php echo $PREFIX?> action="../controllers/signUp-controller.php" method="post">
+
 							<div class="modal-content">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
 										aria-hidden="true">&times;</span>
@@ -54,8 +55,8 @@
 								</div>
 
 								<div class="form-group">
-									<label for="email">Email address</label>
-									<input type="email" class="form-control" id="email" name="email" placeholder="email (optional)">
+									<label for="email">Email Address</label>
+									<input type="email" class="form-control" id="email" name="email" placeholder="email">
 								</div>
 
 								<div class="form-group">
@@ -74,6 +75,10 @@
 									</div>
 							</div>
 						</form>
+
+						<div id="outputArea"></div>
+						<script type="text/javascript" src="<?php echo $PREFIX; ?>../controllers/signUp-controller.php"
+
 					</div>
 				</div>
 
