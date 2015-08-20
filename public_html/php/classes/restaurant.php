@@ -47,7 +47,7 @@ class Restaurant {
 
 	/**
 	 * TruFork rating for the restaurant
-	 * @var string $forkRating
+	 * @var double $forkRating
 	 */
 	private $forkRating;
 
@@ -60,7 +60,7 @@ class Restaurant {
 	 * @param string $name name of the restaurant
 	 * @param string $address address of the restaurant
 	 * @param string $phone phone number of the restaurant
-	 * @param string $forkRating TruFork rating of the restaurant
+	 * @param double $forkRating TruFork rating of the restaurant
 	 * @throws InvalidArgumentException If the data is invalid
 	 * @throws RangeException If the data is out of bounds
 	 * @throws Exception For all other cases
@@ -137,7 +137,7 @@ class Restaurant {
 	 * @param string $newFacilityKey
 	 */
 	public function setFacilityKey($newFacilityKey) {
-		$this->facilityKey = Filter::filterString($newFacilityKey, "Facility key", 12);
+		$this->facilityKey = Filter::filterString($newFacilityKey, "Facility key", 64);
 	}
 
 	/**
@@ -209,7 +209,7 @@ class Restaurant {
 	 * @param string $newForkRating
 	 */
 	public function setForkRating($newForkRating) {
-		$this->forkRating = Filter::filterString($newForkRating, "TruFork rating", 32);
+		$this->forkRating = Filter::filterInt($newForkRating, "TruFork rating");
 	}
 
 	/**
@@ -427,7 +427,7 @@ class Restaurant {
 	public static function getRestaurantsByForkRating(PDO &$pdo, $forkRating) {
 		// Sanitize the rating before searching
 		try {
-			$forkRating = Filter::filterString($forkRating, "TruFork rating", 12);
+			$forkRating = Filter::filterInt($forkRating, "TruFork rating");
 		} catch(InvalidArgumentException $invalidArgument) {
 			throw(new PDOException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(RangeException $range) {
@@ -473,7 +473,7 @@ class Restaurant {
 	public static function getRestaurantByFacilityKey(PDO &$pdo, $facilityKey) {
 		// Sanitize the key before searching
 		try {
-			$facilityKey = Filter::filterString($facilityKey, "Facility Key", 12);
+			$facilityKey = Filter::filterString($facilityKey, "Facility Key", 64);
 		} catch(InvalidArgumentException $invalidArgument) {
 			throw(new PDOException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(RangeException $range) {

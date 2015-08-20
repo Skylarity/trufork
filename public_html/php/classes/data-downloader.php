@@ -1,6 +1,7 @@
 <?php
 
-header("Content-type:text/plain");
+require_once("restaurant.php");
+require_once("/etc/apache2/data-design/encrypted-config.php");
 
 /**
  * This class will download ABQ data about restaurant inspections
@@ -236,17 +237,31 @@ class DataDownloader {
 	 * This function grabs a .csv file and reads it
 	 *
 	 * @param string $url url to grab file at
+	 * @throws PDOException PDO related errors
+	 * @throws Exception catch-all exception
 	 */
 	public static function readCSV($url) {
 		$context = stream_context_create(array("http" => array("ignore_errors" => true, "method" => "GET")));
 
-		if(($fd = @fopen($url, "rb", false, $context)) !== false) {
-			while(($data = fgetcsv($fd, 0, ",")) !== false) {
-				echo $data[0] . " " . $data[1] . " " . $data[2] . " " . $data[6];
-//				$restaurant = new Restaurant(null, "", $data[0], $data[1], $data[2], $data[6], "");
-//				$restaurant->insert();
+		try {
+			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
+
+			if(($fd = @fopen($url, "rb", false, $context)) !== false) {
+				while((($data = fgetcsv($fd, 0, ",")) !== false) && feof($fd) === false) {
+					echo "<p>" . $data[0] . "</p>";
+					echo "<p>" . $data[1] . "</p>";
+					echo "<p>" . $data[2] . "</p>";
+					echo "<p>" . $data[6] . "</p>";
+
+					$restaurant = new Restaurant(null, "ChIJ6fRj1sudP4YR0Q6Z7BhX4UM", $data[0], $data[1], $data[2], $data[6], 0);
+					$restaurant->insert($pdo);
+				}
+				fclose($fd);
 			}
-			fclose($fd);
+		} catch(PDOException $pdoException) {
+			throw(new PDOException($pdoException->getMessage(), 0, $pdoException));
+		} catch(Exception $exception) {
+			throw(new Exception($exception->getMessage(), 0, $exception));
 		}
 	}
 

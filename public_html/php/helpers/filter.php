@@ -33,7 +33,7 @@ class Filter {
 		}
 
 		// Verify the new int is positive
-		if($int <= 0) {
+		if($int < 0) {
 			throw(new RangeException("$name not positive"));
 		}
 

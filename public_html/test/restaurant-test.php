@@ -58,9 +58,9 @@ class RestaurantTest extends TruForkTest {
 
 	/**
 	 * Valid fork rating to use
-	 * @var string $VALID_FORK_RATING
+	 * @var double $VALID_FORK_RATING
 	 */
-	protected $VALID_FORK_RATING = "5";
+	protected $VALID_FORK_RATING = 5;
 
 	/**
 	 * Test inserting a valid Restaurant and verify that the actual MySQL data matches
