@@ -24,12 +24,15 @@ try {
 	if($data->status === "OK"){
 		foreach($data->results as $result) {
 			echo "<ul class=\"list-group\">" . PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result["name"] . "</strong></li>" . PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result["rating"]. "</strong></li>". PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result["photos"]. "</strong></li>". PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result["place_id"]."</strong></li>". PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result["geometry"]."</strong></li>". PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result["formatted_address"]. "</strong></li>". PHP_EOL;
+			echo "<li class=\"list-group-item\"><strong>" . $result->formatted_address."</strong></li>". PHP_EOL;
+			echo "<li class=\"list-group-item\"><strong>" . $result->name . "</strong></li>" . PHP_EOL;
+			echo "<li class=\"list-group-item\"><strong>" . $result->rating. "</strong></li>". PHP_EOL;
+		//	echo "<li class=\"list-group-item\"><strong>" . $result->photos. "</strong></li>". PHP_EOL;
+
+			echo "<li class=\"list-group-item\"><strong>" . $result->place_id."</strong></li>". PHP_EOL;
+		//	echo "<li class=\"list-group-item\"><strong>" . $result->geometry."</strong></li>". PHP_EOL;
+
+
 		}
 	} else {
 		echo "error message here";
