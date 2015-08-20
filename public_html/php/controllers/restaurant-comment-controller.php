@@ -16,14 +16,15 @@ try {
 	}
 	verifyXsrf();
 
+	// handle datetime as it will need to be inserted
+	$newDateTime = new DateTime();
+
 	// create the new comment and insert into mySQL
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
-	$newDateTime = new dateTime("now");
-	//echo($newDateTime->format('Y-m-d H:i:s'));
-	$comment = new Comment(null, $_POST["profileId"], $_POST["restaurantId"], $_POST["dateTime"], $_POST["txtComment"]);
+	$comment = new Comment(null, $_POST["profileId"], $_POST["restaurantId"], $newDateTime, $_POST["txtComment"]);
 	//$comment = new Comment(null, null, null, null, null);
 	$comment->insert($pdo);
-	echo "<p class=\"alert alert-success\">Comment (id = " . $comment->getCommentId() . ") posted!</p>";
+	echo "<p class=\"alert alert-success\">Comment posted!</p>";
 } catch(Exception $exception) {
 	echo "<p class=\"alert alert-danger\">Exception: " . $exception->getMessage() . "</p>";
 
