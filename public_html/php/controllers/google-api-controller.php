@@ -1,4 +1,5 @@
 <?php
+require_once(dirname(__DIR__) . "/classes/data-downloader.php");
 require_once("/etc/apache2/data-design/encrypted-config.php");
 
 try {
@@ -23,16 +24,30 @@ try {
 
 	if($data->status === "OK"){
 		foreach($data->results as $result) {
+			$photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxheight=512&photoreference=" . $result->photos[0]->photo_reference . "&key=" . $config["placekey"];
+			$imgUrl = null;
+			$metadata = DataDownloader::getMetaData($photoUrl, 0);
+			foreach($metadata["wrapper_data"] as $header) {
+				if(strpos($header, "Location: ") === 0) {
+					$imgUrl = substr($header, 10);
+					break;
+				}
+			}
+
+			//write a foreach for the Geometry data array
+			//var_dump($result->geometry);
+
+			if($imgUrl !== null) {
+				echo "<img class=\"img-responsive\" src=\"$imgUrl\" />" . PHP_EOL;
+			}
 			echo "<ul class=\"list-group\">" . PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $result->formatted_address."</strong></li>". PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $result->name . "</strong></li>" . PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $result->rating. "</strong></li>". PHP_EOL;
-		//	echo "<li class=\"list-group-item\"><strong>" . $result->photos. "</strong></li>". PHP_EOL;
-
 			echo "<li class=\"list-group-item\"><strong>" . $result->place_id."</strong></li>". PHP_EOL;
-		//	echo "<li class=\"list-group-item\"><strong>" . $result->geometry."</strong></li>". PHP_EOL;
-
-
+			echo "<li class=\"list-group-item\"><strong>" . $result->icon."</strong></li>". PHP_EOL;
+			echo "<li class=\"list-group-item\"><strong>" . $result->geometry->location->lat ."</strong></li>". PHP_EOL;
+			echo "<li class=\"list-group-item\"><strong>" . $result->geometry->location->lng ."</strong></li>". PHP_EOL;
 		}
 	} else {
 		echo "error message here";
