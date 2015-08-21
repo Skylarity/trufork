@@ -4,7 +4,8 @@ $(document).ready(
 	function() {
 
 		// tell the validator to validate this form
-		$("#signUp").validate({
+		$("#signUpForm").validate({
+			debug: true,
 			// setup the formatting for the errors
 			errorClass: "label-danger",
 			errorLabelContainer: "#outputArea",
@@ -23,7 +24,7 @@ $(document).ready(
 					required: true
 				},
 
-				validatePassword: {
+				verifyPassword: {
 					equalTo: "#password",
 					required: true
 				},
@@ -37,7 +38,7 @@ $(document).ready(
 			// error messages to display to the end user
 			messages: {
 				userName: {
-					minlenth: "user name must be positive",
+					minlength: "user name must be positive",
 					required: "must enter a valid user name"
 				},
 
@@ -46,7 +47,7 @@ $(document).ready(
 					required: "please enter valid password"
 				},
 
-				validPassword: {
+				verifyPassword: {
 					equalTo: "passwords do not match",
 					required: "password do not match"
 				},

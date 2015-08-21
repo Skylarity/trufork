@@ -29,7 +29,7 @@
 				<!-- 	login modal--> 
 				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 					<div class="modal-dialog"> 
-						<form id="signUpForm" name="signUpForm" class="form"  <?php echo $PREFIX?> action="../controllers/signUp-controller.php" method="post">
+						<form id="signUpForm" name="signUpForm" class="form" action="<?php echo $PREFIX?>php/controllers/sign-up-controller.php" method="post">
 
 							<div class="modal-content">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -45,13 +45,13 @@
 								</div>
 
 								<div class="form-group">
-									<label for=Password>Password</label>
+									<label for=password>Password</label>
 									<input type="password" class="form-control" id="password" name="password" placeholder="password">
 								</div>
 
 								<div class="form-group">
 									<label for="verifyPassword">Verify Password</label>
-									<input type="password" class="form-control" id="password" name="password" placeholder="verify password">
+									<input type="password" class="form-control" id="verifyPassword" name="verifyPassword" placeholder="verify password">
 								</div>
 
 								<div class="form-group">
@@ -74,10 +74,11 @@
 										</label>
 									</div>
 							</div>
+							<div id="outputArea"></div>
+							<script type="text/javascript" src="<?php echo $PREFIX; ?>php/controllers/signup-controller.js"></script>
 						</form>
 
-						<div id="outputArea"></div>
-						<script type="text/javascript" src="<?php echo $PREFIX; ?>../controllers/signUp-controller.php"
+
 
 					</div>
 				</div>
