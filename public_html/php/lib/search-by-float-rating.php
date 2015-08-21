@@ -8,11 +8,7 @@ require_once("/etc/apache2/data-design/encrypted-config.php");
 
 <div class="um" id="search-by-trufork-rating">
 	<h2>Search by TruFork Rating</h2>
-	<!-- <div class="content">
-		<div class="main-container rating-widget rating-widget">
 
-		</div>
-	</div> -->
 </div>
 <form action="#" method="POST">
 	<div class="review-stars clearfix">
@@ -21,11 +17,11 @@ require_once("/etc/apache2/data-design/encrypted-config.php");
 			<ul class="stars-0">
 				<li>
 					<input id="rating-5" name="rating" type="radio" value="5">
-					<label for="rating-5">5 (Highest reviews and impeccable inspection records.)</label>
+					<label for="rating-5">5 (Highest reviews and impeccable inspection records. Buen provecho!)</label>
 				</li>
 				<li>
 					<input id="rating-4-4.9" name="rating" type="radio" value="1">
-					<label for="rating-4-4.9">4 (Good reviews and inspection records.)</label>
+					<label for="rating-4-4.9">4 (Good reviews and inspection records. Proceed.)</label>
 				</li>
 				<li>
 					<input id="rating-3-3.9" name="rating" type="radio" value="2">

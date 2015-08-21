@@ -78,7 +78,7 @@
 				<div class="row">
 					<div class="col-md-12">
 
-						<?php require_once "restaurant-comment-form.php" ?>
+						<?php require_once(dirname(__DIR__) . "/controllers/restaurant-comment-form.php") ?>
 
 						<div class="restaurant-comment">
 							<h3>
