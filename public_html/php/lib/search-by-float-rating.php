@@ -24,20 +24,20 @@ require_once("/etc/apache2/data-design/encrypted-config.php");
 					<label for="rating-5">5 (Highest reviews and impeccable inspection records.)</label>
 				</li>
 				<li>
-					<input id="rating-4" name="rating" type="radio" value="1">
-					<label for="rating-4">4 (Good reviews and inspection records.)</label>
+					<input id="rating-4-4.9" name="rating" type="radio" value="1">
+					<label for="rating-4-4.9">4 (Good reviews and inspection records.)</label>
 				</li>
 				<li>
-					<input id="rating-3" name="rating" type="radio" value="2">
-					<label for="rating-3">3 (Caution. Reviews and inspection records may indicate trouble.)</label>
+					<input id="rating-3-3.9" name="rating" type="radio" value="2">
+					<label for="rating-3-3.9">3 (Caution. Reviews and inspection records may indicate trouble.)</label>
 				</li>
 				<li>
-					<input id="rating-2" name="rating" type="radio" value="3">
-					<label for="rating-2">2 (I too like to live dangerously.)</label>
+					<input id="rating-2-2.9" name="rating" type="radio" value="3">
+					<label for="rating-2-2.9">2 (I too like to live dangerously.)</label>
 				</li>
 				<li>
-					<input id="rating-1" name="rating" type="radio" value="4">
-					<label for="rating-1">4 (Avoid like the plague.)</label>
+					<input id="rating-1-1.9" name="rating" type="radio" value="4">
+					<label for="rating-1-1.9">1 (Unless this place is new and has no reviews, avoid like the plague.)</label>
 				</li>
 			</ul>
 			<p class="description">Roll over stars, choose a rating, then click Search.</p>
