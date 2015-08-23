@@ -19,7 +19,7 @@ $(document).ready(
 					type: "POST",
 					// where to submit data
 					url: $(form).attr("action"),
-					// this sends the XSRF token along with the form data
+					// this sends the XSRF token along with the form data, not sure if needed
 					headers: {
 						"X-XSRF-TOKEN": Cookies.get("XSRF-TOKEN")
 					},
