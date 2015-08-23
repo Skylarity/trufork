@@ -2,10 +2,9 @@
 require_once(dirname(__DIR__) . "/classes/comment.php");
 require_once(dirname(__DIR__) . "/lib/xsrf.php");
 require_once("/etc/apache2/data-design/encrypted-config.php");
-//require_once(dirname(dirname(__DIR__)) . "/php/controllers/restaurant-comment-controller.js");
 
 try {
-	// ensure te field is actually filled out properly
+	// ensure the field is actually filled out properly
 	if(@isset($_POST["txtComment"]) === false) {
 		throw(new InvalidArgumentException ("Comment not complete. Please try again."));
 	}

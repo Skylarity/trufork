@@ -1,15 +1,14 @@
-<!DOCTYPE HTML>
+<form id="search-by-float-rating-form" action="<?php echo $PREFIX; ?>php/controllers/search-by-float-rating-controller.php" method="post">
 
 <?php
 require_once(dirname(__DIR__) . "/classes/restaurant.php");
-require_once(dirname(__DIR__) . "/lib/xsrf.php");
 require_once("/etc/apache2/data-design/encrypted-config.php");
 ?>
 
 <div class="um" id="search-by-trufork-rating">
 	<h2>Search by TruFork Rating</h2>
-
 </div>
+
 <form action="#" method="POST">
 	<div class="review-stars clearfix">
 		<fieldset class="star-rating-widget inline-block">
@@ -37,3 +36,9 @@ require_once("/etc/apache2/data-design/encrypted-config.php");
 				</li>
 			</ul>
 			<p class="description">Roll over stars, choose a rating, then click Search.</p>
+</form>
+			<div id="outputArea"></div>
+
+			<script type="text/javascript" src= "<?php echo $PREFIX; ?>php/controllers/search-by-float-rating-controller.js"></script>
+
+
