@@ -424,14 +424,16 @@ class Restaurant {
 	 * Get restaurants by TruFork rating
 	 *
 	 * @param PDO $pdo pointer to PDO connection, by reference
-	 * @param string $forkRating TruFork rating to search for
+	 * @param double $highEnd High end to limit
+	 * @param double $lowEnd Low end to limit
 	 * @return mixed Restaurant found or null if not found
 	 * @throws PDOException when MySQL related errors occur
 	 */
-	public static function getRestaurantsByForkRating(PDO &$pdo, $forkRating) {
+	public static function getRestaurantsByForkRating(PDO &$pdo, $lowEnd, $highEnd) {
 		// Sanitize the rating before searching
 		try {
-			$forkRating = Filter::filterInt($forkRating, "TruFork rating");
+			$lowEnd = Filter::filterDouble($lowEnd, "TruFork rating low end");
+			$highEnd = Filter::filterDouble($highEnd, "TruFork rating high end");
 		} catch(InvalidArgumentException $invalidArgument) {
 			throw(new PDOException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(RangeException $range) {
@@ -441,11 +443,11 @@ class Restaurant {
 		}
 
 		// Create query template
-		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE forkRating = :forkRating";
+		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE (forkRating < :highEnd AND forkRating >= :lowEnd)";
 		$statement = $pdo->prepare($query);
 
 		// Bind rating to placeholder
-		$parameters = array("forkRating" => $forkRating);
+		$parameters = array("highEnd" => $highEnd, "lowEnd" => $lowEnd);
 		$statement->execute($parameters);
 
 		// Build an array of restaurants

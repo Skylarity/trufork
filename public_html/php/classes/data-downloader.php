@@ -254,19 +254,16 @@ class DataDownloader {
 					$name = $data[1];
 					$name = str_replace("\"", "", $name); // The city gives names quotes for some reason
 					$address = $data[2];
-					$phoneNumber = $data[6];
+					$phone = $data[6];
 					$forkRating = 0;
 
 					echo "<p>" . $facilityKey . "</p>";
 					echo "<p>" . $name . "</p>";
 					echo "<p>" . $address . "</p>";
-					echo "<p>" . $phoneNumber . "</p>";
+					echo "<p>" . $phone . "</p>";
 
-					$restaurant = new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phoneNumber, $forkRating);
-					$restaurants = Restaurant::getRestaurantByFacilityKey($pdo, $facilityKey);
-					if($restaurants->count() <= 0) {
-						$restaurant->insert($pdo);
-					}
+					$restaurant = new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating);
+					$restaurant->insert($pdo);
 				}
 				fclose($fd);
 			}

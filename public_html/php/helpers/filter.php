@@ -42,6 +42,29 @@ class Filter {
 	}
 
 	/**
+	 * Filters a double
+	 *
+	 * @param double $double double to use
+	 * @param string $name name of attribute to filter
+	 * @return double|null new ID to use
+	 */
+	public static function filterDouble($double, $name) {
+		// Make sure the int is not null
+		if($double === null) {
+			throw(new InvalidArgumentException("$name cannot be null"));
+		}
+
+		// Verify the new int
+		$double = filter_var($double, FILTER_VALIDATE_FLOAT);
+		if($double === false) {
+			throw(new InvalidArgumentException("$name not a valid double"));
+		}
+
+		// Convert and return the new int
+		return (doubleval($double));
+	}
+
+	/**
 	 * Filters a string
 	 *
 	 * @param string $string string to use
