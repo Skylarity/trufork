@@ -191,7 +191,11 @@ class Restaurant {
 	 * @param string $newPhone
 	 */
 	public function setPhone($newPhone) {
-		$this->phone = Filter::filterString($newPhone, "Restaurant phone number", 32);
+		if(strlen($newPhone) <= 0) {
+			$this->phone = Filter::filterString($newPhone, "Restaurant phone number", 32);
+		} else {
+			$this->phone = "";
+		}
 	}
 
 	/**
@@ -490,22 +494,22 @@ class Restaurant {
 		$parameters = array("facilityKey" => $facilityKey);
 		$statement->execute($parameters);
 
-		// Grab the restaurant from MySQL
-		try {
-			$restaurant = null;
-			$statement->setFetchMode(PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-
-			if($row !== false) {
-				// new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating)
+		// Build an array of restaurants
+		$restaurants = new SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				// new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
 				$restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
+				$restaurants[$restaurants->key()] = $restaurant;
+				$restaurants->next();
+			} catch(Exception $e) {
+				// If the row couldn't be converted, rethrow it
+				throw(new PDOException($e->getMessage(), 0, $e));
 			}
-		} catch(Exception $e) {
-			// If the row couldn't be converted, rethrow it
-			throw(new PDOException($e->getMessage(), 0, $e));
 		}
 
-		return ($restaurant);
+		return ($restaurants);
 	}
 
 	/**

@@ -240,7 +240,7 @@ class DataDownloader {
 	 * @throws PDOException PDO related errors
 	 * @throws Exception catch-all exception
 	 */
-	public static function readCSV($url) {
+	public static function readBusinessesCSV($url) {
 		$context = stream_context_create(array("http" => array("ignore_errors" => true, "method" => "GET")));
 
 		try {
@@ -248,13 +248,25 @@ class DataDownloader {
 
 			if(($fd = @fopen($url, "rb", false, $context)) !== false) {
 				while((($data = fgetcsv($fd, 0, ",")) !== false) && feof($fd) === false) {
-					echo "<p>" . $data[0] . "</p>";
-					echo "<p>" . $data[1] . "</p>";
-					echo "<p>" . $data[2] . "</p>";
-					echo "<p>" . $data[6] . "</p>";
+					$restaurantId = null;
+					$googleId = "ChIJ6fRj1sudP4YR0Q6Z7BhX4UM";
+					$facilityKey = $data[0];
+					$name = $data[1];
+					$name = str_replace("\"", "", $name); // The city gives names quotes for some reason
+					$address = $data[2];
+					$phoneNumber = $data[6];
+					$forkRating = 0;
 
-					$restaurant = new Restaurant(null, "ChIJ6fRj1sudP4YR0Q6Z7BhX4UM", $data[0], $data[1], $data[2], $data[6], 0);
-					$restaurant->insert($pdo);
+					echo "<p>" . $facilityKey . "</p>";
+					echo "<p>" . $name . "</p>";
+					echo "<p>" . $address . "</p>";
+					echo "<p>" . $phoneNumber . "</p>";
+
+					$restaurant = new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phoneNumber, $forkRating);
+					$restaurants = Restaurant::getRestaurantByFacilityKey($pdo, $facilityKey);
+					if($restaurants->count() <= 0) {
+						$restaurant->insert($pdo);
+					}
 				}
 				fclose($fd);
 			}
@@ -285,5 +297,5 @@ class DataDownloader {
 //
 //// This downloads the file to the bootcamp server
 //DataDownloader::downloadIfNew("http://data.cabq.gov/business/LIVES/businesses.csv", "/var/lib/abq-data/", "businesses", ".csv");
-DataDownloader::readCSV("http://data.cabq.gov/business/LIVES/businesses.csv");
+DataDownloader::readBusinessesCSV("http://data.cabq.gov/business/LIVES/businesses.csv");
 // TESTING ********************

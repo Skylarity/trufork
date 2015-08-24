@@ -212,15 +212,17 @@ class RestaurantTest extends TruForkTest {
 		$restaurant->insert($this->getPDO());
 
 		// Grab the data from MySQL and enforce the fields match out expectations
-		$pdoRestaurant = Restaurant::getRestaurantByFacilityKey($this->getPDO(), $restaurant->getFacilityKey());
-		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
-		$this->assertLessThan($pdoRestaurant->getRestaurantId(), 0);
-		$this->assertSame($pdoRestaurant->getGoogleId(), $this->VALID_GOOGLE_ID);
-		$this->assertSame($pdoRestaurant->getFacilityKey(), $this->VALID_FACILITY_KEY);
-		$this->assertSame($pdoRestaurant->getName(), $this->VALID_NAME);
-		$this->assertSame($pdoRestaurant->getAddress(), $this->VALID_ADDRESS);
-		$this->assertSame($pdoRestaurant->getPhone(), $this->VALID_PHONE);
-		$this->assertSame($pdoRestaurant->getForkRating(), $this->VALID_FORK_RATING);
+		$pdoRestaurants = Restaurant::getRestaurantByFacilityKey($this->getPDO(), $restaurant->getFacilityKey());
+		foreach($pdoRestaurants as $pdoRestaurant) {
+			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
+			$this->assertLessThan($pdoRestaurant->getRestaurantId(), 0);
+			$this->assertSame($pdoRestaurant->getGoogleId(), $this->VALID_GOOGLE_ID);
+			$this->assertSame($pdoRestaurant->getFacilityKey(), $this->VALID_FACILITY_KEY);
+			$this->assertSame($pdoRestaurant->getName(), $this->VALID_NAME);
+			$this->assertSame($pdoRestaurant->getAddress(), $this->VALID_ADDRESS);
+			$this->assertSame($pdoRestaurant->getPhone(), $this->VALID_PHONE);
+			$this->assertSame($pdoRestaurant->getForkRating(), $this->VALID_FORK_RATING);
+		}
 	}
 
 	/**
