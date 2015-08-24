@@ -1,14 +1,14 @@
-<form id="search-by-float-rating-form" action="<?php echo $PREFIX; ?>php/controllers/search-by-float-rating-controller.php" method="post">
+<form id="search-by-float-rating-form" action="../controllers/search-by-float-rating-controller.php" method="post">
 
 <div class="search-by-float-rating-form-group">
 	<h2>Search by TruFork Rating</h2>
 
 <form action="#" method="POST">
-	<div class="review-stars clearfix">
+	<div class="box-rating clearfix">
 
 		<fieldset class="box-rating-widget inline-block">
 			<legend class="offscreen">TruFork Rating</legend>
-			<ul class="stars-0">
+			<ul class="boxes1-5">
 				<li>
 					<input id="rating-5" name="rating" type="checkbox" value="5">
 					<label for="rating-5">5: Highest reviews and impeccable inspection records. Buen provecho!</label>
