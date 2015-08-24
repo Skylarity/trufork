@@ -488,30 +488,44 @@ class Restaurant {
 			throw(new PDOException($exception->getMessage(), 0, $exception));
 		}
 
-		// Create query template
-		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE facilityKey = :facilityKey";
-		$statement = $pdo->prepare($query);
+		try {
+			// Create query template
+			$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE facilityKey = :facilityKey";
+			$statement = $pdo->prepare($query);
 
-		// Bind key to placeholder
-		$parameters = array("facilityKey" => $facilityKey);
-		$statement->execute($parameters);
+			// Bind key to placeholder
+			$parameters = array("facilityKey" => $facilityKey);
+			$statement->execute($parameters);
 
-		// Build an array of restaurants
-		$restaurants = new SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				// new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
-				$restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
-				$restaurants[$restaurants->key()] = $restaurant;
-				$restaurants->next();
-			} catch(Exception $e) {
-				// If the row couldn't be converted, rethrow it
-				throw(new PDOException($e->getMessage(), 0, $e));
+			// Build an array of restaurants
+			$restaurants = new SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(PDO::FETCH_ASSOC);
+			while(($row = $statement->fetch()) !== false) {
+				try {
+					// new Restaurant($restaurantId, $googleId, $facilityKey, $address, $phone, $forkRating)
+					$restaurant = new Restaurant($row["restaurantId"], $row["googleId"], $row["facilityKey"], $row["name"], $row["address"], $row["phone"], $row["forkRating"]);
+					$restaurants[$restaurants->key()] = $restaurant;
+					$restaurants->next();
+				} catch(Exception $e) {
+					// If the row couldn't be converted, rethrow it
+					throw(new PDOException($e->getMessage(), 0, $e));
+				}
 			}
-		}
 
-		return ($restaurants);
+			return ($restaurants);
+		} catch(PDOException $pdoException) {
+			$sqlStateCode = "23000";
+
+			$errorInfo = $pdoException->errorInfo();
+			if($errorInfo[0] === $sqlStateCode) {
+				// TODO
+			} else {
+				throw(new PDOException($pdoException->getMessage(), 0, $pdoException));
+			}
+		} catch(Exception $exception) {
+			// Rethrow
+			throw(new Exception($exception->getMessage(), 0, $exception));
+		}
 	}
 
 	/**
