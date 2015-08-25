@@ -31,7 +31,8 @@ CREATE TABLE restaurant (
 	googleId VARCHAR(128), -- Google assigns an alphanumeric code
 	name VARCHAR(128) NOT NULL,
 	INDEX(restaurantId),
-	PRIMARY KEY(restaurantId) -- didn't assign a foreign key bc this entity apparently has none
+	PRIMARY KEY(restaurantId), -- didn't assign a foreign key bc this entity apparently has none
+	UNIQUE (facilityKey)
 );
 
 CREATE TABLE violation (

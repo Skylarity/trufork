@@ -257,13 +257,26 @@ class DataDownloader {
 					$phone = $data[6];
 					$forkRating = 0;
 
-					echo "<p>" . $facilityKey . "</p>";
-					echo "<p>" . $name . "</p>";
-					echo "<p>" . $address . "</p>";
-					echo "<p>" . $phone . "</p>";
+//					echo "<p>" . $facilityKey . "</p>";
+//					echo "<p>" . $name . "</p>";
+//					echo "<p>" . $address . "</p>";
+//					echo "<p>" . $phone . "</p>";
 
-					$restaurant = new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating);
-					$restaurant->insert($pdo);
+					try {
+						$restaurant = new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating);
+						$restaurant->insert($pdo);
+					} catch(PDOException $pdoException) {
+						$sqlStateCode = "23000";
+
+						$errorInfo = $pdoException->errorInfo;
+						if($errorInfo[0] === $sqlStateCode) {
+//							echo "<p>Duplicate</p>";
+						} else {
+							throw(new PDOException($pdoException->getMessage(), 0, $pdoException));
+						}
+					} catch(Exception $exception) {
+						throw(new Exception($exception->getMessage(), 0, $exception));
+					}
 				}
 				fclose($fd);
 			}
