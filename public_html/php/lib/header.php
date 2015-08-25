@@ -83,12 +83,12 @@
 					</div>
 				</div>
 
-<!--				<!--Button Trigger User Login-->
+<!--				<!--Button Trigger User Login--> -->
 <!--				<button type="button" class="modal-button" data-toggle="modal" data-target="#myModal"> -->
 <!--					Log In-->
 <!--				</button>-->
 <!--				 -->
-<!--				<!-- 	login modal-->
+<!--				<!-- 	login modal--> -->
 <!--				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
 <!--					<div class="modal-dialog"> -->
 <!--						<form id="profileController" class="form" method="post" action="../../php/controllers/profile-controller.php">-->

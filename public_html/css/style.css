@@ -197,9 +197,11 @@ header {
 }
 
 .modal-button {
-	padding: 0 5px;
+	padding: 0px 10px 0px 10px;
+	margin-left: 15px;
 	background-color: tomato;
 	color: #333333;
+	font-size: .8em;
 	font-weight: 300;
 	border: 2px solid tomato;
 	border-radius: 5px;
@@ -223,6 +225,12 @@ header {
 	margin: 20px;
 	font-size: .8em;
 	font-weight: 400;
+}
+
+.outputArea {
+	margin: 20px;
+	font-size: .8em;
+	color: #333333;
 }
 
 
