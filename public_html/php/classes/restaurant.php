@@ -582,11 +582,11 @@ class Restaurant {
 		}
 
 		// Create query template
-		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE name = :name";
+		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE name LIKE '%:userSearch%'";
 		$statement = $pdo->prepare($query);
 
 		// Bind name to placeholder
-		$parameters = array("name" => $name);
+		$parameters = array("userSearch" => $name);
 		$statement->execute($parameters);
 
 		// Grab the restaurant from MySQL

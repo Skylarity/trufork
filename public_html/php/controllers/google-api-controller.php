@@ -1,5 +1,6 @@
 <?php
 require_once(dirname(__DIR__) . "/classes/data-downloader.php");
+require_once(dirname(__DIR__)."/classes/restaurant.php");
 require_once("/etc/apache2/data-design/encrypted-config.php");
 
 try {
@@ -22,7 +23,7 @@ try {
 	$data = json_decode($response);
 	var_dump($data);
 
-	if($data->status === "OK"){
+	if($data->status === "OK") {
 		foreach($data->results as $result) {
 			$photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxheight=512&photoreference=" . $result->photos[0]->photo_reference . "&key=" . $config["placekey"];
 			$imgUrl = null;
@@ -41,19 +42,54 @@ try {
 				echo "<img class=\"img-responsive\" src=\"$imgUrl\" />" . PHP_EOL;
 			}
 			echo "<ul class=\"list-group\">" . PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result->formatted_address."</strong></li>". PHP_EOL;
+			echo "<li class=\"list-group-item\"><strong>" . $result->formatted_address . "</strong></li>" . PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $result->name . "</strong></li>" . PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result->rating. "</strong></li>". PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result->place_id."</strong></li>". PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result->icon."</strong></li>". PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result->geometry->location->lat ."</strong></li>". PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result->geometry->location->lng ."</strong></li>". PHP_EOL;
+			echo "<li class=\"list-group-item\"><strong>" . $result->rating . "</strong></li>" . PHP_EOL;
+			echo "<li class=\"list-group-item\"><strong>" . $result->place_id . "</strong></li>" . PHP_EOL;
+		//	echo "<li class=\"list-group-item\"><strong>" . $result->price_level . "</strong></li>" . PHP_EOL;
+			echo "<li class=\"list-group-item\"><strong>" . $result->geometry->location->lat . "</strong></li>" . PHP_EOL;
+			echo "<li class=\"list-group-item\"><strong>" . $result->geometry->location->lng . "</strong></li>" . PHP_EOL;
+			echo "</ul>";
 		}
 	} else {
 		echo "error message here";
 	}
 
-} catch(InvalidArgumentException $invalidArgument) {
+	/*
+	 * this subcode is trying to match the city address  with google address
+	 */
+
+	$restaurant = array();
+	$gMatches = array();
+	$cMatches = array();
+	$pattern = "/^(\d{1,6)\s+(.+)\s+(NE|NW|SE|SW).*(\d+)?$/iU";
+	// how we grab the address from goggle
+	$subjectg= $result->formatted_address;
+	// how to grab the address info from city
+		$name = $userQuery;
+
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
+	$restaurant = Restaurant::getRestaurantByName($pdo, $name);
+	var_dump($restaurant);
+	$subjectc = $restaurant->getAddress();
+	preg_match($pattern,$subjectg,$gMatches);
+	preg_match($pattern,$subjectc,$cMatches);
+
+	$g0=$gMatches[0];
+	$c0=$cMatches[0];
+	if($g0===$c0) {
+		//create a new Restaurant object, and output it to an array ($restaurants)
+		$restaurant = Restaurant::getRestaurantByGoogleId($pdo, $googleId);
+		if($restaurant === null) {
+			$restaurant = Restaurant::getRestaurantByAddress($pdo, $g0);
+			$restaurant->setGoogleId($googleId);
+			$restaurant->update($pdo);
+		}
+	}
+
+
+}
+				catch(InvalidArgumentException $invalidArgument) {
 	throw(new InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 } catch(RangeException $range) {
 	// Rethrow exception to the caller
