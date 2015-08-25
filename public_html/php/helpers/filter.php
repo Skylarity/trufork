@@ -77,7 +77,7 @@ class Filter {
 		$string = trim($string);
 		$string = filter_var($string, FILTER_SANITIZE_STRING);
 		if(empty($string) === true) {
-			throw(new InvalidArgumentException("value is empty or insecure"));
+			throw(new InvalidArgumentException("$name is invalid"));
 		}
 
 		// Verify that the string will fit in the database

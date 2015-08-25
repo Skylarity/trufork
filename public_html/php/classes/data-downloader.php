@@ -1,6 +1,7 @@
 <?php
 
 require_once("restaurant.php");
+require_once("violation.php");
 require_once("/etc/apache2/data-design/encrypted-config.php");
 
 /**
@@ -234,7 +235,7 @@ class DataDownloader {
 	}
 
 	/**
-	 * This function grabs a .csv file and reads it
+	 * This function grabs the businesses.csv file and reads it
 	 *
 	 * @param string $url url to grab file at
 	 * @throws PDOException PDO related errors
@@ -247,6 +248,7 @@ class DataDownloader {
 			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
 
 			if(($fd = @fopen($url, "rb", false, $context)) !== false) {
+				fgetcsv($fd, 0, ",");
 				while((($data = fgetcsv($fd, 0, ",")) !== false) && feof($fd) === false) {
 					$restaurantId = null;
 					$googleId = "ChIJ6fRj1sudP4YR0Q6Z7BhX4UM";
@@ -257,10 +259,11 @@ class DataDownloader {
 					$phone = $data[6];
 					$forkRating = 0;
 
-//					echo "<p>" . $facilityKey . "</p>";
-//					echo "<p>" . $name . "</p>";
-//					echo "<p>" . $address . "</p>";
-//					echo "<p>" . $phone . "</p>";
+					// Convert to UTF-8
+					$phone = iconv($in_charset = "UTF-16", $out_charset = "UTF-8", $phone);
+					if($phone === false) {
+						throw(new Exception("Could not convert to UTF-8"));
+					}
 
 					try {
 						$restaurant = new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating);
@@ -277,6 +280,54 @@ class DataDownloader {
 					} catch(Exception $exception) {
 						throw(new Exception($exception->getMessage(), 0, $exception));
 					}
+				}
+				fclose($fd);
+			}
+		} catch(PDOException $pdoException) {
+			throw(new PDOException($pdoException->getMessage(), 0, $pdoException));
+		} catch(Exception $exception) {
+			throw(new Exception($exception->getMessage(), 0, $exception));
+		}
+	}
+
+	/**
+	 * This function grabs the violations.csv file and reads it
+	 *
+	 * @param string $url url to grab file at
+	 * @throws PDOException PDO related errors
+	 * @throws Exception catch-all exception
+	 */
+	public static function readViolationsCSV($url) {
+		$context = stream_context_create(array("http" => array("ignore_errors" => true, "method" => "GET")));
+
+		try {
+			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
+
+			if(($fd = @fopen($url, "rb", false, $context)) !== false) {
+				$row = 1;
+				fgetcsv($fd, 0, ",");
+				while((($data = fgetcsv($fd, 0, ",")) !== false) && feof($fd) === false) {
+					$num = count($data);
+					echo "<p> $num fields in line $row: <br /></p>\n";
+					$row++;
+					for($c = 0; $c < $num; $c++) {
+						echo $data[$c] . "<br />\n";
+					}
+
+					$facilityKey = $data[0];
+					echo $facilityKey;
+					$violationId = null;
+					$restaurant = Restaurant::getRestaurantByFacilityKey($pdo, $facilityKey);
+					$restaurantId = $restaurant->getRestaurantId();
+					$violationCode = $data[2];
+					$violationDesc = $data[3];
+					$violationDesc = str_replace("\"", "", $violationDesc); // The city gives descriptions quotes for some reason
+					$inspectionMemo = $data[3]; // I just put the description in here - probably shouldn't be used
+					$inspectionMemo = str_replace("\"", "", $inspectionMemo); // The city gives descriptions quotes for some reason
+					$serialNum = $data[2]; // I just put the code in here - probably shouldn't be used
+
+					$violation = new Violation($violationId, $restaurantId, $violationCode, $violationDesc, $inspectionMemo, $serialNum);
+					$violation->insert($pdo);
 				}
 				fclose($fd);
 			}
@@ -308,4 +359,5 @@ class DataDownloader {
 //// This downloads the file to the bootcamp server
 //DataDownloader::downloadIfNew("http://data.cabq.gov/business/LIVES/businesses.csv", "/var/lib/abq-data/", "businesses", ".csv");
 DataDownloader::readBusinessesCSV("http://data.cabq.gov/business/LIVES/businesses.csv");
+//DataDownloader::readViolationsCSV("http://data.cabq.gov/business/LIVES/violations.csv");
 // TESTING ********************

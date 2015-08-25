@@ -191,10 +191,10 @@ class Restaurant {
 	 * @param string $newPhone
 	 */
 	public function setPhone($newPhone) {
-		if(strlen($newPhone) <= 0) {
+		if(mb_strlen($newPhone, "UTF-8") > 0) {
 			$this->phone = Filter::filterString($newPhone, "Restaurant phone number", 32);
 		} else {
-			$this->phone = "";
+			$this->phone = null;
 		}
 	}
 
