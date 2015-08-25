@@ -4,8 +4,8 @@ $(document).ready(
 	function() {
 
 		// tell the validator to validate this form
-		$("#search-by-float-rating-form").validate({
-			debug: true,
+		$("#rating").validate({
+			//debug: true,
 			// setup the formatting for the errors
 			errorClass: "has-error",
 			errorLabelContainer: "#outputArea",

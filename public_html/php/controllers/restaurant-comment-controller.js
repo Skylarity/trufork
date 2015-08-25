@@ -5,7 +5,7 @@ $(document).ready(
 
 		// tell the validator to validate this form
 		$("#restaurant-comment-form").validate({
-			debug: true,
+			//debug: true,
 			// setup the formatting for the errors
 			errorClass: "has-error",
 			errorLabelContainer: "#outputArea",

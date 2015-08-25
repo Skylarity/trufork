@@ -213,7 +213,7 @@ class Restaurant {
 	 * @param string $newForkRating
 	 */
 	public function setForkRating($newForkRating) {
-		$this->forkRating = Filter::filterInt($newForkRating, "TruFork rating");
+		$this->forkRating = Filter::filterDouble($newForkRating, "TruFork rating");
 	}
 
 	/**
