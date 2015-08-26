@@ -16,7 +16,7 @@ $(document).ready(
 			submitHandler: function(form) {
 				$(form).ajaxSubmit({
 					// GET or POST
-					type: "POST",
+					type: "GET",
 					// where to submit data
 					url: $(form).attr("action"),
 					// this sends the XSRF token along with the form data, not sure if needed

@@ -1,9 +1,9 @@
-<form id="search-by-float-rating-form" action="../controllers/search-by-float-rating-controller.php" method="post">
+<form id="search-by-float-rating-form" action="../controllers/search-by-float-rating-controller.php" method="get">
 
 <div class="search-by-float-rating-form-group">
 	<h2>Search by TruFork Rating</h2>
 
-<form action="#" method="POST">
+<form action="#" method="GET">
 	<div class="box-rating">
 		<label for="search-by-float-rating-form"></label>
 		<fieldset class="box-rating-widget inline-block">

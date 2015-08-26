@@ -9,6 +9,7 @@ CREATE TABLE user (
 	userId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	hash VARCHAR(128),
 	salt VARCHAR(64),
+	userName VARCHAR(128),
 	INDEX(userId),
 	PRIMARY KEY(userId)
 );
