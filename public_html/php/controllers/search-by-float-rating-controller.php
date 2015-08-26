@@ -27,11 +27,36 @@ try {
 		/** select queries and return a result set
 		 *
 		 * doesn't actually work ...*/
-		if($result = Restaurant::getRestaurantsByForkRating($pdo, 3, 4))
-			var_dump($result);
-
-		if($result = Restaurant::getRestaurantsByForkRating($pdo, 4, 5))
+	if(in_array("5", $_GET["rating"]) === true) {
+		$result = Restaurant::getRestaurantsByForkRating($pdo, 5, 5.1);
 		var_dump($result);
+	}
+
+	if(in_array("4", $_GET["rating"]) === true) {
+		$result = Restaurant::getRestaurantsByForkRating($pdo, 4, 5);
+		var_dump($result);
+	}
+
+	if(in_array("3", $_GET["rating"]) === true) {
+		$result = Restaurant::getRestaurantsByForkRating($pdo, 3, 4);
+		var_dump($result);
+	}
+
+	if(in_array("2", $_GET["rating"]) === true) {
+		$result = Restaurant::getRestaurantsByForkRating($pdo, 2, 3);
+		var_dump($result);
+	}
+
+	if(in_array("1", $_GET["rating"]) === true) {
+		$result = Restaurant::getRestaurantsByForkRating($pdo, 1, 2);
+		var_dump($result);
+	}
+
+	if(in_array("0", $_GET["rating"]) === true) {
+		$result = Restaurant::getRestaurantsByForkRating($pdo, 0, 1);
+		var_dump($result);
+	}
+
 			// ???
 			// profit!
 

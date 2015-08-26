@@ -24,7 +24,7 @@ $(document).ready(
 			messages: {
 				txtComment: {
 					maxlength: "Comment is too long.",
-					required: "What's on your mind?"
+					required: "This textbox is here for a reason. GIVE IT UP, FOO!"
 				}
 			},
 

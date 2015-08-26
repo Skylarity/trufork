@@ -14,23 +14,23 @@
 					<label for="rating-5">5: Highest reviews and impeccable inspection records. &iexcl;Buen provecho!</label>
 				</li>
 				<li>
-					<input id="rating-4-4.9" name="rating[]" type="checkbox" value="4-4.9">
+					<input id="rating-4-4.9" name="rating[]" type="checkbox" value="4">
 					<label for="rating-4-4.9">4 - 4.9: Good reviews and inspection records. Proceed.</label>
 				</li>
 				<li>
-					<input id="rating-3-3.9" name="rating[]" type="checkbox" value="3-3.9">
+					<input id="rating-3-3.9" name="rating[]" type="checkbox" value="3">
 					<label for="rating-3-3.9">3 - 3.9: Caution. Reviews and inspection records may indicate trouble.</label>
 				</li>
 				<li>
-					<input id="rating-2-2.9" name="rating[]" type="checkbox" value="2-2.9">
+					<input id="rating-2-2.9" name="rating[]" type="checkbox" value="2">
 					<label for="rating-2-2.9">2 - 2.9: I too like to live dangerously.</label>
 				</li>
 				<li>
-					<input id="rating-1-1.9" name="rating[]" type="checkbox" value="1-1.9">
+					<input id="rating-1-1.9" name="rating[]" type="checkbox" value="1">
 					<label for="rating-1-1.9">1 - 1.9: Unless this place is new and has no reviews, avoid like the plague.</label>
 				</li>
 				<li>
-					<input id="rating-0-0.9" name="rating[]" type="checkbox" value="0-0.9">
+					<input id="rating-0-0.9" name="rating[]" type="checkbox" value="0">
 					<label for="rating-0-0.9">0 - 0.9: Who doesn't like a train wreck?</label>
 				</li>
 			</ul>
