@@ -251,19 +251,19 @@ class DataDownloader {
 				fgetcsv($fd, 0, ",");
 				while((($data = fgetcsv($fd, 0, ",")) !== false) && feof($fd) === false) {
 					$restaurantId = null;
-					$googleId = "ChIJ6fRj1sudP4YR0Q6Z7BhX4UM";
+					$googleId = "";
 					$facilityKey = $data[0];
 					$name = $data[1];
-					$name = str_replace("\"", "", $name); // The city gives names quotes for some reason
 					$address = $data[2];
 					$phone = $data[6];
 					$forkRating = 0;
 
-					// Convert to UTF-8
-					$phone = iconv($in_charset = "UTF-16", $out_charset = "UTF-8", $phone);
-					if($phone === false) {
-						throw(new Exception("Could not convert to UTF-8"));
-					}
+					// Convert everything to UTF-8
+					$facilityKey = mb_convert_encoding($facilityKey, "UTF-8", "UTF-16");
+					$name = mb_convert_encoding($name, "UTF-8", "UTF-16");
+					$name = str_replace("\"", "", $name); // The city gives names quotes for some reason
+					$address = mb_convert_encoding($address, "UTF-8", "UTF-16");
+					$phone = mb_convert_encoding($phone, "UTF-8", "UTF-16");
 
 					try {
 						$restaurant = new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone, $forkRating);
@@ -304,30 +304,43 @@ class DataDownloader {
 			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
 
 			if(($fd = @fopen($url, "rb", false, $context)) !== false) {
-				$row = 1;
 				fgetcsv($fd, 0, ",");
 				while((($data = fgetcsv($fd, 0, ",")) !== false) && feof($fd) === false) {
-					$num = count($data);
-					echo "<p> $num fields in line $row: <br /></p>\n";
-					$row++;
-					for($c = 0; $c < $num; $c++) {
-						echo $data[$c] . "<br />\n";
-					}
-
 					$facilityKey = $data[0];
-					echo $facilityKey;
 					$violationId = null;
-					$restaurant = Restaurant::getRestaurantByFacilityKey($pdo, $facilityKey);
-					$restaurantId = $restaurant->getRestaurantId();
-					$violationCode = $data[2];
-					$violationDesc = $data[3];
-					$violationDesc = str_replace("\"", "", $violationDesc); // The city gives descriptions quotes for some reason
-					$inspectionMemo = $data[3]; // I just put the description in here - probably shouldn't be used
-					$inspectionMemo = str_replace("\"", "", $inspectionMemo); // The city gives descriptions quotes for some reason
-					$serialNum = $data[2]; // I just put the code in here - probably shouldn't be used
 
-					$violation = new Violation($violationId, $restaurantId, $violationCode, $violationDesc, $inspectionMemo, $serialNum);
-					$violation->insert($pdo);
+					// Convert to UTF-8
+					$facilityKey = mb_convert_encoding($facilityKey, "UTF-8", "UTF-16");
+
+					$restaurant = Restaurant::getRestaurantByFacilityKey($pdo, $facilityKey);
+//					var_dump($restaurant);
+
+					if($restaurant !== null) {
+						$restaurantId = $restaurant->getRestaurantId();
+						$violationCode = $data[2];
+						$violationDesc = "";
+						for($i = 3; $i < count($data); $i++) {
+							$violationDesc += $data[$i];
+						}
+
+						// Convert everything to UTF-8
+						$violationCode = mb_convert_encoding($violationCode, "UTF-8", "UTF-16");
+						$violationDesc = mb_convert_encoding($violationDesc, "UTF-8", "UTF-16");
+						$violationDesc = str_replace("\"", "", $violationDesc); // The city gives descriptions quotes for some reason
+						$inspectionMemo = $violationDesc; // I just put the description in here - probably shouldn't be used
+						$serialNum = $violationCode; // I just put the code in here - probably shouldn't be used
+
+						if(strlen($violationDesc) > 0) {
+							var_dump($violationDesc);
+						}
+//						echo "<p>Create new violation:</p>";
+
+						$violation = new Violation($violationId, $restaurantId, $violationCode, $violationDesc, $inspectionMemo, $serialNum);
+						$violation->insert($pdo);
+
+//						var_dump($violation);
+//						echo "<hr/>";
+					}
 				}
 				fclose($fd);
 			}
@@ -359,5 +372,5 @@ class DataDownloader {
 //// This downloads the file to the bootcamp server
 //DataDownloader::downloadIfNew("http://data.cabq.gov/business/LIVES/businesses.csv", "/var/lib/abq-data/", "businesses", ".csv");
 DataDownloader::readBusinessesCSV("http://data.cabq.gov/business/LIVES/businesses.csv");
-//DataDownloader::readViolationsCSV("http://data.cabq.gov/business/LIVES/violations.csv");
+DataDownloader::readViolationsCSV("http://data.cabq.gov/business/LIVES/violations.csv");
 // TESTING ********************

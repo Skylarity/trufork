@@ -88,7 +88,7 @@ class Violation {
 	 */
 	public function getSerialNum() {
 		return $this->serialNum;
- 	}
+	}
 
 	/**
 	 * Mutator for serial number (max length 12)
@@ -168,7 +168,11 @@ class Violation {
 	 * @param string $violationDesc the violation description to change
 	 */
 	public function setViolationDesc($violationDesc) {
-		$this->violationDesc = Filter::filterString($violationDesc, "Violation description", 1024);
+		if(strlen($violationDesc) > 0) {
+			$this->violationDesc = Filter::filterString($violationDesc, "Violation description", 1024);
+		} else {
+			$this->violationDesc = "";
+		}
 	}
 
 	/**
@@ -186,7 +190,11 @@ class Violation {
 	 * @param string $inspectionMemo the inspection memo to change
 	 */
 	public function setInspectionMemo($inspectionMemo) {
-		$this->inspectionMemo = Filter::filterString($inspectionMemo, "Inspection memo", 1024);
+		if(strlen($inspectionMemo) > 0) {
+			$this->inspectionMemo = Filter::filterString($inspectionMemo, "Inspection memo", 1024);
+		} else {
+			$this->inspectionMemo = "";
+		}
 	}
 
 	/**
