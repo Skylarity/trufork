@@ -26,7 +26,7 @@ try {
 
 		/** select queries and return a result set
 		 *
-		 * doesn't actually work ...*/
+		  ...*/
 	if(in_array("5", $_GET["rating"]) === true) {
 		$result = Restaurant::getRestaurantsByForkRating($pdo, 5, 5.1);
 		var_dump($result);
@@ -60,6 +60,17 @@ try {
 			// ???
 			// profit!
 
+
 } catch(Exception $exception) {
 	echo "<p class=\"alert alert-danger\">Exception: " . $exception->getMessage() . "</p>";
 }
+
+//echo '<table cellpadding="1" cellspacing="1" border="1">';
+
+
+//foreach([$result as $rating) {
+//	echo '<td>' . $rating["name"] . '</td>';
+//	echo '<td>' . $rating["address"] . '</td>';
+//}
+//	echo '</table>';
+

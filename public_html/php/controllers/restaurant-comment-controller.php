@@ -1,4 +1,7 @@
 <?php
+
+/** TruFork Comment System Controller */
+
 require_once(dirname(__DIR__) . "/classes/comment.php");
 require_once(dirname(__DIR__) . "/lib/xsrf.php");
 require_once("/etc/apache2/data-design/encrypted-config.php");

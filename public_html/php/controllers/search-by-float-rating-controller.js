@@ -10,6 +10,21 @@ $(document).ready(
 			errorClass: "has-error",
 			errorLabelContainer: "#outputArea",
 			wrapper: "li",
+			// rules define what is good/bad input
+
+			rules: {
+				// each rule starts with the inputs name (NOT id)
+				txtComment: {
+					required: true
+				}
+			},
+
+			// error messages to display to the end user
+			messages: {
+				rating: {
+					required: "PICK ONE!"
+				}
+			},
 
 			// setup an AJAX call to submit the form without reloading
 			//not sure if this is necessary since there's no unique user input
