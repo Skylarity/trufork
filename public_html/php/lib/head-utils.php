@@ -8,15 +8,11 @@ $CURRENT_DEPTH = substr_count($CURRENT_DIR, "/");
 $ROOT_DEPTH = substr_count($ROOT_PATH, "/");
 $DEPTH_DIFFERENCE = $CURRENT_DEPTH - $ROOT_DEPTH;
 $PREFIX = str_repeat("../", $DEPTH_DIFFERENCE);
-
 require_once(dirname(dirname(__DIR__)) . "/php/lib/xsrf.php");
-
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
-
 setXsrfCookie();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,9 +35,7 @@ setXsrfCookie();
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
 		<!-- Google WebFonts -->
-		<link
-			href='//fonts.googleapis.com/css?family=Roboto:500,400italic,100,700italic,300,700,500italic,100italic,300italic,400'
-			rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?family=Roboto:500,400italic,100,700italic,300,700,500italic,100italic,300italic,400' rel='stylesheet' type='text/css'>
 
 		<!-- js-cookie -->
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/js-cookie/2.0.2/js.cookie.min.js"></script>
@@ -56,21 +50,17 @@ setXsrfCookie();
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-		<script type="text/javascript"
-				  src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
-		<script type="text/javascript"
-				  src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
-		<script type="text/javascript"
-				  src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/additional-methods.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+		<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/additional-methods.min.js"></script>
 
 		<!-- Latest compiled and minified Bootstrap JavaScript, all compiled plugins included -->
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
 		<!-- favicon generated using GIMP, improved by SR -->
-		<link type="image/ico" href="../../favicon.ico" rel="shortcut icon"/>
+		<link type="image/ico" href="<?php echo $PREFIX; ?>favicon.ico" rel="shortcut icon"/>
 
 		<!-- custom JavaScript file will go here-->
-
 
 		<title><?php echo $PAGE_TITLE; ?></title>
 	</head>

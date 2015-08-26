@@ -6,7 +6,7 @@ require_once(dirname(__DIR__) . "/lib/xsrf.php");
 
 try {
 	//ensures that the fields are filled out
-	if(@isset($_POST["userName"]) === false || @isset($_POST["password"]) === false) {
+	if(@isset($_POST["loginName"]) === false || @isset($_POST["loginPassword"]) === false) {
 		throw(new InvalidArgumentException("form not complete. Please verify and try again"));
 	}
 
@@ -16,15 +16,20 @@ try {
 	}
 	verifyXsrf();
 
-	// create a salt and hash for user
+//	// create a salt and hash for user
 	$SALT = bin2hex(openssl_random_pseudo_bytes(32));
 	$HASH = hash_pbkdf2("sha512", $_POST["password"], $SALT, 262144, 128);
 
 	//create a new user id profile id and insert in mySQL
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
-	$user = $_GET User::getUserByUserId(	)
-	$user->insert($pdo);
-	$profile = new Profile(null, $user->getUserId(), $_POST["email"]);
+	$user = User(null, $user->getUserId(), $_GET["$SALT"], $_GET[$HASH]);
+	User::getUserByUserId($pdo, $user,$HASH,$SALT);
+
+
+
+////	$user = new User(null, $SALT, $HASH);
+//	$user->insert($pdo);
+	$profile = Profile(null, $user->getUserId(), $_GET["userName"], $_GET["$SALT"], $_GET[$HASH]);
 	$profile->insert($pdo);
 //	echo "<p class\"alert alert-success\">User (id = " . $user->getUserId() . ") posted!<p/>";
 }catch (Exception $e) {

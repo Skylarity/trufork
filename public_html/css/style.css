@@ -40,7 +40,6 @@ header {
 	font-size: 2em;
 	background: #333333;
 	color: tomato;
-
 	box-shadow: 0 42px 100px rgba(0, 0, 0, 0.42);
 }
 
@@ -76,10 +75,6 @@ header {
 }
 
 .main-search {
-	margin: 0 0 20px 0;
-	padding: 15px;
-	width: 100%;
-	height: 1.5em;
 	font-size: 1.2em;
 	font-weight: 300;
 	color: tomato;
@@ -89,46 +84,19 @@ header {
 }
 
 .main-search-button {
-	margin: 0 0 20px 0;
-	padding: 0 15px 15px 15px;
-	height: 1.5em;
-	font-size: 1.2em;
-	font-weight: 300;
 	background-color: tomato;
 	color: #333333;
-	border: 3px solid tomato;
 	border-top-right-radius: 10px;
 	border-bottom-right-radius: 10px;
 }
 
 @media only screen and (min-width: 968px) {
-
 	.search-main-h1 {
 		padding: 100px 0;
 		font-weight: 200;
 		font-size: 7em;
 		text-align: center;
 	}
-
-	.main-search {
-		margin: 0 0 20px 0;
-		padding: 15px;
-		width: 100%;
-		height: 2.5em;
-		font-size: 2.2em;
-		font-weight: 300;
-		color: tomato;
-		border: 3px solid tomato;
-		border-top-left-radius: 10px;
-		border-bottom-left-radius: 10px;
-	}
-
-	.main-search-button {
-		padding: 15px;
-		height: 2.5em;
-		font-size: 2.2em;
-	}
-
 }
 
 .main-text {
@@ -155,12 +123,9 @@ header {
 }
 
 .header-search-button {
-	padding: 0 5px;
 	background-color: tomato;
 	color: #333333;
-	font-size: 0.8em;
 	font-weight: 300;
-	border: 2px solid tomato;
 	border-top-right-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
@@ -186,22 +151,16 @@ header {
 
 .form-group {
 	margin: 20px;
-	font-size: 0.8em;
 	font-weight: 400;
 }
 
 .modal form label {
-	padding: 15px 0;
-	font-size: .8em;
 	color: tomato;
 }
 
 .modal-button {
-	padding: 0px 10px 0px 10px;
-	margin-left: 15px;
 	background-color: tomato;
 	color: #333333;
-	font-size: .8em;
 	font-weight: 300;
 	border: 2px solid tomato;
 	border-radius: 5px;
@@ -217,20 +176,11 @@ header {
 }
 
 .close {
-	margin: 20px;
 	color: #333333;
 }
 
 .checkbox {
-	margin: 20px;
-	font-size: .8em;
 	font-weight: 400;
-}
-
-.outputArea {
-	margin: 20px;
-	font-size: .8em;
-	color: #333333;
 }
 
 
@@ -251,24 +201,20 @@ header {
 
 .restaurant {
 	padding: 20px 0;
-
 	color: #FFFFFF;
 }
 
 .restaurant-image {
 	margin: auto;
-
 	width: auto;
 	height: 100%;
 	max-height: 200px;
-
 	text-align: center;
 }
 
 .restaurant-name {
 	margin: 0;
 	padding: 0 0 10px 0;
-
 	font-size: 3em;
 	font-weight: 100;
 }
@@ -279,9 +225,7 @@ header {
 
 .star {
 	padding: 5px 20px 5px 0;
-
 	font-size: 3em;
-
 	display: inline-block;
 }
 
@@ -292,7 +236,6 @@ header {
 .restaurant-inspection-h2 {
 	margin: 0;
 	padding: 0 0 10px 0;
-
 	font-size: 3em;
 	font-weight: 100;
 }
@@ -304,11 +247,8 @@ header {
 .restaurant-comment {
 	margin: 10px 0;
 	padding: 10px;
-
 	width: 100%;
-
 	background-color: rgba(42, 42, 42, 0.75);
-
 	border-radius: 5px;
 	border: 2px solid tomato;
 }
@@ -316,7 +256,6 @@ header {
 .restaurant-comment > h3 {
 	margin: 0;
 	padding: 0 0 5px 0;
-
 	font-size: 2em;
 	font-weight: 300;
 }
@@ -329,7 +268,6 @@ header {
 .restaurant-comment > p {
 	margin: 0;
 	padding: 0;
-
 	font-weight: 300;
 }
 
@@ -377,18 +315,15 @@ header {
 /********************************************
  * Profile
  ********************************************/
-
 .profile {
 	margin: auto;
 	padding: 20px 0 0 0;
-
 	width: 100%;
 }
 
 .profile-picture {
 	margin: auto;
 	padding: 0 0 20px 0;
-
 	max-width: 300px;
 	height: auto;
 }
@@ -396,26 +331,21 @@ header {
 .add-friend {
 	width: 25%;
 	min-width: 300px;
-
 	color: #333333;
 	font-size: 2em;
-
 	background-color: tomato;
 }
 
 .profile-management-btn {
 	width: 25%;
 	min-width: 300px;
-
 	color: tomato;
 	font-size: 2em;
-
 	background-color: #333333;
 }
 
 .center-button {
 	padding: 0 0 20px 0;
-
 	text-align: center;
 }
 
@@ -428,7 +358,6 @@ footer {
 	background-color: #333333;
 	color: tomato;
 	font-size: 1.5em;
-
 	box-shadow: 0 -42px 100px rgba(0, 0, 0, 0.42);
 }
 
@@ -462,7 +391,7 @@ body {
 
 .sfooter-content {
 	flex: 1 0 auto;
-
 	background: url(../images/bg.jpg) no-repeat center center fixed;
 	background-size: cover;
+	padding-bottom: 100px;
 }

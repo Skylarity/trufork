@@ -8,10 +8,14 @@ require_once("php/lib/head-utils.php");
 		<header>
 			<?php require_once("php/lib/header.php"); ?>
 		</header>
-		<?php require_once("php/lib/search-main.php"); ?>
+		<div class="main-text">
+			<?php require_once("php/lib/sign-up-login-modal.php"); ?>
+			<?php require_once("php/lib/search-main.php"); ?>
+		</div>
 	</div>
 	<footer>
 		<?php require_once("php/lib/footer.php"); ?>
 	</footer>
+	<script type="text/javascript" src="php/controllers/signup-controller.js"></script>
 </body>
 </html>
