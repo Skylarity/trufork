@@ -27,35 +27,27 @@ try {
 		/** select queries and return a result set
 		 *
 		  ...*/
-	if(in_array("5", $_GET["rating"]) === true) {
-		$result = Restaurant::getRestaurantsByForkRating($pdo, 5, 5.1);
-		var_dump($result);
+	/**
+	 * $i is used as the loop iterator...
+	 * ...this is from the old days of for loops in C in the 1970s
+	 * LOL Skyler's young!
+	 **/
+	$echoChamber = [];
+	for($i = 5; $i >= 0; $i--) {
+		if(in_array($i, $_GET["rating"]) === true) {
+			$result = Restaurant::getRestaurantsByForkRating($pdo, $i, $i + 1);
+			$echoChamber = array_merge($echoChamber, $result->toArray());
+		}
 	}
 
-	if(in_array("4", $_GET["rating"]) === true) {
-		$result = Restaurant::getRestaurantsByForkRating($pdo, 4, 5);
-		var_dump($result);
+	var_dump($echoChamber);
+	foreach($echoChamber as $restaurant) {
+		echo "<ul>" . PHP_EOL .
+				"<li>" . $restaurant->getName() . "</li>" . PHP_EOL .
+				"<li>" . $restaurant->getForkRating() . "</li>" . PHP_EOL .
+			"</ul>" . PHP_EOL;
 	}
 
-	if(in_array("3", $_GET["rating"]) === true) {
-		$result = Restaurant::getRestaurantsByForkRating($pdo, 3, 4);
-		var_dump($result);
-	}
-
-	if(in_array("2", $_GET["rating"]) === true) {
-		$result = Restaurant::getRestaurantsByForkRating($pdo, 2, 3);
-		var_dump($result);
-	}
-
-	if(in_array("1", $_GET["rating"]) === true) {
-		$result = Restaurant::getRestaurantsByForkRating($pdo, 1, 2);
-		var_dump($result);
-	}
-
-	if(in_array("0", $_GET["rating"]) === true) {
-		$result = Restaurant::getRestaurantsByForkRating($pdo, 0, 1);
-		var_dump($result);
-	}
 
 			// ???
 			// profit!
@@ -64,21 +56,3 @@ try {
 } catch(Exception $exception) {
 	echo "<p class=\"alert alert-danger\">" . $exception->getMessage() . "</p>";
 }
-
-//foreach( $result->fetchAll() as $row ) {
-	//$html_table .= '<tr>' . "\n";
-	//foreach( $row as $col ) {
-		//$html_table .= '<td>' .$col. '</td>';
-	//}
-	//$html_table .= '</tr>' . "\n";
-//}
-
-//echo '<table cellpadding="1" cellspacing="1" border="1">';
-
-
-//foreach([$result as $rating) {
-//	echo '<td>' . $rating["name"] . '</td>';
-//	echo '<td>' . $rating["address"] . '</td>';
-//}
-//	echo '</table>';
-

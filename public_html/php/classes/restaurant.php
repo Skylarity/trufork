@@ -447,7 +447,7 @@ class Restaurant {
 		}
 
 		// Create query template
-		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE (forkRating < :highEnd AND forkRating >= :lowEnd)";
+		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE (forkRating < :highEnd AND forkRating >= :lowEnd) ORDER BY forkRating DESC";
 		$statement = $pdo->prepare($query);
 
 		// Bind rating to placeholder

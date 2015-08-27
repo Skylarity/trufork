@@ -16,6 +16,12 @@ try {
 	if(session_status() !== PHP_SESSION_ACTIVE) {
 		session_start();
 	}
+
+	// verify the user is even here
+	if(empty($_SESSION["profile"]) === true) {
+		// yell at them for not logging in
+	}
+
 	verifyXsrf();
 
 	// handle datetime as it will need to be inserted
@@ -25,7 +31,7 @@ try {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
 	//$comment = new Comment(null, $_POST["profileId"], $_POST["restaurantId"], $newDateTime, $_POST["txtComment"]);
 	//$comment = new Comment(null, null, null, null, null);
-	$comment = new Comment(null, null, $_POST["restaurantId"], $newDateTime, $_POST["txtComment"]);
+	$comment = new Comment(null, $_SESSION["profile"]->getProfileId(), $_POST["restaurantId"], $newDateTime, $_POST["txtComment"]);
 	$comment->insert($pdo);
 	echo "<p class=\"alert alert-success\">Comment posted!</p>";
 } catch(Exception $exception) {
