@@ -5,7 +5,7 @@ $(document).ready(
 
 		// tell the validator to validate this form
 		$("#sign-up-form").validate({
-			//debug: true,
+			debug: true,
 			// setup the formatting for the errors
 			errorClass: "has-error",
 			errorLabelContainer: "#outputArea",
@@ -60,11 +60,11 @@ $(document).ready(
 
 			// setup an AJAX call to submit the form without reloading
 			submitHandler: function(form) {
-				$(form).ajaxSubmit({
+				$("#sign-up-form").ajaxSubmit({
 					// GET or POST
 					type: "POST",
 					// where to submit data
-					url: $(form).attr("action"),
+					url: $("#sign-up-form").attr("action"),
 					// this sends the XSRF token along with the form data
 					headers: {
 						"X-XSRF-TOKEN": Cookies.get("XSRF-TOKEN")
@@ -80,14 +80,14 @@ $(document).ready(
 						// reset the form if it was successful
 						// this makes it easier to reuse the form again
 						if($(".alert-success").length >= 1) {
-							$(form)[0].reset();
+							$("#sign-up-form")[0].reset();
 						}
-
-						$("#sign-up-form").click(function() {
-							$('#submitButton').modal('hide');
-						});
 					}
 				});
+
+				//	$("#submitButton").click(function() {
+				//	$("#signup").modal("hide");
+				//});
 			}
 		});
 	});
