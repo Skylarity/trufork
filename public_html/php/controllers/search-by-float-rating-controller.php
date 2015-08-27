@@ -62,8 +62,16 @@ try {
 
 
 } catch(Exception $exception) {
-	echo "<p class=\"alert alert-danger\">Exception: " . $exception->getMessage() . "</p>";
+	echo "<p class=\"alert alert-danger\">" . $exception->getMessage() . "</p>";
 }
+
+//foreach( $result->fetchAll() as $row ) {
+	//$html_table .= '<tr>' . "\n";
+	//foreach( $row as $col ) {
+		//$html_table .= '<td>' .$col. '</td>';
+	//}
+	//$html_table .= '</tr>' . "\n";
+//}
 
 //echo '<table cellpadding="1" cellspacing="1" border="1">';
 
