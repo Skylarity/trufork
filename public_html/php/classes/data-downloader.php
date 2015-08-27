@@ -237,11 +237,17 @@ class DataDownloader {
 	/**
 	 * This function grabs the businesses.csv file and reads it
 	 *
-	 * @param string $url url to grab file at
+	 * @param string $urlBegin beginning of url to grab file at
+	 * @param string $urlEnd end of url to grab file at
 	 * @throws PDOException PDO related errors
 	 * @throws Exception catch-all exception
 	 */
-	public static function readBusinessesCSV($url) {
+	public static function readBusinessesCSV($urlBegin, $urlEnd) {
+		$urls = glob("$urlBegin*$urlEnd");
+		if(count($urls) > 0) {
+			$url = $urls[0];
+		}
+
 		$context = stream_context_create(array("http" => array("ignore_errors" => true, "method" => "GET")));
 
 		try {
@@ -293,24 +299,52 @@ class DataDownloader {
 	/**
 	 * This function grabs the violations.csv file and reads it
 	 *
-	 * @param string $url url to grab file at
+	 * @param string $urlBegin beginning of url to grab file at
+	 * @param string $urlEnd end of url to grab file at
 	 * @throws PDOException PDO related errors
 	 * @throws Exception catch-all exception
 	 */
-	public static function readViolationsCSV($url) {
+	public static function readViolationsCSV($urlBegin, $urlEnd) {
+		$urls = glob("$urlBegin*$urlEnd");
+		if(count($urls) > 0) {
+			$url = $urls[0];
+		} else {
+			throw(new RuntimeException("No file exists at specified location"));
+		}
+
 		$context = stream_context_create(array("http" => array("ignore_errors" => true, "method" => "GET")));
 
 		try {
 			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
 
-			if(($fd = @fopen($url, "rb", false, $context)) !== false) {
-				fgetcsv($fd, 0, ",");
-				while((($data = fgetcsv($fd, 0, ",")) !== false) && feof($fd) === false) {
+			if(($csvData = file_get_contents($url, null, $context)) !== false) {
+
+//				$violations = [];
+
+				if(($utfFd = @fopen("php://memory", "wb+")) === false) {
+					throw(new RuntimeException("Memory Error: I can't remember"));
+				}
+				$csvData = mb_convert_encoding($csvData, "UTF-8", "UTF-16");
+				$bytes = fwrite($utfFd, $csvData);
+				if(strlen($csvData) !== $bytes) {
+					throw(new RuntimeException("Insufficient Data"));
+				}
+				rewind($utfFd);
+
+				$lines = 0;
+				while(feof($utfFd) !== true) {
+					fgets($utfFd, 2048);
+					$lines++;
+				}
+				$lines--;
+				rewind($utfFd);
+				$violations = new SplFixedArray($lines);
+				var_dump($lines);
+
+				fgetcsv($utfFd, 0, ",");
+				while((($data = fgetcsv($utfFd, 0, ",", "\"")) !== false) && feof($utfFd) !== true) {
 					$facilityKey = $data[0];
 					$violationId = null;
-
-					// Convert to UTF-8
-					$facilityKey = mb_convert_encoding($facilityKey, "UTF-8", "UTF-16");
 
 					$restaurant = Restaurant::getRestaurantByFacilityKey($pdo, $facilityKey);
 //					var_dump($restaurant);
@@ -318,37 +352,44 @@ class DataDownloader {
 					if($restaurant !== null) {
 						$restaurantId = $restaurant->getRestaurantId();
 						$violationCode = $data[2];
-						$violationDesc = "";
-						for($i = 3; $i < count($data); $i++) {
-							$violationDesc += $data[$i];
-						}
+						$violationDesc = $data[3];
+						$inspectionMemo = $violationDesc; // This attribute probably shouldn't exist
+						$serialNum = $violationCode; // This attribute also probably shouldn't exist
 
-						// Convert everything to UTF-8
-						$violationCode = mb_convert_encoding($violationCode, "UTF-8", "UTF-16");
-						$violationDesc = mb_convert_encoding($violationDesc, "UTF-8", "UTF-16");
-						$violationDesc = str_replace("\"", "", $violationDesc); // The city gives descriptions quotes for some reason
-						$inspectionMemo = $violationDesc; // I just put the description in here - probably shouldn't be used
-						$serialNum = $violationCode; // I just put the code in here - probably shouldn't be used
-
-						if(strlen($violationDesc) > 0) {
-							var_dump($violationDesc);
-						}
+//						var_dump($violationDesc);
 //						echo "<p>Create new violation:</p>";
 
 						$violation = new Violation($violationId, $restaurantId, $violationCode, $violationDesc, $inspectionMemo, $serialNum);
-						$violation->insert($pdo);
+
+						$violations[$violations->key()] = $violation;
+						$violations->next();
 
 //						var_dump($violation);
 //						echo "<hr/>";
 					}
 				}
-				fclose($fd);
+				fclose($utfFd);
+
+				Violation::insertEnMasse($pdo, $violations);
 			}
 		} catch(PDOException $pdoException) {
 			throw(new PDOException($pdoException->getMessage(), 0, $pdoException));
 		} catch(Exception $exception) {
 			throw(new Exception($exception->getMessage(), 0, $exception));
 		}
+	}
+
+	/**
+	 * Fills the database with restaurants and violations
+	 *
+	 * @param string $businessesUrlBegin businesses.csv url beginning
+	 * @param string $businessesUrlEnd businesses.csv url end
+	 * @param string $violationsUrlBegin violations.csv url beginning
+	 * @param string $violationsUrlEnd violations.csv url end
+	 */
+	public static function fillDatabase($businessesUrlBegin, $businessesUrlEnd, $violationsUrlBegin, $violationsUrlEnd) {
+		DataDownloader::readBusinessesCSV($businessesUrlBegin, $businessesUrlEnd);
+		DataDownloader::readViolationsCSV($violationsUrlBegin, $violationsUrlEnd);
 	}
 
 }
@@ -369,8 +410,14 @@ class DataDownloader {
 //// This deletes the files on the bootcamp server
 //DataDownloader::deleteFiles("/var/lib/abq-data/", "businesses", ".csv");
 //
-//// This downloads the file to the bootcamp server
-//DataDownloader::downloadIfNew("http://data.cabq.gov/business/LIVES/businesses.csv", "/var/lib/abq-data/", "businesses", ".csv");
-DataDownloader::readBusinessesCSV("http://data.cabq.gov/business/LIVES/businesses.csv");
-DataDownloader::readViolationsCSV("http://data.cabq.gov/business/LIVES/violations.csv");
+
+
+// This downloads the file to the bootcamp server
+DataDownloader::downloadIfNew("http://data.cabq.gov/business/LIVES/businesses.csv", "/var/lib/abq-data/", "businesses", ".csv");
+DataDownloader::downloadIfNew("http://data.cabq.gov/business/LIVES/violations.csv", "/var/lib/abq-data/", "violations", ".csv");
+// This fills the database with information
+DataDownloader::fillDatabase("/var/lib/abq-data/businesses", ".csv", "/var/lib/abq-data/violations", ".csv");
+
+//DataDownloader::readViolationsCSV("http://data.cabq.gov/business/LIVES/violations.csv");
+
 // TESTING ********************

@@ -200,7 +200,7 @@ class Violation {
 	/**
 	 * Inserts this violation into MySQL
 	 *
-	 * @param PDO $pdo pointer to PDO connection , by reference
+	 * @param PDO $pdo pointer to PDO connection, by reference
 	 * @throws PDOException when MySQL related errors occur
 	 */
 	public function insert(PDO &$pdo) {
@@ -223,9 +223,36 @@ class Violation {
 	}
 
 	/**
+	 * Inserts violations en masse into MySQL
+	 *
+	 * @param PDO $pdo pointer to PDO connection, by reference
+	 * @param SplFixedArray $violations
+	 * @throws PDOException when MySQL related errors occur
+	 */
+	public static function insertEnMasse(PDO &$pdo, SplFixedArray $violations) {
+		// Create query template
+		$query = "INSERT INTO violation(violationId, restaurantId, violationCode, violationDesc, inspectionMemo, serialNum) VALUES(:violationId, :restaurantId, :violationCode, :violationDesc, :inspectionMemo, :serialNum)";
+		$statement = $pdo->prepare($query);
+
+		foreach($violations as $violation) {
+			// Make sure this is a new violation
+			if($violation->getViolationId() !== null) {
+				throw(new PDOException("Not a new violation"));
+			}
+
+			// Bind the member variables to the placeholders in the template
+			$parameters = array("violationId" => $violation->getViolationId(), "restaurantId" => $violation->getRestaurantId(), "violationCode" => $violation->violationCode, "violationDesc" => $violation->getViolationDesc(), "inspectionMemo" => $violation->getInspectionMemo(), "serialNum" => $violation->getSerialNum());
+			$statement->execute($parameters);
+
+			// Update the null violation ID with what MySQL has generated
+			$violation->setViolationId(intval($pdo->lastInsertId()));
+		}
+	}
+
+	/**
 	 * Deletes this violation from MySQL
 	 *
-	 * @param PDO $pdo pointer to PDO connection , by reference
+	 * @param PDO $pdo pointer to PDO connection, by reference
 	 * @throws PDOException when MySQL related errors occur
 	 */
 	public function delete(PDO &$pdo) {
@@ -246,7 +273,7 @@ class Violation {
 	/**
 	 * Updates this violation in MySQL
 	 *
-	 * @param PDO $pdo pointer to PDO connection , by reference
+	 * @param PDO $pdo pointer to PDO connection, by reference
 	 * @throws PDOException when MySQL related errors occur
 	 */
 	public function update(PDO &$pdo) {
@@ -334,22 +361,21 @@ class Violation {
 		$parameters = array("restaurantId" => $restaurantId);
 		$statement->execute($parameters);
 
-		// Grab the violation from MySQL
-		try {
-			$violation = null;
-			$statement->setFetchMode(PDO::FETCH_ASSOC);
-			$row = $statement->fetch();
-
-			if($row !== false) {
-				// new Violation($violationId, $restaurantId, $violationCode, $violationDesc, $inspectionMemo, $serialNum);
+		// Build an array of violations
+		$violations = new SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
 				$violation = new Violation($row["violationId"], $row["restaurantId"], $row["violationCode"], $row["violationDesc"], $row["inspectionMemo"], $row["serialNum"]);
+				$violations[$violations->key()] = $violation;
+				$violations->next();
+			} catch(Exception $e) {
+				// If the row couldn't be converted, rethrow it
+				throw(new PDOException($e->getMessage(), 0, $e));
 			}
-		} catch(Exception $e) {
-			// If the row couldn't be converted, rethrow it
-			throw(new PDOException($e->getMessage(), 0, $e));
 		}
 
-		return ($violation);
+		return ($violations);
 	}
 
 	/**
