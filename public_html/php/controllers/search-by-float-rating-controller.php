@@ -60,7 +60,7 @@ try {
 			// ???
 			// profit!
 
-
+//this shows the error msg from above if user clicks without selecting a value first
 } catch(Exception $exception) {
 	echo "<p class=\"alert alert-danger\">" . $exception->getMessage() . "</p>";
 }
