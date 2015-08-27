@@ -9,8 +9,8 @@
 			<div class="modal-body">
 				<form id="login-controller" class="form" method="post" action="../../php/controllers/login-controller.php">
 					<div class="form-group">
-						<label for="loginName">User Name</label>
-						<input type="text" class="form-control" id="loginName"" placeholder="Username">
+						<label for="loginEmail">email</label>
+						<input type="text" class="form-control" id="loginName"" placeholder="Email">
 					</div>
 					<div class="form-group">
 						<label for="loginPassword">Password</label>

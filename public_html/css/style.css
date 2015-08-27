@@ -179,6 +179,10 @@ header {
 	color: #333333;
 }
 
+.has-error {
+	color: tomato;
+}
+
 .checkbox {
 	font-weight: 400;
 }

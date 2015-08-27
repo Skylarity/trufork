@@ -5,7 +5,7 @@ $(document).ready(
 
 		// tell the validator to validate this form
 		$("#sign-up-form").validate({
-			debug: true,
+			//debug: true,
 			// setup the formatting for the errors
 			errorClass: "has-error",
 			errorLabelContainer: "#outputArea",
@@ -82,6 +82,10 @@ $(document).ready(
 						if($(".alert-success").length >= 1) {
 							$(form)[0].reset();
 						}
+
+						$("#sign-up-form").click(function() {
+							$('#submitButton').modal('hide');
+						});
 					}
 				});
 			}
