@@ -25,6 +25,7 @@ class Profile {
 	 **/
 	private $email;
 
+
 	/**
 	 * Constructor method for user class
 	 *

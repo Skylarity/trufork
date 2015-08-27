@@ -33,7 +33,7 @@
 				<h3 class="modal-title" id="sign-up">Create A New Account</h3>
 			</div>
 			<div class="modal-body">
-				<form id="signUpForm" name="signUpForm" class="form" action="<?php echo $PREFIX?>php/controllers/sign-up-controller.php" method="post">
+				<form id="sign-up-form" name="sign-up-form" class="form" action="<?php echo $PREFIX?>php/controllers/sign-up-controller.php" method="post">
 					<div class="form-group">
 						<label for="userName">User Name</label>
 						<input type="text" class="form-control" id="userName" name="userName" placeholder="choose a username">

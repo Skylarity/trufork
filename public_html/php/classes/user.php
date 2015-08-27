@@ -15,11 +15,6 @@ class User {
 	 * user name for tru for
 	 * @var string for user id
 	 */
-	private $userName;
-	/**
-	 * salt encryption for userId
-	 * @var string $salt
-	 **/
 
 	private $salt;
 	/**
@@ -35,16 +30,14 @@ class User {
 	 * Constructor method for this User
 	 *
 	 * @param int $newUserId of this user or null if new user
-	 * @param string user Name
 	 * @param string $salt sets salt
 	 * @param string $hash sets hash
 	 * @throw InvalidArgumentException if data types are not valid
 	 * @throws Exception if some other exception is thrown
 	 */
-	public function __construct($newUserId, $newUserName, $salt, $hash) {
+	public function __construct($newUserId, $salt, $hash) {
 		try {
 			$this->setUserId($newUserId);
-			$this->setUserName($newUserName);
 			$this->setSalt($salt);
 			$this->sethash($hash);
 		} catch(InvalidArgumentException $invalidArgument) {
@@ -96,37 +89,6 @@ class User {
 			$this->userId = intval($newUserId);
 		}
 
-	/**
-	 * accessor method for user name
-	 *@return string
-	 */
-	public function getUserName() {
-		return($this->userName);
-	}
-
-	/**
-	 * mutator method for user name
-	 *
-	 * @param set newUserName
-	 * @param string $newUserName or null for $newUserName
-	 * @throws InvalidArgumentException if $newUserName is not a string
-	 * @throws RangeException if User Name is not
-	 */
-	/** accessor method for salt
-	 * @param $newUserName
-	 * @return mixed
-	 */
-	public function setUserName($newUserName) {
-		//verify last name is valid
-		$newUserName = filter_var($newUserName, FILTER_SANITIZE_STRING);
-		if(empty($newUserName) === true) {
-			throw new InvalidArgumentException("last name invalid");
-		}
-		if(strlen($newUserName) > 32) {
-			throw (new RangeException("Last Name content too large"));
-		}
-		$this->userName = $newUserName;
-	}
 
 	public function getSalt() {
 		return $this->salt;
@@ -195,11 +157,11 @@ class User {
 		}
 
 		// create a query template 
-		$query = "INSERT INTO user(userName, salt, hash) VALUES(:userName, :salt, :hash)";
+		$query = "INSERT INTO user(salt, hash) VALUES(:salt, :hash)";
 		$statement = $pdo->prepare($query);
 
 		// bind profileId to placeholders in template
-		$parameters = array("userName" =>$this->getUserName(), "salt" =>$this->getSalt(),"hash" =>$this->getHash());
+		$parameters = array("salt" =>$this->getSalt(),"hash" =>$this->getHash());
 		$statement->execute($parameters);
 
 		// Update the null profile ID with what MySQL has generate
@@ -240,11 +202,11 @@ class User {
 		}
 
 		// Create query template
-		$query = "UPDATE user SET userId = :userId, userName = :userName, salt = :salt, hash = :hash WHERE userId = :userId";
+		$query = "UPDATE user SET userId = :userId, salt = :salt, hash = :hash WHERE userId = :userId";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the placeholders in the templates
-		$parameters = array("userId" => $this->getUserId(), "userName" => $this->getUserName(), "salt" =>$this->getSalt(), "hash" =>$this->gethash());
+		$parameters = array("userId" => $this->getUserId(), "salt" =>$this->getSalt(), "hash" =>$this->gethash());
 		$statement->execute($parameters);
 	}
 	/**
@@ -265,7 +227,7 @@ class User {
 		}
 
 		// create query template
-		$query	 = "SELECT userId, userName, salt, hash FROM user WHERE userId = :userId";
+		$query	 = "SELECT userId, salt, hash FROM user WHERE userId = :userId";
 		$statement = $pdo->prepare($query);
 
 		// bind the user id to the place holder in the template
@@ -278,7 +240,7 @@ class User {
 			$statement->setFetchMode(PDO::FETCH_ASSOC);
 			$row   = $statement->fetch();
 			if($row !== false) {
-				$user = new User($row["userId"], $row["userName"], $row["salt"], $row["hash"]);
+				$user = new User($row["userId"], $row["salt"], $row["hash"]);
 			}
 		} catch(Exception $exception) {
 			// if the row couldn't be converted, rethrow it
@@ -287,46 +249,5 @@ class User {
 		return($user);
 	}
 
-	/**
-	 * Gets the user by user name
-	 *
-	 * @param PDO $pdo pointer to the PDO connection, by reference
-	 * @param string $user user ID to search for
-	 * @return mixed profile found null if not found
-	 */
-	public static function getUserbyUserName(PDO &$pdo, $user) {
-		// sanitize the user input before searching
-		$user = filter_var($user, FILTER_SANITIZE_STRING);
-		if($user === false) {
-			throw(new PDOException("user name is not valid"));
-		}
-		if($user <= 32) {
-			throw(new PDOException("user id is not positive"));
-		}
 
-		// create query template
-		$query	 = "SELECT userName, userId, salt, hash FROM user WHERE userName = :userName";
-		$statement = $pdo->prepare($query);
-
-		// bind the user id to the place holder in the template
-		$parameters = array("userName" => $user);
-		$statement->execute($parameters);
-
-		// grab the user from mySQL
-		try {
-			$user = null;
-			$statement->setFetchMode(PDO::FETCH_ASSOC);
-			$row   = $statement->fetch();
-			if($row !== false) {
-				$user = new User($row["userId"], $row["userName"], $row["salt"], $row["hash"]);
-			}
-		} catch(Exception $exception) {
-			// if the row couldn't be converted, rethrow it
-			throw(new PDOException($exception->getMessage(), 0, $exception));
-		}
-		return($user);
-	}
 }
-
-
-

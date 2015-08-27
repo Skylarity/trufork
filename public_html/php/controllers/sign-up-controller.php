@@ -1,6 +1,7 @@
 <?php
 require_once(dirname(__DIR__) . "/classes/profile.php");
 require_once(dirname(__DIR__) . "/classes/user.php");
+//require_once(dirname(__DIR__) . "/lib/sign-up-login-modal.php");
 require_once("/etc/apache2/data-design/encrypted-config.php");
 require_once(dirname(__DIR__) . "/lib/xsrf.php");
 
@@ -22,17 +23,11 @@ try {
 
 	//create a new user id profile id and insert in mySQL
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
-	$user = new User(null, $SALT, $HASH);
+	$user = new User(null, $SALT, $HASH, $_POST["userName"]);
 	$user->insert($pdo);
 	$profile = new Profile(null, $user->getUserId(), $_POST["email"]);
 	$profile->insert($pdo);
-//	echo "<p class\"alert alert-success\">User (id = " . $user->getUserId() . ") posted!<p/>";
+	echo "<p class\"alert alert-success\">User (id = " . $user->getUserId() . ") posted!<p/>";
 }catch (Exception $e) {
-//	echo "<p class=\"alert alert-danger\">Exception: " . $e->getMessage() . "</p>";
-
-//	echo "<p class\"alert alert-success\">Profile (id = " . $profile->getUserId() . ") posted!<p/>";
-}catch (Exception $e) {
-//	echo "<p class=\"alert alert-danger\">Exception: " . $e->getMessage() . "</p>";
-
-
+	echo "<p class=\"alert alert-danger\">Exception: " . $e->getMessage() . "</p>";
 }

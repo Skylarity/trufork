@@ -16,6 +16,6 @@ require_once("php/lib/head-utils.php");
 	<footer>
 		<?php require_once("php/lib/footer.php"); ?>
 	</footer>
-	<script type="text/javascript" src="php/controllers/signup-controller.js"></script>
+	<script type="text/javascript" src="php/controllers/sign-up-controller.js"></script>
 </body>
 </html>

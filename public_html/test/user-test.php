@@ -43,7 +43,7 @@ class UserTest extends TruForkTest {
 	/**
 	 * @var user USER_3
 	 */
-	protected $USER_3= "5";
+	protected $USER_3 = "5";
 
 	/**
 	 * @var string salt 2
@@ -157,6 +157,7 @@ class UserTest extends TruForkTest {
 		$this->assertSame($pdoUser->getSalt(), $this->VALID_SALT);
 		$this->assertSame($pdoUser->getHash(), $this->VALID_HASH);
 	}
+
 
 
 	/**

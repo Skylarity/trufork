@@ -4,10 +4,10 @@ $(document).ready(
 	function() {
 
 		// tell the validator to validate this form
-		$("#signUpForm").validate({
+		$("#sign-up-form").validate({
 			debug: true,
 			// setup the formatting for the errors
-			errorClass: "label-danger",
+			errorClass: "has-error",
 			errorLabelContainer: "#outputArea",
 			wrapper: "li",
 
@@ -55,35 +55,35 @@ $(document).ready(
 				email: {
 					required: "must enter email",
 					email: "please enter valid email"
-			}
-		},
+				}
+			},
 
 			// setup an AJAX call to submit the form without reloading
 			submitHandler: function(form) {
-			$(form).ajaxSubmit({
-				// GET or POST
-				type: "POST",
-				// where to submit data
-				url: $(form).attr("action"),
-				// this sends the XSRF token along with the form data
-				headers: {
-					"X-XSRF-TOKEN": Cookies.get("XSRF-TOKEN")
-				},
-				// success is an event that happens when the server replies
-				success: function(ajaxOutput) {
-					// clear the output area's formatting
-					$("#outputArea").css("display", "");
-					// write the server's reply to the output area
-					$("#outputArea").html(ajaxOutput);
+				$(form).ajaxSubmit({
+					// GET or POST
+					type: "POST",
+					// where to submit data
+					url: $(form).attr("action"),
+					// this sends the XSRF token along with the form data
+					headers: {
+						"X-XSRF-TOKEN": Cookies.get("XSRF-TOKEN")
+					},
+					// success is an event that happens when the server replies
+					success: function(ajaxOutput) {
+						// clear the output area's formatting
+						$("#outputArea").css("display", "");
+						// write the server's reply to the output area
+						$("#outputArea").html(ajaxOutput);
 
 
-					// reset the form if it was successful
-					// this makes it easier to reuse the form again
-					if($(".alert-success").length >= 1) {
-						$(form)[0].reset();
+						// reset the form if it was successful
+						// this makes it easier to reuse the form again
+						if($(".alert-success").length >= 1) {
+							$(form)[0].reset();
+						}
 					}
-				}
-			});
-		}
+				});
+			}
+		});
 	});
-});
