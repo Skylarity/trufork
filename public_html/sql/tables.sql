@@ -10,6 +10,7 @@ CREATE TABLE user (
 	hash VARCHAR(128),
 	salt VARCHAR(64),
 	userName VARCHAR(128),
+	email VARCHAR(64) NOT NULL,
 	INDEX(userId),
 	PRIMARY KEY(userId)
 );

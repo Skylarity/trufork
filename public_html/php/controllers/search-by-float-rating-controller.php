@@ -16,43 +16,53 @@ try {
 		throw(new InvalidArgumentException ("You must select at least one value. Please try again."));
 	}
 
-// verify the XSRF challenge
-		//if(session_status() !== PHP_SESSION_ACTIVE) {
-			//session_start();
-		//}
-		//verifyXsrf();
+// verify the XSRF challenge; commented out bc this isn't a POST and there is no real user input
+	//if(session_status() !== PHP_SESSION_ACTIVE) {
+	//session_start();
+	//}
+	//verifyXsrf();
 
-		$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
 
-		/** select queries and return a result set
-		 *
-		  ...*/
+	/** select queries and return a result set
+	 *
+	 * ...*/
 	/**
 	 * $i is used as the loop iterator...
-	 * ...this is from the old days of for loops in C in the 1970s
-	 * LOL Skyler's young!
+	 * a databse call within a loop is generally not optional,
+	 * but this case offers no alternatives
 	 **/
 	$echoChamber = [];
+	$noneFound = false;
 	for($i = 5; $i >= 0; $i--) {
 		if(in_array($i, $_GET["rating"]) === true) {
 			$result = Restaurant::getRestaurantsByForkRating($pdo, $i, $i + 1);
 			$echoChamber = array_merge($echoChamber, $result->toArray());
+			if(count($result) > 0) {
+				echo implode($result);
+			} else {
+				$noneFound = true;
+			}
 		}
+	}
+	if($noneFound) {
+		echo "No restaurants were found with that TruFork rating.";
 	}
 
 	var_dump($echoChamber);
 	foreach($echoChamber as $restaurant) {
 		echo "<ul>" . PHP_EOL .
-				"<li>" . $restaurant->getName() . "</li>" . PHP_EOL .
-				"<li>" . $restaurant->getForkRating() . "</li>" . PHP_EOL .
+			"<li>" . $restaurant->getName() . "</li>" . PHP_EOL .
+			"<li>" . $restaurant->getForkRating() . "</li>" . PHP_EOL .
 			"</ul>" . PHP_EOL;
 	}
 
 
-			// ???
-			// profit!
+	// ???
+	// profit!
 
 //this shows the error msg from above if user clicks without selecting a value first
 } catch(Exception $exception) {
 	echo "<p class=\"alert alert-danger\">" . $exception->getMessage() . "</p>";
 }
+
