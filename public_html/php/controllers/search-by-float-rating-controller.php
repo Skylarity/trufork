@@ -29,7 +29,7 @@ try {
 	 * ...*/
 	/**
 	 * $i is used as the loop iterator...
-	 * a databse call within a loop is generally not optional,
+	 * a database call within a loop is generally not optional,
 	 * but this case offers no alternatives
 	 **/
 	$echoChamber = [];
@@ -39,7 +39,7 @@ try {
 			$result = Restaurant::getRestaurantsByForkRating($pdo, $i, $i + 1);
 			$echoChamber = array_merge($echoChamber, $result->toArray());
 			if(count($result) > 0) {
-				echo implode($result);
+//				echo implode($result);
 			} else {
 				$noneFound = true;
 			}
@@ -49,12 +49,15 @@ try {
 		echo "No restaurants were found with that TruFork rating.";
 	}
 
-	var_dump($echoChamber);
+//	var_dump($echoChamber);
 	foreach($echoChamber as $restaurant) {
 		echo "<ul>" . PHP_EOL .
+//			"<li>" . '<a href="php/lib/restaurant.php?restaurantId='.['restaurantId'].'">' '</a>'"</li>" . PHP_EOL .
 			"<li>" . $restaurant->getName() . "</li>" . PHP_EOL .
 			"<li>" . $restaurant->getForkRating() . "</li>" . PHP_EOL .
-			"</ul>" . PHP_EOL;
+			"<li>" . $restaurant->getAddress() . "</li>" . PHP_EOL .
+			"</ul>" . PHP_EOL ;
+//			'<a href="php/lib/restaurant.php?id='.$result['restaurantId'].'">'.$result['name'].'</a>';
 	}
 
 
