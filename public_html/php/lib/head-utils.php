@@ -61,6 +61,8 @@ setXsrfCookie();
 		<link type="image/ico" href="<?php echo $PREFIX; ?>favicon.ico" rel="shortcut icon"/>
 
 		<!-- custom JavaScript file will go here-->
+		<script type="text/javascript" src="php/controllers/sign-up-controller.js"></script>
+		<script type="text/javascript" src="php/controllers/login-controller.js"></script>
 
 		<title><?php echo $PAGE_TITLE; ?></title>
 	</head>

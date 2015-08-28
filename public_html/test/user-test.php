@@ -158,6 +158,24 @@ class UserTest extends TruForkTest {
 		$this->assertSame($pdoUser->getHash(), $this->VALID_HASH);
 	}
 
+	/**
+	 * test grabbing a user by profileId
+	 **/
+	public function testGetUserByProfileId() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("user");
+
+		// create a new Profile and insert to into mySQL
+		$user = new User(null, $this->VALID_SALT, $this->VALID_HASH);
+		$user->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoUser = User::getUserByProfileId($this->getPDO(), $user->getUserId());
+		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("user"));
+		$this->assertLessThan($pdoUser->getUserId(), 0);
+		$this->assertSame($pdoUser->getSalt(), $this->VALID_SALT);
+		$this->assertSame($pdoUser->getHash(), $this->VALID_HASH);
+	}
 
 
 	/**

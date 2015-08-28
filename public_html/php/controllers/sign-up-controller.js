@@ -79,15 +79,15 @@ $(document).ready(
 
 						// reset the form if it was successful
 						// this makes it easier to reuse the form again
-						if($(".alert-success").length >= 1) {
+						if($(".alert-success").length > 0) {
 							$("#sign-up-form")[0].reset();
 						}
 					}
 				});
 
-				//	$("#submitButton").click(function() {
-				//	$("#signup").modal("hide");
-				//});
+					$("#submitButton").click(function() {
+					$("#signup").modal("hide");
+				});
 			}
 		});
 	});

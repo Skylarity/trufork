@@ -7,7 +7,7 @@
 				<h3 class="modal-title" id="login">Log In</h3>
 			</div> 
 			<div class="modal-body">
-				<form id="login-controller" class="form" method="post" action="../../php/controllers/login-controller.php">
+				<form id="login-controller" class="form" method="post" action="<?php echo $PREFIX?>php/controllers/login-controller.php">
 					<div class="form-group">
 						<label for="loginEmail">email</label>
 						<input type="text" class="form-control" id="loginName"" placeholder="Email">
@@ -59,7 +59,7 @@
 					</div>
 					<div class="form-group">
 						<button type="submit" class="btn modal-button" id="submitButton" name="submitButton">Create Account</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+<!--						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
 					</div>
 				</form>
 				<div id="outputArea"></div>

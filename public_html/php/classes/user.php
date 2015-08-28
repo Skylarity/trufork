@@ -9,7 +9,7 @@ class User {
 	/**
 	 * id for this user is a primary key
 	 * @var int $userId
-	**/
+	 **/
 	private $userId;
 	/**
 	 * user name for tru for
@@ -22,8 +22,6 @@ class User {
 	 * @var string $hash password
 	 * */
 	private $hash;
-
-
 
 
 	/**
@@ -53,13 +51,13 @@ class User {
 		}
 	}
 
-		/**
+	/**
 	 *accessor method for user id
 	 *
-	 *@return int value for new user id
+	 * @return int value for new user id
 	 **/
 	public function getUserId() {
-		return($this->userId);
+		return ($this->userId);
 	}
 
 	/**
@@ -86,8 +84,8 @@ class User {
 			throw(new InvalidArgumentException("user id is not positive"));
 			// covert and store the profile id
 		}
-			$this->userId = intval($newUserId);
-		}
+		$this->userId = intval($newUserId);
+	}
 
 
 	public function getSalt() {
@@ -161,7 +159,7 @@ class User {
 		$statement = $pdo->prepare($query);
 
 		// bind profileId to placeholders in template
-		$parameters = array("salt" =>$this->getSalt(),"hash" =>$this->getHash());
+		$parameters = array("salt" => $this->getSalt(), "hash" => $this->getHash());
 		$statement->execute($parameters);
 
 		// Update the null profile ID with what MySQL has generate
@@ -206,11 +204,12 @@ class User {
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the placeholders in the templates
-		$parameters = array("userId" => $this->getUserId(), "salt" =>$this->getSalt(), "hash" =>$this->gethash());
+		$parameters = array("userId" => $this->getUserId(), "salt" => $this->getSalt(), "hash" => $this->gethash());
 		$statement->execute($parameters);
 	}
+
 	/**
-	 * Gets the profile by user ID
+	 * Gets the user by user ID
 	 *
 	 * @param PDO $pdo pointer to the PDO connection, by reference
 	 * @param int $user user ID to search for
@@ -227,7 +226,7 @@ class User {
 		}
 
 		// create query template
-		$query	 = "SELECT userId, salt, hash FROM user WHERE userId = :userId";
+		$query = "SELECT userId, salt, hash FROM user WHERE userId = :userId";
 		$statement = $pdo->prepare($query);
 
 		// bind the user id to the place holder in the template
@@ -238,7 +237,7 @@ class User {
 		try {
 			$user = null;
 			$statement->setFetchMode(PDO::FETCH_ASSOC);
-			$row   = $statement->fetch();
+			$row = $statement->fetch();
 			if($row !== false) {
 				$user = new User($row["userId"], $row["salt"], $row["hash"]);
 			}
@@ -246,8 +245,49 @@ class User {
 			// if the row couldn't be converted, rethrow it
 			throw(new PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($user);
+		return ($user);
 	}
 
 
+
+///**
+// * Gets the profile by userId
+// *
+// * @param PDO $pdo get profile by User Id
+// * @param int $profileId profile ID to search for
+// * @return mixed profile found null if not found
+// * PDO $pod pointer to the PDO connection, by reference
+// */
+//public static function getUserByProfileId(PDO &$pdo, $profileId) {
+//	// sanitize the profileId before searching
+//	$profileId = filter_var($profileId, FILTER_VALIDATE_INT);
+//	if($profileId === false) {
+//		throw(new PDOException("user id is not an integer"));
+//	}
+//	if($profileId <= 0) {
+//		throw(new PDOException("user id is not positive"));
+//	}
+//
+//	// create query template
+//	$query = "SELECT profileId, userId, salt, hash FROM user WHERE profileId = :profileId";
+//	$statement = $pdo->prepare($query);
+//
+//	// bind the profile id to the place holder in the template
+//	$parameters = array("profileId" => $profileId);
+//	$statement->execute($parameters);
+//
+//	// grab the profile from mySQL
+//	try {
+//		$profile = null;
+//		$statement->setFetchMode(PDO::FETCH_ASSOC);
+//		$row = $statement->fetch();
+//		if($row !== false) {
+//			$profile = new $row["profileId"], $row["userId"], $row["email"]);
+//		}
+//	} catch(Exception $exception) {
+//		// if the row couldn't be converted, rethrow it
+//		throw(new PDOException($exception->getMessage(), 0, $exception));
+//	}
+//	return ($profile);
+//}
 }

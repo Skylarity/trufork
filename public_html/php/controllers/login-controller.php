@@ -22,22 +22,27 @@ try {
 
 	//sign in user by email profile
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
-	$profile = getUserByEmail(null, $SALT, $HASH);
-	public static function getProfileByEmail(PDO &$pdo, $profile) {
+	$profile = Profile::getProfileByEmail($pdo, $_GET["profile"], $_GET["email"]);
+	if(empty($profile))
+	{
+		throw(new InvalidArgumentException("invalid username or password"));
+	}
+	$user = User::getUserByUserId($pdo, $_GET["SALT"], $_GET[$HASH], $_GET["email"]);
+	if(empty($profile))
+	{
+//	$profile = Profile::getProfileByUserId($pdo, $_GET["profile"])
+//		throw(new InvalidArgumentException("invalid username or password");
+	}
 
-
-
-////	$user = new User(null, $SALT, $HASH);
-//	$user->insert($pdo);
-	$profile = Profile(null, $user->getUserId(), $_GET["userName"], $_GET["$SALT"], $_GET[$HASH]);
-	$profile->insert($pdo);
-//	echo "<p class\"alert alert-success\">User (id = " . $user->getUserId() . ") posted!<p/>";
-}catch (Exception $e) {
-//	echo "<p class=\"alert alert-danger\">Exception: " . $e->getMessage() . "</p>";
-
-//	echo "<p class\"alert alert-success\">Profile (id = " . $profile->getUserId() . ") posted!<p/>";
-}catch (Exception $e) {
-//	echo "<p class=\"alert alert-danger\">Exception: " . $e->getMessage() . "</p>";
-
-
+	} catch (Exception $exception) {
+		echo "<p class=\"alert alert-danger\">" . $exception->getMessage() . "</p>";
 }
+
+
+//	$user = new User(null, $SALT, $HASH);
+//	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
+//	$user =  User(null, $SALT, $HASH);
+//	$user->get($pdo);
+//	$profile = Profile(null, $user->getUserByEmail(), $_GET["userName"], $_GET["$SALT"], $_GET[$HASH]);
+//	$profile->insert($pdo);
+
