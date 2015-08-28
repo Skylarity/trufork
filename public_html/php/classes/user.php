@@ -11,12 +11,25 @@ class User {
 	 * @var int $userId
 	 **/
 	private $userId;
+
 	/**
 	 * user name for tru for
 	 * @var string for user id
 	 */
+	private $userName;
 
+	/**
+	 * email for user
+	 * @var string for user id
+	 */
+	private $email;
+
+	/**
+	 * salt encryption for userId
+	 * @var string $hash password
+	 * */
 	private $salt;
+
 	/**
 	 * hash encryption for userId
 	 * @var string $hash password
@@ -28,14 +41,18 @@ class User {
 	 * Constructor method for this User
 	 *
 	 * @param int $newUserId of this user or null if new user
+	 * @param string User Name
+	 * @param string user email
 	 * @param string $salt sets salt
 	 * @param string $hash sets hash
 	 * @throw InvalidArgumentException if data types are not valid
 	 * @throws Exception if some other exception is thrown
 	 */
-	public function __construct($newUserId, $salt, $hash) {
+	public function __construct($newUserId, $newUserName, $newEmail, $salt, $hash) {
 		try {
 			$this->setUserId($newUserId);
+			$this->setUserName($newUserName);
+			$this->setEmail($newEmail);
 			$this->setSalt($salt);
 			$this->sethash($hash);
 		} catch(InvalidArgumentException $invalidArgument) {
@@ -87,7 +104,68 @@ class User {
 		$this->userId = intval($newUserId);
 	}
 
+	/**
+	 * accessor method for user name
+	 *
+	 * return string for user
+	 */
+	public function getUserName() {
+		return ($this->userName);
+	}
 
+	/**
+	 * mutator method for user name
+	 *
+ 	* @param string user name
+ 	* @throws InvalidArgumentException if $newUser Id in not a vaild Interger
+ 	* @throws InvalidArgumentException if User Id is not Positive
+ 	*/
+
+	public function setUserName($newUserName) {
+	//verify last name is valid
+	$newUserName = filter_var($newUserName, FILTER_SANITIZE_STRING);
+	if(empty($newUserName) === true) {
+		throw new InvalidArgumentException("User Name invalid");
+	}
+	if(strlen($newUserName) > 32) {
+		throw (new RangeException("user name is too large"));
+	}
+	$this->userName = $newUserName;
+
+	}
+
+	public function getEmail() {
+		return ($this->email);
+	}
+
+	/**
+	 * mutator method for email
+	 *
+	 * @param string $newEmail new value of email
+	 * @throws InvalidArgumentException if $newEmail is not a integer or not positive
+	 * @throws RangeException if $newEmail is not Positive
+	 */
+
+	public function setEmail($newEmail) {
+		// verify if email is positive
+		if($newEmail = filter_var($newEmail, FILTER_SANITIZE_EMAIL)) ;
+		if($newEmail === false) {
+			throw(new InvalidArgumentException ("email is not a valid email"));
+		}
+
+		//verify the email is positive
+		if(strlen($newEmail) > 64) {
+			throw(new RangeException("email is too long"));
+		}
+
+		// convert and store email id
+		$this->email = $newEmail;
+	}
+
+
+	/**
+	 * @return string
+	 */
 	public function getSalt() {
 		return $this->salt;
 	}
@@ -155,11 +233,11 @@ class User {
 		}
 
 		// create a query template 
-		$query = "INSERT INTO user(salt, hash) VALUES(:salt, :hash)";
+		$query = "INSERT INTO user(userName, email, salt, hash) VALUES(:userName, :email, :salt, :hash)";
 		$statement = $pdo->prepare($query);
 
 		// bind profileId to placeholders in template
-		$parameters = array("salt" => $this->getSalt(), "hash" => $this->getHash());
+		$parameters = array("userName" => $this->getUserName(), "email" => $this->getEmail(), "salt" => $this->getSalt(), "hash" => $this->getHash());
 		$statement->execute($parameters);
 
 		// Update the null profile ID with what MySQL has generate
@@ -200,7 +278,7 @@ class User {
 		}
 
 		// Create query template
-		$query = "UPDATE user SET userId = :userId, salt = :salt, hash = :hash WHERE userId = :userId";
+		$query = "INSERT INTO user(userId, userName, email, salt, hash) VALUES(:userId, :userName, :email, :salt, :hash)";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the placeholders in the templates
@@ -226,7 +304,7 @@ class User {
 		}
 
 		// create query template
-		$query = "SELECT userId, salt, hash FROM user WHERE userId = :userId";
+		$query = "INSERT INTO user(userId, userName, salt, email, hash) VALUES(:userId, :userName, :email, :salt, :hash)";
 		$statement = $pdo->prepare($query);
 
 		// bind the user id to the place holder in the template
@@ -239,7 +317,7 @@ class User {
 			$statement->setFetchMode(PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$user = new User($row["userId"], $row["salt"], $row["hash"]);
+				$user = new User($row["userId"], $row["userName"],	$row["email"], $row["salt"], $row["hash"]);
 			}
 		} catch(Exception $exception) {
 			// if the row couldn't be converted, rethrow it
@@ -248,46 +326,103 @@ class User {
 		return ($user);
 	}
 
+	/**
+	 * gets user by email
+	 *
+	 * @param PDO $pdo pointer for the pdo connection
+	 * @param string $email for user email
+	 * @throws PDOException for mySQL errors
+	 * @return User $user
+	 */
+
+	public static function getUserByEmail(PDO &$pdo, $email) {
+		// sanitize the email before searching
+		$email = filter_var($email, FILTER_SANITIZE_EMAIL);
+		if($email === false) {
+			throw(new PDOException("email id is not an email"));
+		}
+
+		// create query template
+		$query = "SELECT userId, userName, salt, email, hash FROM user WHERE email = :email";
+		$statement = $pdo->prepare($query);
+
+		// bind the email to the place holder in the template
+		$parameters = array("email" => $email);
+		$statement->execute($parameters);
+
+		// grab the user from mySQL
+		try {
+			$user = null;
+			$statement->setFetchMode(PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$user = new User($row["userId"], $row["userName"],	$row["email"], $row["salt"], $row["hash"]);
+			}
+		} catch(Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($user);
+	}
+
+	public function getUserByUserName(PDO &$pdo, $userName) {
+		// sanitize the user name before searching
+		$userName = filter_var($userName, FILTER_SANITIZE_STRING);
+		if($userName === false) {
+			throw(new PDOException("user name is not valid"));
+
+			// create a query template
+			$query = "SELECT userId, userName, email, salt, hash FROM user WHERE userName = :userName";
+			$statement = $pdo->prepare($query);
+
+			//bind the email to the place holder in the template
+			$parameters = array("userName" => $userName);
+			$statement->execute($parameters);
+		}
+	}
 
 
-///**
-// * Gets the profile by userId
-// *
-// * @param PDO $pdo get profile by User Id
-// * @param int $profileId profile ID to search for
-// * @return mixed profile found null if not found
-// * PDO $pod pointer to the PDO connection, by reference
-// */
-//public static function getUserByProfileId(PDO &$pdo, $profileId) {
-//	// sanitize the profileId before searching
-//	$profileId = filter_var($profileId, FILTER_VALIDATE_INT);
-//	if($profileId === false) {
-//		throw(new PDOException("user id is not an integer"));
-//	}
-//	if($profileId <= 0) {
-//		throw(new PDOException("user id is not positive"));
-//	}
-//
-//	// create query template
-//	$query = "SELECT profileId, userId, salt, hash FROM user WHERE profileId = :profileId";
-//	$statement = $pdo->prepare($query);
-//
-//	// bind the profile id to the place holder in the template
-//	$parameters = array("profileId" => $profileId);
-//	$statement->execute($parameters);
-//
-//	// grab the profile from mySQL
-//	try {
-//		$profile = null;
-//		$statement->setFetchMode(PDO::FETCH_ASSOC);
-//		$row = $statement->fetch();
-//		if($row !== false) {
-//			$profile = new $row["profileId"], $row["userId"], $row["email"]);
+
+
+
+//	/**
+//	 * Gets the user by Profile ID
+//	 *
+//	 * @param PDO $pdo get profile by User Id
+//	 * @param int $profileId profile ID to search for
+//	 * @return mixed profile found null if not found
+//	 * PDO $pod pointer to the PDO connection, by reference
+//	 */
+//	public static function getUserByProfileId(PDO &$pdo, $profileId) {
+//		// sanitize the profileId before searching
+//		$profileId = filter_var($profileId, FILTER_VALIDATE_INT);
+//		if($profileId === false) {
+//			throw(new PDOException("user id is not an integer"));
 //		}
-//	} catch(Exception $exception) {
-//		// if the row couldn't be converted, rethrow it
-//		throw(new PDOException($exception->getMessage(), 0, $exception));
+//		if($profileId <= 0) {
+//			throw(new PDOException("user id is not positive"));
+//		}
+//
+//		// create query template
+//		$query = "SELECT profileId, userId, email FROM profile WHERE profileId = :profileId";
+//		$statement = $pdo->prepare($query);
+//
+//		// bind the profile id to the place holder in the template
+//		$parameters = array("profileId" => $profileId);
+//		$statement->execute($parameters);
+//
+//		// grab the profile from mySQL
+//		try {
+//			$user = null;
+//			$statement->setFetchMode(PDO::FETCH_ASSOC);
+//			$row = $statement->fetch();
+//			if($row !== false) {
+//				$user = new User(); // TODO
+//		}
+//		} catch(Exception $exception) {
+//			// if the row couldn't be converted, rethrow it
+//			throw(new PDOException($exception->getMessage(), 0, $exception));
+//		}
+//		return ($user);
 //	}
-//	return ($profile);
-//}
 }
