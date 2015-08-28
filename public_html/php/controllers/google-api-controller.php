@@ -1,6 +1,6 @@
 <?php
 require_once(dirname(__DIR__) . "/classes/data-downloader.php");
-require_once(dirname(__DIR__)."/classes/restaurant.php");
+require_once(dirname(__DIR__) . "/classes/restaurant.php");
 require_once("/etc/apache2/data-design/encrypted-config.php");
 
 try {
@@ -46,20 +46,39 @@ try {
 			echo "<li class=\"list-group-item\"><strong>" . $result->name . "</strong></li>" . PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $result->rating . "</strong></li>" . PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $result->place_id . "</strong></li>" . PHP_EOL;
-		//	echo "<li class=\"list-group-item\"><strong>" . $result->price_level . "</strong></li>" . PHP_EOL;
+			//	echo "<li class=\"list-group-item\"><strong>" . $result->price_level . "</strong></li>" . PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $result->geometry->location->lat . "</strong></li>" . PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $result->geometry->location->lng . "</strong></li>" . PHP_EOL;
 			echo "</ul>";
 			/*
-	 * this subcode is trying to match the city address  with google address
-	 */
+			 * this sudcode is trying to solve the problem of compatibility bewteen google and city address
+			 * /
+			 //map an array
+			 we implode the google date
+			*/
+
+//			$newAddress = array(address_component[0]["shortname"],address_component[1]["shortname"],address_component[2]["shortname"address_component[3]["shortname",address_component[4]["shortname"]);
+			$fullAddress = [];
+			$address_components = $googleArray["address_components"];
+			foreach($address_components as $component) {
+				$fullAddress[] = $component["short_name"];
+			}
+
+			$fullAddress = implode(" ", $fullAddress);
+			// we will put ours address in capital letters
+
+			$fullAddress = strtoupper($fullAddress);
+
+			/*
+					*  this subcode is trying to match the city address  with google address
+			*/
 
 			$restaurant = array();
 			$gMatches = array();
 			$cMatches = array();
 			$pattern = "/^(\d{1,6)\s+(.+)\s+(NE|NW|SE|SW).*(\d+)?$/iU";
 			// how we grab the address from goggle
-			$subjectg= $result->formatted_address;
+			$subjectg = $result->formatted_address;
 
 			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
 			$restaurant = Restaurant::getRestaurantByAddress($pdo, $subjectg);
@@ -87,8 +106,7 @@ try {
 		echo "error message here";
 	}
 
-}
-				catch(InvalidArgumentException $invalidArgument) {
+} catch(InvalidArgumentException $invalidArgument) {
 	throw(new InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 } catch(RangeException $range) {
 	// Rethrow exception to the caller
