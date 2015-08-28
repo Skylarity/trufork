@@ -171,7 +171,7 @@ class Violation {
 		if(strlen($violationDesc) > 0) {
 			$this->violationDesc = Filter::filterString($violationDesc, "Violation description", 1024);
 		} else {
-			$this->violationDesc = "";
+			$this->violationDesc = null;
 		}
 	}
 
@@ -193,7 +193,7 @@ class Violation {
 		if(strlen($inspectionMemo) > 0) {
 			$this->inspectionMemo = Filter::filterString($inspectionMemo, "Inspection memo", 1024);
 		} else {
-			$this->inspectionMemo = "";
+			$this->inspectionMemo = null;
 		}
 	}
 
@@ -236,8 +236,9 @@ class Violation {
 
 		foreach($violations as $violation) {
 			// Make sure this is a new violation
-			if($violation->getViolationId() !== null) {
-				throw(new PDOException("Not a new violation"));
+			if($violation === null || $violation->getViolationId() !== null) {
+				continue;
+//				throw(new PDOException("Not a new violation"));
 			}
 
 			// Bind the member variables to the placeholders in the template

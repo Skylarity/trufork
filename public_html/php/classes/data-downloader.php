@@ -253,6 +253,11 @@ class DataDownloader {
 		try {
 			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
 
+			$pdo->query("SET FOREIGN_KEY_CHECKS = 0");
+			$pdo->query("TRUNCATE violation");
+			$pdo->query("TRUNCATE restaurant");
+			$pdo->query("SET FOREIGN_KEY_CHECKS = 1");
+
 			if(($fd = @fopen($url, "rb", false, $context)) !== false) {
 				fgetcsv($fd, 0, ",");
 				while((($data = fgetcsv($fd, 0, ",")) !== false) && feof($fd) === false) {
@@ -333,13 +338,12 @@ class DataDownloader {
 
 				$lines = 0;
 				while(feof($utfFd) !== true) {
-					fgets($utfFd, 2048);
-					$lines++;
+					$line = fgets($utfFd, 1024);
+					$lines = $lines + substr_count($line, PHP_EOL);
 				}
 				$lines--;
 				rewind($utfFd);
 				$violations = new SplFixedArray($lines);
-				var_dump($lines);
 
 				fgetcsv($utfFd, 0, ",");
 				while((($data = fgetcsv($utfFd, 0, ",", "\"")) !== false) && feof($utfFd) !== true) {
@@ -394,30 +398,8 @@ class DataDownloader {
 
 }
 
-// TESTING ********************
-//$businessesDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/LIVES/businesses.csv");
-//$inspectionsDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/LIVES/inspections.csv");
-//$violationsDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/LIVES/violations.csv");
-//$xmlDate = DataDownloader::getLastModifiedDate("http://data.cabq.gov/business/foodinspections/FoodInspectionsCurrentFY-en-us.xml");
-//$importantDate = DataDownloader::getLastModifiedDate("https://bootcamp-coders.cnm.edu/~srexroad/text.txt");
-//
-//echo "<h2>Businesses:</h2><p>" . $businessesDate->format("Y-m-d H:i:s") . "</p>";
-//echo "<h2>Inspections:</h2><p>" . $inspectionsDate->format("Y-m-d H:i:s") . "</p>";
-//echo "<h2>Violations:</h2><p>" . $violationsDate->format("Y-m-d H:i:s") . "</p>";
-//echo "<h2>XML:</h2><p>" . $xmlDate->format("Y-m-d H:i:s") . "</p>";
-//echo "<h2>Important:</h2><p>" . $importantDate->format("Y-m-d H:i:s") . "</p>";
-//
-//// This deletes the files on the bootcamp server
-//DataDownloader::deleteFiles("/var/lib/abq-data/", "businesses", ".csv");
-//
-
-
 // This downloads the file to the bootcamp server
 DataDownloader::downloadIfNew("http://data.cabq.gov/business/LIVES/businesses.csv", "/var/lib/abq-data/", "businesses", ".csv");
 DataDownloader::downloadIfNew("http://data.cabq.gov/business/LIVES/violations.csv", "/var/lib/abq-data/", "violations", ".csv");
 // This fills the database with information
 DataDownloader::fillDatabase("/var/lib/abq-data/businesses", ".csv", "/var/lib/abq-data/violations", ".csv");
-
-//DataDownloader::readViolationsCSV("http://data.cabq.gov/business/LIVES/violations.csv");
-
-// TESTING ********************

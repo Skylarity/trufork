@@ -41,8 +41,8 @@ CREATE TABLE violation (
 	violationId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	restaurantId INT UNSIGNED NOT NULL,
 	violationCode VARCHAR(8) NOT NULL,
-	violationDesc VARCHAR(1024) NOT NULL,
-	inspectionMemo VARCHAR(1024) NOT NULL,
+	violationDesc VARCHAR(1024),
+	inspectionMemo VARCHAR(1024),
 	serialNum VARCHAR(12) NOT NULL, -- this value is alphanumeric, hence not an integer
 	INDEX(violationId),
 	PRIMARY KEY(violationId),
