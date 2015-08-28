@@ -20,10 +20,10 @@ class Comment {
 	 **/
 	private $commentId;
 
-	/** @var  int $profileId
-	 * profileId assigned to comment
+	/** @var  int $userId
+	 * userId assigned to comment
 	 **/
-	private $profileId;
+	private $userId;
 
 	/** @var int restaurantId
 	 * restaurantId assigned to comment
@@ -44,7 +44,7 @@ class Comment {
 
 	/** constructor method for Comment
 	 * @param int $commentId or null if a new Comment
-	 * @param int $profileId or null if a new profileId
+	 * @param int $userId or null if a new userId
 	 * @param int $restaurantId or null if a new restaurantId
 	 * @param DateTime $dateTime datetimestamp of comment
 	 * @param int $content content of Comment
@@ -53,10 +53,10 @@ class Comment {
 	 * @throws Exception For all other cases
 	 *
 	 **/
-	public function __construct($commentId, $profileId, $restaurantId, $dateTime, $content) {
+	public function __construct($commentId, $userId, $restaurantId, $dateTime, $content) {
 		try {
 			$this->setCommentId($commentId);
-			$this->setProfileId($profileId);
+			$this->setUserId($userId);
 			$this->setRestaurantId($restaurantId);
 			$this->setDateTime($dateTime);
 			$this->setContent($content);
@@ -87,18 +87,18 @@ class Comment {
 		$this->commentId = Filter::filterInt($newCommentId, "Comment ID", true);
 	}
 
-	/** accessor method for getting profileId
+	/** accessor method for getting userId
 	 * @return int
 	 */
-	public function getProfileId() {
-		return $this->profileId;
+	public function getUserId() {
+		return $this->userId;
 	}
 
-	/**mutator method for setting profileId
-	 * @param int $profileId
+	/**mutator method for setting userId
+	 * @param int $userId
 	 */
-	public function setProfileId($newProfileId) {
-		$this->profileId = Filter::filterInt($newProfileId, "Profile ID", true);
+	public function setUserId($newUserId) {
+		$this->userId = Filter::filterInt($newUserId, "User ID", true);
 	}
 
 	/** accessor method for getting restaurantId
@@ -174,10 +174,10 @@ class Comment {
 		if($this->commentId !== null) {
 			throw(new PDOException("not a new comment"));
 		}
-		$query = "INSERT INTO comment(profileId, restaurantId, dateTime, content) VALUES(:profileId, :restaurantId, :dateTime, :content)";
+		$query = "INSERT INTO comment(userId, restaurantId, dateTime, content) VALUES(:userId, :restaurantId, :dateTime, :content)";
 		$statement = $pdo->prepare($query);
 
-		$parameters = array("profileId" => $this->getProfileId(), "restaurantId" => $this->getRestaurantId(), "dateTime" => $this->getDateTime()->format("Y-m-d H:i:s"), "content" => $this->getcontent());
+		$parameters = array("userId" => $this->getUserId(), "restaurantId" => $this->getRestaurantId(), "dateTime" => $this->getDateTime()->format("Y-m-d H:i:s"), "content" => $this->getcontent());
 		$statement->execute($parameters);
 
 		$this->setCommentId(intval($pdo->lastInsertId()));
@@ -235,7 +235,7 @@ class Comment {
 		}
 
 		// Create query template
-		$query = "SELECT commentId, profileId, restaurantId, dateTime, content FROM comment WHERE commentId = :commentId";
+		$query = "SELECT commentId, userId, restaurantId, dateTime, content FROM comment WHERE commentId = :commentId";
 		$statement = $pdo->prepare($query);
 
 		$parameters = array("commentId" => $commentId);
@@ -247,7 +247,7 @@ class Comment {
 			$row = $statement->fetch();
 
 			if($row !== false) {
-				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["dateTime"], $row["content"]);
+				$comment = new Comment($row["commentId"], $row["userId"], $row["restaurantId"], $row["dateTime"], $row["content"]);
 			}
 		} catch(Exception $exception) {
 			throw(new PDOException($exception->getMessage(), 0, $exception));
@@ -257,29 +257,29 @@ class Comment {
 	}
 
 	/**
-	 * Gets the comment by profile ID
+	 * Gets the comment by user ID
 	 *
 	 * @param PDO $pdo pointer to PDO connection, by reference
-	 * @param int $profileId profile ID to search for
+	 * @param int $userId user ID to search for
 	 * @return mixed Comment found or null if not found
 	 * @throws PDOException when MySQL related errors occur
 	 */
-	public static function getCommentByProfileId(PDO &$pdo, $profileId) {
+	public static function getCommentByUserId(PDO &$pdo, $userId) {
 
-		$profileId = filter_var($profileId, FILTER_VALIDATE_INT);
-		if($profileId === false) {
-			throw(new PDOException("profile ID is not an integer"));
+		$userId = filter_var($userId, FILTER_VALIDATE_INT);
+		if($userId === false) {
+			throw(new PDOException("user ID is not an integer"));
 		}
-		if($profileId <= 0) {
-			throw(new PDOException("profile ID is not positive"));
+		if($userId <= 0) {
+			throw(new PDOException("user ID is not positive"));
 		}
 
 		// Create query template
-		$query = "SELECT commentId, profileId, restaurantId, dateTime, content FROM comment WHERE profileId = :profileId";
+		$query = "SELECT commentId, userId, restaurantId, dateTime, content FROM comment WHERE userId = :userId";
 		$statement = $pdo->prepare($query);
 
-		// bind profile id to placeholder in template
-		$parameters = array("profileId" => $profileId);
+		// bind user id to placeholder in template
+		$parameters = array("userId" => $userId);
 		$statement->execute($parameters);
 
 		//build array of comments
@@ -288,7 +288,7 @@ class Comment {
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["dateTime"], $row["content"]);
+				$comment = new Comment($row["commentId"], $row["userId"], $row["restaurantId"], $row["dateTime"], $row["content"]);
 				$comments[$comments->key()] = $comment;
 				$comments->next();
 			} catch(Exception $exception) {
@@ -319,7 +319,7 @@ class Comment {
 		}
 
 		// Create query template
-		$query = "SELECT commentId, profileId, restaurantId, dateTime, content FROM comment WHERE restaurantId = :restaurantId";
+		$query = "SELECT commentId, userId, restaurantId, dateTime, content FROM comment WHERE restaurantId = :restaurantId";
 		$statement = $pdo->prepare($query);
 
 		//bind restaurant id to placeholder in comments
@@ -331,7 +331,7 @@ class Comment {
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["dateTime"], $row["content"]);
+				$comment = new Comment($row["commentId"], $row["userId"], $row["restaurantId"], $row["dateTime"], $row["content"]);
 				$comments[$comments->key()] = $comment;
 				$comments->next();
 			} catch(Exception $exception) {
@@ -363,7 +363,7 @@ class Comment {
 		if(empty($dateTime) === true) {
 			throw(new PDOException("date time is not  valid "));
 		}
-		$query = "SELECT commentId, profileId, restaurantId, dateTime, content FROM comment WHERE dateTime = :dateTime";
+		$query = "SELECT commentId, userId, restaurantId, dateTime, content FROM comment WHERE dateTime = :dateTime";
 		$statement = $pdo->prepare($query);
 
 		$dateTime = "$dateTime";
@@ -374,7 +374,7 @@ class Comment {
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["dateTime"], $row["content"]);
+				$comment = new Comment($row["commentId"], $row["userId"], $row["restaurantId"], $row["dateTime"], $row["content"]);
 				$comments[$comments->key()] = $comment;
 				$comments->next();
 			} catch(Exception $exception) {
@@ -417,7 +417,7 @@ class Comment {
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$comment = new Comment($row["commentId"], $row["profileId"], $row["restaurantId"], $row["dateTime"], $row["content"]);
+				$comment = new Comment($row["commentId"], $row["userId"], $row["restaurantId"], $row["dateTime"], $row["content"]);
 				$comments[$comments->key()] = $comment;
 				$comments->next();
 			} catch(Exception $exception) {

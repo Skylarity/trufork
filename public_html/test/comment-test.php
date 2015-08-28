@@ -5,7 +5,7 @@ require_once(dirname(__DIR__) . "/test/trufork.php");
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/php/classes/comment.php");
 require_once(dirname(__DIR__) . "/php/classes/restaurant.php");
-require_once(dirname(__DIR__) . "/php/classes/profile.php");
+require_once(dirname(__DIR__) . "/php/classes/user.php");
 require_once(dirname(__DIR__) . "/php/classes/user.php");
 
 /**
@@ -37,10 +37,10 @@ class CommentTest extends TruForkTest {
 	protected $VALID_CONTENT = "bigoldstringofnonsense";
 
 	/**
-	 * valid Profile that created the comment
-	 * @var Profile $profile
+	 * valid User that created the comment
+	 * @var User $user
 	 **/
-	protected $profile = null;
+	protected $user = null;
 
 	/**
 	 * valid Restaurant upon which the comment is made
@@ -48,16 +48,10 @@ class CommentTest extends TruForkTest {
 	 **/
 	protected $restaurant = null;
 
-	/**
-	 * valid User by which comment is made via Profile
-	 * @var User $user
-	 *
-	 **/
-	protected $user = null;
 
 	/**
 	 *
-	 * create dependent objects ProfileId & RestaurantId before running each test
+	 * create dependent objects UserId & RestaurantId before running each test
 	 * references getSetUpOperation from test/trufork.php
 	 **/
 
@@ -69,15 +63,15 @@ class CommentTest extends TruForkTest {
 		$this->VALID_DATETIME = DateTime::createFromFormat("Y-m-d H:i:s", "2015-01-01 15:16:17");
 		$this->VALID_DATETIME2 = DateTime::createFromFormat("Y-m-d H:i:s", "2013-01-01 15:12:15");
 
-		//create and insert a User to own the test Comment via Profile
+		//create and insert a User to own the test Comment via User
 		$salt = bin2hex(openssl_random_pseudo_bytes(32));
 		$hash = hash_pbkdf2("sha512", "password1234", $salt, 262144, 128);
 		$this->user = new User(null, $salt, $hash);
 		$this->user->insert($this->getPDO());
 
-		//create and insert a Profile to own the test Comment
-		$this->profile = new Profile(null, $this->user->getUserId(), "joebob@sixfinger.com");
-		$this->profile->insert($this->getPDO());
+		//create and insert a User to own the test Comment
+		$this->user = new User(null, $this->user->getUserId(), "joebob@sixfinger.com");
+		$this->user->insert($this->getPDO());
 
 		//create and insert a Restaurant to own the test Comment
 		$this->restaurant = new Restaurant(null, "ChIJ18Mh_sa6woARKLIrL9eOxTs", "ABCD12345678", "Sticky Rice", "317 South Broadway, Los Angeles, CA 90013", "+18185551212", "5");
@@ -92,7 +86,7 @@ class CommentTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->user->getUserId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -109,7 +103,7 @@ class CommentTest extends TruForkTest {
 	 **/
 	public function testInsertInvalidComment() {
 		// create a comment with a non null commentId and watch it fail
-		$comment = new Comment(TruforkTest::INVALID_KEY, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(TruforkTest::INVALID_KEY, $this->user->getUserId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 	}
 
@@ -121,7 +115,7 @@ class CommentTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->user->getUserId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// edit the Comment and update it in mySQL
@@ -142,7 +136,7 @@ class CommentTest extends TruForkTest {
 	 **/
 	public function testUpdateInvalidComment() {
 		// create a Comment and try to update it without actually inserting it
-		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->user->getUserId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->update($this->getPDO());
 	}
 
@@ -154,7 +148,7 @@ class CommentTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->user->getUserId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// delete the Comment from mySQL
@@ -174,7 +168,7 @@ class CommentTest extends TruForkTest {
 	 **/
 	public function testDeleteInvalidComment() {
 		// create a Comment and try to delete it without actually inserting it
-		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->user->getUserId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->delete($this->getPDO());
 	}
 
@@ -186,7 +180,7 @@ class CommentTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->user->getUserId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -197,21 +191,21 @@ class CommentTest extends TruForkTest {
 	}
 
 	/**
-	 * test grabbing a Comment by Profile Id
+	 * test grabbing a Comment by User Id
 	 **/
-	public function testGetValidCommentByProfileId() {
+	public function testGetValidCommentByUserId() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->user->getUserId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoComments = Comment::getCommentByProfileId($this->getPDO(), $this->profile->getProfileId());
+		$pdoComments = Comment::getCommentByUserId($this->getPDO(), $this->user->getUserId());
 		foreach($pdoComments as $pdoComment) {
 			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("comment"));
-			$this->assertSame($pdoComment->getProfileId(), $this->profile->getProfileId());
+			$this->assertSame($pdoComment->getUserId(), $this->user->getUserId());
 		}
 	}
 
@@ -223,7 +217,7 @@ class CommentTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->user->getUserId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -248,7 +242,7 @@ class CommentTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->user->getUserId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -277,7 +271,7 @@ class CommentTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("comment");
 
 		// create a new Comment and insert to into mySQL
-		$comment = new Comment(null, $this->profile->getProfileId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
+		$comment = new Comment(null, $this->user->getUserId(), $this->restaurant->getRestaurantId(), $this->VALID_DATETIME, $this->VALID_CONTENT);
 		$comment->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
