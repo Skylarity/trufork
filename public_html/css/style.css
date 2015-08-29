@@ -144,7 +144,6 @@ header {
 	display: inline-block;
 }
 
-
 /********************************************
  * Modal Styles
  ********************************************/
@@ -184,12 +183,8 @@ header {
 }
 
 .checkbox {
-<<<<<<< Updated upstream
 	font-weight: 400;
-=======
->>>>>>> Stashed changes
 }
-
 
 /********************************************
  * Restaurant
@@ -355,7 +350,6 @@ header {
 	padding: 0 0 20px 0;
 	text-align: center;
 }
-
 
 /********************************************
  * Footer Styles
