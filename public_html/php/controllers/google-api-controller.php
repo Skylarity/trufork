@@ -53,11 +53,10 @@ try {
 			/*
 			 * this sudcode is trying to solve the problem of compatibility bewteen google and city address
 			 * /
-			 //map an array
-			 we implode the google date
-			*/
-
-//			$newAddress = array(address_component[0]["shortname"],address_component[1]["shortname"],address_component[2]["shortname"address_component[3]["shortname",address_component[4]["shortname"]);
+			$detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json?key=" . $config["placekey"]. "&placeid=".
+				$result->place_id;
+				$detailResponse = json_decode(file_get_contents(detailsUrl));
+				var_dump($detailsResponse->result);
 			$fullAddress = [];
 			$address_components = $googleArray["address_components"];
 			foreach($address_components as $component) {
