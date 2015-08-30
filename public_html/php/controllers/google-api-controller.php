@@ -43,27 +43,35 @@ try {
 			}
 			echo "<ul class=\"list-group\">" . PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $result->formatted_address . "</strong></li>" . PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result->name . "</strong></li>" . PHP_EOL;
+							echo "<li class=\"list-group-item\"><strong>" . $result->name . "</strong></li>" . PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $result->rating . "</strong></li>" . PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $result->place_id . "</strong></li>" . PHP_EOL;
 			//	echo "<li class=\"list-group-item\"><strong>" . $result->price_level . "</strong></li>" . PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $result->geometry->location->lat . "</strong></li>" . PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $result->geometry->location->lng . "</strong></li>" . PHP_EOL;
 			echo "</ul>";
-			/*
-			 * this sudcode is trying to solve the problem of compatibility bewteen google and city address
-			 * /
+
 			$detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json?key=" . $config["placekey"]. "&placeid=".
 				$result->place_id;
-				$detailResponse = json_decode(file_get_contents(detailsUrl));
+				$detailsResponse = json_decode(file_get_contents($detailsUrl));
 				var_dump($detailsResponse->result);
+
+				if($detailsResponse->status ==="OK") {
+					foreach($detailsResponse->result as $response){
+						$shortNumber = $response->address_component[0]["short_name"];
+						echo "$shortNumber";
+					}
+				}
 			$fullAddress = [];
-			$address_components = $googleArray["address_components"];
+			$gooArray= array();
+			$address_components = $gooArray["address_components"];
 			foreach($address_components as $component) {
 				$fullAddress[] = $component["short_name"];
 			}
 
 			$fullAddress = implode(" ", $fullAddress);
+			echo "$fullAddress";
+
 			// we will put ours address in capital letters
 
 			$fullAddress = strtoupper($fullAddress);
