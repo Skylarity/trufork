@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: kennethchavez
- * Date: 8/9/15
- * Time: 3:25 PM
- */
 
-// grab the encrypted properties file
-// Get the test parameters
 require_once("trufork.php");
 require_once(dirname(__DIR__) . "/php/classes/user.php");
 
@@ -19,35 +11,18 @@ require_once(dirname(__DIR__) . "/php/classes/user.php");
  * are tested for both invalid and valid inputs.
  *
  *
- * @property User profile
- * @property  USER_3
  */
 
 class UserTest extends TruForkTest {
-	/**
-	 * valid password salt for userId;
-	 * @var string $passwordSalt
-	 */
-	protected $VALID_SALT;
-	/**
-	 * valid password hash for userId;
-	 * @var string $passwordHash
-	 **/
-	protected $VALID_HASH;
 
 	/**
 	 * valid email
 	 * @var string email
 	 *
 	 */
-	protected $VALID_EMAIL = "humberto@hemberto.com";
+	protected $VALID_EMAIL = "hur@dot.com";
 
-	/**
-	 * valid User Name
-	 * @var string name
-	 *
-	 */
-	protected  $USERNAME = "humberto123";
+
 	/**
 	 * valid user name
 	 * @var string user name
@@ -58,59 +33,59 @@ class UserTest extends TruForkTest {
 	 */
 	protected $USER_ID = null;
 
-	/**
-	 * @var user USER_3
-	 */
-	protected $USER_3 = "5";
 
 	/**
 	 * @var string salt 2
 	 */
-	protected $VALID_SALT_2;
+	protected $VALID_SALT;
 	/**
 	 * @var string $hash 2
 	 */
-	protected $VALID_HASH_2;
+	protected $VALID_HASH;
 
 
 
 	/**
-	 * profile set up
+	 * password setup
 	 */
 	public function setup() {
 		parent::setup();
 
 		// create a salt and hash test
 		$this->VALID_SALT = bin2hex(openssl_random_pseudo_bytes(32));
-		$this->VALID_HASH = $this->VALID_HASH = hash_pbkdf2("sha512", "password1234", $this->VALID_SALT, 262144, 128);
+		$this->VALID_HASH = hash_pbkdf2("sha512", "password1234", $this->VALID_SALT, 262144, 128);
 
-		// salt and hash 2
-		$this->VALID_SALT_2 = bin2hex(openssl_random_pseudo_bytes(32));
-		$this->VALID_HASH_2 = $this->VALID_HASH = hash_pbkdf2("sha512", "password1234", $this->VALID_SALT, 262144, 128);
-
-		// set up user test in mySQL
-		$this->USER_ID = new User(null, $this->USERNAME, $this->VALID_EMAIL, $this->VALID_SALT, $this->VALID_HASH);
-		$this->USER_ID->insert($this->getPDO());
-
-		// set up user2 test in mySQL
-		$this->USER_3 = new User(null, $this->USERNAME, $this->VALID_EMAIL, $this->VALID_SALT, $this->VALID_HASH);
-		$this->USER_3->insert($this->getPDO());
 	}
 
 
+	/**
+	 *Test inserting a valid user and verify that the actual MySQL data matches
+	 */
+	public function testInsertValidUser() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("user");
+
+		$user = new User(null, $this->VALID_SALT, $this->VALID_HASH, $this->VALID_EMAIL);
+		$user->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoUser = User::getUserByUserId($this->getPDO(), $user->getUserId());
+		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("user"));
+		$this->assertLessThan($pdoUser->getUserId(), 0);
+		$this->assertSame($pdoUser->getSalt(), $this->VALID_SALT);
+		$this->assertSame($pdoUser->getHash(), $this->VALID_HASH);
+		$this->assertSame($pdoUser->getEmail(), $this->VALID_EMAIL);
+	}
 	/**
 	 * test updating a User that does not exist
 	 *
 	 * @expectedException PDOException
 	 **/
 	public function testUpdateInvalidUser() {
-		// create a Profile and try to update it without actually inserting it
-		$user = new User(null, $this->USERNAME, $this->VALID_EMAIL, $this->VALID_SALT, $this->VALID_HASH);
+		// create a USer and try to update it without actually inserting it
+		$user = new User(null, $this->VALID_SALT, $this->VALID_HASH, $this->VALID_EMAIL);
 		$user->update($this->getPDO());
 	}
-
-
-
 
 	/**VALID_ID
 	 * test creating a user and then deleting it
@@ -119,15 +94,15 @@ class UserTest extends TruForkTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("user");
 
-		// create a new Profile and insert to into mySQL
-		$user = new User(null, $this->USERNAME, $this->VALID_EMAIL, $this->VALID_SALT, $this->VALID_HASH);
+		// create a new User and insert to into mySQL
+		$user = new User(null, $this->VALID_SALT, $this->VALID_HASH, $this->VALID_EMAIL);
 		$user->insert($this->getPDO());
 
-		// delete the Profile from mySQL
+		// delete the User from mySQL
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("user"));
 		$user->delete($this->getPDO());
 
-		// grab the data from mySQL and enforce the Profile does not exist
+		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoUser = User::getUserByUserId($this->getPDO(), $user->getUserId());
 		$this->assertNull($pdoUser);
 		$this->assertSame($numRows, $this->getConnection()->getRowCount("user"));
@@ -142,42 +117,22 @@ class UserTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("user");
 
 		// create a new user and insert to into mySQL
-		$user = new User(null, $this->USERNAME, $this->VALID_EMAIL, $this->VALID_SALT, $this->VALID_HASH);
+		$user = new User(null, $this->VALID_SALT, $this->VALID_HASH, $this->VALID_EMAIL);
 		$user->insert($this->getPDO());
 
 		// edit the user and update it in mySQL
-		$user->setHash($this->VALID_HASH_2);
+		$user->setHash($this->VALID_HASH);
 		$user->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoUser = User::getUserByUserId($this->getPDO(), $user->getUserId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("user"));
 		$this->assertLessThan($pdoUser->getUserId(), 0);
-		$this->assertSame($pdoUser->getEmail(), $this->VALID_EMAIL);
-		$this->assertSame($pdoUser->getUserName(),$this->USERNAME);
 		$this->assertSame($pdoUser->getSalt(), $this->VALID_SALT);
-		$this->assertSame($pdoUser->getHash(), $this->VALID_HASH_2);
+		$this->assertSame($pdoUser->getHash(), $this->VALID_HASH);
+		$this->assertSame($pdoUser->getEmail(), $this->VALID_EMAIL);
 	}
 
-	/**
-	 *
-	 */
-	public function testInsertValidUser() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("user");
-
-		$user = new User(null, $this->USERNAME, $this->VALID_EMAIL, $this->VALID_SALT, $this->VALID_HASH);
-		$user->insert($this->getPDO());
-
-		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoUser = User::getUserByUserId($this->getPDO(), $user->getUserId());
-		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("user"));
-		$this->assertLessThan($pdoUser->getUserId(), 0);
-		$this->assertSame($pdoUser->getEmail(), $this->VALID_EMAIL);
-		$this->assertSame($pdoUser->getUserName(), $this->USERNAME);
-		$this->assertSame($pdoUser->getSalt(), $this->VALID_SALT);
-		$this->assertSame($pdoUser->getHash(), $this->VALID_HASH_2);
-	}
 
 	/**
 	 * test grabbing a user by userId
@@ -186,17 +141,17 @@ class UserTest extends TruForkTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("user");
 
-		// create a new Profile and insert to into mySQL
-		$user = new User(null, $this->USERNAME, $this->VALID_EMAIL, $this->VALID_SALT, $this->VALID_HASH);
+		// create a new User and insert to into mySQL
+		$user = new User(null, $this->VALID_SALT, $this->VALID_HASH, $this->VALID_EMAIL);
 		$user->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoUser = User::getUserByUserId($this->getPDO(), $user->getUserId());
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("user"));
-		$this->assertSame($pdoUser->getEmail(), $this->VALID_EMAIL);
-		$this->assertSame($pdoUser->getUserName(), $this->USERNAME);
+		$this->assertLessThan($pdoUser->getUserId(), 0);
 		$this->assertSame($pdoUser->getSalt(), $this->VALID_SALT);
-		$this->assertSame($pdoUser->getHash(), $this->VALID_HASH_2);
+		$this->assertSame($pdoUser->getHash(), $this->VALID_HASH);
+		$this->assertSame($pdoUser->getEmail(), $this->VALID_EMAIL);
 	}
 
 
@@ -207,7 +162,7 @@ class UserTest extends TruForkTest {
 	 **/
 	public function testDeleteInvalidUser() {
 		// create a Profile and try to delete it without actually inserting it
-		$user = new User(null, $this->USERNAME, $this->VALID_EMAIL, $this->VALID_SALT, $this->VALID_HASH);
+		$user = new User(null, $this->VALID_SALT, $this->VALID_HASH, $this->VALID_EMAIL);
 		$user->delete($this->getPDO());
 	}
 	/**
@@ -218,15 +173,23 @@ class UserTest extends TruForkTest {
 		$numRows = $this->getConnection()->getRowCount("user");
 
 		// create a new Profile and insert to into mySQL
-		$user = new User(null, $this->USERNAME, $this->VALID_EMAIL, $this->VALID_SALT, $this->VALID_HASH);
+		$user = new User(null, $this->VALID_SALT, $this->VALID_HASH,  $this->VALID_EMAIL);
 		$user->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoUser = User::getUserByEmail($this->getPDO(), $this->VALID_EMAIL);
 		$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("user"));
-		$this->assertSame($pdoUser->getEmail(), $this->VALID_EMAIL);
-		$this->assertSame($pdoUser->getUserName(), $this->USERNAME);
+		$this->assertLessThan($pdoUser->getUserId(), 0);
 		$this->assertSame($pdoUser->getSalt(), $this->VALID_SALT);
-		$this->assertSame($pdoUser->getHash(), $this->VALID_HASH_2);
+		$this->assertSame($pdoUser->getHash(), $this->VALID_HASH);
+		$this->assertSame($pdoUser->getEmail(), $this->VALID_EMAIL);
+	}
+	/**
+	 * test grabbing a user by an email that does not exists
+	 **/
+	public function testGetInvalidUserByEmail() {
+		// grab an email that does not exist
+		$user = User::getUserByEmail($this->getPDO(), "<sript><Scrpt");
+		$this->assertNull($user);
 	}
 }
