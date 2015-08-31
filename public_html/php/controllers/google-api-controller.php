@@ -57,21 +57,23 @@ try {
 				var_dump($detailsResponse->result);
 
 				if($detailsResponse->status ==="OK") {
-					foreach($detailsResponse->result as $response){
-						$shortNumber = $response->address_component[0]["short_name"];
-						echo "$shortNumber";
+//							foreach($detailsResponse->result as $response=>$response_value){
+//											echo "direccion y tel".$response."y aqui q".$response_value;
+//							}
+					//		}}
+					$fullAddress = [];
+					$gooArray = array();
+					$address_components = $detailsResponse->address_components;
+
+					//foreach($address_components as $component) {
+					foreach($address_components as $component) {
+						echo "dir=" . $component;
+						$fullAddress[] = $component["short_name"];
 					}
+
+					$fullAddress = implode(" ", $fullAddress);
+					echo "$fullAddress";
 				}
-			$fullAddress = [];
-			$gooArray= array();
-			$address_components = $gooArray["address_components"];
-			foreach($address_components as $component) {
-				$fullAddress[] = $component["short_name"];
-			}
-
-			$fullAddress = implode(" ", $fullAddress);
-			echo "$fullAddress";
-
 			// we will put ours address in capital letters
 
 			$fullAddress = strtoupper($fullAddress);
