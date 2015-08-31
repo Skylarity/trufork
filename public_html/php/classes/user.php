@@ -32,21 +32,29 @@ class User {
 	private $email;
 
 	/**
+	 * create name
+	 */
+	private $name;
+
+
+	/**
 	 * Constructor method for this User
 	 *
 	 * @param int $userId of this user or null if new user
-	 * @param string $Email
 	 * @param string $salt sets salt
 	 * @param string $hash sets hash
+	 * @param string $email
+	 * @param string $name
 	 * @throw InvalidArgumentException if data types are not valid
 	 * @throws Exception if some other exception is thrown
 	 */
-	public function __construct($userId, $salt, $hash, $Email) {
+	public function __construct($userId, $salt, $hash, $email, $name) {
 		try {
 			$this->setUserId($userId);
 			$this->setSalt($salt);
 			$this->sethash($hash);
-			$this->setEmail($Email);
+			$this->setEmail($email);
+			$this->setName($name);
 
 		} catch(InvalidArgumentException $invalidArgument) {
 			//rethrow the exception to the call
@@ -136,6 +144,7 @@ class User {
 	public function getHash() {
 		return $this->hash;
 	}
+
 	/**
 	 * mutator method for hash
 	 *
@@ -208,6 +217,29 @@ class User {
 		$this->email = $newEmail;
 	}
 
+	public function getName() {
+		return ($this->name);
+	}
+
+	/**
+	 * Mutator method for Name
+	 *
+	 * @param string name
+	 * @throws InvalidArgumentException if email does not pass sanitization
+	 * @throws RangeException if email is longer than 64 characters
+	 **/
+	public function setName($newName) {
+		// verify name is valid
+		$newName = filter_var($newName, FILTER_SANITIZE_STRING);
+		if(empty($newName) === true) {
+			throw new InvalidArgumentException ("name invalid");
+		}
+		if(strlen($newName) > 64) {
+			throw(new RangeException ("name content too large"));
+		}
+		$this->name = $newName;
+	}
+
 	/**
 	 * insert this userId into mySQL
 	 *
@@ -222,11 +254,11 @@ class User {
 		}
 
 		// create a query template 
-		$query = "INSERT INTO user(hash, salt, email) VALUES(:hash, :salt, :email)";
+		$query = "INSERT INTO user(hash, salt, email, name) VALUES(:hash, :salt, :email, :name)";
 		$statement = $pdo->prepare($query);
 
 		// bind profileId to placeholders in template
-		$parameters = array("hash" => $this->getHash(), "salt" => $this->getSalt(), "email" => $this->getEmail());
+		$parameters = array("hash" => $this->getHash(), "salt" => $this->getSalt(), "email" => $this->getEmail(), "name" => $this->getName());
 		$statement->execute($parameters);
 
 		// Update the null profile ID with what MySQL has generate
@@ -267,11 +299,11 @@ class User {
 		}
 
 		// Create query template
-		$query = "UPDATE user SET salt = :salt,  hash = :hash, email = :email";
+		$query = "UPDATE user SET salt = :salt,  hash = :hash, email = :email, name = :name";
 		$statement = $pdo->prepare($query);
 
 		// Bind the member variables to the placeholders in the templates
-		$parameters = array("salt" => $this->getSalt(), "hash" => $this->gethash(), "email" => $this->getEmail());
+		$parameters = array("salt" => $this->getSalt(), "hash" => $this->gethash(), "email" => $this->getEmail(), "name" => $this->getName());
 		$statement->execute($parameters);
 	}
 
@@ -293,7 +325,7 @@ class User {
 		}
 
 		// create query template
-		$query = "SELECT userId, salt, hash, email FROM user WHERE userId = :userId";
+		$query = "SELECT userId, salt, hash, email, name FROM user WHERE userId = :userId";
 		$statement = $pdo->prepare($query);
 
 		// bind the user id to the place holder in the template
@@ -307,7 +339,7 @@ class User {
 			$row = $statement->fetch();
 
 			if($row !== false) {
-				$user = new User($row["userId"], $row["salt"], $row["hash"], $row["email"]);
+				$user = new User($row["userId"], $row["salt"], $row["hash"], $row["email"], $row["name"]);
 			}
 		} catch(Exception $exception) {
 			// if the row couldn't be converted, rethrow it
@@ -332,7 +364,7 @@ class User {
 			throw(new PDOException("email is not a valid email"));
 		}
 		// create query template
-		$query = "SELECT userId, salt, email,hash FROM user WHERE email = :email";
+		$query = "SELECT userId, salt, hash, email, name FROM user WHERE email = :email";
 		$statement = $pdo->prepare($query);
 
 		// bind the email to the place holder in the template
@@ -345,7 +377,7 @@ class User {
 			$statement->setFetchMode(PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$user = new User($row["userId"], $row["salt"], $row["hash"], $row["email"]);
+				$user = new User($row["userId"], $row["salt"], $row["hash"], $row["email"], $row["name"]);
 			}
 		} catch(Exception $exception) {
 			// if the row couldn't be converted, rethrow it
@@ -354,5 +386,40 @@ class User {
 		return ($user);
 	}
 
+	/**
+	 * get user by name
+	 *
+	 * @param PDO $pdo pointer for the pdo connection
+	 * @param string name
+	 * @throws PDOException for my SQL errors
+	 * @return Name $name
+	 */
+	public static function getUserByName(PDO &$pdo, $name) {
+		// sanitize the email before searching
+		$name = filter_var($name, FILTER_SANITIZE_EMAIL);
+		if($name === false) {
+			throw(new PDOException("email is not a valid email"));
+		}
+		// create query template
+		$query = "SELECT userId, salt, hash, email, name FROM user WHERE name = :name";
+		$statement = $pdo->prepare($query);
 
+		// bind the email to the place holder in the template
+		$parameters = array("email" => $name);
+		$statement->execute($parameters);
+
+		// grab the user from mySQL
+		try {
+			$user = null;
+			$statement->setFetchMode(PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$user = new User($row["userId"], $row["salt"], $row["hash"], $row["email"], $row["name"]);
+			}
+		} catch(Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new PDOException($exception->getMessage(), 0, $exception));
+		}
+		return ($user);
+	}
 }
