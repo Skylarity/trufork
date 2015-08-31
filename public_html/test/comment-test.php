@@ -6,7 +6,6 @@ require_once(dirname(__DIR__) . "/test/trufork.php");
 require_once(dirname(__DIR__) . "/php/classes/comment.php");
 require_once(dirname(__DIR__) . "/php/classes/restaurant.php");
 require_once(dirname(__DIR__) . "/php/classes/user.php");
-require_once(dirname(__DIR__) . "/php/classes/user.php");
 
 /**
  * PHPUnit test for the Comment class
@@ -43,6 +42,15 @@ class CommentTest extends TruForkTest {
 	protected $user = null;
 
 	/**
+	 * @var string $VALID_SALT
+	 */
+	protected $VALID_SALT;
+	/**
+	 * @VAR string $VALID_HASH
+	 */
+	protected $VALID_HASH;
+
+	/**
 	 * valid Restaurant upon which the comment is made
 	 * @var Restaurant $restaurant
 	 **/
@@ -63,14 +71,14 @@ class CommentTest extends TruForkTest {
 		$this->VALID_DATETIME = DateTime::createFromFormat("Y-m-d H:i:s", "2015-01-01 15:16:17");
 		$this->VALID_DATETIME2 = DateTime::createFromFormat("Y-m-d H:i:s", "2013-01-01 15:12:15");
 
-		//create and insert a User to own the test Comment via User
+		//create salt and hash for User
 		$salt = bin2hex(openssl_random_pseudo_bytes(32));
 		$hash = hash_pbkdf2("sha512", "password1234", $salt, 262144, 128);
-		$this->user = new User(null, $salt, $hash);
-		$this->user->insert($this->getPDO());
+//		$this->user = new User(null, $salt, $hash, );
+//		$this->user->insert($this->getPDO());
 
 		//create and insert a User to own the test Comment
-		$this->user = new User(null, $this->user->getUserId(), "joebob@sixfinger.com");
+		$this->user = new User(null, $salt, $hash, "JoeBob123", "joebob@sixfinger.com");
 		$this->user->insert($this->getPDO());
 
 		//create and insert a Restaurant to own the test Comment
