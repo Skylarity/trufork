@@ -9,7 +9,7 @@
 	<div class="restaurant-comment-form-group">
 			<label for="txtComment"></label>
 			<textarea name="txtComment" id="txtComment" class="input-control" rows="6"
-						cols="50" maxlength="1064" placeholder= "Whatchoo tryna say about this restaurant?"></textarea>
+						cols="50" maxlength="1064" placeholder= "What would you like to say about this restaurant?"></textarea>
 	</div>
 
 	<div class="button-group">
