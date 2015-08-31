@@ -1,6 +1,9 @@
 <?php
+
 require_once(dirname(__DIR__) . "/classes/data-downloader.php");
 require_once(dirname(__DIR__) . "/classes/restaurant.php");
+
+
 require_once("/etc/apache2/data-design/encrypted-config.php");
 
 try {
@@ -34,10 +37,7 @@ try {
 					break;
 				}
 			}
-
-			//write a foreach for the Geometry data array
-			//var_dump($result->geometry);
-
+			//write the google place information that we need
 			if($imgUrl !== null) {
 				echo "<img class=\"img-responsive\" src=\"$imgUrl\" />" . PHP_EOL;
 			}
@@ -50,6 +50,7 @@ try {
 			echo "<li class=\"list-group-item\"><strong>" . $result->geometry->location->lat . "</strong></li>" . PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $result->geometry->location->lng . "</strong></li>" . PHP_EOL;
 			echo "</ul>";
+
 
 			$detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json?key=" . $config["placekey"]. "&placeid=".
 				$result->place_id;
@@ -78,16 +79,54 @@ try {
 
 			$fullAddress = strtoupper($fullAddress);
 
+
+			// this is one of the solution that the master Dylan suggest
+			$detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json?key=". $config["placekey"] . "&placeid=" . $result->place_id;
+			$detailsResponse = json_decode(file_get_contents($detailsUrl));
+			var_dump($detailsResponse->result);
+			if($detailsResponse->status === "OK"){
+				foreach($detailsResponse->results as $response) {
+// create map to secondary associative array here
+					$shortNumber = $response->address_components[0]->short_name;
+					$shortAddress = $response->address_components[1]->short_name;
+					echo "esto es{$shortNumber}!";
+				}
+			}
+
+			echo "<ul class=\list-group\">". PHP_EOL;
+					echo("la dir formateada");
+			echo "<li class=\list-group-item\><strong>". $response->$shortNumber . "</strong></li>". PHP_EOL;
+			echo "<li class=\list-group-item\><strong>". $response->$shortAddress ."</strong></li>". PHP_EOL;
+
 			/*
 					*  this subcode is trying to match the city address  with google address
 			*/
 
+					function myfunction($g,$c){
+						if($g==$c){
+							return" same";
+						} return "diferent";
+					}
+
+			$g= array("$shortNumber","$shortAddress");
+			$c= array("4717"," old coors nw");
+			print_r(array_map("myfunction",$g,$c));
 			$restaurant = array();
 			$gMatches = array();
 			$cMatches = array();
 			$pattern = "/^(\d{1,6)\s+(.+)\s+(NE|NW|SE|SW).*(\d+)?$/iU";
 			// how we grab the address from goggle
+
 			$subjectg = $result->formatted_address;
+
+		//	$subjectg= $result->formatted_address;
+		//	$subjectg=$result->address_components;
+			$subjectg=$result-> formatedd_address;
+			echo strtoupper("$subjectg");
+			echo ("aqui es");
+			var_dump($subjectg);
+			$googleId = $result->place_id;
+
 
 			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
 			$restaurant = Restaurant::getRestaurantByAddress($pdo, $subjectg);
@@ -106,6 +145,7 @@ try {
 						$restaurant = Restaurant::getRestaurantByAddress($pdo, $g0);
 						$restaurant->setGoogleId($googleId);
 						$restaurant->update($pdo);
+						echo $restaurant;
 					}
 				}
 			}
