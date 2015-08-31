@@ -11,9 +11,9 @@ require_once(dirname(__DIR__) . "/helpers/filter.php");
 class Friend {
 	/**
 	 *  id for the firstProfile who is generate ; this is a foreign key
-	 * @var int $firstProfileId
+	 * @var int $firstUserId
 	 **/
-	private $firstProfileId;
+	private $firstUserId;
 	/**
 	 *  id for the secondProfiled who is generate; this is a foreign key
 	 * @var int $secondProfileId
@@ -39,7 +39,7 @@ class Friend {
 	 **/
 	public function __construct($newFirstProfileId, $newSecondProfileId, $newDateFriended) {
 		try {
-			$this->setFirstProfileId($newFirstProfileId);
+			$this->setFirstUserId($newFirstProfileId);
 			$this->setSecondProfileId($newSecondProfileId);
 			$this->setDateFriended($newDateFriended);
 		} catch(InvalidArgumentException $invalidArgument) {
@@ -58,33 +58,33 @@ class Friend {
 	 * accesor method for firstProfile id
 	 * @return int value for firstProfile id
 	 **/
- 	public function getFirstProfileId() {
-		return ($this->firstProfileId);
+ 	public function getFirstUserId() {
+		return ($this->firstUserId);
 	}
 
 	/**
 	 * mutator method for first profileId
 	 *
-	 * @param int $newFirstProfileId new value  of firstProfile id
+	 * @param int $newFirstUserId new value  of firstProfile id
 	 * @throws  UnexpectedValueException if $new FirstprofileId is not integer
 	 **/
-	public function setFirstProfileId($newFirstProfileId) {
+	public function setFirstUserId($newFirstUserId) {
 		// Make sure the ID is not null
-		if($newFirstProfileId === null) {
+		if($newFirstUserId === null) {
 			throw(new InvalidArgumentException("Profile ID must exist"));
 		}
 
 		// verify the first Profiled Id is valid
-		$newFirstProfileId = filter_var($newFirstProfileId, FILTER_VALIDATE_INT);
-		if($newFirstProfileId === false) {
+		$newFirstUserId = filter_var($newFirstUserId, FILTER_VALIDATE_INT);
+		if($newFirstUserId === false) {
 			throw(new UnexpectedValueException("first profile is not valid integer"));
 		}
 		//verify the firstProfile Id is positive
-		if($newFirstProfileId <= 0) {
-			throw(new RangeException(" firstProfileId is not positive"));
+		if($newFirstUserId <= 0) {
+			throw(new RangeException(" firstUserId is not positive"));
 			// convert and store the firstprofile id
 		}
-		$this->firstProfileId = intval($newFirstProfileId);
+		$this->firstUserId = intval($newFirstUserId);
 	}
 
 	/**
@@ -101,19 +101,19 @@ class Friend {
 	 *@ para int $newSecondProfiledID new value of secondProfileId
 	 * @throws UnexpectedVAlueException if $newSecondProfiledID is not a  integer
 	 **/
-	public function setSecondProfileId($newSecondProfileId) {
+	public function setSecondProfileId($newSecondUserId) {
 		// Make sure the ID is not null
-		if($newSecondProfileId === null) {
+		if($newSecondUserId === null) {
 			throw(new InvalidArgumentException("Profile ID must exist"));
 		}
 
 		//verify the secondProfile id is valid
-		$newSecondProfileId = filter_var($newSecondProfileId, FILTER_VALIDATE_INT);
-		if($newSecondProfileId === false) {
+		$newSecondUserId = filter_var($newSecondUserId, FILTER_VALIDATE_INT);
+		if($newSecondUserId === false) {
 			throw(new UnexpectedValueException("secondProfiledId id is not a valid integer"));
 		}
 		//convert and store the secondProfiled id
-		$this->secondProfileId = intval($newSecondProfileId);
+		$this->secondProfileId = intval($newSecondUserId);
 	}
 
 	/**
@@ -156,7 +156,7 @@ class Friend {
 	 **/
 	public function __toString() {
 		//create an HTML formatted friend
-		$html = "<p>FirstProfile id" . $this->firstProfileId . "<br/>"
+		$html = "<p>FirstProfile id" . $this->firstUserId . "<br/>"
 			. "SecondProfile id:" . $this->secondProfileId . "<br/>"
 			. "DateFriended:" . $this->dateFriended->format("Y-m-d H:i:s")
 			. "<p>";
@@ -168,11 +168,11 @@ class Friend {
 	 * @throws PDOException in the event of mySQL errors
 	 **/
 	public function insert(PDO &$pdo) {
-		$query = "INSERT INTO friend(firstProfileId, secondProfileId, dateFriended) VALUES (:firstProfileId,:secondProfileId,:dateFriended)";
+		$query = "INSERT INTO friend(firstUserId, secondProfileId, dateFriended) VALUES (:firstUserId,:secondProfileId,:dateFriended)";
 		$statement = $pdo->prepare($query);
 
 		$formattedDateFriended = $this->dateFriended->format("Y-m-d H:i:s");
-		$parameters = array("firstProfileId" => $this->firstProfileId, "secondProfileId" => $this->secondProfileId, "dateFriended" => $formattedDateFriended);
+		$parameters = array("firstUserId" => $this->firstUserId, "secondProfileId" => $this->secondProfileId, "dateFriended" => $formattedDateFriended);
 		$statement->execute($parameters);
 	}
 
@@ -183,13 +183,13 @@ class Friend {
 	 * @throws PDOException when MySQL related errors occur
 	 **/
 	public function delete(PDO &$pdo) {
-		if($this->firstProfileId === null || $this->secondProfileId === null) {
+		if($this->firstUserId === null || $this->secondProfileId === null) {
 			throw(new PDOException("cannot delete a friend that does not exist"));
 		}
-		$query = "DELETE FROM friend WHERE firstProfileId = :firstProfileId AND secondProfileId = :secondProfileId";
+		$query = "DELETE FROM friend WHERE firstUserId = :firstUserId AND secondProfileId = :secondProfileId";
 		$statement = $pdo->prepare($query);
 
-		$parameters = array("firstProfileId" => $this->firstProfileId, "secondProfileId" => $this->secondProfileId);
+		$parameters = array("firstUserId" => $this->firstUserId, "secondProfileId" => $this->secondProfileId);
 		$statement->execute($parameters);
 	}
 
@@ -209,7 +209,7 @@ class Friend {
 		}
 
 		// Create MySQL query template
-		$query = "SELECT  firstProfileId,secondProfileId,dateFriended FROM  friend WHERE firstProfileId = :profileId";
+		$query = "SELECT  firstUserId,secondProfileId,dateFriended FROM  friend WHERE firstUserId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		// Bind variables to placeholders
@@ -221,7 +221,7 @@ class Friend {
 		$statement->setFetchMode(PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$friend = new Friend($row["firstProfileId"], $row["secondProfileId"], $row["dateFriended"]);
+				$friend = new Friend($row["firstUserId"], $row["secondProfileId"], $row["dateFriended"]);
 				$friends[$friends->key()] = $friend;
 				$friends->next();
 			} catch(Exception $e) {

@@ -95,7 +95,7 @@ class FriendTest extends TruForkTest {
 		$friend->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoFriends = Friend::getFriendByProfileId($this->getPDO(), $friend->getFirstProfileId());
+		$pdoFriends = Friend::getFriendByProfileId($this->getPDO(), $friend->getFirstUserId());
 		foreach($pdoFriends as $pdoFriend) {
 			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("friend"));
 			$this->assertEquals($pdoFriend->getDateFriended(), $this->VALID_DATEFRIENDED);
@@ -130,7 +130,7 @@ class FriendTest extends TruForkTest {
 
 
 // grab the data from mySQL and enforce the Friend does not exist
-		$pdoFriends = Friend::getFriendByProfileId($this->getPDO(), $friend->getFirstProfileId());
+		$pdoFriends = Friend::getFriendByProfileId($this->getPDO(), $friend->getFirstUserId());
 		foreach($pdoFriends as $pdoFriend) {
 			$this->assertNull($pdoFriend);
 			$this->assertSame($numRows, $this->getConnection()->getRowCount("friend"));
@@ -160,7 +160,7 @@ class FriendTest extends TruForkTest {
 		$friend->insert($this->getPDO());
 
 // grab the data from mySQL and enforce the fields match our expectations
-		$pdoFriends = Friend::getFriendByProfileId($this->getPDO(), $friend->getFirstProfileId());
+		$pdoFriends = Friend::getFriendByProfileId($this->getPDO(), $friend->getFirstUserId());
 		foreach($pdoFriends as $pdoFriend) {
 			$this->assertSame($numRows + 1, $this->getConnection()->getRowCount("friend"));
 			$this->assertSame($pdoFriend->getFirstProfileId(), $this->profile1->getProfileId());
