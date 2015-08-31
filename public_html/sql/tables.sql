@@ -52,13 +52,13 @@ CREATE TABLE violation (
 CREATE TABLE comment (
 	commentId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	restaurantId INT UNSIGNED NOT NULL,
-	profileId INT UNSIGNED NOT NULL,
+	userId INT UNSIGNED NOT NULL,
 	dateTime DATETIME NOT NULL,
 	content VARCHAR(1064) NOT NULL,
 	INDEX(commentId),
 	PRIMARY KEY(commentId),
 	FOREIGN KEY(restaurantId) REFERENCES restaurant(restaurantId),
-	FOREIGN KEY(profileId) REFERENCES profile(profileId)
+	FOREIGN KEY(userId) REFERENCES user(userId)
 );
 
 CREATE TABLE friend (

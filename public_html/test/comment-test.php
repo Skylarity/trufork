@@ -78,7 +78,7 @@ class CommentTest extends TruForkTest {
 //		$this->user->insert($this->getPDO());
 
 		//create and insert a User to own the test Comment
-		$this->user = new User(null, "JoeBob123", $salt,  "joebob@sixfinger.com", $hash);
+		$this->user = new User(null, $hash, $salt, "joebob@sixfinger.com");
 		$this->user->insert($this->getPDO());
 
 		//create and insert a Restaurant to own the test Comment
