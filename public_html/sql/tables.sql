@@ -7,8 +7,8 @@ DROP TABLE IF EXISTS user; -- dropping this table last as it is created first
 
 CREATE TABLE user (
 	userId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	hash VARCHAR(128),
-	salt VARCHAR(64),
+	hash CHAR(128),
+	salt CHAR(64),
 	name VARCHAR(64),
 	email VARCHAR(64) NOT NULL,
 	INDEX(userId),
