@@ -9,10 +9,11 @@ CREATE TABLE user (
 	userId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	hash VARCHAR(128),
 	salt VARCHAR(64),
-	userName VARCHAR(128),
+	name VARCHAR(64),
 	email VARCHAR(64) NOT NULL,
 	INDEX(userId),
-	PRIMARY KEY(userId)
+	PRIMARY KEY(userId),
+	UNIQUE (email)
 );
 
 CREATE TABLE profile (
@@ -62,11 +63,11 @@ CREATE TABLE comment (
 );
 
 CREATE TABLE friend (
-	firstProfileId INT UNSIGNED NOT NULL,
-	secondProfileId INT UNSIGNED NOT NULL,
+	firstUserId INT UNSIGNED NOT NULL,
+	secondUserId INT UNSIGNED NOT NULL,
 	dateFriended DATETIME NOT NULL,
 	relationshipCode INT(12) NOT NULL,
-	FOREIGN KEY(firstProfileId) REFERENCES profile(profileId),
-	FOREIGN KEY(firstProfileId) REFERENCES profile(profileId)
+	FOREIGN KEY(firstUserId) REFERENCES user(userId),
+	FOREIGN KEY(firstUserId) REFERENCES user(userId)
 );
 

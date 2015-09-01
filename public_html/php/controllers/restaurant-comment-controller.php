@@ -31,7 +31,7 @@ try {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
 	//$comment = new Comment(null, $_POST["userId"], $_POST["restaurantId"], $newDateTime, $_POST["txtComment"]);
 	//$comment = new Comment(null, null, null, null, null);
-	$comment = new Comment(null, $_SESSION["user"]->getUserId(), $_POST["restaurantId"], $newDateTime, $_POST["txtComment"]);
+	$comment = new Comment(null, $_SESSION["userId"], $_POST["restaurantId"], $newDateTime, $_POST["txtComment"]);
 	$comment->insert($pdo);
 	echo "<p class=\"alert alert-success\">Comment posted!</p>";
 } catch(Exception $exception) {

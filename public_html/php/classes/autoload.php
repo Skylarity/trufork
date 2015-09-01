@@ -18,7 +18,7 @@ class Autoloader {
 	public static function classLoader($className) {
 		$className = strtolower($className);
 		if(is_readable(__DIR__ . "/$className.php")) {
-			require_once(__DIR__ . "/$className.php");
+			require_once(__DIR__ . "/autoload.php");
 		} else {
 			throw(new Exception("Unable to load $className.php"));
 		}

@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<form id="restaurant-comment-form" post="restaurant-comment-controller.php">
+<form id="restaurant-comment-form" action="<?php echo $PREFIX; ?>php/controllers/restaurant-comment-controller.php" method="post">
 	<?php
 	$restaurantId = filter_input(INPUT_GET, "restaurantId", FILTER_VALIDATE_INT);
 	if($restaurantId !== false && $restaurantId > 0) {
@@ -9,7 +8,7 @@
 	<div class="restaurant-comment-form-group">
 			<label for="txtComment"></label>
 			<textarea name="txtComment" id="txtComment" class="input-control" rows="6"
-						cols="50" maxlength="1064" placeholder= "What would you like to say about this restaurant?"></textarea>
+						cols="50" maxlength="1064" placeholder="What would you like to say about this restaurant?"></textarea>
 	</div>
 
 	<div class="button-group">
@@ -18,6 +17,12 @@
 	</div>
 
 </form>
+
+
+<div id="outputArea"></div>
+
+<script type="text/javascript" src= "<?php echo $PREFIX; ?>php/controllers/restaurant-comment-controller.js"></script>
+
 <?php
 }
 ?>
