@@ -29,8 +29,9 @@ try {
 
 	$_SESSION["user"] = $user;
 } catch(Exception $exception) {
-	echo "??? - profit!";
+	echo "Logged in";
 }
 
+echo "<p class=\"alert alert-success\">Welcome Back" . $user->getUserByEmail($pdo, "email") . "!<p/>";
 
 

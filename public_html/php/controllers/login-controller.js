@@ -4,7 +4,7 @@ $(document).ready(
 	function() {
 
 		// tell the validator to validate this form
-		$("#login").validate({
+		$("#login-controller").validate({
 			debug: true,
 			// setup the formatting for the errors
 			errorClass: "label-danger",
@@ -27,23 +27,23 @@ $(document).ready(
 
 				// error messages to display to the end user
 				messages: {
-					name: {
+					loginEmail: {
 						minlength: "user name must be positive",
 						required: "must enter a valid user name"
 					},
 
-					password: {
+					loginPassword: {
 						minlength: "please enter 8 characters",
 						required: "please enter valid password"
 					}
 				},
 				// setup an AJAX call to submit the form without reloading
 				submitHandler: function(form) {
-					$(form).ajaxSubmit({
+					$("#login-controller").ajaxSubmit({
 						// GET or POST
 						type: "POST",
 						// where to submit data
-						url: $(form).attr("action"),
+						url: $("#login-controller").attr("action"),
 						// this sends the XSRF token along with the form data
 						headers: {
 							"X-XSRF-TOKEN": Cookies.get("XSRF-TOKEN")
@@ -59,13 +59,13 @@ $(document).ready(
 							// reset the form if it was successful
 							// this makes it easier to reuse the form again
 							if($(".alert-success").length >= 1) {
-								$(form)[0].reset();
+								$("#login-controller")[0].reset();
 							}
 						}
 					});
 
 						$("#submitButton").click(function() {
-						$("#signup").modal("hide");
+						$("#login").modal("hide");
 					});
 				}
 			}

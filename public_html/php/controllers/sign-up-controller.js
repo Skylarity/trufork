@@ -59,7 +59,7 @@ $(document).ready(
 			},
 
 			// setup an AJAX call to submit the form without reloading
-			submitHandler: function(form) {
+				submitHandler: function(form) {
 				$("#sign-up-form").ajaxSubmit({
 					// GET or POST
 					type: "POST",
