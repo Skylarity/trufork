@@ -70,7 +70,9 @@ setXsrfCookie();
 		<!-- favicon generated using GIMP, improved by SR -->
 		<link type="image/ico" href="<?php echo $PREFIX; ?>favicon.ico" rel="shortcut icon"/>
 
-		<!-- custom JavaScript file will go here-->
+		<!-- js-cookie -->
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/js-cookie/2.0.2/js.cookie.min.js"></script>
+		<!-- custom javascript controllers-->
 		<script type="text/javascript" src="php/controllers/sign-up-controller.js"></script>
 		<script type="text/javascript" src="php/controllers/login-controller.js"></script>
 

@@ -405,7 +405,7 @@ class User {
 		$statement = $pdo->prepare($query);
 
 		// bind the email to the place holder in the template
-		$parameters = array("email" => $name);
+		$parameters = array("name" => $name);
 		$statement->execute($parameters);
 
 		// grab the user from mySQL

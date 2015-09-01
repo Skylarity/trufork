@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__DIR__) . "/classes/profile.php");
+
 require_once(dirname(__DIR__) . "/classes/user.php");
 //require_once(dirname(__DIR__) . "/lib/sign-up-login-modal.php");
 require_once("/etc/apache2/data-design/encrypted-config.php");
@@ -7,7 +7,7 @@ require_once(dirname(__DIR__) . "/lib/xsrf.php");
 
 try {
 	//ensures that the fields are filled out
-	if(@isset($_POST["userName"]) === false || @isset($_POST["password"]) === false || @isset($_POST["verifyPassword"]) === false || @isset($_POST["email"]) === false) {
+	if(@isset($_POST["name"]) === false || @isset($_POST["password"]) === false || @isset($_POST["verifyPassword"]) === false || @isset($_POST["email"]) === false) {
 		throw(new InvalidArgumentException("form not complete. Please verify and try again"));
 	}
 
@@ -23,11 +23,10 @@ try {
 
 	//create a new user id profile id and insert in mySQL
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
-	$user = new User(null, $SALT, $HASH);
+	$user = new User(null, $SALT, $HASH, $_POST["email"], $_POST["name"]);
 	$user->insert($pdo);
-	$profile = new Profile(null, $user->getUserId(), $_POST["email"]);
-	$profile->insert($pdo);
-//	echo "<p class\"alert alert-success\">User (id = " . $user->getUserId() . ") posted!<p/>";
+
+   echo "<p class=\"alert alert-success\">Welcome" . $user->getUserByName($pdo, "name") . "!<p/>";
 }catch (Exception $e) {
 	echo "<p class=\"alert alert-danger\">Exception: " . $e->getMessage() . "</p>";
 }

@@ -35,8 +35,8 @@
 			<div class="modal-body">
 				<form id="sign-up-form" name="sign-up-form" class="form" action="<?php echo $PREFIX?>php/controllers/sign-up-controller.php" method="post">
 					<div class="form-group">
-						<label for="userName">User Name</label>
-						<input type="text" class="form-control" id="userName" name="userName" placeholder="choose a username">
+						<label for="name">Name</label>
+						<input type="text" class="form-control" id="name" name="name" placeholder="choose a user name">
 					</div>
 					<div class="form-group">
 						<label for=password>Password</label>

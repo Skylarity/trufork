@@ -4,7 +4,7 @@ $(document).ready(
 	function() {
 
 		// tell the validator to validate this form
-		$("#signup").validate({
+		$("#sign-up-form").validate({
 			debug: true,
 			// setup the formatting for the errors
 			errorClass: "has-error",
@@ -14,7 +14,7 @@ $(document).ready(
 			// rules define what is good/bad input
 			rules: {
 				// each rule starts with the inputs name (NOT id)
-				userName: {
+				name: {
 					minlength: 1,
 					required: true
 				},
@@ -37,7 +37,7 @@ $(document).ready(
 
 			// error messages to display to the end user
 			messages: {
-				userName: {
+				name: {
 					minlength: "user name must be positive",
 					required: "must enter a valid user name"
 				},
@@ -60,11 +60,11 @@ $(document).ready(
 
 			// setup an AJAX call to submit the form without reloading
 			submitHandler: function(form) {
-				$("#signup").ajaxSubmit({
+				$("#sign-up-form").ajaxSubmit({
 					// GET or POST
 					type: "POST",
 					// where to submit data
-					url: $("#signup").attr("action"),
+					url: $("#sign-up-form").attr("action"),
 					// this sends the XSRF token along with the form data
 					headers: {
 						"X-XSRF-TOKEN": Cookies.get("XSRF-TOKEN")
@@ -80,13 +80,12 @@ $(document).ready(
 						// reset the form if it was successful
 						// this makes it easier to reuse the form again
 						if($(".alert-success").length > 0) {
-							$(form)[0].reset();
+							$("#sign-up-form")[0].reset();
 						}
 					}
 				});
-
-					$("#submitButton").click(function() {
-					$("#signup").modal("hide");
+				$("#submitButton").click(function() {
+					$("#sign-up-form").modal("hide");
 				});
 			}
 		});
