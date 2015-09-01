@@ -27,7 +27,7 @@ $(document).ready(
 
 				// error messages to display to the end user
 				messages: {
-					userName: {
+					name: {
 						minlength: "user name must be positive",
 						required: "must enter a valid user name"
 					},
