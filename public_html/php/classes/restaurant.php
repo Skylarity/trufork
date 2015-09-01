@@ -353,10 +353,11 @@ class Restaurant {
 		}
 
 		// Create query template
-		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE address = :address";
+		$query = "SELECT restaurantId, address, phone, forkRating, facilityKey, googleId, name FROM restaurant WHERE address LIKE :address";
 		$statement = $pdo->prepare($query);
 
 		// Bind address to placeholder
+		$address = "$address%";
 		$parameters = array("address" => $address);
 		$statement->execute($parameters);
 

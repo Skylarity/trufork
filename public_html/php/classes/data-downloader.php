@@ -253,11 +253,6 @@ class DataDownloader {
 		try {
 			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
 
-			$pdo->query("SET FOREIGN_KEY_CHECKS = 0");
-			$pdo->query("TRUNCATE violation");
-			$pdo->query("TRUNCATE restaurant");
-			$pdo->query("SET FOREIGN_KEY_CHECKS = 1");
-
 			if(($fd = @fopen($url, "rb", false, $context)) !== false) {
 				fgetcsv($fd, 0, ",");
 				while((($data = fgetcsv($fd, 0, ",")) !== false) && feof($fd) === false) {
@@ -392,8 +387,33 @@ class DataDownloader {
 	 * @param string $violationsUrlEnd violations.csv url end
 	 */
 	public static function fillDatabase($businessesUrlBegin, $businessesUrlEnd, $violationsUrlBegin, $violationsUrlEnd) {
+		$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
+
+		$forkRatingStorage = new SplObjectStorage();
+
+		$size = $pdo->query("SELECT COUNT(restaurantId) FROM restaurant", PDO::FETCH_ASSOC); // TODO: Grab size of restaurant table
+		var_dump($size);
+		$forkRatings = new SplFixedArray($size);
+		$facilityKeys = new SplFixedArray($size);
+		$googleIds = new SplFixedArray($size);
+
+		// TODO: Fill arrays with data
+
+		$forkRatingStorage->attach($forkRatings);
+		$forkRatingStorage->attach($facilityKeys);
+		$forkRatingStorage->attach($googleIds);
+
+
+		$pdo->query("SET FOREIGN_KEY_CHECKS = 0");
+		$pdo->query("TRUNCATE violation");
+		$pdo->query("TRUNCATE restaurant");
+		$pdo->query("SET FOREIGN_KEY_CHECKS = 1");
+
+		// Actually put the stuff back into the database
 		DataDownloader::readBusinessesCSV($businessesUrlBegin, $businessesUrlEnd);
 		DataDownloader::readViolationsCSV($violationsUrlBegin, $violationsUrlEnd);
+
+		// TODO: Stick $forkRatingStorage data back in the database
 	}
 
 }
