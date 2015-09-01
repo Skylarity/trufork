@@ -22,6 +22,7 @@ $(document).ready(
 				loginPassword: {
 					minlength: 8,
 					required: true
+				}
 				},
 
 
@@ -29,7 +30,7 @@ $(document).ready(
 				messages: {
 					loginEmail: {
 						minlength: "user name must be positive",
-						required: "must enter a valid user name"
+						required: "must enter a valid email"
 					},
 
 					loginPassword: {
@@ -37,13 +38,15 @@ $(document).ready(
 						required: "please enter valid password"
 					}
 				},
+
+
 				// setup an AJAX call to submit the form without reloading
 				submitHandler: function(form) {
-					$("#login-controller").ajaxSubmit({
+					$("#sign-up-form").ajaxSubmit({
 						// GET or POST
 						type: "POST",
 						// where to submit data
-						url: $("#login-controller").attr("action"),
+						url: $("#sign-up-form").attr("action"),
 						// this sends the XSRF token along with the form data
 						headers: {
 							"X-XSRF-TOKEN": Cookies.get("XSRF-TOKEN")
@@ -58,16 +61,15 @@ $(document).ready(
 
 							// reset the form if it was successful
 							// this makes it easier to reuse the form again
-							if($(".alert-success").length >= 1) {
-								$("#login-controller")[0].reset();
+							if($(".alert-success").length > 0) {
+								$("#sign-up-form")[0].reset();
 							}
 						}
 					});
 
-						$("#submitButton").click(function() {
-						$("#login").modal("hide");
+					$("#submitButton").click(function() {
+						$("#sign-up-form").modal("hide");
 					});
 				}
-			}
+			});
 		});
-	});
