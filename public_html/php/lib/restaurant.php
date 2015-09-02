@@ -1,10 +1,17 @@
+<?php
+require_once(dirname(__DIR__) . "classes/comment.php");
+require_once(dirname(__DIR__) . "classes/user.php");
+require_once("/etc/apache2/data-design/encrypted-config.php");
+?>
+
 <div class="restaurant">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-7">
 				<div class="row">
 					<div class="col-md-4">
-						<img class="restaurant-image img-responsive" src="../images/fork.svg" alt="Restaurant Image"/>
+						<img class="restaurant-image img-responsive" src="<?php echo $PREFIX ?>images/fork.svg"
+							 alt="Restaurant Image"/>
 					</div>
 					<div class="col-md-8">
 						<h1 class="restaurant-name">
@@ -80,39 +87,20 @@
 
 						<?php require_once(dirname(__DIR__) . "/controllers/restaurant-comment-form.php") ?>
 
-						<div class="restaurant-comment">
-							<h3>
-								<img src="../images/fork.svg" alt="Profile Image"/>
-								Username
-							</h3>
+						<?php
 
-							<p>
-								You saw something as tasty as meat, but inorganically materialized out of patterns used
-								by our transporters.
-							</p>
-						</div>
-						<div class="restaurant-comment">
-							<h3>
-								<img src="../images/fork.svg" alt="Profile Image"/>
-								Username
-							</h3>
+						$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
 
-							<p>
-								You saw something as tasty as meat, but inorganically materialized out of patterns used
-								by our transporters.
-							</p>
-						</div>
-						<div class="restaurant-comment">
-							<h3>
-								<img src="../images/fork.svg" alt="Profile Image"/>
-								Username
-							</h3>
+						$comments = Comment::getCommentByRestaurantId($pdo, $restaurantId);
 
-							<p>
-								You saw something as tasty as meat, but inorganically materialized out of patterns used
-								by our transporters.
-							</p>
-						</div>
+						foreach($comments as $comment) {
+							$commentContent = $comment->getcontent();
+							$user = User::getUserByUserId($pdo, $comment->getUserId());
+							$userName = $user->getName();
+							$commentDate = $comment->getDateTime();
+							require(dirname(__DIR__) . "/lib/comment.php");
+						}
+						?>
 					</div>
 				</div>
 			</div>
