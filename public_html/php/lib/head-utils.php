@@ -1,7 +1,7 @@
 <?php
 /**
  * Get the relative path.
- * @see https://raw.githubusercontent.com/kingscreations/farm-to-you/master/php/lib/_header.php FarmToYou Header
+ * @see https://raw.githubusercontent.com/kingscreations/farm-to-you/master/php/lib/header.php FarmToYou Header
  **/
 require_once(dirname(dirname(__DIR__)) . "/root-path.php");
 $CURRENT_DEPTH = substr_count($CURRENT_DIR, "/");
@@ -74,8 +74,8 @@ setXsrfCookie();
 		<!-- js-cookie -->
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/js-cookie/2.0.2/js.cookie.min.js"></script>
 		<!-- custom javascript controllers-->
-		<script type="text/javascript" src="php/controllers/sign-up-controller.js"></script>
-		<script type="text/javascript" src="php/controllers/login-controller.js"></script>
+		<script type="text/javascript" src="<?php echo $PREFIX; ?>php/controllers/sign-up-controller.js"></script>
+		<script type="text/javascript" src="<?php echo $PREFIX; ?>php/controllers/login-controller.js"></script>
 
 		<title><?php echo $PAGE_TITLE; ?></title>
 	</head>
