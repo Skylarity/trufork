@@ -10,16 +10,17 @@
 				<form id="login-controller" class="form" method="post" action="<?php echo $PREFIX?>php/controllers/login-controller.php">
 					<div class="form-group">
 						<label for="loginEmail">email</label>
-						<input type="text" class="form-control" id="loginName"" placeholder="Email">
+						<input type="text" class="form-control" id="loginEmail" name="loginEmail" placeholder="Email">
 					</div>
 					<div class="form-group">
 						<label for="loginPassword">Password</label>
-						<input type="password" class="form-control" id="loginPassword" placeholder="password">
+						<input type="password" class="form-control" id="loginPassword" name="loginPassword" placeholder="password">
 					</div>
 					<div class="form-group">
 						<button type="submit" class="btn modal-button">Login</button>
 					</div>
 				</form>
+				<div id="outputArea-login"></div>
 			</div>
 		</div>
 	</div>

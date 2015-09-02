@@ -26,7 +26,7 @@ try {
 	$user = new User(null, $SALT, $HASH, $_POST["email"], $_POST["name"]);
 	$user->insert($pdo);
 
-   echo "<p class=\"alert alert-success\">Welcome" . $user->getUserByName($pdo, "name") . "!<p/>";
+   echo "<p class=\"alert alert-success\">Check your email to confirm your account." . $user->getUserByName($pdo, "name") . "<p/>";
 }catch (Exception $e) {
 	echo "<p class=\"alert alert-danger\">Exception: " . $e->getMessage() . "</p>";
 }

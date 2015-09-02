@@ -1,5 +1,6 @@
 <?php
 require_once(dirname(__DIR__) . "/classes/autoload.php");
+//require_once(dirname(__DIR__) . "/classes/user.php");
 require_once("/etc/apache2/data-design/encrypted-config.php");
 require_once(dirname(__DIR__) . "/lib/xsrf.php");
 
@@ -27,11 +28,11 @@ try {
 		throw(new InvalidArgumentException("email or password is invalid"));
 	}
 
+	echo "<p class=\"alert alert-success\">Welcome Back" . $user->getEmail() . "!<p/>";
+
 	$_SESSION["user"] = $user;
 } catch(Exception $exception) {
-	echo "Logged in";
+	echo "<p class=\"alert alert-danger\">Exception: " . $exception->getMessage() . "</p>";
 }
-
-echo "<p class=\"alert alert-success\">Welcome Back" . $user->getUserByEmail($pdo, "email") . "!<p/>";
 
 

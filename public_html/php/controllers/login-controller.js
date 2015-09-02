@@ -8,7 +8,7 @@ $(document).ready(
 			debug: true,
 			// setup the formatting for the errors
 			errorClass: "label-danger",
-			errorLabelContainer: "#outputArea",
+			errorLabelContainer: "#outputArea-login",
 			wrapper: "li",
 
 			// rules define what is good/bad input
@@ -42,11 +42,11 @@ $(document).ready(
 
 				// setup an AJAX call to submit the form without reloading
 				submitHandler: function(form) {
-					$("#sign-up-form").ajaxSubmit({
+					$("#login-controller").ajaxSubmit({
 						// GET or POST
 						type: "POST",
 						// where to submit data
-						url: $("#sign-up-form").attr("action"),
+						url: $("#login-controller").attr("action"),
 						// this sends the XSRF token along with the form data
 						headers: {
 							"X-XSRF-TOKEN": Cookies.get("XSRF-TOKEN")
@@ -54,21 +54,21 @@ $(document).ready(
 						// success is an event that happens when the server replies
 						success: function(ajaxOutput) {
 							// clear the output area's formatting
-							$("#outputArea").css("display", "");
+							$("#outputArea-login").css("display", "");
 							// write the server's reply to the output area
-							$("#outputArea").html(ajaxOutput);
+							$("#outputArea-login").html(ajaxOutput);
 
 
 							// reset the form if it was successful
 							// this makes it easier to reuse the form again
 							if($(".alert-success").length > 0) {
-								$("#sign-up-form")[0].reset();
+								$("#login-controller")[0].reset();
 							}
 						}
 					});
 
 					$("#submitButton").click(function() {
-						$("#sign-up-form").modal("hide");
+						$("#login-controller").modal("hide");
 					});
 				}
 			});
