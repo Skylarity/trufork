@@ -19,7 +19,7 @@ try {
 
 	// verify the user is even here
 	if(empty($_SESSION["user"]) === true) {
-		throw(new RuntimeException("Please log in to submit a comment."));
+		throw(new RuntimeException("Please log in or sign up to submit a comment."));
 	}
 
 	verifyXsrf();
