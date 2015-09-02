@@ -2,7 +2,7 @@
 
 /** TruFork Comment System Controller */
 
-require_once(dirname(__DIR__) . "/classes/comment.php");
+require_once(dirname(__DIR__) . "/classes/autoload.php");
 require_once(dirname(__DIR__) . "/lib/xsrf.php");
 require_once("/etc/apache2/data-design/encrypted-config.php");
 
@@ -19,7 +19,7 @@ try {
 
 	// verify the user is even here
 	if(empty($_SESSION["user"]) === true) {
-		// yell at them for not logging in
+		throw(new RuntimeException("tsk tsk tsk"));
 	}
 
 	verifyXsrf();
@@ -31,7 +31,7 @@ try {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
 	//$comment = new Comment(null, $_POST["userId"], $_POST["restaurantId"], $newDateTime, $_POST["txtComment"]);
 	//$comment = new Comment(null, null, null, null, null);
-	$comment = new Comment(null, $_SESSION["userId"], $_POST["restaurantId"], $newDateTime, $_POST["txtComment"]);
+	$comment = new Comment(null, $_SESSION["user"]->getUserId(), $_POST["restaurantId"], $newDateTime, $_POST["txtComment"]);
 	$comment->insert($pdo);
 	echo "<p class=\"alert alert-success\">Comment posted!</p>";
 } catch(Exception $exception) {
