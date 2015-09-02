@@ -19,11 +19,7 @@
 				</form>
 			</div>
 			<div class="col-md-4">
-				<ul class="nav nav-pills pull-right">
-					<!--Button Trigger User Login--> 
-					<li><button type="button" class="modal-button btn-lg" data-toggle="modal" data-target="#signup"> Sign Up</button></li>
-					<li><button type="button" class="modal-button btn-lg" data-toggle="modal" data-target="#login">Log In</button></li>
-				</ul>
+				<?php require_once("header-buttons.php"); ?>
 			</div>
 		</div>
 	</div>
