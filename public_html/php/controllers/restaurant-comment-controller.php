@@ -37,6 +37,5 @@ try {
 } catch(Exception $exception) {
 	echo "<p class=\"alert alert-danger\">Exception: " . $exception->getMessage() . "</p>";
 
-	//need to include sign-in info from session (see https://bootcamp-coders.cnm.edu/class-materials/php/sessions/)
 
 }
