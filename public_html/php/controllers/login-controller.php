@@ -1,6 +1,5 @@
 <?php
 require_once(dirname(__DIR__) . "/classes/autoload.php");
-//require_once(dirname(__DIR__) . "/classes/user.php");
 require_once("/etc/apache2/data-design/encrypted-config.php");
 require_once(dirname(__DIR__) . "/lib/xsrf.php");
 
