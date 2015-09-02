@@ -20,7 +20,7 @@ if(!empty($_SESSION["user"])) { ?>
 	<ul class="nav nav-pills pull-right">
 		<!-- Button for logged-in users-->
 		<li>
-			<?php echo "<p> <i class=\"fa fa-user\"></i>". "foo!" . "</p>"; ?>
+			<?php echo "<p> <i class=\"fa fa-user\"></i>". $_SESSION['userName'] . "</p>"; ?>
 		</li>
 
 		<li>
