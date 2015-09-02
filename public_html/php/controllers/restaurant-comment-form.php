@@ -19,7 +19,7 @@
 </form>
 
 
-<div id="outputArea"></div>
+<div id="CommentOutputArea"></div>
 
 <script type="text/javascript" src= "<?php echo $PREFIX; ?>php/controllers/restaurant-comment-controller.js"></script>
 

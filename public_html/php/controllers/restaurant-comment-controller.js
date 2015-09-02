@@ -30,11 +30,11 @@ $(document).ready(
 
 			// setup an AJAX call to submit the form without reloading
 			submitHandler: function(form) {
-				$(form).ajaxSubmit({
+				$("#restaurant-comment-form").ajaxSubmit({
 					// GET or POST
 					type: "POST",
 					// where to submit data
-					url: $(form).attr("action"),
+					url: $("#restaurant-comment-form").attr("action"),
 					// this sends the XSRF token along with the form data
 					headers: {
 						"X-XSRF-TOKEN": Cookies.get("XSRF-TOKEN")
@@ -42,15 +42,15 @@ $(document).ready(
 					// success is an event that happens when the server replies
 					success: function(ajaxOutput) {
 						// clear the output area's formatting
-						$("#outputArea").css("display", "");
+						$("#CommentOutputArea").css("display", "");
 						// write the server's reply to the output area
-						$("#outputArea").html(ajaxOutput);
+						$("#CommentOutputArea").html(ajaxOutput);
 
 
 						// reset the form if it was successful
 						// this makes it easier to reuse the form again
 						if($(".alert-success").length >= 1) {
-							$(form)[0].reset();
+							$("#restaurant-comment-form")[0].reset();
 						}
 					}
 				});
