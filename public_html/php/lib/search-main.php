@@ -6,7 +6,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<form id="main-search" method="get" action="">
+			<form id="main-search" method="get" action="../controllers/global-text-search-controller.php">
 				<div class="main-search-align">
 					<div class="input-group">
 						<input id="mainSearch" name="mainSearch" type="search" class="form-control main-search input-lg" placeholder="Search in Albuquerque">
@@ -16,6 +16,8 @@
 					</div>
 				</div>
 			</form>
+			<div id="outputArea"></div> <!--call this something else?????-->
+			<script type="text/javascript" src= "<?php echo $PREFIX; ?>php/controllers/global-text-search-controller.js"></script>
 		</div>
 	</div>
 </div>
