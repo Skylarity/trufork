@@ -6,7 +6,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<form id="main-search" method="get" action="../controllers/global-text-search-controller.php">
+			<form id="main-search" method="get" action="../controllers/google-api-controller.php">
 				<div class="main-search-align">
 					<div class="input-group">
 						<input id="mainSearch" name="mainSearch" type="search" class="form-control main-search input-lg" placeholder="Search in Albuquerque">
