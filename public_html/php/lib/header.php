@@ -3,7 +3,7 @@
 			<div class="col-md-3">
 				<a class="home-link" href=".">
 					<span class=" title">
-						<img class="logo" src="<?php echo $PREFIX; ?>images/fork.svg" alt="TruFork Logo"/>
+						<img class="logo" src="/public_html/images/trufork-logo/Trufork_logo.png" alt="TruFork Logo"/>
 						TruFork
 					</span>
 				</a>
