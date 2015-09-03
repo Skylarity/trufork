@@ -60,6 +60,7 @@ EOF;
 		throw(new RuntimeException("unable to send email"));
 	}
 
+
 	// report a successful send
 	echo "<div class=\"alert alert-success\" role=\"alert\">Email successfully sent.</div>";
 } catch(Exception $exception) {
