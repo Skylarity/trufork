@@ -27,10 +27,11 @@ try {
 		throw(new InvalidArgumentException("email or password is invalid"));
 	}
 
-	echo "<p class=\"alert alert-success\">Welcome Back, " . $user->getEmail() . "!<p/>";
-
 	$_SESSION["user"] = $user;
-	$_SESSION["userName"] = $user->getName();
+//	$_SESSION["userName"] = $user->getName();
+	$userName = $_SESSION["user"]->getName();
+
+	echo "<p class=\"alert alert-success\">Welcome Back, " . $userName . "!<p/>";
 
 } catch(Exception $exception) {
 	echo "<p class=\"alert alert-danger\">Exception: " . $exception->getMessage() . "</p>";
