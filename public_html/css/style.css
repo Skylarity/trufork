@@ -315,6 +315,33 @@ header {
 }
 
 /********************************************
+ * Results
+ ********************************************/
+
+.results {
+	height: 100%;
+
+	color: #FFFFFF;
+}
+
+.result {
+	margin: 0 0 20px 0;
+	padding: 0 20px;
+
+	color: #FFFFFF;
+
+	background-color: tomato;
+}
+
+.result-restaurant-name {
+
+}
+
+.result-restaurant-desc {
+
+}
+
+/********************************************
  * Profile
  ********************************************/
 .profile {
