@@ -43,10 +43,10 @@ try {
 					}
 				}
 			}
+			echo "<ul class=\"list-group\">" . PHP_EOL;
 			if($imgUrl !== null) {
 				echo "<img class=\"img-responsive\" src=\"$imgUrl\" />" . PHP_EOL;
 			}
-			echo "<ul class=\"list-group\">" . PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $result->formatted_address . "</strong></li>" . PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $result->name . "</strong></li>" . PHP_EOL;
 			echo "<li class=\"list-group-item\"><strong>" . $rating . "</strong></li>" . PHP_EOL;
