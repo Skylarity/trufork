@@ -414,9 +414,11 @@ class DataDownloader {
 		$restaurants = Restaurant::getAllRestaurants($pdo);
 		foreach($restaurants as $restaurant) {
 			$key = $restaurant->getFacilityKey();
-			$restaurant->setForkRating($ratingStorage[$key["forkRating"]]);
-			$restaurant->setGoogleId($ratingStorage[$key["googleId"]]);
-			$restaurant->update($pdo);
+			if(empty($ratingStorage[$key]) === false) {
+				$restaurant->setForkRating($ratingStorage[$key]["forkRating"]);
+				$restaurant->setGoogleId($ratingStorage[$key]["googleId"]);
+				$restaurant->update($pdo);
+			}
 		}
 	}
 
