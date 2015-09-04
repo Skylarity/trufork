@@ -10,7 +10,7 @@ require_once(dirname(__DIR__) . "/classes/restaurant.php");
 require_once("/etc/apache2/data-design/encrypted-config.php");
 
 try {
-	var_dump($_GET);
+//	var_dump($_GET);
 	// ensure the field is actually filled out properly
 	if(@isset($_GET["rating"]) === false) {
 		throw(new InvalidArgumentException ("You must select at least one value. Please try again."));
