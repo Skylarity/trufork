@@ -6,7 +6,6 @@ require_once(dirname(__DIR__) . "/controllers/sign-up-login-modal.php");
 require_once(dirname(__DIR__) . "/controllers/login-modal.php");
 require_once("/etc/apache2/data-design/encrypted-config.php");
 ?>
-
 <div class="restaurant">
 	<div class="container">
 		<div class="row">
@@ -20,14 +19,6 @@ require_once("/etc/apache2/data-design/encrypted-config.php");
 						<h1 class="restaurant-name">
 							Restaurant Name
 						</h1>
-
-						<p class="restaurant-description">
-							Restaurant description - Shields up. I recommend we transfer power to phasers and arm the
-							photon torpedoes. Something strange on the detector circuit. The weapons must have disrupted
-							our communicators. You saw something as tasty as meat, but inorganically materialized out of
-							patterns used by our transporters. Captain, the most elementary and valuable statement in
-							science, the beginning of wisdom, is 'I do not know.' All transporters off.
-						</p>
 					</div>
 				</div>
 				<div class="row">

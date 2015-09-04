@@ -342,6 +342,16 @@ header {
 	background-color: tomato;
 }
 
+.no-result {
+	padding: 20px;
+
+	color: #FFFFFF;
+
+	background-color: #333333;
+
+	transition: background-color 0.42s;
+}
+
 .result-restaurant-name {
 	font-size: 3.5em;
 	font-weight: 300;

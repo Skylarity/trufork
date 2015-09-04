@@ -1,5 +1,5 @@
 <div class="row">
-	<a href="#">
+	<a href="<?php echo $PREFIX ?>/restaurant/?restaurantId=<?php echo $id; ?>">
 		<div class="result">
 			<div class="row">
 				<div class="col-md-2">
