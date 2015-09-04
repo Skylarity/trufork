@@ -26,6 +26,7 @@ try {
 	$data = json_decode($response);
 
 	if($data->status === "OK") {
+		$matchedRestaurants = [];
 		foreach($data->results as $result) {
 			$rating = 0.0;
 			if(empty($result->rating) === false) {
@@ -46,9 +47,9 @@ try {
 
 			$detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json?key=" . $config["placekey"] . "&placeid=" .
 				$result->place_id;
-	    		$detailsResponse = json_decode(file_get_contents($detailsUrl));
+			$detailsResponse = json_decode(file_get_contents($detailsUrl));
 
-			 if($detailsResponse->status === "OK") {
+			if($detailsResponse->status === "OK") {
 				$fullAddress = ["street_number" => null, "route" => null];
 				$gooArray = array();
 				$address_components = $detailsResponse->result->address_components;
@@ -65,32 +66,37 @@ try {
 				$fullAddress = implode(" ", $fullAddress);
 			}
 			// we will put ours address in capital letters
-		   	$fullAddress = strtoupper($fullAddress);
+			$fullAddress = trim(strtoupper($fullAddress));
 
-			  $googleId = $result->place_id;
-			//grap the address from city
-			      $matchedRestaurants = Restaurant::getRestaurantsByAddress($pdo, $fullAddress);
-			      foreach($matchedRestaurants as $matchedRestaurant) {
-				 $comments = 0;
-				$violations = Violation::getViolationByRestaurantId($pdo, $matchedRestaurant->getRestaurantId());
-				foreach($violations as $violation) {
-					if($violation->getViolationDesc() !== null) {
-						$comments++;
-					}
-				}
-				//creating the trufork rating
-				$truFork = $rating * (-0.125 * sqrt($comments) + 1);
-				$matchedRestaurant->setForkRating($truFork);
-				$matchedRestaurant->setGoogleId($result->place_id);
-				$matchedRestaurant->update($pdo);
-			}
-
+			$googleId = $result->place_id;
+			//grab the address from city
 			//start the session
-			if(session_status() !== PHP_SESSION_ACTIVE) {
-				session_start();
+			try {
+				$matchedRestaurantResult = Restaurant::getRestaurantsByAddress($pdo, $fullAddress);
+				$matchedRestaurants = array_merge($matchedRestaurants, $matchedRestaurantResult->toArray());
+				foreach($matchedRestaurantResult as $matchedRestaurant) {
+					$comments = 0;
+					$violations = Violation::getViolationByRestaurantId($pdo, $matchedRestaurant->getRestaurantId());
+					foreach($violations as $violation) {
+						if($violation->getViolationDesc() !== null) {
+							$comments++;
+						}
+					}
+
+					//creating the trufork rating
+					$truFork = $rating * (-0.125 * sqrt($comments) + 1);
+					$matchedRestaurant->setForkRating($truFork);
+					$matchedRestaurant->setGoogleId($result->place_id);
+					$matchedRestaurant->update($pdo);
+				}
+			} catch(Exception $exception) {
+				// cállate
 			}
-			$_SESSION["matchedRestaurants"] = $matchedRestaurants;
 		}
+		if(session_status() !== PHP_SESSION_ACTIVE) {
+			session_start();
+		}
+		$_SESSION["matchedRestaurants"] = $matchedRestaurants;
 	}
 
 } catch(InvalidArgumentException $invalidArgument) {

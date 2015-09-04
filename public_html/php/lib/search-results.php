@@ -7,7 +7,6 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 <div class="results">
 	<div class="container">
 		<?php
-		var_dump($_SESSION["matchedRestaurants"]);
 		if(empty($_SESSION["matchedRestaurants"]) === false) {
 			foreach($_SESSION["matchedRestaurants"] as $restaurant) {
 				$id = $restaurant->getRestaurantId();
