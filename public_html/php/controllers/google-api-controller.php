@@ -113,3 +113,5 @@ try {
 	// Rethrow exception to the caller
 	throw(new Exception($exception->getMessage(), 0, $exception));
 }
+
+header("Location: ../../results/", true, 301);

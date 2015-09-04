@@ -30,7 +30,7 @@ $(document).ready(
 			//not sure if this is necessary since there's no unique user input
 			submitHandler: function(form) {
 				$(form).ajaxSubmit({
-					// GET or POST
+					// GET
 					type: "GET",
 					// where to submit data
 					url: $(form).attr("action"),
