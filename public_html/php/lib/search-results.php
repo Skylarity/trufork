@@ -1,11 +1,14 @@
 <?php
-require_once($PREFIX . "php/classes/restaurant.php");
+require_once($PREFIX . "php/classes/autoload.php");
+if(session_status() !== PHP_SESSION_ACTIVE) {
+	session_start();
+}
 ?>
 <div class="results">
 	<div class="container">
 		<?php
-
-		if(isset($_SESSION["matchedRestaurants"])) {
+		var_dump($_SESSION["matchedRestaurants"]);
+		if(empty($_SESSION["matchedRestaurants"]) === false) {
 			foreach($_SESSION["matchedRestaurants"] as $restaurant) {
 				$id = $restaurant->getRestaurantId();
 				$name = $restaurant->getName();
