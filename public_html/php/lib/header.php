@@ -1,15 +1,14 @@
 <?php
-require_once(dirname(__DIR__) . "/controllers/sign-up-login-modal.php");
-require_once(dirname(__DIR__) . "/controllers/login-modal.php");
-?>
+
+//?>
 <div class="container">
 	<div class="row">
 		<div class="col-md-3">
-			<a class="home-link" href="<?php echo $PREFIX; ?>">
+			<a class="home-link" href=".">
 					<span class=" title">
-						<img class="logo" src="<?php echo $PREFIX; ?>images/trufork-logo/tr-icons/trufork-lg.svg"
-							 alt="TruFork Logo"/>
-						<div class="logo-text">TruFork</div>
+						<img class="logo" src="<?php echo $PREFIX; ?>images/trufork-logo/tr-icons/trufork-md.svg"
+							  alt="TruFork Logo"/>
+						TruFork
 					</span>
 			</a>
 		</div>
@@ -24,7 +23,10 @@ require_once(dirname(__DIR__) . "/controllers/login-modal.php");
 			</form>
 		</div>
 		<div class="col-md-4">
-			<?php require_once("header-buttons.php"); ?>
+			<?php require_once("header-buttons.php");
+			require_once(dirname(__DIR__) . "/controllers/sign-up-login-modal.php");
+			require_once(dirname(__DIR__) . "/controllers/login-modal.php");
+			?>
 		</div>
 	</div>
 </div>
