@@ -32,28 +32,17 @@ try {
 				$rating = $result->rating;
 			}
 
-			$imgUrl = null;
-			if(empty($result->photos) === false) {
-				$photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxheight=512&photoreference=" . $result->photos[0]->photo_reference . "&key=" . $config["placekey"];
-				$metadata = DataDownloader::getMetaData($photoUrl, 0);
-				foreach($metadata["wrapper_data"] as $header) {
-					if(strpos($header, "Location: ") === 0) {
-						$imgUrl = substr($header, 10);
-						break;
-					}
-				}
-			}
-			echo "<ul class=\"list-group\">" . PHP_EOL;
-			if($imgUrl !== null) {
-				echo "<img class=\"img-responsive\" src=\"$imgUrl\" />" . PHP_EOL;
-			}
-			echo "<li class=\"list-group-item\"><strong>" . $result->formatted_address . "</strong></li>" . PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result->name . "</strong></li>" . PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $rating . "</strong></li>" . PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result->place_id . "</strong></li>" . PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result->geometry->location->lat . "</strong></li>" . PHP_EOL;
-			echo "<li class=\"list-group-item\"><strong>" . $result->geometry->location->lng . "</strong></li>" . PHP_EOL;
-			echo "</ul>";
+//			$imgUrl = null;
+//			if(empty($result->photos) === false) {
+//				$photoUrl = "https://maps.googleapis.com/maps/api/place/photo?maxheight=512&photoreference=" . $result->photos[0]->photo_reference . "&key=" . $config["placekey"];
+//				$metadata = DataDownloader::getMetaData($photoUrl, 0);
+//				foreach($metadata["wrapper_data"] as $header) {
+//					if(strpos($header, "Location: ") === 0) {
+//						$imgUrl = substr($header, 10);
+//						break;
+//					}
+//				}
+//			}
 
 			$detailsUrl = "https://maps.googleapis.com/maps/api/place/details/json?key=" . $config["placekey"] . "&placeid=" .
 				$result->place_id;
