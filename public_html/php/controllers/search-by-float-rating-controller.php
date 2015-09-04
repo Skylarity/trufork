@@ -52,7 +52,7 @@ try {
 //	var_dump($echoChamber);
 	foreach($echoChamber as $restaurant) {
 		echo "<ul>" . PHP_EOL .
-//			"<li>" . '<a href="php/lib/restaurant.php?restaurantId='.['restaurantId'].'">' '</a>'"</li>" . PHP_EOL .
+			"<li>" . $restaurant->getRestaurantId() . "</li>" . PHP_EOL .
 			"<li>" . $restaurant->getName() . "</li>" . PHP_EOL .
 			"<li>" . $restaurant->getForkRating() . "</li>" . PHP_EOL .
 			"<li>" . $restaurant->getAddress() . "</li>" . PHP_EOL .
