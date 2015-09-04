@@ -1,7 +1,15 @@
 <div class="results">
 	<div class="container">
-		<div class="row">
-			<a href="#">
+		<?php
+
+		if(isset($_SESSION["matchedRestaurants"])) {
+			foreach($_SESSION["matchedRestaurants"] as $restaurant) {
+				$name = $restaurant->getName();
+				require($PREFIX . "php/lib/search-result.php");
+			}
+		} else {
+			?>
+			<div class="row">
 				<div class="result">
 					<div class="row">
 						<div class="col-md-2">
@@ -9,11 +17,13 @@
 								 src="<?php echo $PREFIX; ?>images/trufork-logo/tr-Icons/trufork-lg.svg"/>
 						</div>
 						<div class="col-md-10">
-							<h2 class="result-restaurant-name">Restaurant Name</h2>
+							<h2 class="result-restaurant-name">No results!</h2>
 						</div>
 					</div>
 				</div>
-			</a>
-		</div>
+			</div>
+			<?php
+		}
+		?>
 	</div>
 </div>

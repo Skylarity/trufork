@@ -49,8 +49,12 @@ header {
 
 .logo {
 	padding: 0 10px 0 0;
-	width: 35px;
+	width: 42px;
 	height: auto;
+}
+
+.logo-text {
+	display: inline-block;
 }
 
 .nav li a {

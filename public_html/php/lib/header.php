@@ -8,8 +8,8 @@ require_once(dirname(__DIR__) . "/controllers/login-modal.php");
 			<a class="home-link" href="<?php echo $PREFIX; ?>">
 					<span class=" title">
 						<img class="logo" src="<?php echo $PREFIX; ?>images/trufork-logo/tr-Icons/trufork-lg.svg"
-							  alt="TruFork Logo"/>
-						TruFork
+							 alt="TruFork Logo"/>
+						<div class="logo-text">TruFork</div>
 					</span>
 			</a>
 		</div>
