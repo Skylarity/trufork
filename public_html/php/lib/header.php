@@ -4,7 +4,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-3">
-			<a class="home-link" href=".">
+			<a class="home-link" href="<?php echo $PREFIX; ?>">
 					<span class=" title">
 						<img class="logo" src="<?php echo $PREFIX; ?>images/trufork-logo/tr-icons/trufork-md.svg"
 							  alt="TruFork Logo"/>
