@@ -167,7 +167,13 @@ header {
 	font-weight: 300;
 	border: 2px solid tomato;
 	border-radius: 5px;
+	padding: 7px 10px;
+	font-size: 14px;
+	margin-left: .2em;
+	line-height: 1.3333333;
 }
+
+
 
 .modal-header {
 	padding: 10px;
