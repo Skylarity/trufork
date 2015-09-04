@@ -325,16 +325,23 @@ header {
 }
 
 .result {
-	margin: 0 0 20px 0;
-	padding: 0 20px;
+	padding: 20px;
 
 	color: #FFFFFF;
 
+	background-color: #333333;
+
+	transition: background-color 0.42s;
+}
+
+.result:hover {
 	background-color: tomato;
 }
 
 .result-restaurant-name {
-
+	font-size: 3.5em;
+	font-weight: 300;
+	text-align: center;
 }
 
 .result-restaurant-desc {
