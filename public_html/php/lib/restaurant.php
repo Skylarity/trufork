@@ -84,6 +84,7 @@ $restaurant = Restaurant::getRestaurantById($pdo, $restaurantId)
 						$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
 
 						$comments = Comment::getCommentByRestaurantId($pdo, $restaurantId);
+						$comments = array_reverse($comments->toArray());
 
 						foreach($comments as $comment) {
 							$commentContent = $comment->getcontent();
