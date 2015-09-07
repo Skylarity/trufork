@@ -11,6 +11,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 			foreach($_SESSION["matchedRestaurants"] as $restaurant) {
 				$id = $restaurant->getRestaurantId();
 				$name = $restaurant->getName();
+				$address = $restaurant->getAddress();
 				require($PREFIX . "php/lib/search-result.php");
 			}
 		} else {
