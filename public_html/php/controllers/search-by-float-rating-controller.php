@@ -52,9 +52,9 @@ try {
 //	var_dump($echoChamber);
 	foreach($echoChamber as $restaurant) {
 		echo "<ul>" . PHP_EOL .
-			"<li>" . $restaurant->getRestaurantId() . "</li>" . PHP_EOL .
+			"<li>" . $restaurant->getRestaurantId() . "</li>" . PHP_EOL . /** do we need this to populate w clickable links? */
 			"<li>" . $restaurant->getName() . "</li>" . PHP_EOL .
-			"<li>" . $restaurant->getForkRating() . "</li>" . PHP_EOL .
+			"<li>TruFork Rating = " . $restaurant->getForkRating() . "</li>" . PHP_EOL .
 			"<li>" . $restaurant->getAddress() . "</li>" . PHP_EOL .
 			"</ul>" . PHP_EOL ;
 //			'<a href="php/lib/restaurant.php?id='.$result['restaurantId'].'">'.$result['name'].'</a>';

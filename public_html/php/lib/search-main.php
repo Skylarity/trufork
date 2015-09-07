@@ -44,10 +44,10 @@
 <!--							<label class="star star-0" for="star-0"></label>-->
 						</fieldset>
 					</div>
-					<p class="description">Choose one or more rating levels, then click Submit.</p>
 					<div class="button-group">
-						<button type="submit" class="btn btn-primary">Submit</button>
-						<button type="reset" class="btn btn-default">Reset</button>
+					<p class="description">Choose one or more rating levels, then click Submit.</p>
+					<button type="submit" class="trufork-search-button">Submit</button>
+<!--						<button type="reset" class="btn btn-default">Reset</button>-->
 					</div>
 				</div>
 			</form>
