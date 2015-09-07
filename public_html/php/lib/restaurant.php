@@ -13,41 +13,55 @@ $restaurant = Restaurant::getRestaurantById($pdo, $restaurantId)
 <div class="restaurant">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-7">
+			<div class="col-md-12">
 				<div class="row">
-					<div class="col-md-12">
-						<h1 class="restaurant-name">
-							<?php echo $restaurant->getName(); ?>
-						</h1>
+					<div class="col-md-6">
+						<div class="col-md-12">
+							<h1 class="restaurant-name">
+								<?php echo $restaurant->getName(); ?>
+							</h1>
 
-						<p>
-							<?php echo $restaurant->getAddress(); ?>
-						</p>
+							<p>
+								<?php echo $restaurant->getAddress(); ?>
+							</p>
+						</div>
+						<div class="col-md-12">
+							<div class="restaurant-rating">
+								<?php
+								$rating = $restaurant->getForkRating();
+								$rating = intval($rating);
+
+								for($i = 0; $i < $rating; $i++) {
+									?>
+									<div class="star"><i class="fa fa-star"></i></div>
+									<?php
+								}
+								for($i = 0; $i < 5 - $rating; $i++) {
+									?>
+									<div class="star"><i class="fa fa-star-o"></i></div>
+									<?php
+								}
+								?>
+							</div>
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="restaurant-rating">
-							<?php
-							$rating = $restaurant->getForkRating();
-							$rating = intval($rating);
+					<div class="col-md-6">
+						<div class="col-md-12">
 
-							for($i = 0; $i < $rating; $i++) {
-								?>
-								<div class="star"><i class="fa fa-star"></i></div>
-								<?php
-							}
-							for($i = 0; $i < 5 - $rating; $i++) {
-								?>
-								<div class="star"><i class="fa fa-star-o"></i></div>
-								<?php
-							}
+							<?php require_once(dirname(__DIR__) . "/controllers/restaurant-comment-form.php") ?>
+
+							<?php
+
+							$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
+
+							$comments = Comment::getCommentByRestaurantId($pdo, $restaurantId);
+							$comments = array_reverse($comments->toArray());
 							?>
 						</div>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-6">
 						<h2 class="restaurant-inspection-h2">
 							Inspection Information
 						</h2>
@@ -69,23 +83,9 @@ $restaurant = Restaurant::getRestaurantById($pdo, $restaurantId)
 							<?php
 						}
 						?>
-
 					</div>
-				</div>
-			</div>
-			<div class="col-md-5">
-				<div class="row">
-					<div class="col-md-12">
-
-						<?php require_once(dirname(__DIR__) . "/controllers/restaurant-comment-form.php") ?>
-
+					<div class="col-md-6">
 						<?php
-
-						$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
-
-						$comments = Comment::getCommentByRestaurantId($pdo, $restaurantId);
-						$comments = array_reverse($comments->toArray());
-
 						foreach($comments as $comment) {
 							$commentContent = $comment->getcontent();
 							$user = User::getUserByUserId($pdo, $comment->getUserId());
