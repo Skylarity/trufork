@@ -14,11 +14,7 @@ try {
 	//grab user query, sanitize and validate
 	$userQuery = filter_input(INPUT_GET, "userQuery", FILTER_SANITIZE_STRING);
 	$userQuery = trim($userQuery);
-	if(empty($userQuery) === true) {
-		throw(new InvalidArgumentException("user query is empty or insecure"));
-	} else {
-		$userQuery = urlencode($userQuery);
-	}
+	$userQuery = urlencode($userQuery);
 	//construct url
 	$url = "https://maps.googleapis.com/maps/api/place/textsearch/json?key=" . $config["placekey"] . "&location=35.08574,-106.64953&radius=20000&types=cafe|food|restaurant&query=" . $userQuery;
 
@@ -90,7 +86,7 @@ try {
 					$matchedRestaurant->update($pdo);
 				}
 			} catch(Exception $exception) {
-				// cállate
+				// cï¿½llate
 			}
 		}
 		if(session_status() !== PHP_SESSION_ACTIVE) {
