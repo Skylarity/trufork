@@ -26,9 +26,10 @@
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<form id="search-by-float-rating-form" method="get" action="<?php echo $PREFIX ?>php/controllers/search-by-float-rating-controller.php">
+			<form id="search-by-float-rating-form" method="get"
+				  action="<?php echo $PREFIX ?>php/controllers/search-by-float-rating-controller.php">
 				<div class="trufork-search-align">
-					<div class="box-rating">
+					<div class="box-rating col-md-10">
 						<fieldset class="rating">
 							<input class="star star-5" id="star-5" name="rating[]" type="radio" value="5"/>
 							<label class="star star-5" for="star-5"></label>
@@ -40,20 +41,19 @@
 							<label class="star star-2" for="star-2"></label>
 							<input class="star star-1" id="star-1" name="rating[]" type="radio" value="1"/>
 							<label class="star star-1" for="star-1"></label>
-<!--							<input class="star star-0" id="star-0" name="rating[]" type="radio" value="0"/>-->
-<!--							<label class="star star-0" for="star-0"></label>-->
+							<!--							<input class="star star-0" id="star-0" name="rating[]" type="radio" value="0"/>-->
+							<!--							<label class="star star-0" for="star-0"></label>-->
 						</fieldset>
 					</div>
-					<div class="button-group">
-					<p class="description">Choose one or more rating levels, then click Submit.</p>
-					<button type="submit" class="trufork-search-button">Submit</button>
-<!--						<button type="reset" class="btn btn-default">Reset</button>-->
+					<div class="button-group col-md-2">
+						<button type="submit" class="trufork-search-button">Submit</button>
+						<!--						<button type="reset" class="btn btn-default">Reset</button>-->
 					</div>
 				</div>
 			</form>
 			<div id="outputArea"></div>
 			<script type="text/javascript"
-					  src="<?php echo $PREFIX; ?>php/controllers/search-by-float-rating-controller.js"></script>
+					src="<?php echo $PREFIX; ?>php/controllers/search-by-float-rating-controller.js"></script>
 		</div>
 	</div>
 </div>

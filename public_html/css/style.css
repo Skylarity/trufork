@@ -151,8 +151,8 @@ header {
 /** trufork search styles **/
 
 .trufork-search-align {
-	margin: auto;
-	width: 25%;
+	margin: 10px auto;
+	width: 90%;
 }
 
 .trufork-search {
@@ -166,10 +166,13 @@ header {
 }
 
 .trufork-search-button {
+	padding: 10px;
 	background-color: tomato;
 	color: #333333;
-	border-top-right-radius: 10px;
-	border-bottom-right-radius: 10px;
+	font-weight: 400;
+	font-size: 1.2em;
+	border-radius: 10px;
+	border: none;
 }
 
 div.stars {
@@ -180,7 +183,6 @@ div.stars {
 input.star {
 	display: none;
 }
-
 
 label.star {
 	float: right;
@@ -213,7 +215,6 @@ label.star:before {
 	content: '\f006';
 	font-family: FontAwesome;
 }
-
 
 /********************************************
  * Modal Styles
