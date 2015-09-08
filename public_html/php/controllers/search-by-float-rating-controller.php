@@ -33,11 +33,13 @@ try {
 	 * but this case offers no alternatives
 	 **/
 	$echoChamber = [];
+	$matchedRestaurants = [];
 	$noneFound = false;
 	for($i = 5; $i >= 0; $i--) {
 		if(in_array($i, $_GET["rating"]) === true) {
 			$result = Restaurant::getRestaurantsByForkRating($pdo, $i, $i + 1);
 			$echoChamber = array_merge($echoChamber, $result->toArray());
+			$matchedRestaurants[] = $result;
 			if(count($result) > 0) {
 //				echo implode($result);
 			} else {
@@ -56,10 +58,11 @@ try {
 			"<li>" . $restaurant->getName() . "</li>" . PHP_EOL .
 			"<li>TruFork Rating = " . $restaurant->getForkRating() . "</li>" . PHP_EOL .
 			"<li>" . $restaurant->getAddress() . "</li>" . PHP_EOL .
-			"</ul>" . PHP_EOL ;
+			"</ul>" . PHP_EOL;
 //			'<a href="php/lib/restaurant.php?id='.$result['restaurantId'].'">'.$result['name'].'</a>';
 	}
 
+	$_SESSION["matchedRestaurants"] = $matchedRestaurants;
 
 	// ???
 	// profit!
@@ -68,4 +71,3 @@ try {
 } catch(Exception $exception) {
 	echo "<p class=\"alert alert-danger\">" . $exception->getMessage() . "</p>";
 }
-
