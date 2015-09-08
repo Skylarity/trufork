@@ -12,6 +12,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 				$id = $restaurant->getRestaurantId();
 				$name = $restaurant->getName();
 				$address = $restaurant->getAddress();
+				$rating = $restaurant->getForkRating();
 				require($PREFIX . "php/lib/search-result.php");
 			}
 		} else {
