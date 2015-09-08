@@ -7,7 +7,22 @@
 
 					<p class="result-restaurant-address"><?php echo $address; ?></p>
 
-					<p class="result-restaurant-trufork-rating">TruFork Rating = <?php echo $rating; ?></p>
+					<div class="result-restaurant-trufork-rating">
+						<?php
+						$rating = intval($rating);
+
+						for($i = 0; $i < $rating; $i++) {
+							?>
+							<div class="star"><i class="fa fa-star"></i></div>
+							<?php
+						}
+						for($i = 0; $i < 5 - $rating; $i++) {
+							?>
+							<div class="star"><i class="fa fa-star-o"></i></div>
+							<?php
+						}
+						?>
+					</div>
 				</div>
 			</div>
 		</div>

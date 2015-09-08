@@ -15,6 +15,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 				$rating = $restaurant->getForkRating();
 				require($PREFIX . "php/lib/search-result.php");
 			}
+			$_SESSION["matchedRestaurants"] = [];
 		} else {
 			?>
 			<div class="row">
