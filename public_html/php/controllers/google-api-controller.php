@@ -4,12 +4,12 @@ require_once(dirname(__DIR__) . "/classes/data-downloader.php");
 require_once(dirname(__DIR__) . "/classes/restaurant.php");
 require_once(dirname(__DIR__) . "/classes/violation.php");
 
-require_once("/etc/apache2/data-design/encrypted-config.php");
+require_once("/etc/apache2/mysql/encrypted-config.php");
 
 try {
 	//grab api key from config file
-	$config = readConfig("/etc/apache2/capstone-mysql/trufork.ini");
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
+	$config = readConfig("/etc/apache2/mysql/trufork.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/mysql/trufork.ini");
 
 	//grab user query, sanitize and validate
 	$userQuery = filter_input(INPUT_GET, "userQuery", FILTER_SANITIZE_STRING);

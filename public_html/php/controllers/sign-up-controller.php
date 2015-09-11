@@ -3,7 +3,7 @@
 require_once(dirname(__DIR__) . "/classes/user.php");
 require_once(dirname(__DIR__) . "/classes/autoload.php");
 //require_once(dirname(__DIR__) . "/lib/sign-up-login-modal.php");
-require_once("/etc/apache2/data-design/encrypted-config.php");
+require_once("/etc/apache2/mysql/encrypted-config.php");
 require_once(dirname(__DIR__) . "/lib/xsrf.php");
 
 try {
@@ -23,7 +23,7 @@ try {
 	$HASH = hash_pbkdf2("sha512", $_POST["password"], $SALT, 262144, 128);
 
 	//create a new user id profile id and insert in mySQL
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/mysql/trufork.ini");
 	$user = new User(null, $SALT, $HASH, $_POST["email"], $_POST["name"]);
 	$user->insert($pdo);
 

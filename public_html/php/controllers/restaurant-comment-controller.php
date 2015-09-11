@@ -4,7 +4,7 @@
 
 require_once(dirname(__DIR__) . "/classes/autoload.php");
 require_once(dirname(__DIR__) . "/lib/xsrf.php");
-require_once("/etc/apache2/data-design/encrypted-config.php");
+require_once("/etc/apache2/mysql/encrypted-config.php");
 
 try {
 	// ensure the field is actually filled out properly
@@ -28,7 +28,7 @@ try {
 	$newDateTime = new DateTime();
 
 	// create the new comment and insert into mySQL
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/mysql/trufork.ini");
 	//$comment = new Comment(null, $_POST["userId"], $_POST["restaurantId"], $newDateTime, $_POST["txtComment"]);
 	//$comment = new Comment(null, null, null, null, null);
 	$comment = new Comment(null, $_SESSION["user"]->getUserId(), $_POST["restaurantId"], $newDateTime, $_POST["txtComment"]);

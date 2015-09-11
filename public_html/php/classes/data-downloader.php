@@ -2,7 +2,7 @@
 
 require_once("restaurant.php");
 require_once("violation.php");
-require_once("/etc/apache2/data-design/encrypted-config.php");
+require_once("/etc/apache2/mysql/encrypted-config.php");
 
 /**
  * This class will download ABQ data about restaurant inspections
@@ -251,7 +251,7 @@ class DataDownloader {
 		$context = stream_context_create(array("http" => array("ignore_errors" => true, "method" => "GET")));
 
 		try {
-			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
+			$pdo = connectToEncryptedMySQL("/etc/apache2/mysql/trufork.ini");
 
 			if(($fd = @fopen($url, "rb", false, $context)) !== false) {
 				fgetcsv($fd, 0, ",");
@@ -315,7 +315,7 @@ class DataDownloader {
 		$context = stream_context_create(array("http" => array("ignore_errors" => true, "method" => "GET")));
 
 		try {
-			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
+			$pdo = connectToEncryptedMySQL("/etc/apache2/mysql/trufork.ini");
 
 			if(($csvData = file_get_contents($url, null, $context)) !== false) {
 
@@ -337,6 +337,9 @@ class DataDownloader {
 					$lines = $lines + substr_count($line, PHP_EOL);
 				}
 				$lines--;
+				if($lines < 0) {
+					$lines = 0;
+				}
 				rewind($utfFd);
 				$violations = new SplFixedArray($lines);
 
@@ -387,7 +390,7 @@ class DataDownloader {
 	 * @param string $violationsUrlEnd violations.csv url end
 	 */
 	public static function fillDatabase($businessesUrlBegin, $businessesUrlEnd, $violationsUrlBegin, $violationsUrlEnd) {
-		$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
+		$pdo = connectToEncryptedMySQL("/etc/apache2/mysql/trufork.ini");
 
 		// Array to store facility key, fork rating, and Google ID
 		$ratingStorage = [];

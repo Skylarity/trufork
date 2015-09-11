@@ -4,9 +4,9 @@ require_once(dirname(__DIR__) . "/classes/autoload.php");
 require_once(dirname(__DIR__) . "/classes/user.php");
 require_once(dirname(__DIR__) . "/controllers/sign-up-login-modal.php");
 require_once(dirname(__DIR__) . "/controllers/login-modal.php");
-require_once("/etc/apache2/data-design/encrypted-config.php");
+require_once("/etc/apache2/mysql/encrypted-config.php");
 
-$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
+$pdo = connectToEncryptedMySQL("/etc/apache2/mysql/trufork.ini");
 $restaurantId = filter_input(INPUT_GET, "restaurantId", FILTER_VALIDATE_INT);
 $restaurant = Restaurant::getRestaurantById($pdo, $restaurantId)
 ?>
@@ -52,7 +52,7 @@ $restaurant = Restaurant::getRestaurantById($pdo, $restaurantId)
 
 							<?php
 
-							$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
+							$pdo = connectToEncryptedMySQL("/etc/apache2/mysql/trufork.ini");
 
 							$comments = Comment::getCommentByRestaurantId($pdo, $restaurantId);
 							$comments = array_reverse($comments->toArray());

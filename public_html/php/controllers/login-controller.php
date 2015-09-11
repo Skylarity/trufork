@@ -1,6 +1,6 @@
 <?php
 require_once(dirname(__DIR__) . "/classes/autoload.php");
-require_once("/etc/apache2/data-design/encrypted-config.php");
+require_once("/etc/apache2/mysql/encrypted-config.php");
 require_once(dirname(__DIR__) . "/lib/xsrf.php");
 
 try {
@@ -16,7 +16,7 @@ try {
 	verifyXsrf();
 
 	// create a salt and hash for user
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/trufork.ini");
+	$pdo = connectToEncryptedMySQL("/etc/apache2/mysql/trufork.ini");
 	$user = User::getUserByEmail($pdo, $_POST["loginEmail"]);
 	if($user === null) {
 		throw(new InvalidArgumentException("email or password is invalid"));
